@@ -1,0 +1,2 @@
+Ideally, this directory should contain the EAC translation files as they appeared with different versions of EAC.
+The current translation table should already suffice in most cases. Use build.rs to replace the table if warranted.

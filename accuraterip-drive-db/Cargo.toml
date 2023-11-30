@@ -1,0 +1,7 @@
+[package]
+name = "accuraterip-drive-db"
+description = "Struct for AccurateRip drive entries"
+license = "MIT"
+version = "0.1.0"
+edition = "2021"
+authors = ["arg274"]

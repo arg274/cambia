@@ -1,0 +1,56 @@
+[package]
+name = "cambia"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[build-dependencies]
+codegen = "0.2.0"
+regex = "1"
+walkdir = "2"
+simple-text-decode = { path = "simple-text-decode" }
+sha2 = "0.10.6"
+hex = "0.4.3"
+scraper = "0.17.1"
+reqwest = { version = "0.11.18", features = ["blocking"] }
+accuraterip-drive-db = { path = "accuraterip-drive-db" }
+itertools = "0.11.0"
+
+[dependencies]
+aho-corasick = "0.7"
+hex = "0.4.3"
+indexmap = "1.9.1"
+lazy_static = "1.4.0"
+regex = "1"
+serde = { version = "1.0.145", features = ["derive"] }
+serde_json = "1.0"
+simple-text-decode = { path = "simple-text-decode" }
+tokio = { version = "1.24.2", features = ["full"] }
+phf = { version = "0.11.1", features = ["macros"] }
+clap = { version = "4.0.32", features = ["derive"] }
+sha1 = "0.10.5"
+base64 = "0.21.0"
+serde_yaml = "0.9.19"
+sha2 = "0.10.6"
+axum = { version = "0.6.11", features = ["ws", "headers"]}
+tracing-subscriber = "0.3.16"
+tracing = "0.1.37"
+tower-http = { version = "0.4.0", features = ["compression-full", "cors", "decompression-full", "trace"] }
+rmp-serde = "1.1.1"
+axum-msgpack = "0.3.0"
+strum = { version = "0.24", features = ["derive"] }
+strum_macros = "0.24.3"
+ts-rs = "6.2.1"
+rust-embed = { version = "6.7.0", features = ["axum", "debug-embed", "compression", "include-exclude"] }
+mime_guess = "2.0.4"
+figlet-rs = "0.1.5"
+urlencoding = "2.1.2"
+futures = "0.3.28"
+rayon = "1.7.0"
+textdistance = "1.0.2"
+
+[profile.release]
+panic = "abort"
+codegen-units = 1
+strip = true
+lto = "fat"
