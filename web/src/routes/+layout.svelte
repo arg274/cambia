@@ -60,7 +60,7 @@
 <Toast rounded="rounded-none" transitionIn={fade} transitionOut={fade} transitionInParams={{duration: 100}} transitionOutParams={{duration: 100}} />
 <AppShell slotPageHeader="sticky top-0 z-50 backdrop-blur-xl bg-opacity-10" regionPage="scroll-smooth" scrollbarGutter="stable">
 	<svelte:fragment slot="pageHeader">
-		<AppBar padding="px-4 py-1" background="bg-primary-400/10">
+		<AppBar padding="px-4 py-1" background="rounded-br-xl bg-primary-400/10">
 			<svelte:fragment slot="lead">
 				<a href="/">
 					<div class="flex gap-x-2 items-center">

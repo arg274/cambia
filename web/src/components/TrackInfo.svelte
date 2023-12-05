@@ -214,7 +214,7 @@
             {#if toc.entries.length > 0}
                 {#each lanes as lane}
                     {#each lane.segments as segment}
-                        <circle id="minute-{segment.minute}" class={classNames(segment.trackIndices.map(trackIdx => `track-${trackIdx + 1}`))} cx="{vb / 2}" cy="{vb / 2}" r="{lane.radius}" fill="transparent"
+                        <circle id="minute-{segment.minute}" class={classNames(segment.trackIndices.map(trackIdx => `track-${trackIdx + 1}`), "hover:stroke-success-400")} cx="{vb / 2}" cy="{vb / 2}" r="{lane.radius}" fill="transparent"
                             stroke="{segment.color}" stroke-width="{gapRadius}"
                             stroke-dasharray="{lane.segmentSize} {lane.segmentGap}"
                             stroke-dashoffset="{segment.offset}"
