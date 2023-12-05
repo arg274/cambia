@@ -8,6 +8,6 @@
 </script>
 
 <div class="flex flex-col pl-4 gap-4 pb-4">
-    <a class="font-mono text-xs grow whitespace-nowrap overflow-x-scroll hide-scrollbar" href="/log?id={hexify(nonNullAssert(res.id))}">{fileMap.get(hexify(nonNullAssert(res.id)))}</a>
+    <a class="font-mono text-xs text-ellipsis line-clamp-1" href="/log?id={hexify(nonNullAssert(res.id))}">{fileMap.get(hexify(nonNullAssert(res.id)))}</a>
     <InfoOverview parsedLogs={res.parsed} evalCombined={res.evaluation_combined.filter(e => e.evaluator === 'Cambia')[0]} />
 </div>

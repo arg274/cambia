@@ -60,8 +60,7 @@
     <Paginator bind:settings={page} on:page={onPageChange}></Paginator>
 </div>
 
-<!-- FIXME: Phone layout seems broken -->
-<table class="w-full xl:w-3/4 2xl:w-1/2" {...$tableAttrs}>
+<table class="w-full" {...$tableAttrs}>
     <tbody {...$tableBodyAttrs}>
         {#each $pageRows as row (row.id)}
             <Subscribe rowAttrs={row.attrs()} let:rowAttrs>

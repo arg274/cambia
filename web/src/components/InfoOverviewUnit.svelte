@@ -62,6 +62,6 @@
 
 <div class="relative flex-auto flex place-content-center {getColorWrapperDiv(index, gradeKey)} h-{getHeight(actualValue)}">
     {#if !hideLabel}
-        <div class="text-xs absolute -bottom-4 {getColorWrapperText(index, gradeKey)}">{miniName}</div>
+        <div class="hidden sm:block text-xs absolute -bottom-4 {getColorWrapperText(index, gradeKey)}">{miniName}</div>
     {/if}
 </div>

@@ -18,7 +18,7 @@
 
 {#if files && files.length > 1}
     <div class="flex justify-center">
-        <div class="flex flex-col px-4 mt-10 w-1/2" transition:fade={{duration: 150}}>
+        <div class="flex flex-col px-4 mt-10 w-full xl:w-3/4 2xl:w-1/2 md:max-lg:self-start gap-4" transition:fade={{duration: 150}}>
             <LogAggregate />
             <MultiLogView />
         </div>
