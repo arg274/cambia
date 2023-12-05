@@ -10,31 +10,21 @@
 	import ReleaseInfo from "./ReleaseInfo.svelte";
 	import ChecksumInfo from "./ChecksumInfo.svelte";
 	import TrackInfo from "./TrackInfo.svelte";
-	import { logStore } from "$lib/LogStore";
+	import type { CambiaResponse } from '$lib/types/CambiaResponse';
     
-    let pageSettings: PaginationSettings;
-    
-    /*
-    TODO: This is an incredibly roundabout way of passing props. This was initially a component prop instead of a store.
-    If I drop a single log onto an already existing single log view, the prop becomes undefined for a brief period of time
-    despite not having undefined in the type definition.
-    Could not find a way to recover from there; the subsequent changes to the prop were not accessible.
-    */
-    logStore.subscribe(storedRes => {
-        if (storedRes) {
-            pageSettings = {
-                page: 0,
-                limit: 1,
-                size: storedRes.parsed.parsed_logs.length,
-                amounts: [1]
-            } as PaginationSettings;
-        }
-    });
+    export let res: CambiaResponse;
+
+    let pageSettings: PaginationSettings = {
+        page: 0,
+        limit: 1,
+        size: res.parsed.parsed_logs.length,
+        amounts: [1]
+    } as PaginationSettings;
 </script>
 
-{#if $logStore}
-    {@const combinedLog = $logStore.parsed.parsed_logs.length > 1 ? true : false}
-    {@const parsedLog = $logStore.parsed.parsed_logs[pageSettings.page]}
+{#if res}
+    {@const combinedLog = res.parsed.parsed_logs.length > 1 ? true : false}
+    {@const parsedLog = res.parsed.parsed_logs[pageSettings.page]}
     {#if combinedLog}
         <div class="flex justify-between items-center">
             <span class="text-xs uppercase tracking-widest">Combined Log</span>
@@ -51,7 +41,7 @@
             <div class="hidden md:flex gap-x-4">
                 <div class="flex flex-col w-1/2 gap-4">
                     <Grade />
-                    <EvaluationInfo combinedEvals={$logStore.evaluation_combined.filter(x => x.evaluator !== 'Cambia')} selectedLogIdx={pageSettings.page} />
+                    <EvaluationInfo combinedEvals={res.evaluation_combined.filter(x => x.evaluator !== 'Cambia')} selectedLogIdx={pageSettings.page} />
                     <TocInfo toc={parsedLog.toc} />
                     <ChecksumInfo checksum={parsedLog.checksum} />
                 </div>
@@ -64,7 +54,7 @@
         </div>
         <div class="flex md:hidden flex-col gap-4">
             <Grade />
-            <EvaluationInfo combinedEvals={$logStore.evaluation_combined.filter(x => x.evaluator !== 'Cambia')} selectedLogIdx={pageSettings.page} />
+            <EvaluationInfo combinedEvals={res.evaluation_combined.filter(x => x.evaluator !== 'Cambia')} selectedLogIdx={pageSettings.page} />
             <RipInfo parsedLog={parsedLog} />
             <RipInfoQuartet parsedLog={parsedLog} />
             <ChecksumInfo checksum={parsedLog.checksum} />

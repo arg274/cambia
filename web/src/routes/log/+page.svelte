@@ -4,12 +4,14 @@
 	import LogView from '../../components/LogView.svelte';
     
     import { page } from '$app/stores'
-	import { logStore, pendingStore, processedStore } from '$lib/LogStore';
+	import { pendingStore, processedStore } from '$lib/LogStore';
 	import { hexify } from '$lib/utils';
 	import { TableOfContents } from '@skeletonlabs/skeleton';
-	import { get } from 'svelte/store';
+	import type { CambiaResponse } from '$lib/types/CambiaResponse';
+	import { goto } from '$app/navigation';
 
     let logId: string | null;
+    let res: CambiaResponse | undefined;
 
     $: {
         if (browser) {
@@ -20,23 +22,23 @@
                 // FIXME: This seems to be triggering when going back to /logs
                 // goto('/');
             } else {
-                logStore.set(filteredLogs[0]);
+                res = filteredLogs[0];
             }
         }
     }
 </script>
 
-<!-- FIXME: Transition does not work when a single log is dropped on LogView -->
-<!-- TODO: This is a very odd way to pass props to a component; maybe we don't need a component here at all -->
-<div class="mt-10 px-4 flex justify-center" id="single-rip-info" transition:fade={{duration: 150}}>
-    <div class="w-full xl:w-3/4 2xl:w-1/2 md:max-lg:self-start">
-        <LogView />
+{#if res}
+    <div class="mt-10 px-4 flex justify-center" id="single-rip-info" transition:fade={{duration: 150}}>
+        <div class="w-full xl:w-3/4 2xl:w-1/2 md:max-lg:self-start">
+            <LogView res={res} />
+        </div>
+        <div class="hidden md:flex sticky top-0">
+            <!-- TODO: XSS vuln consideration: https://github.com/skeletonlabs/skeleton/issues/1987 -->
+            <TableOfContents
+                class="mt-4 px-4"
+                regionLead="text-spaced-mini"
+                regionAnchor="text-spaced-mini" />
+        </div>
     </div>
-    <div class="hidden md:flex sticky top-0">
-        <!-- TODO: XSS vuln consideration: https://github.com/skeletonlabs/skeleton/issues/1987 -->
-        <TableOfContents
-            class="mt-4 px-4"
-            regionLead="text-spaced-mini"
-            regionAnchor="text-spaced-mini" />
-    </div>
-</div>
+{/if}

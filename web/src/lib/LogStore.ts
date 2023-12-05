@@ -6,4 +6,3 @@ export const processedStore = writable(new Array<CambiaResponse>());
 export const pendingStore = writable(new Array<string>());
 export const fileMap: Map<string, string> = new Map();
 export const fileListStore = writable<FileList | undefined>();
-export const logStore = writable<CambiaResponse>();

@@ -98,7 +98,6 @@ export async function getRipInfoJsonMulti(files: FileList | undefined) {
                 const hashHex = hexify(Array.from(hash)).toLowerCase();
                 const tmp: Uint8Array = new Uint8Array(hash.length + bArr.length);
                 
-                console.log(hashHex);
                 fileMap.set(hashHex, f.name);
                 pendingStore.update(l => {
                     l.push(hashHex);
