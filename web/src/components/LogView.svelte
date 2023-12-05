@@ -40,7 +40,7 @@
         <div class="hidden md:flex flex-col gap-y-4" use:tocCrawler={{ mode: 'generate', queryElements: 'h3' }}>
             <div class="hidden md:flex gap-x-4">
                 <div class="flex flex-col w-1/2 gap-4">
-                    <Grade />
+                    <Grade evaluations={res.evaluation_combined} />
                     <EvaluationInfo combinedEvals={res.evaluation_combined.filter(x => x.evaluator !== 'Cambia')} selectedLogIdx={pageSettings.page} />
                     <TocInfo toc={parsedLog.toc} />
                     <ChecksumInfo checksum={parsedLog.checksum} />
@@ -53,7 +53,7 @@
             <TrackInfo toc={parsedLog.toc.raw} tracks={parsedLog.tracks} />
         </div>
         <div class="flex md:hidden flex-col gap-4">
-            <Grade />
+            <Grade evaluations={res.evaluation_combined} />
             <EvaluationInfo combinedEvals={res.evaluation_combined.filter(x => x.evaluator !== 'Cambia')} selectedLogIdx={pageSettings.page} />
             <RipInfo parsedLog={parsedLog} />
             <RipInfoQuartet parsedLog={parsedLog} />
