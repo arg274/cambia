@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { EvaluationCombined } from "$lib/types/EvaluationCombined";
 	import type { ParsedLogCombined } from "$lib/types/ParsedLogCombined";
-	import InfoOverviewUnit from "../InfoOverviewUnit.svelte";
+	import InfoOverviewUnit from "./frags/InfoOverviewUnit.svelte";
 
     export let parsedLogs: ParsedLogCombined;
     export let evalCombined: EvaluationCombined;

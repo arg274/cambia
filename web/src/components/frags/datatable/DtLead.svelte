@@ -2,7 +2,7 @@
 	import { fileMap } from "$lib/LogStore";
 	import type { CambiaResponse } from "$lib/types/CambiaResponse";
 	import { hexify, nonNullAssert } from "$lib/utils";
-	import InfoOverview from "../InfoOverview.svelte";
+	import InfoOverview from "../../InfoOverview.svelte";
 
     export let res: CambiaResponse;
 </script>

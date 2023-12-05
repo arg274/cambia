@@ -14,6 +14,10 @@
 	import { getRipInfoJsonMulti } from '$lib/api/CambiaApi';
 	import { onMount } from 'svelte';
 	import { hexify } from '$lib/utils';
+
+	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
+	import { storePopup } from '@skeletonlabs/skeleton';
+	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 	
 	initializeStores();
 

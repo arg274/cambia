@@ -1,5 +1,8 @@
 <script lang="ts">
 	import type { Quartet } from "$lib/types/Quartet";
+	import { getInfoOverviewPopoverText } from "$lib/utils";
+    import { popup } from '@skeletonlabs/skeleton';
+	import type { PopupSettings } from "@skeletonlabs/skeleton";
 
     export let gradeMap: Map<string, string>[];
     export let index: number;
@@ -7,6 +10,12 @@
     export let actualValue: Quartet;
     export let miniName: string;
     export let hideLabel: boolean;
+
+    let popupHover: PopupSettings = {
+        event: 'hover',
+        target: miniName,
+        placement: 'top'
+    };
 
     function getColor(cambiaGrade: string): string {
         const base = 'border-t-2 opacity-60 hover:opacity-100 bg-gradient-to-b to-transparent ';
@@ -60,8 +69,13 @@
     }
 </script>
 
-<div class="relative flex-auto flex place-content-center {getColorWrapperDiv(index, gradeKey)} h-{getHeight(actualValue)}">
+<div class="relative flex-auto flex place-content-center {getColorWrapperDiv(index, gradeKey)} h-{getHeight(actualValue)} [&>*]:pointer-events-none" use:popup={popupHover}>
     {#if !hideLabel}
         <div class="hidden sm:block text-xs absolute -bottom-4 {getColorWrapperText(index, gradeKey)}">{miniName}</div>
     {/if}
+</div>
+
+<!-- https://github.com/skeletonlabs/skeleton/issues/1019 -->
+<div class="card p-2 variant-glass-surface z-50" data-popup={miniName}>
+	<p class="text-xs">{getInfoOverviewPopoverText(miniName)}</p>
 </div>

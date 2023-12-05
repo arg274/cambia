@@ -81,3 +81,17 @@ export function getScoreVariant(score: string): string {
     }
     return "variant-soft-primary";
 }
+
+export function getInfoOverviewPopoverText(miniName: string) {
+    const mapping: Record<string, string> = {
+        "ACS": "Accurate Stream",
+        "DAC": "Defeat Audio Cache",
+        "C2E": "C2 Enabled",
+        "FMS": "Fill Missing Samples With Silence",
+        "DSB": "Delete Silent Blocks",
+        "NSC": "Null Samples in CRC",
+        "T&C": "Test and Copy",
+        "NML": "Normalisation"
+    };
+    return mapping[miniName];
+}
