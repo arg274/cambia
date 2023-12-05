@@ -4,6 +4,7 @@
 	import { fileListStore } from '$lib/LogStore';
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
+	import LogAggregate from '../../components/frags/LogAggregate.svelte';
 
     const files = $fileListStore;
 
@@ -16,7 +17,10 @@
 </script>
 
 {#if files && files.length > 1}
-    <div class="flex flex-col px-4 mt-10 items-center" transition:fade={{duration: 150}}>
-        <MultiLogView />
+    <div class="flex justify-center">
+        <div class="flex flex-col px-4 mt-10 w-1/2" transition:fade={{duration: 150}}>
+            <LogAggregate />
+            <MultiLogView />
+        </div>
     </div>
 {/if}
