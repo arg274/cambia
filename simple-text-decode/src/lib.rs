@@ -18,7 +18,6 @@ impl DecodedText {
         
         let bom: Bom = Bom::from(raw.as_slice());
         let mut encoding: Option<&Encoding> = None;
-        println!("BOM {}", bom);
 
         match bom {
             Bom::Utf8 => encoding = Encoding::for_label(b"utf-8"),
@@ -78,8 +77,6 @@ impl DecodedText {
         if encoding.is_none() {
             return Err(DecodingError);
         }
-
-        println!("ENCODING: {} BRUH", encoding.unwrap().name());
         
         let decoded = encoding.unwrap().decode(&raw);
 
