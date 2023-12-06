@@ -16,14 +16,14 @@ impl DecodedText {
 
         let detect_result = detect(&raw);
 
-        if &detect_result.0.as_str() == &String::from("utf-8") {
+        if detect_result.0.as_str() == "utf-8" {
             return Ok(DecodedText {
-                text: String::from_utf8(raw).unwrap(),
+                text: String::from_utf8_lossy(&raw).into_owned(),
                 orig_encoding: detect_result.0,
             })
         }
 
-        let coder = Encoding::for_label(&detect_result.0.as_bytes());
+        let coder = Encoding::for_label(detect_result.0.as_bytes());
 
         if coder.is_none() {
             return Err(DecodingError);
