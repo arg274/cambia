@@ -11,7 +11,7 @@
     {#if sources.length > 0}
         {#each sources as source}
             <a class="chip variant-soft font-mono rounded-full" href={source.url} target="_blank">
-                <span class="hidden sm:block">{source.hash}</span>
+                <span class="hidden sm:block text-ellipsis line-clamp-1">{source.hash}</span>
                 <IconMusicbrainz class="sm:hidden icon-sm" />
                 <IconArrowUpRight class="ml-2 icon-sm" />
             </a>

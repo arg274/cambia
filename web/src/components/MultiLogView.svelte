@@ -54,20 +54,33 @@
     function onPageChange(e: CustomEvent) {
         pageIndex.update(_ => e.detail as number);
     }
+
+    function getColumnSize(cellId: string): string {
+        switch (cellId) {
+            case "Lead":
+                return "w-7/12";
+            case "Score":
+                return "w-2/12 sm:w-1/12";
+            case "MBZ DiscID":
+                return "w-3/12 sm:w-4/12";
+            default:
+                return "";
+        }
+    }
 </script>
 
 <div class="flex self-end items-center">
     <Paginator bind:settings={page} on:page={onPageChange}></Paginator>
 </div>
 
-<table class="w-full" {...$tableAttrs}>
+<table class="w-full table-fixed" {...$tableAttrs}>
     <tbody {...$tableBodyAttrs}>
         {#each $pageRows as row (row.id)}
             <Subscribe rowAttrs={row.attrs()} let:rowAttrs>
                 <tr class="bg-surface-100-800-token" {...rowAttrs}>
                     {#each row.cells as cell (cell.id)}
                         <Subscribe attrs={cell.attrs()} let:attrs>
-                            <td class="py-4 px-2" {...attrs}>
+                            <td class="py-4 px-2 {getColumnSize(cell.id)}" {...attrs}>
                                 <Render of={cell.render()} />
                             </td>
                         </Subscribe>

@@ -7,5 +7,5 @@
 </script>
 
 {#if score}
-    <div class="flex chip {getScoreVariant(score)} rounded-full grow pointer-events-none">{score}</div>
+    <div class="flex chip {getScoreVariant(score)} rounded-full pointer-events-none">{score}</div>
 {/if}
