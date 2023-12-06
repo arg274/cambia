@@ -6,7 +6,7 @@ import type { CambiaResponse } from "./types/CambiaResponse";
 export const processedCount = writable(0);
 export const responseStore = writable(new Array<ResponseEntry>());
 export const fileListStore = writable<FileList | undefined>();
-export const hashIndexLookup = new Map<string, number>();
+export const hashIndexLookup = new Map<string, number[]>();
 export const perfectCount = writable(0);
 export const warningCount = writable(0);
 export const badCount = writable(0);

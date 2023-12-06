@@ -17,9 +17,9 @@
         if (browser) {
             // TODO: See if this can solved using PageData at some other point
             logId = $page.url.searchParams.get("id");
-            const idx = logId ? hashIndexLookup.get(logId) : undefined;
-            if (idx !== undefined && $responseStore[idx].status !== 'queued') {
-                res = $responseStore[idx].content;
+            const indices = logId ? hashIndexLookup.get(logId) : undefined;
+            if (indices !== undefined && indices.length > 0 && $responseStore[indices[0]].status !== 'queued') {
+                res = $responseStore[indices[0]].content;
             }
         }
     }

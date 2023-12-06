@@ -73,13 +73,15 @@ export async function getRipInfoJsonMulti(files: FileList | undefined) {
                     if (res.id) {
                         updateStat(res);
                         responseStore.update(store => {
-                            const idx = hashIndexLookup.get(hexify(res.id));
-                            if (idx === undefined) {
+                            const indices = hashIndexLookup.get(hexify(res.id));
+                            if (indices === undefined) {
                                 console.error("Unknown log ID");
                                 return store;
                             }
-                            store[idx].status = "processed";
-                            store[idx].content = res;
+                            indices.forEach(idx => {
+                                store[idx].status = "processed";
+                                store[idx].content = res;
+                            });
                             return store;
                         });
                     }
@@ -111,7 +113,11 @@ export async function getRipInfoJsonMulti(files: FileList | undefined) {
                 const hashHex = hexify(Array.from(hash));
                 const tmp: Uint8Array = new Uint8Array(hash.length + bArr.length);
                 
-                hashIndexLookup.set(hashHex, idx);
+                if (hashIndexLookup.has(hashHex)) {
+                    hashIndexLookup.get(hashHex)?.push(idx);
+                } else {
+                    hashIndexLookup.set(hashHex, [idx]);
+                }
                 
                 tmp.set(hash);
                 tmp.set(bArr, hash.length);
