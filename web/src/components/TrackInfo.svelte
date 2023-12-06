@@ -49,7 +49,7 @@
 
         let bound = getBound(segmentNum);
         if (bound === null) {
-            return getCssColor("color-tertiary-200");
+            return getCssColor("color-surface-600");
         }
 
         let localTracks = getTracksFromMinute(segmentNum);
@@ -210,7 +210,7 @@
     <!-- Rendering might be broken in Chrome if crispEdges is not used in some cases -->
     <div class="grid grid-cols-1 md:grid-cols-2 pb-4">
         <svg class="mb-4" width="100%" height="100%" viewBox="0 0 {vb} {vb}">
-            <circle class="{toc.entries.length > 0 ? "stroke-primary-200" : "stroke-surface-900"} dark:stroke-primary-200" cx="{vb / 2}" cy="{vb / 2}" r="{((outerRadius + innerRadius) / 2) - (gapRadius / 2)}" stroke-width="{outerRadius - innerRadius}" fill="transparent"></circle>
+            <circle class="stroke-surface-400" cx="{vb / 2}" cy="{vb / 2}" r="{((outerRadius + innerRadius) / 2) - (gapRadius / 2)}" stroke-width="{outerRadius - innerRadius}" fill="transparent"></circle>
             {#if toc.entries.length > 0}
                 {#each lanes as lane}
                     {#each lane.segments as segment}

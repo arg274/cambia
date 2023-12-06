@@ -16,7 +16,7 @@
     }
 </script>
 
-<div class={classNames("flex flex-col bg-surface-100-800-token p-4 border-4 border-transparent z-10", addClass)} id={toCardId(header)}>
+<div class={classNames("flex flex-col bg-surface-100-800-token p-4 z-10", addClass)} id={toCardId(header)}>
     {#if header}
         <div class="flex items-center justify-between mb-4">
             <h3 class="text-spaced-mini" id={toHeaderId(header)}>{header}</h3>

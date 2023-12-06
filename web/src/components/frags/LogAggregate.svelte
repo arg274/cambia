@@ -7,6 +7,7 @@
     const statusCountClass = "text-5xl font-black";
 </script>
 
+<!-- TODO: Reduce update frequency of counters, seems to be causing throttling issues in navigation -->
 <div class="relative">
     <Card header="{$processedCount}/{$responseStore.length}">
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-4">

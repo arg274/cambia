@@ -17,13 +17,13 @@
 <Card header="Rip Info">
     <div class="flex flex-col gap-4">
         <InfoSegment icon={IconCdCreateExchange} header="Ripper" value={parsedLog.ripper} />
-        <InfoSegment icon={IconVersion} header="Ripper Version" value={parsedLog.ripper_version} />
-        <InfoSegment icon={IconDocumentWordProcessorReference} header="Read Mode" value={parsedLog.read_mode} />
-        <InfoSegment icon={IconRadar} header="Read Offset" value={parsedLog.read_offset} />
-        <InfoSegment icon={IconRadar} header="Combined R/W Offset" value={parsedLog.combined_rw_offset} />
+        <InfoSegment icon={IconVersion} header="Ripper version" value={parsedLog.ripper_version} />
+        <InfoSegment icon={IconDocumentWordProcessorReference} header="Read mode" value={parsedLog.read_mode} />
+        <InfoSegment icon={IconRadar} header="Read offset" value={parsedLog.read_offset} />
+        <InfoSegment icon={IconRadar} header="Combined R/W offset" value={parsedLog.combined_rw_offset} />
         <InfoSegment icon={IconIbmWatsonLanguageTranslator} header="Language" value={parsedLog.language} />
-        <InfoSegment icon={IconWorkspace} header="Gap Handling" value={parsedLog.gap_handling} />
+        <InfoSegment icon={IconWorkspace} header="Gap handling" value={parsedLog.gap_handling} />
         <InfoSegment icon={IconShowDataCards} header="Drive" value={parsedLog.drive} />
-        <InfoSegment icon={IconCdArchive} header="Media Type" value={parsedLog.media_type} />
+        <InfoSegment icon={IconCdArchive} header="Media type" value={parsedLog.media_type} />
     </div>
 </Card>

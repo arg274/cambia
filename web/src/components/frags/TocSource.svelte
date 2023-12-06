@@ -16,11 +16,11 @@
 </script>
 <div class="flex flex-col">
     <div class="flex items-center"><svelte:component this={icon} class="icon-sm" /><span class="ml-1 dark:font-light text-sm">{header}</span></div>
-    <div class="grid grid-cols-10 items-center place-items-center">
-        <div class="font-mono justify-self-stretch bg-surface-50-900-token px-2 py-1 col-span-8 whitespace-nowrap overflow-x-scroll hide-scrollbar">{discid}</div>
-        <button type="button" class="btn-icon bg-initial hover:variant-soft" use:clipboard={discid} on:click={() => {copySuccess(toastStore)}}><IconCopy /></button>
-        {#if url}
-            <a type="button" class="btn-icon bg-initial hover:variant-soft" href={url} target="_blank"><IconArrowUpRight /></a>
-        {/if}
+    <div class="flex items-center place-items-center justify-between">
+        <div class="font-mono grow bg-success-900 bg-surface-50-900-token px-2 py-1 truncate">{discid}</div>
+        <div class="flex">
+            <button type="button" class="btn-icon bg-initial hover:variant-soft" use:clipboard={discid} on:click={() => {copySuccess(toastStore)}}><IconCopy /></button>
+            <a type="button" class="btn-icon bg-initial hover:variant-soft {url ? "visible" : "invisible"}" href={url} target="_blank"><IconArrowUpRight /></a>
+        </div>
     </div>
 </div>

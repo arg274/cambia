@@ -30,13 +30,13 @@
         <div class="w-full xl:w-3/4 2xl:w-1/2 md:max-lg:self-start">
             <LogView res={res} />
         </div>
-        <div class="hidden md:flex sticky top-14 self-start">
+        <!-- <div class="hidden md:flex sticky top-14 self-start"> -->
             <!-- FIXME: Currently scrolls to card header which is usually beneath AppBar -->
             <!-- TODO: XSS vuln consideration: https://github.com/skeletonlabs/skeleton/issues/1987 -->
-            <TableOfContents
+            <!-- <TableOfContents
                 class="p-4"
                 regionLead="text-spaced-mini"
                 regionAnchor="text-spaced-mini" />
-        </div>
+        </div> -->
     </div>
 {/if}

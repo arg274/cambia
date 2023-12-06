@@ -68,21 +68,24 @@
     }
 </script>
 <div>
-    <div class="flex justify-end items-center">
+    <div class="flex justify-center md:justify-end md:items-center items-end gap-2 mb-2">
         <Paginator bind:settings={page} on:page={onPageChange}></Paginator>
-        <input bind:value={inputPage} class="ml-4 w-12 variant-filled py-1.5 text-center text-sm rounded-l-full" on:keypress={enterHandler} on:click|preventDefault={selectText} bind:this={inputEl} />
-        <button type="button" class="variant-filled py-1.5 px-2 rounded-r-full" on:click={gotoPage}><IconArrowRight /></button>
+        <div class="flex justify-end items-center">
+            <input bind:value={inputPage} class="w-12 variant-filled py-1.5 text-center text-sm rounded-l-full" on:keypress={enterHandler} on:click|preventDefault={selectText} bind:this={inputEl} />
+            <!-- FIXME: Looks weird while resizing in single column -->
+            <button type="button" class="variant-filled py-1.5 px-2 rounded-r-full" on:click={gotoPage}><IconArrowRight /></button>
+        </div>
     </div>
     {#each paginatedTracks as singleTrack}
         <div class="flex flex-col gap-4">
             <h6>Track {page.page + 1}</h6>
             <div class="flex flex-col gap-4">
-                <InfoSegment icon={IconSplitScreen} header="Track Splitting" value={singleTrack.is_range ? "Range" : "Split"} />
+                <InfoSegment icon={IconSplitScreen} header="Track splitting" value={singleTrack.is_range ? "Range" : "Split"} />
                 <InfoSegment icon={IconIncompleteCancel} header="Aborted" value={singleTrack.aborted} />
-                <InfoSegment icon={IconSidePanelOpenFilled} header="Extraction Speed" value={`${singleTrack.extraction_speed?.toFixed(1)}x`} />
-                <InfoSegment icon={IconMountain} header="Peak Level" value={singleTrack.peak_level?.toFixed(3)} />
+                <InfoSegment icon={IconSidePanelOpenFilled} header="Extraction speed" value={`${singleTrack.extraction_speed?.toFixed(1)}x`} />
+                <InfoSegment icon={IconMountain} header="Peak level" value={singleTrack.peak_level?.toFixed(3)} />
                 <InfoSegment icon={IconMicrophone} header="Gain" value={singleTrack.gain} />
-                <InfoSegment icon={IconExpandCategories} header="Pregap Length" value={singleTrack.pregap_length ? `${parseFloat(singleTrack.pregap_length).toFixed(2)} sec` : null} />
+                <InfoSegment icon={IconExpandCategories} header="Pregap length" value={singleTrack.pregap_length ? `${parseFloat(singleTrack.pregap_length).toFixed(2)} sec` : null} />
                 <InfoSegment icon={IconTransmissionLte} header="Pre-emphasis" value={singleTrack.preemphasis} />
             </div>
             {#if singleTrack.filename}
@@ -91,14 +94,23 @@
                     <div class="font-mono grow bg-surface-50-900-token px-2 py-1 col-span-9 whitespace-nowrap overflow-x-scroll hide-scrollbar">{singleTrack.filename}</div>
                 </div>
             {/if}
-            <!-- TODO: Merge T&C if hashes match -->
             <hr class="!border-t-4 !border-dashed" />
             <InfoSegment header="Integrity" value={singleTrack.test_and_copy.integrity} icon={IconDoubleInteger} />
-            <InfoSegment header="Integrity (Skip Zeroes)" value={singleTrack.test_and_copy.integrity_skipzero} icon={IconDoubleInteger} />
-            <ChecksumSegment header="Test Hash" hash={singleTrack.test_and_copy.test_hash} icon={IconHashtag} />
-            <ChecksumSegment header="Copy Hash" hash={singleTrack.test_and_copy.copy_hash} icon={IconHashtag} />
-            <ChecksumSegment header="Test Hash (Skip Zeroes)" hash={singleTrack.test_and_copy.test_skipzero_hash} icon={IconHashtag} />
-            <ChecksumSegment header="Copy Hash (Skip Zeroes)" hash={singleTrack.test_and_copy.copy_skipzero_hash} icon={IconHashtag} />
+            <InfoSegment header="Integrity (skip zeroes)" value={singleTrack.test_and_copy.integrity_skipzero} icon={IconDoubleInteger} />
+            
+            {#if singleTrack.test_and_copy.integrity === 'Match' }
+                <ChecksumSegment header="T&C hash" hash={singleTrack.test_and_copy.test_hash} icon={IconHashtag} status={singleTrack.test_and_copy.integrity} />
+            {:else}
+                <ChecksumSegment header="Test hash" hash={singleTrack.test_and_copy.test_hash} icon={IconHashtag} status={singleTrack.test_and_copy.integrity} />
+                <ChecksumSegment header="Copy hash" hash={singleTrack.test_and_copy.copy_hash} icon={IconHashtag} status={singleTrack.test_and_copy.integrity} />
+            {/if}
+
+            {#if singleTrack.test_and_copy.integrity_skipzero === 'Match' }
+                <ChecksumSegment header="T&C hash (skip zeroes)" hash={singleTrack.test_and_copy.test_skipzero_hash} icon={IconHashtag} status={singleTrack.test_and_copy.integrity_skipzero} />
+            {:else}
+            <ChecksumSegment header="Test hash (skip zeroes)" hash={singleTrack.test_and_copy.test_skipzero_hash} icon={IconHashtag} status={singleTrack.test_and_copy.integrity_skipzero} />
+            <ChecksumSegment header="Copy hash (skip zeroes)" hash={singleTrack.test_and_copy.copy_skipzero_hash} icon={IconHashtag} status={singleTrack.test_and_copy.integrity_skipzero} />
+            {/if}
         </div>
         {#if Object.keys(singleTrack.errors).length > 0}
             <hr class="my-4 !border-t-4 !border-dashed" />

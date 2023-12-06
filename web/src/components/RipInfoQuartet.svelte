@@ -18,14 +18,14 @@
 
 <Card header="Rip Settings" addClass="grow">
     <div class="flex flex-col striped">
-        <InfoSegmentQuartet header="Accurate Stream" value={parsedLog.accurate_stream} icon={IconWindStream} />
-        <InfoSegmentQuartet header="Defeat Audio Cache" value={parsedLog.defeat_audio_cache} icon={IconCdCreateArchive} />
+        <InfoSegmentQuartet header="Accurate stream" value={parsedLog.accurate_stream} icon={IconWindStream} />
+        <InfoSegmentQuartet header="Defeat audio cache" value={parsedLog.defeat_audio_cache} icon={IconCdCreateArchive} />
         <InfoSegmentQuartet header="Use C2" value={parsedLog.use_c2} icon={IconHealthCross} />
         <InfoSegmentQuartet header="Overread" value={parsedLog.overread} icon={IconCarouselVertical} />
-        <InfoSegmentQuartet header="Fill Missing Samples" value={parsedLog.fill_silence} icon={IconVolumeUpAlt} />
-        <InfoSegmentQuartet header="Delete Leading/Trailing Silence" value={parsedLog.delete_silence} icon={IconVolumeMute} />
-        <InfoSegmentQuartet header="Null Samples in CRC" value={parsedLog.use_null_samples} icon={IconHashtag} />
-        <InfoSegmentQuartet header="Test and Copy" value={parsedLog.test_and_copy} icon={IconRegistration} />
+        <InfoSegmentQuartet header="Fill missing samples" value={parsedLog.fill_silence} icon={IconVolumeUpAlt} />
+        <InfoSegmentQuartet header="Delete leading/trailing silence" value={parsedLog.delete_silence} icon={IconVolumeMute} />
+        <InfoSegmentQuartet header="Null samples in CRC" value={parsedLog.use_null_samples} icon={IconHashtag} />
+        <InfoSegmentQuartet header="Test and copy" value={parsedLog.test_and_copy} icon={IconRegistration} />
         <InfoSegmentQuartet header="Normalise" value={parsedLog.normalize} icon={IconChartAreaSmooth} />
         <InfoSegmentQuartet header="Add ID3" value={parsedLog.id3_enabled} icon={IconTagEdit} />
     </div>
