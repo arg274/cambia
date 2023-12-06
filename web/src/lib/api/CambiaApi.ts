@@ -109,9 +109,11 @@ export async function getRipInfoJsonMulti(files: FileList | undefined) {
             r.readAsArrayBuffer(f as File);
             
             r.onloadend = async () => {
+                const hashPadded = new Uint8Array(8);
                 const hash: Uint8Array = (new Uint8Array(bigintConversion.bigintToBuf(XXH64(Buffer.from(bArr)), true))).subarray(0, 8); // clamp to 64-bit
-                const hashHex = hexify(Array.from(hash));
-                const tmp: Uint8Array = new Uint8Array(hash.length + bArr.length);
+                hashPadded.set(hash, hashPadded.length - hash.length);
+                const hashHex = hexify(Array.from(hashPadded));
+                const tmp: Uint8Array = new Uint8Array(hashPadded.length + bArr.length);
                 
                 if (hashIndexLookup.has(hashHex)) {
                     hashIndexLookup.get(hashHex)?.push(idx);
@@ -119,8 +121,8 @@ export async function getRipInfoJsonMulti(files: FileList | undefined) {
                     hashIndexLookup.set(hashHex, [idx]);
                 }
                 
-                tmp.set(hash);
-                tmp.set(bArr, hash.length);
+                tmp.set(hashPadded);
+                tmp.set(bArr, hashPadded.length);
                 ws.send(tmp);
             }
         })
