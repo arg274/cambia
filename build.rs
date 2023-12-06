@@ -279,7 +279,7 @@ fn fetch_drive_offsets() {
     for drive in drives {
         let sanitised_drive_name = pattern.replace_all(drive.name.as_str(), "").trim().to_ascii_uppercase();
         let drive_vendor = sanitised_drive_name.as_str().split_whitespace().next().unwrap_or_default().to_string();
-        drive_map.entry(drive_vendor).or_insert_with(HashSet::new).insert(DriveEntryMini(ws_pattern.replace_all(sanitised_drive_name.as_str(), "").to_string(), drive.offset.unwrap()));
+        drive_map.entry(drive_vendor).or_default().insert(DriveEntryMini(ws_pattern.replace_all(sanitised_drive_name.as_str(), "").to_string(), drive.offset.unwrap()));
     }
 
     let out_file_path = Path::new("./src/drive/offset_table.rs");
