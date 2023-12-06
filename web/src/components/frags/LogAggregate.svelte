@@ -9,7 +9,7 @@
 
 <div class="relative">
     <Card header="{$processedCount}/{$responseStore.length}">
-        <div class="grid grid-cols-4 gap-2 mt-4">
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-4">
             <div class={statusContainerClass}>
                 <span class={statusCountClass}>{$perfectCount}</span>
                 <div class={`${statusLabelClass} variant-soft-success`}>Perfect</div>
