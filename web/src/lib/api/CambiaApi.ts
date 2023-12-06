@@ -1,7 +1,7 @@
 import type { CambiaResponse } from "$lib/types/CambiaResponse";
 import { Unpackr } from 'msgpackr';
 import * as bigintConversion from 'bigint-conversion';
-import { processedStore, pendingStore, fileMap } from "$lib/LogStore";
+import { hashIndexLookup, processedCount, responseStore, updateStat, updateUnknown } from "$lib/LogStore";
 import { dev } from "$app/environment";
 import { XXH64 } from 'xxh3-ts';
 import { hexify } from "$lib/utils";
@@ -68,12 +68,25 @@ export async function getRipInfoJsonMulti(files: FileList | undefined) {
             const r = new FileReader();
             r.onload = () => {
                 const buf: ArrayBuffer = r.result as ArrayBuffer;
-                const res = unpackr.unpack(new Uint8Array(buf)) as CambiaResponse;
-                if (res.id) {
-                    processedStore.update(p => {
-                        p.push(res);
-                        return p;
-                    })
+                try {
+                    const res = unpackr.unpack(new Uint8Array(buf)) as CambiaResponse;
+                    if (res.id) {
+                        updateStat(res);
+                        responseStore.update(store => {
+                            const idx = hashIndexLookup.get(hexify(res.id));
+                            if (idx === undefined) {
+                                console.error("Unknown log ID");
+                                return store;
+                            }
+                            store[idx].status = "processed";
+                            store[idx].content = res;
+                            return store;
+                        });
+                    }
+                } catch (error) {
+                    updateUnknown();
+                } finally {
+                    processedCount.update(p => p + 1);
                 }
             };
             r.readAsArrayBuffer(ev.data);
@@ -84,7 +97,7 @@ export async function getRipInfoJsonMulti(files: FileList | undefined) {
         const fileArray = Array.from(files || []);
         let bArr: Uint8Array = new Uint8Array();
         
-        fileArray.forEach(f => {
+        fileArray.forEach((f, idx) => {
             const r: FileReader = new FileReader();
             r.onload = () => {
                 const aBuf: ArrayBuffer = r.result as ArrayBuffer;
@@ -95,14 +108,10 @@ export async function getRipInfoJsonMulti(files: FileList | undefined) {
             
             r.onloadend = async () => {
                 const hash: Uint8Array = (new Uint8Array(bigintConversion.bigintToBuf(XXH64(Buffer.from(bArr)), true))).subarray(0, 8); // clamp to 64-bit
-                const hashHex = hexify(Array.from(hash)).toLowerCase();
+                const hashHex = hexify(Array.from(hash));
                 const tmp: Uint8Array = new Uint8Array(hash.length + bArr.length);
                 
-                fileMap.set(hashHex, f.name);
-                pendingStore.update(l => {
-                    l.push(hashHex);
-                    return l;
-                });
+                hashIndexLookup.set(hashHex, idx);
                 
                 tmp.set(hash);
                 tmp.set(bArr, hash.length);

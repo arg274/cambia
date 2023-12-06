@@ -10,10 +10,9 @@
 	import type { AfterNavigate } from '@sveltejs/kit';
 	import { afterNavigate, goto } from '$app/navigation';
 	import DropScreen from '../components/frags/DropScreen.svelte';
-	import { fileListStore, processedStore } from '$lib/LogStore';
+	import { fileListStore, hashIndexLookup, initialiseResponseStore, processedCount} from '$lib/LogStore';
 	import { getRipInfoJsonMulti } from '$lib/api/CambiaApi';
 	import { onMount } from 'svelte';
-	import { hexify } from '$lib/utils';
 
 	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
 	import { storePopup } from '@skeletonlabs/skeleton';
@@ -25,7 +24,7 @@
 
 	function inputChanged() {
 		fileListStore.set(files);
-		processedStore.update(_ => []);
+		initialiseResponseStore(files);
 		getRipInfoJsonMulti(files);
     }
 
@@ -43,9 +42,9 @@
     }});
 
 	onMount(() => {
-		processedStore.subscribe(p => {
-			if (files?.length == 1 && p.length == 1) {
-				goto(`/log?id=${hexify(p[0].id)}`);
+		processedCount.subscribe(p => {
+			if (files?.length == 1 && p == 1) {
+				goto(`/log?id=${hashIndexLookup.keys().next().value}`);
 			} else if (files && files.length > 1) {
 				goto('/logs');
 			}

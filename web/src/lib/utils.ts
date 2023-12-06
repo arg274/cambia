@@ -64,14 +64,14 @@ export function runAnimation(logoId: string) {
 }
 
 export function hexify(data: number[]): string {
-    return data.map(x => x.toString(16).padStart(2, '0')).join('');
+    return data.map(x => x.toString(16).padStart(2, '0')).join('').toLowerCase();
 }
 
 export function getScoreVariant(score: string): string {
     if (isNumeric(score)) {
         const numScore = parseFloat(score);
         switch (true) {
-            case numScore === 100:
+            case numScore == 100:
                 return "variant-soft-success";
             case numScore >= 50:
                 return "variant-soft-warning";
@@ -79,7 +79,7 @@ export function getScoreVariant(score: string): string {
                 return "variant-soft-error";
         }
     }
-    return "variant-soft-primary";
+    return "variant-soft-surface";
 }
 
 export function getInfoOverviewPopoverText(miniName: string) {

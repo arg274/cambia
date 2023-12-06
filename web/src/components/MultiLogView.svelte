@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { processedStore } from "$lib/LogStore";
+    import { responseStore } from "$lib/LogStore";
     import { createTable, Subscribe, Render, createRender } from "svelte-headless-table";
     import { addPagination } from 'svelte-headless-table/plugins';
     import { Paginator, type PaginationSettings } from '@skeletonlabs/skeleton';
@@ -7,7 +7,7 @@
 	import DtScore from "./frags/datatable/DtScore.svelte";
 	import DtLead from "./frags/datatable/DtLead.svelte";
 
-    const table = createTable(processedStore, {page: addPagination()});
+    const table = createTable(responseStore, {page: addPagination()});
 
     const columns = table.createColumns([
         table.column({
@@ -17,13 +17,13 @@
         }),
         table.column({
             header: 'Score',
-            accessor: (res) => res.evaluation_combined.filter(x => x.evaluator === 'OPS')[0].combined_score,
-            cell: (val) => createRender(DtScore, {score: val.value}),
+            accessor: (res) => res,
+            cell: (val) => createRender(DtScore, {res: val.value}),
         }),
         table.column({
             header: 'MBZ DiscID',
-            accessor: (res) => res.parsed.parsed_logs.map(log => log.toc.mbz),
-            cell: (val) => createRender(DtDiscId, {sources: val.value}),
+            accessor: (res) => res,
+            cell: (val) => createRender(DtDiscId, {res: val.value}),
         }),
     ]);
 
@@ -67,9 +67,9 @@
                 <tr class="bg-surface-100-800-token" {...rowAttrs}>
                     {#each row.cells as cell (cell.id)}
                         <Subscribe attrs={cell.attrs()} let:attrs>
-                        <td class="py-4 px-2" {...attrs}>
-                        <Render of={cell.render()} />
-                        </td>
+                            <td class="py-4 px-2" {...attrs}>
+                                <Render of={cell.render()} />
+                            </td>
                         </Subscribe>
                     {/each}
                 </tr>

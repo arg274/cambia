@@ -1,7 +1,9 @@
 <script lang="ts">
+	import type { ResponseEntry } from "$lib/types/ResponseEntry";
 	import { getScoreVariant } from "$lib/utils";
 
-    export let score: string | null;
+    export let res: ResponseEntry;
+    $: score = res.status === "processed" ? res.content!.evaluation_combined.filter(x => x.evaluator === 'OPS')[0].combined_score : "N/A";
 </script>
 
 {#if score}

@@ -4,25 +4,22 @@
 	import LogView from '../../components/LogView.svelte';
     
     import { page } from '$app/stores'
-	import { pendingStore, processedStore } from '$lib/LogStore';
 	import { hexify } from '$lib/utils';
 	import { TableOfContents } from '@skeletonlabs/skeleton';
 	import type { CambiaResponse } from '$lib/types/CambiaResponse';
 	import { goto } from '$app/navigation';
+	import { hashIndexLookup, responseStore } from '$lib/LogStore';
 
     let logId: string | null;
-    let res: CambiaResponse | undefined;
+    let res: CambiaResponse | null;
 
     $: {
         if (browser) {
             // TODO: See if this can solved using PageData at some other point
             logId = $page.url.searchParams.get("id");
-            const filteredLogs = $processedStore.filter(x => hexify(x.id) === logId);
-            if (!logId || (filteredLogs.length <= 0 && !$pendingStore.includes(logId))) {
-                // FIXME: This seems to be triggering when going back to /logs
-                // goto('/');
-            } else {
-                res = filteredLogs[0];
+            const idx = logId ? hashIndexLookup.get(logId) : undefined;
+            if (idx !== undefined && $responseStore[idx].status !== 'queued') {
+                res = $responseStore[idx].content;
             }
         }
     }

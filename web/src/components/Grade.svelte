@@ -14,28 +14,28 @@
         
         // TODO: Score-based evaluation is dumb; switch to Cambia eval in future
         switch (true) {
-                case (score < 0):
-                    status = "error";
-                    statusGrade = "F"
-                    break;
-                case (score < 50):
-                    status = "warning";
-                    statusGrade = "C";
-                    break;
-                case (score < 80):
-                    status = "warning";
-                    statusGrade = "B";
-                    break;
-                case (score < 100):
-                    status = "warning";
-                    statusGrade = "A"
-                    break;
-                case (score == 100):
-                    status = "success";
-                    statusGrade = "S"
-                default:
-                    break;
-            }
+            case (score < 0):
+                status = "error";
+                statusGrade = "F"
+                break;
+            case (score < 50):
+                status = "warning";
+                statusGrade = "C";
+                break;
+            case (score < 80):
+                status = "warning";
+                statusGrade = "B";
+                break;
+            case (score < 100):
+                status = "warning";
+                statusGrade = "A"
+                break;
+            case (score == 100):
+                status = "success";
+                statusGrade = "S"
+            default:
+                break;
+        }
     }
 </script>
 <div class="relative">
