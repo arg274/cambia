@@ -90,7 +90,6 @@ pub fn parse_ws_request(mut ws_body: Vec<u8>) -> Result<CambiaResponse, CambiaEr
     }
     
     let log_bytes = ws_body.split_off(8);
-    // println!("{:?}", ws_body);
     match parse_log_bytes(log_bytes) {
         Ok(mut res) => {
             res.id = ws_body;
