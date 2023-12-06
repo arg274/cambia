@@ -10,7 +10,11 @@
 <div class="flex flex-col gap-y-1 pr-4">
     {#if sources.length > 0}
         {#each sources as source}
-            <a class="chip variant-soft font-mono rounded-full" href={source.url} target="_blank"><span class="hidden sm:block">{source.hash}</span><IconMusicbrainz class="sm:hidden icon-sm" /><IconArrowUpRight class="ml-2 icon-sm" /></a>
+            <a class="chip variant-soft font-mono rounded-full" href={source.url} target="_blank">
+                <span class="hidden sm:block">{source.hash}</span>
+                <IconMusicbrainz class="sm:hidden icon-sm" />
+                <IconArrowUpRight class="ml-2 icon-sm" />
+            </a>
         {/each}
     {:else}
         <div class="chip variant-soft font-mono rounded-full cursor-default">N/A</div>
