@@ -16,10 +16,12 @@
 
 <Card header="Rip Info">
     <div class="flex flex-col gap-4">
-        <InfoSegment icon={IconCdCreateExchange} header="Ripper" value={parsedLog.ripper} />
-        <InfoSegment icon={IconVersion} header="Ripper version" value={parsedLog.ripper_version} />
+        <div class="flex gap-2 items-end">
+            <InfoSegment icon={IconCdCreateExchange} header="Ripper" value={parsedLog.ripper} />
+            <div class="variant-soft-primary rounded-md text-sm px-2 py-1 font-mono">v{parsedLog.ripper_version}</div>
+        </div>
         <InfoSegment icon={IconDocumentWordProcessorReference} header="Read mode" value={parsedLog.read_mode} />
-        <InfoSegment icon={IconRadar} header="Read offset" value={parsedLog.read_offset} />
+        <InfoSegment icon={IconRadar} header="Read offset" value={parsedLog.read_offset && parsedLog.read_offset > 0 ? "+" : ""}{parsedLog.read_offset} />
         <InfoSegment icon={IconRadar} header="Combined R/W offset" value={parsedLog.combined_rw_offset} />
         <InfoSegment icon={IconIbmWatsonLanguageTranslator} header="Language" value={parsedLog.language} />
         <InfoSegment icon={IconWorkspace} header="Gap handling" value={parsedLog.gap_handling} />

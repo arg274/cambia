@@ -6,10 +6,14 @@ use crate::{toc::Toc, track::{TestAndCopy, TrackError, TrackEntry}, util::Time};
 #[derive(Serialize, Deserialize, PartialEq, TS)]
 #[ts(export)]
 pub enum Ripper {
+    #[serde(rename = "Exact Audio Copy")]
     EAC,
+    #[serde(rename = "X Lossless Decoder")]
     XLD,
     Whipper,
+    #[serde(rename = "CUERipper")]
     CueRipper,
+    #[serde(rename = "dBpoweramp")]
     DBPA,
     Morituri,
     Abcde,

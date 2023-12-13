@@ -13,11 +13,11 @@
 
 </script>
 
-<Card header="Checksum" addClass="grow">
+<Card header="Checksum">
     <div class="flex flex-col gap-4">
         <InfoSegment header="Integrity" value={checksum.integrity} icon={IconDoubleInteger} />
         {#if checksum.integrity === 'Match' }
-            <ChecksumSegment header="Log + Calculated" hash={checksum.log} icon={IconJoinOuter} status={checksum.integrity} />
+            <ChecksumSegment header="Log + calculated" hash={checksum.log} icon={IconJoinOuter} status={checksum.integrity} />
         {:else}
             {#if checksum.calculated}
                 <ChecksumSegment header="Calculated" hash={checksum.calculated} icon={IconCalculator} status={checksum.integrity} />

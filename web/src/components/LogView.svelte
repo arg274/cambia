@@ -50,6 +50,7 @@
                     <RipInfoQuartet parsedLog={parsedLog} />
                 </div>
             </div>
+            <hr />
             <TrackInfo toc={parsedLog.toc.raw} tracks={parsedLog.tracks} />
         </div>
         <div class="flex md:hidden flex-col gap-4">
