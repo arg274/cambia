@@ -25,6 +25,7 @@ extern crate itertools;
 
 type CodeMap = HashMap<String, HashMap<String, String>>;
 type EacLangMap = HashMap<String, HashSet<String>>;
+type EacLangLocalisationMap = HashMap<String, String>;
 
 #[derive(Eq)]
 struct DriveEntryMini(String, i16);
@@ -61,7 +62,7 @@ fn get_nth_td_selector(n: i8) -> Selector {
 }
 
 fn create_eac_translation_table() {
-
+    
     fn append_imports(formatter: &mut Formatter) {
         let mut scope = Scope::new();
         scope.import("phf", "{phf_ordered_map, OrderedMap}");
@@ -84,11 +85,11 @@ fn create_eac_translation_table() {
         format!("pub static L_{}_MAP: OrderedMap<&'static str, &'static str> = phf_ordered_map!", name)
     }
 
-    fn generate_static_language(l_k: &str, l: &str, idx: usize) -> String {
-        format!(r#"pub static EL_{}_{}: EacLanguage = EacLanguage::new("{}", "{}", &L_{}_MAP);"#, l, idx, l_k, l, l)
+    fn generate_static_language(l_k: &str, l_id: &str, l_n: &str, l_l: &str, idx: usize) -> String {
+        format!(r#"pub static EL_{}_{}: EacLanguage = EacLanguage::new("{}", "{}", "{}", "{}", &L_{}_MAP);"#, l_id, idx, l_k, l_id, l_n, l_l, l_id)
     }
 
-    fn get_mappings(file_paths: &Vec<PathBuf>) -> (CodeMap, EacLangMap) {
+    fn get_mappings(file_paths: &Vec<PathBuf>) -> (CodeMap, EacLangMap, EacLangLocalisationMap, EacLangLocalisationMap) {
 
         let whitelist_vec = vec!["1", "10", "11", "12", "1200", "1203", "1204", "1210", "1211", "1212", "1213", "1214",
         "1215", "1216", "1217", "1218", "1219", "1220", "1221", "1222", "1223", "1224", "1225", "1226", "1227", "1228", "1229",
@@ -105,10 +106,15 @@ fn create_eac_translation_table() {
 
         let pattern = Regex::new(r#"(?P<id>\d+) = \s*"(?P<str>.+)"$"#).unwrap();
         let pattern_l_id = Regex::new(r#"\s+4 = \s*"(?P<l_id>.+)""#).unwrap();
+        let pattern_l_native = Regex::new(r#"\s+1 = \s*"(?P<l_native>.+)""#).unwrap();
+        let pattern_l_latin = Regex::new(r#"\s+2 = \s*"(?P<l_latin>.+)""#).unwrap();
         let pattern_trail_colon = Regex::new(r#"\s*:\s*$"#).unwrap();
+
         let mut code_mapping: HashMap<String, HashMap<String, String>> = HashMap::new();
         let mut eac_lang_mapping: HashMap<String, HashSet<String>> = HashMap::new();
         let mut checked_files: HashSet<String> = HashSet::new();
+        let mut native_name_map: HashMap<String, String> = HashMap::new();
+        let mut latin_name_map: HashMap<String, String> = HashMap::new();
         
         for file_path in file_paths {
             let mut file_bytes: Vec<u8> = Vec::new();
@@ -135,6 +141,12 @@ fn create_eac_translation_table() {
                                                     .unwrap()["l_id"]
                                                     .to_string()
                                                     .to_ascii_uppercase();
+            if let Some(l_native) = pattern_l_native.captures(&file_content) {
+                native_name_map.insert(lang_id.clone(), l_native.name("l_native").unwrap().as_str().to_owned());
+            }
+            if let Some(l_latin) = pattern_l_latin.captures(&file_content) {
+                latin_name_map.insert(lang_id.clone(), l_latin.name("l_latin").unwrap().as_str().to_owned());
+            }
 
             let mut mapping: HashMap<String, String> = HashMap::new();
 
@@ -172,7 +184,6 @@ fn create_eac_translation_table() {
             }
             
             if lang_id.is_empty() {
-                // println!("{}", file_path.as_path().to_str().unwrap());
                 panic!();
             }
 
@@ -182,7 +193,7 @@ fn create_eac_translation_table() {
             }
             // break;
         }
-        (code_mapping, eac_lang_mapping)
+        (code_mapping, eac_lang_mapping, native_name_map, latin_name_map)
     }
 
     let src_dir_path = Path::new("./src/parser/eac_parser/translation_files");
@@ -199,7 +210,12 @@ fn create_eac_translation_table() {
     let mut formatter = Formatter::new(&mut buf);
 
     append_imports(&mut formatter);
-    let (mappings, eac_mappings) = get_mappings(&walk_translation_files(src_dir_path));
+    let (
+        mappings,
+        eac_mappings,
+        native_mappings,
+        latin_mappings
+    ) = get_mappings(&walk_translation_files(src_dir_path));
     
     let mut dummy_block = Block::new(&generate_indexmap_preamble("DUMMY"));
     dummy_block.after(";");
@@ -220,7 +236,13 @@ fn create_eac_translation_table() {
     
     for (lang, localised_key_set) in eac_mappings {
         for (idx, localised_key) in localised_key_set.iter().enumerate() {
-            buf.push_str(generate_static_language(localised_key, &lang, idx).as_str());
+            buf.push_str(generate_static_language(
+                localised_key,
+                &lang,
+                native_mappings.get(&lang).unwrap(),
+                latin_mappings.get(&lang).unwrap(),
+                idx
+            ).as_str());
             buf.push('\n');
             lang_vec.push(format!("&EL_{}_{}", lang, idx));
         }

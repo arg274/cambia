@@ -388,18 +388,17 @@ impl ParserTrack for EacParserTrack {
 
 impl Translator for EacParserSingle {
     fn translate(log: String) -> (String, String) {
-        let mut log_lang = String::from("EN");
+        let mut log_lang = &EacLanguage::default();
         let mut lang_table: &OrderedMap<&'static str, &'static str> = &L_DUMMY_MAP;
         for cur_lang in LANGS.iter() {
             if log.contains(cur_lang.localised_key) {
-                lang_table = cur_lang.table;
-                log_lang = cur_lang.lang.to_string();
+                log_lang = cur_lang;
                 break;
             }
         }
         
-        match log_lang.as_str() {
-            "47AB3DF2" => (log_lang, log),
+        match log_lang.lang_id {
+            "47AB3DF2" => (log_lang.lang_native.to_owned(), log),
             _ => {
                 let patterns = lang_table.keys();
                 let ac = AhoCorasickBuilder::new()
@@ -407,14 +406,14 @@ impl Translator for EacParserSingle {
                                                         .build(patterns);
                 let mut translated_log = String::new();
                 ac.replace_all_with(&log, &mut translated_log, |_, k, v| {
-                    // FIXME: Case-insensitive on k > 16
+                    // Case-insensitive on k > 16 but not sure if it's really needed
                     let string_id = lang_table.get(k).unwrap();
                     if let Some(en_val) = &L_47AB3DF2_MAP.get(string_id) {
                         v.push_str(en_val);
                     }
                     true
                 });
-                (log_lang, translated_log)
+                (log_lang.lang_native.to_owned(), translated_log)
             }
         }
     }
@@ -546,16 +545,26 @@ impl TrackExtractor for EacParserTrack {
 #[derive(Clone, Copy)]
 pub struct EacLanguage {
     localised_key: &'static str,
-    lang: &'static str,
+    lang_id: &'static str,
+    lang_native: &'static str,
+    lang_roman: &'static str,
     table: &'static OrderedMap<&'static str, &'static str>,
 }
 
 impl EacLanguage {
-    const fn new(localised_key: &'static str, lang: &'static str, table: &'static OrderedMap<&'static str, &'static str>) -> EacLanguage {
+    const fn new(localised_key: &'static str, lang_id: &'static str, lang_native: &'static str, lang_roman: &'static str, table: &'static OrderedMap<&'static str, &'static str>) -> EacLanguage {
         EacLanguage {
             localised_key,
-            lang,
+            lang_id,
+            lang_native,
+            lang_roman,
             table,
         }
+    }
+}
+
+impl Default for EacLanguage {
+    fn default() -> Self {
+        Self { localised_key: Default::default(), lang_id: Default::default(), lang_native: Default::default(), lang_roman: Default::default(), table: &L_DUMMY_MAP }
     }
 }
