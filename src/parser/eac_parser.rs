@@ -35,6 +35,7 @@ lazy_static! {
     static ref DELETE_SILENCE: Regex = Regex::new(r"Delete leading and trailing silent blocks( *): (?P<boolean>Yes|No)").unwrap();
     static ref USE_NULL_SAMPLES: Regex = Regex::new(r"Null samples used in CRC calculations( *): (?P<boolean>Yes|No)").unwrap();
     static ref GAP_HANDLING: Regex = Regex::new(r"Gap handling( *): (.+)").unwrap();
+    static ref CLI_ENCODER: Regex = Regex::new(r"Command line compressor( *): (.+)").unwrap();
 
     static ref TEST_AND_COPY: Regex = Regex::new(r"Test CRC ([0-9A-F]{8})").unwrap();
     static ref NORMALIZE: Regex = Regex::new(r"Normalize to( +): ([0-9% ]+)").unwrap();
@@ -168,6 +169,7 @@ impl Parser for EacParserSingle {
             toc: self.extract_toc(),
             tracks: self.extract_tracks(),
             id3_enabled: self.extract_id3_enabled(),
+            audio_encoder: self.extract_audio_encoder(),
         }
     }
 }
@@ -300,6 +302,25 @@ impl Extractor for EacParserSingle {
                 }
             },
             None => Gap::Unknown,
+        }
+    }
+
+    fn extract_audio_encoder(&self) -> Vec<String> {
+        let captures = CLI_ENCODER.captures(&self.translated_log);
+        match captures {
+            Some(captures) => {
+                let value = captures.get(2).unwrap().as_str().trim().to_ascii_lowercase();
+                let executable_path = std::path::Path::new(value.as_str());
+                let executable_name = executable_path
+                                                .file_stem()
+                                                .unwrap_or(executable_path.as_os_str())
+                                                .to_str()
+                                                .unwrap()
+                                                .trim_end_matches(".exe")
+                                                .to_owned();
+                vec![executable_name]
+            },
+            None => Vec::new(),
         }
     }
 

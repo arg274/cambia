@@ -98,6 +98,7 @@ impl Parser for WhipperParserSingle {
             toc: self.extract_toc(),
             tracks: self.extract_tracks(),
             id3_enabled: self.extract_id3_enabled(),
+            audio_encoder: self.extract_audio_encoder(),
         }
     }
 }

@@ -145,6 +145,10 @@ pub trait Extractor {
     fn extract_id3_enabled(&self) -> Quartet {
         Quartet::Unsupported
     }
+
+    fn extract_audio_encoder(&self) -> Vec<String> {
+        Vec::new()
+    }
 }
 
 pub trait TrackExtractor {

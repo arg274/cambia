@@ -40,6 +40,7 @@ pub struct ParsedLog {
     pub toc: Toc,
     pub tracks: Vec<TrackEntry>,
     pub id3_enabled: Quartet,
+    pub audio_encoder: Vec<String>,
 }
 
 #[derive(Serialize, Deserialize, TS)]

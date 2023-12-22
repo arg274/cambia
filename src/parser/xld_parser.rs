@@ -1,6 +1,6 @@
 mod sha256custom;
 
-use std::str::FromStr;
+use std::{str::FromStr, collections::HashSet};
 
 use regex::{Regex, RegexBuilder};
 use base64::{Engine as _, engine::GeneralPurpose, engine::general_purpose::PAD, alphabet::Alphabet};
@@ -39,6 +39,7 @@ lazy_static! {
     // TODO: Some track fields that don't affect scoring were skipped
     // FIXME: This will definitely miss unusual encoders
     static ref FILENAME: Regex = RegexBuilder::new(r"Filename(\s*):(\s*)(?P<value>(.+?)\.(flac|wav|mp3|m4a|ape|tta|ogg))").case_insensitive(true).dot_matches_new_line(true).build().unwrap();
+    static ref FILENAME_MULTI: Regex = RegexBuilder::new(r"Filename(\s*):(\s*)(?P<value>((.+?)\.(flac|wav|mp3|m4a|ape|tta|ogg)(\r\n|\r|\n))+)").case_insensitive(true).build().unwrap();
     static ref PREGAP: Regex = Regex::new(r"Pre-gap length(\s*):(\s*)(?P<time>\d{2}:\d{2}:\d{2})").unwrap();
     static ref PEAK_LEVEL: Regex = Regex::new(r"Peak(\s*):(\s*)(?P<value>\d+\.\d+)").unwrap();
     static ref TEST_CRC: Regex = Regex::new(r"CRC32 hash \(test run\)(\s*):(\s*)(?P<value>[A-F0-9]{8})").unwrap();
@@ -134,6 +135,7 @@ impl Parser for XldParserSingle {
             toc: self.extract_toc(),
             tracks: self.extract_tracks(),
             id3_enabled: self.extract_id3_enabled(),
+            audio_encoder: self.extract_audio_encoder(),
         }
     }
 }
@@ -250,6 +252,32 @@ impl Extractor for XldParserSingle {
                 }
             },
             None => Gap::Unknown,
+        }
+    }
+
+    fn extract_audio_encoder(&self) -> Vec<String> {
+        // No use checking all the tracks since this setting seems to be global for all the tracks
+        let captures = FILENAME_MULTI.captures(&self.translated_log);
+        match captures {
+            Some(captures) => {
+                let mut set: HashSet<String> = HashSet::new();
+                let value = captures.name("value").unwrap().as_str().trim();
+
+                for filename in value.lines() {
+                    let extension = std::path::Path::new(filename.trim())
+                                                .extension()
+                                                .unwrap_or_default()
+                                                .to_str()
+                                                .unwrap_or_default()
+                                                .to_ascii_lowercase();
+                    if !extension.is_empty() {
+                        set.insert(extension);
+                    }
+                }
+
+                set.into_iter().collect()
+            },
+            None => Vec::new(),
         }
     }
 

@@ -57,7 +57,7 @@ impl OpsEvaluator {
             GazelleDeductionRelease::DefeatAudioCacheDisabled => parsed_log.defeat_audio_cache == Quartet::False,
             GazelleDeductionRelease::EacVersionOld => parsed_log.ripper == Ripper::EAC && (parsed_log.ripper_version == "Unknown" || parsed_log.ripper_version.cmp(&String::from("0.99")).is_lt()),
             GazelleDeductionRelease::XldNoChecksum => false,
-            GazelleDeductionRelease::Mp3Log => false, // FIXME: Implement encoder detection
+            GazelleDeductionRelease::Mp3Log => parsed_log.audio_encoder.iter().all(|encoder| encoder.contains("mp3") || encoder.contains("lame")), // FIXME: Implement encoder detection
             GazelleDeductionRelease::CouldNotVerifyDrive => parsed_log.drive == "Unknown Drive",
             GazelleDeductionRelease::CouldNotVerifyMedia => parsed_log.ripper == Ripper::XLD && parsed_log.ripper_version.cmp(&String::from("20130127")).is_ge() && parsed_log.media_type == MediaType::Unknown, 
             GazelleDeductionRelease::CouldNotVerifyReadMode => parsed_log.read_mode == ReadMode::Unknown,
@@ -103,7 +103,10 @@ impl OpsEvaluator {
             GazelleDeductionRelease::NullSamplesNotUsed => parsed_log.use_null_samples == Quartet::False,
             GazelleDeductionRelease::NormalizationUsed => parsed_log.normalize == Quartet::True,
             GazelleDeductionRelease::IncorrectGapHandling => parsed_log.gap_handling != Gap::Unknown && parsed_log.gap_handling != Gap::Append && parsed_log.gap_handling != Gap::AppendNoHtoa,
-            GazelleDeductionRelease::Id3OnFlac => parsed_log.id3_enabled == Quartet::True, // FIXME: Also requires FLAC check
+            GazelleDeductionRelease::Id3OnFlac => {
+                let id3_valid_encoder = parsed_log.audio_encoder.iter().any(|encoder| encoder.contains("mp3") || encoder.contains("lame"));
+                parsed_log.id3_enabled == Quartet::True && !id3_valid_encoder
+            },
             GazelleDeductionRelease::NotSecureCrcMismatch => {
                 if parsed_log.read_mode == ReadMode::Secure {
                     return false;
