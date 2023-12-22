@@ -25,7 +25,7 @@ impl OpsEvaluator {
         match data {
             GazelleDeductionFail::UnknownEncoding => false,
             GazelleDeductionFail::UnknownRipper => parsed_log.ripper != Ripper::EAC && parsed_log.ripper != Ripper::XLD && parsed_log.ripper != Ripper::Whipper,
-            GazelleDeductionFail::WhipperVersionLowerLimit => parsed_log.ripper == Ripper::Whipper && parsed_log.ripper_version.cmp(&String::from("0.7.3")).is_ge(),
+            GazelleDeductionFail::WhipperVersionLowerLimit => parsed_log.ripper == Ripper::Whipper && parsed_log.ripper_version.cmp(&String::from("0.7.3")).is_le(),
             GazelleDeductionFail::CouldNotParseWhipper => false,
         }
     }
@@ -67,7 +67,7 @@ impl OpsEvaluator {
             GazelleDeductionRelease::CouldNotVerifyC2 => parsed_log.read_mode == ReadMode::Secure && parsed_log.use_c2 == Quartet::Unknown,
             GazelleDeductionRelease::CouldNotVerifyReadOffset => parsed_log.read_offset.is_none(),
             GazelleDeductionRelease::CombinedOffsetUnverifiable => parsed_log.combined_rw_offset.is_some(),
-            GazelleDeductionRelease::CouldNotVerifyMissingOffsetSamples => parsed_log.fill_silence == Quartet::Unknown,
+            GazelleDeductionRelease::CouldNotVerifyMissingOffsetSamples => parsed_log.ripper == Ripper::EAC && parsed_log.fill_silence == Quartet::Unknown,
             GazelleDeductionRelease::CouldNotVerifySilentBlocks => parsed_log.delete_silence == Quartet::Unknown, 
             GazelleDeductionRelease::CouldNotVerifyNullSamples => parsed_log.use_null_samples == Quartet::Unknown,
             GazelleDeductionRelease::CouldNotVerifyGapHandling => parsed_log.gap_handling == Gap::Unknown,
