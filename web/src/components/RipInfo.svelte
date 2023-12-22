@@ -18,7 +18,7 @@
     <div class="flex flex-col gap-4">
         <div class="flex gap-2 items-end">
             <InfoSegment icon={IconCdCreateExchange} header="Ripper" value={parsedLog.ripper} />
-            <div class="variant-soft-primary rounded-md text-sm px-2 py-1 font-mono">v{parsedLog.ripper_version}</div>
+            <div class="variant-soft-primary rounded-md text-xs px-2 py-1 font-semibold">v{parsedLog.ripper_version}</div>
         </div>
         <InfoSegment icon={IconDocumentWordProcessorReference} header="Read mode" value={parsedLog.read_mode} />
         <InfoSegment icon={IconRadar} header="Read offset" value={parsedLog.read_offset && parsedLog.read_offset > 0 ? "+" : ""}{parsedLog.read_offset} />
