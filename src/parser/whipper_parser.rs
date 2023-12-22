@@ -38,11 +38,9 @@ impl WhipperParser {
 impl WhipperParserSingle {
     pub fn new(log: String) -> WhipperParserSingle {
         let (language, _) = WhipperParserSingle::translate(log.clone());
-        // println!("{}", &log);
 
         let yaml_sanitised = SANITISE_RELEASE.replace(&log, "${1}: \"{2}\"");
-        // FIXME: Would panic on invalid YAML
-        let yaml: WhipperLogYaml = serde_yaml::from_str(&yaml_sanitised).unwrap();
+        let yaml: WhipperLogYaml = serde_yaml::from_str(&yaml_sanitised).unwrap_or_default();
         
         WhipperParserSingle {
             log,
