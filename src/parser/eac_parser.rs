@@ -35,6 +35,7 @@ lazy_static! {
     static ref DELETE_SILENCE: Regex = Regex::new(r"Delete leading and trailing silent blocks( *): (?P<boolean>Yes|No)").unwrap();
     static ref USE_NULL_SAMPLES: Regex = Regex::new(r"Null samples used in CRC calculations( *): (?P<boolean>Yes|No)").unwrap();
     static ref GAP_HANDLING: Regex = Regex::new(r"Gap handling( *): (.+)").unwrap();
+    static ref USED_OUTPUT_FMT: Regex = RegexBuilder::new(r"Used output format( *): (.*)(?P<fmt>flac|wav|mp3|m4a|ape|tta|ogg)").case_insensitive(true).build().unwrap();
     static ref CLI_ENCODER: Regex = Regex::new(r"Command line compressor( *): (.+)").unwrap();
 
     static ref TEST_AND_COPY: Regex = Regex::new(r"Test CRC ([0-9A-F]{8})").unwrap();
@@ -306,8 +307,13 @@ impl Extractor for EacParserSingle {
     }
 
     fn extract_audio_encoder(&self) -> Vec<String> {
-        let captures = CLI_ENCODER.captures(&self.translated_log);
-        match captures {
+        let captures = USED_OUTPUT_FMT.captures(&self.translated_log);
+        if let Some(m) = captures {
+            return vec![m.name("fmt").unwrap().as_str().trim().to_ascii_lowercase().to_owned()];
+        }
+
+        let captures_fallback = CLI_ENCODER.captures(&self.translated_log);
+        match captures_fallback {
             Some(captures) => {
                 let value = captures.get(2).unwrap().as_str().trim().to_ascii_lowercase();
                 let executable_path = std::path::Path::new(value.as_str());

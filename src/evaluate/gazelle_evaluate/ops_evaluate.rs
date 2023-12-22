@@ -57,7 +57,7 @@ impl OpsEvaluator {
             GazelleDeductionRelease::DefeatAudioCacheDisabled => parsed_log.defeat_audio_cache == Quartet::False,
             GazelleDeductionRelease::EacVersionOld => parsed_log.ripper == Ripper::EAC && (parsed_log.ripper_version == "Unknown" || parsed_log.ripper_version.cmp(&String::from("0.99")).is_lt()),
             GazelleDeductionRelease::XldNoChecksum => false,
-            GazelleDeductionRelease::Mp3Log => parsed_log.audio_encoder.iter().all(|encoder| encoder.contains("mp3") || encoder.contains("lame")), // FIXME: Implement encoder detection
+            GazelleDeductionRelease::Mp3Log => !parsed_log.audio_encoder.is_empty() && parsed_log.audio_encoder.iter().all(|encoder| encoder.contains("mp3") || encoder.contains("lame")), // FIXME: Implement encoder detection
             GazelleDeductionRelease::CouldNotVerifyDrive => parsed_log.drive == "Unknown Drive",
             GazelleDeductionRelease::CouldNotVerifyMedia => parsed_log.ripper == Ripper::XLD && parsed_log.ripper_version.cmp(&String::from("20130127")).is_ge() && parsed_log.media_type == MediaType::Unknown, 
             GazelleDeductionRelease::CouldNotVerifyReadMode => parsed_log.read_mode == ReadMode::Unknown,
