@@ -122,11 +122,6 @@ impl CambiaServer {
         (StatusCode::NOT_FOUND, "404")
     }
     
-    /// The handler for the HTTP request (this gets called when the HTTP GET lands at the start
-    /// of websocket negotiation). After this completes, the actual switching from HTTP to
-    /// websocket protocol will occur.
-    /// This is the last point where we can extract TCP/IP metadata such as IP address of the client
-    /// as well as things from HTTP headers such as user-agent of the browser etc.
     async fn ws_handler(
         ws: WebSocketUpgrade,
         user_agent: Option<TypedHeader<UserAgent>>,
@@ -138,52 +133,17 @@ impl CambiaServer {
             String::from("Unknown browser")
         };
         println!("`{user_agent}` at {addr} connected.");
-        // finalize the upgrade process by returning upgrade callback.
-        // we can customize the callback by sending additional info such as address.
         ws.on_upgrade(move |socket| Self::handle_socket(socket, addr))
     }
     
-    /// Actual websocket statemachine (one will be spawned per connection)
     async fn handle_socket(socket: WebSocket, who: SocketAddr) {
-        // By splitting socket we can send and receive at the same time. In this example we will send
-        // unsolicited messages to client based on some sort of server's internal event (i.e .timer).
         let (mut sender, mut receiver) = socket.split();
     
-        // Spawn a task that will push several messages to the client (does not matter what client does)
-        // let mut send_task = tokio::spawn(async move {
-        //     let n_msg = 20;
-        //     for i in 0..n_msg {
-        //         // In case of any websocket error, we exit.
-        //         if sender
-        //             .send(Message::Text(format!("Server message {i} ...")))
-        //             .await
-        //             .is_err()
-        //         {
-        //             return i;
-        //         }
-    
-        //         tokio::time::sleep(std::time::Duration::from_millis(300)).await;
-        //     }
-        //     println!("Sending close to {who}...");
-        //     if let Err(e) = sender
-        //         .send(Message::Close(Some(CloseFrame {
-        //             code: axum::extract::ws::close_code::NORMAL,
-        //             reason: Cow::from("Goodbye"),
-        //         })))
-        //         .await
-        //     {
-        //         println!("Could not send Close due to {}, probably it is ok?", e);
-        //     }
-        //     n_msg
-        // });
-    
         // FIXME: There should be a better way to do this
-        // This second task will receive messages from client and print them on server console
         let mut recv_task = tokio::spawn(async move {
             let mut cnt = 0;
             while let Some(Ok(msg)) = receiver.next().await {
                 cnt += 1;
-                // print message and break if instructed to do so
                 let processed = Self::process_message(msg, who);
                 if processed.is_break() {
                     break;
@@ -195,22 +155,13 @@ impl CambiaServer {
             }
             cnt
         });
-    
-        // If any one of the tasks exit, abort the other.
+        
         tokio::select! {
-            // rv_a = (&mut send_task) => {
-            //     match rv_a {
-            //         Ok(_) => println!("Messages sent to {}", who),
-            //         Err(a) => println!("Error sending messages {:?}", a)
-            //     }
-            //     recv_task.abort();
-            // },
             rv_b = (&mut recv_task) => {
                 match rv_b {
                     Ok(b) => println!("Received {} messages", b),
                     Err(b) => println!("Error receiving messages {:?}", b)
                 }
-                // send_task.abort();
             }
         }
     
@@ -221,15 +172,10 @@ impl CambiaServer {
     /// helper to print contents of messages to stdout. Has special treatment for Close.
     fn process_message(msg: Message, who: SocketAddr) -> ControlFlow<(), Vec<u8>> {
         match msg {
-            Message::Text(t) => {
-                println!(">>> {} sent str: {:?}", who, t);
-            }
             Message::Binary(d) => {
                 let enc: Vec<u8>;
-                // println!(">>> {} sent {} bytes", who, d.len());
                 if let Ok(res) = parse_ws_request(d) {
                     enc = rmp_serde::encode::to_vec_named(&res).unwrap();
-                    // println!(">>> Parsed and MessagePack encoded");
                 } else {
                     enc = Vec::new();
                 }
@@ -246,16 +192,7 @@ impl CambiaServer {
                 }
                 return ControlFlow::Break(());
             }
-    
-            Message::Pong(v) => {
-                println!(">>> {} sent pong with {:?}", who, v);
-            }
-            // You should never need to manually handle Message::Ping, as axum's websocket library
-            // will do so for you automagically by replying with Pong and copying the v according to
-            // spec. But if you need the contents of the pings you can see them here.
-            Message::Ping(v) => {
-                println!(">>> {} sent ping with {:?}", who, v);
-            }
+            _ => (),
         }
         ControlFlow::Continue(Vec::new())
     }
