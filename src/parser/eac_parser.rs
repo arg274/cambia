@@ -389,7 +389,6 @@ impl ParserTrack for EacParserTrack {
 impl Translator for EacParserSingle {
     fn translate(log: String) -> (String, String) {
         let mut log_lang = &EacLanguage::default();
-        let mut lang_table: &OrderedMap<&'static str, &'static str> = &L_DUMMY_MAP;
         for cur_lang in LANGS.iter() {
             if log.contains(cur_lang.localised_key) {
                 log_lang = cur_lang;
@@ -400,14 +399,14 @@ impl Translator for EacParserSingle {
         match log_lang.lang_id {
             "47AB3DF2" => (log_lang.lang_native.to_owned(), log),
             _ => {
-                let patterns = lang_table.keys();
+                let patterns = log_lang.table.keys();
                 let ac = AhoCorasickBuilder::new()
                                                         .match_kind(aho_corasick::MatchKind::LeftmostLongest)
                                                         .build(patterns);
                 let mut translated_log = String::new();
                 ac.replace_all_with(&log, &mut translated_log, |_, k, v| {
                     // Case-insensitive on k > 16 but not sure if it's really needed
-                    let string_id = lang_table.get(k).unwrap();
+                    let string_id = log_lang.table.get(k).unwrap();
                     if let Some(en_val) = &L_47AB3DF2_MAP.get(string_id) {
                         v.push_str(en_val);
                     }
@@ -542,6 +541,7 @@ impl TrackExtractor for EacParserTrack {
     }
 }
 
+#[allow(dead_code)]
 #[derive(Clone, Copy)]
 pub struct EacLanguage {
     localised_key: &'static str,
