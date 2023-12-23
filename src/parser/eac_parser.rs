@@ -199,7 +199,6 @@ impl Extractor for EacParserSingle {
     }
 
     fn extract_language(&self) -> String {
-        // FIXME: Change EacLanguage and translation logic to return human-readable languages
         self.language.clone()
     }
     
