@@ -31,12 +31,12 @@ lazy_static! {
 
     static ref CHECKSUM: Regex = Regex::new(r"\n-----BEGIN XLD SIGNATURE-----\n(.+)\n-----END XLD SIGNATURE-----").unwrap();
     static ref TOC: Regex = Regex::new(r"\s+(?P<track>\d+)\s+\|\s+(?P<start>[0-9:\.]+)\s+\|\s+(?P<length>[0-9:\.]+)\s+\|\s+(?P<start_sector>\d+)\s+\|\s+(?P<end_sector>\d+)").unwrap();
-
-    // TODO: There could be info after the stats section that I have not considered yet
-    // FIXME: There could be CRLF issues due to how regex crate dot_matches_new_line works
-    static ref TRACKS: Regex = RegexBuilder::new(r"^Track \d+(.+?)Statistics(\s*)(([a-z() ]+)(\s*):(\s*)(\d+)(\s*))+").case_insensitive(true).dot_matches_new_line(true).multi_line(true).build().unwrap();
+    
+    static ref TRACKS: Regex = RegexBuilder::new(r"^Track \d+(\s+)Filename").multi_line(true).build().unwrap();
+    static ref LOG_EOF: Regex = RegexBuilder::new(r"^((No|Some) (errors|inconsistencies) (occurred|found)\s+)?End of status report$").multi_line(true).build().unwrap();
 
     // TODO: Some track fields that don't affect scoring were skipped
+    // FIXME: There could be CRLF issues due to how regex crate dot_matches_new_line works
     // FIXME: This will definitely miss unusual encoders
     static ref FILENAME: Regex = RegexBuilder::new(r"Filename(\s*):(\s*)(?P<value>(.+?)\.(flac|wav|mp3|m4a|ape|tta|ogg))").case_insensitive(true).dot_matches_new_line(true).build().unwrap();
     static ref FILENAME_MULTI: Regex = RegexBuilder::new(r"Filename(\s*):(\s*)(?P<value>((.+?)\.(flac|wav|mp3|m4a|ape|tta|ogg)(\r\n|\r|\n))+)").case_insensitive(true).build().unwrap();
@@ -45,7 +45,8 @@ lazy_static! {
     static ref TEST_CRC: Regex = Regex::new(r"CRC32 hash \(test run\)(\s*):(\s*)(?P<value>[A-F0-9]{8})").unwrap();
     static ref COPY_CRC: Regex = Regex::new(r"CRC32 hash(\s*):(\s*)(?P<value>[A-F0-9]{8})").unwrap();
     // FIXME: Missing some fields
-    static ref ERROR: Regex = Regex::new(r"(?P<type>Read error|Skipped \(treated as error\)|((Jitter error|Edge jitter error|Atom jitter error|Drift error|Dropped bytes error|Duplicated bytes error) \(maybe fixed\)))(\s*):(\s*)(?P<count>\d+)").unwrap();
+    // TODO: Does not get damaged sector positions
+    static ref ERROR: Regex = Regex::new(r"(?P<type>Read error|Skipped \(treated as error\)|Damaged sector count|((Jitter error|Edge jitter error|Atom jitter error|Drift error|Dropped bytes error|Duplicated bytes error) \(maybe fixed\)))(\s*):(\s*)(?P<count>\d+)").unwrap();
 }
 
 pub struct XldParser {
@@ -301,11 +302,18 @@ impl Extractor for XldParserSingle {
     fn extract_tracks(&self) -> Vec<TrackEntry> {
         let mut tracks: Vec<TrackEntry> = Vec::new();
 
-        let captures_all = TRACKS.captures_iter(&self.translated_log);
+        let last_idx = LOG_EOF.find(&self.translated_log).unwrap().start();
+        let mut captures_all = TRACKS.find_iter(&self.translated_log).peekable();
+        let mut prev_m: Option<regex::Match> = None;
 
-        for captures in captures_all {
-            let track_parser = XldParserTrack::new(false, captures.get(0).unwrap().as_str().to_string());
-            tracks.push(track_parser.parse_track())
+        while let Some(m) = captures_all.next() {
+            if let Some(p) = prev_m {
+                tracks.push(XldParserTrack::new(false, self.translated_log[p.start()..m.start()].trim().to_owned()).parse_track());
+            }
+            if captures_all.peek().is_none() {
+                tracks.push(XldParserTrack::new(false, self.translated_log[m.start()..last_idx].trim().to_owned()).parse_track());
+            }
+            prev_m = Some(m);
         }
 
         tracks
@@ -410,7 +418,7 @@ impl TrackExtractor for XldParserTrack {
     fn extract_errors(&self) -> TrackError {
         let captures_all = ERROR.captures_iter(&self.raw);
 
-        let (mut r_c, mut s_c, mut drf_c, mut drp_c, mut dup_c) = (0_u32, 0_u32, 0_u32, 0_u32, 0_u32);
+        let (mut r_c, mut s_c, mut drf_c, mut drp_c, mut dup_c, mut dmg_c) = (0_u32, 0_u32, 0_u32, 0_u32, 0_u32, 0_u32);
         let (mut jg_c, mut je_c, mut ja_c) = (0_u32, 0_u32, 0_u32);
 
         for captures in captures_all {
@@ -420,6 +428,7 @@ impl TrackExtractor for XldParserTrack {
             match error_type {
                 "Read error" => { r_c = count },
                 "Skipped (treated as error)" => { s_c = count },
+                "Damaged sector count" => { dmg_c = count },
                 "Jitter error (maybe fixed)" => { jg_c = count },
                 "Edge jitter error (maybe fixed)" => { je_c = count },
                 "Atom jitter error (maybe fixed)" => { ja_c = count },
@@ -430,6 +439,6 @@ impl TrackExtractor for XldParserTrack {
             }
         }
 
-        TrackError::new_xld(r_c, s_c, jg_c, je_c, ja_c, drf_c, drp_c, dup_c)
+        TrackError::new_xld(r_c, s_c, jg_c, je_c, ja_c, drf_c, drp_c, dup_c, dmg_c)
     }
 }

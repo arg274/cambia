@@ -1,6 +1,6 @@
 use std::cmp::min;
 
-use crate::{evaluate::{Evaluator, EvaluationCombined, Deduction, Evaluation, EvaluatorType, DeductionCategory}, parser::{ParsedLogCombined, ParsedLog}, extract::{Ripper, Quartet, MediaType, ReadMode, Gap}, track::TrackEntry, integrity::Integrity, drive::{DriveUtils, DriveMatchQuality}};
+use crate::{evaluate::{Evaluator, EvaluationCombined, Deduction, Evaluation, EvaluatorType, DeductionCategory, DeductionField}, parser::{ParsedLogCombined, ParsedLog}, extract::{Ripper, Quartet, MediaType, ReadMode, Gap}, track::TrackEntry, integrity::Integrity, drive::{DriveUtils, DriveMatchQuality}};
 
 use super::{GazelleDeductionData, GazelleDeductionFail, GazelleDeductionRelease, GazelleDeductionTrack, GazelleDeduction};
 
@@ -25,7 +25,7 @@ impl OpsEvaluator {
         match data {
             GazelleDeductionFail::UnknownEncoding => false,
             GazelleDeductionFail::UnknownRipper => parsed_log.ripper != Ripper::EAC && parsed_log.ripper != Ripper::XLD && parsed_log.ripper != Ripper::Whipper,
-            GazelleDeductionFail::WhipperVersionLowerLimit => parsed_log.ripper == Ripper::Whipper && parsed_log.ripper_version.cmp(&String::from("0.7.3")).is_le(),
+            GazelleDeductionFail::WhipperVersionLowerLimit => parsed_log.ripper == Ripper::Whipper && parsed_log.ripper_version.cmp(&String::from("0.7.3")).is_lt(),
             GazelleDeductionFail::CouldNotParseWhipper => false,
         }
     }
@@ -37,7 +37,7 @@ impl OpsEvaluator {
             GazelleDeductionRelease::IncorrectReadOffset => {
                 match DriveUtils::fuzzy_search_model(parsed_log.drive.clone()) {
                     DriveMatchQuality::STRONG(matched_offset) => {
-                        parsed_log.read_offset.is_some() && parsed_log.read_offset.unwrap() != matched_offset
+                        parsed_log.read_offset.is_some() && matched_offset.is_some() && parsed_log.read_offset.unwrap() != matched_offset.unwrap()
                     }
                     DriveMatchQuality::WEAK(_) => {
                         false
@@ -46,8 +46,8 @@ impl OpsEvaluator {
             },
             GazelleDeductionRelease::DriveNotFoundDb => {
                 match DriveUtils::fuzzy_search_model(parsed_log.drive.clone()) {
-                    DriveMatchQuality::STRONG(_) => {
-                        false
+                    DriveMatchQuality::STRONG(matched_offset) => {
+                        matched_offset.is_none()
                     }
                     DriveMatchQuality::WEAK(_) => {
                         parsed_log.read_offset.is_some() && parsed_log.read_offset.unwrap() == 0
@@ -90,10 +90,8 @@ impl OpsEvaluator {
                 }
                 parsed_log.test_and_copy != Quartet::True
             },
-            GazelleDeductionRelease::RipModeNotSecure => {
-                ((parsed_log.ripper == Ripper::EAC || parsed_log.ripper == Ripper::Whipper) && parsed_log.read_mode != ReadMode::Secure) ||
-                (parsed_log.ripper == Ripper::XLD && parsed_log.read_mode != ReadMode::Secure && parsed_log.read_mode != ReadMode::Paranoid)
-            },
+            // They don't account for XLD not being secure
+            GazelleDeductionRelease::RipModeNotSecure => parsed_log.ripper == Ripper::EAC && parsed_log.read_mode != ReadMode::Secure,
             GazelleDeductionRelease::NotPressedCd => parsed_log.ripper != Ripper::EAC && parsed_log.media_type != MediaType::Pressed,
             GazelleDeductionRelease::LowMaxRetryCount => false, // TODO: XLD specific prop, does not affect scoring
             GazelleDeductionRelease::AccurateStreamNotUtilized => parsed_log.accurate_stream == Quartet::False,
@@ -108,16 +106,11 @@ impl OpsEvaluator {
                 parsed_log.id3_enabled == Quartet::True && !id3_valid_encoder
             },
             GazelleDeductionRelease::NotSecureCrcMismatch => {
-                if parsed_log.read_mode == ReadMode::Secure {
+                if parsed_log.read_mode == ReadMode::Secure || (parsed_log.ripper == Ripper::XLD && parsed_log.read_mode == ReadMode::Paranoid) {
                     return false;
                 }
 
-                for track in parsed_log.tracks.iter() {
-                    if track.test_and_copy.integrity == Integrity::Mismatch {
-                        return true;
-                    }
-                }
-                false
+                parsed_log.tracks.iter().any(|t| t.test_and_copy.integrity == Integrity::Mismatch)
             },
         }
     }
@@ -145,15 +138,15 @@ impl OpsEvaluator {
             GazelleDeductionTrack::CrcMismatch => track_entry.test_and_copy.integrity == Integrity::Mismatch,
             GazelleDeductionTrack::ReadErrors(_) => parsed_log.ripper == Ripper::XLD && track_entry.errors.read.count > 0,
             GazelleDeductionTrack::SkippedErrors(_) => parsed_log.ripper == Ripper::XLD && track_entry.errors.skip.count > 0,
+            GazelleDeductionTrack::DamagedSectors(_) => parsed_log.ripper == Ripper::XLD && track_entry.errors.damaged_sectors.count > 0,
             // TODO: Figure out when these happen
             GazelleDeductionTrack::InconsistenciesInErrorSectors(_) => false,
-            GazelleDeductionTrack::DamagedSectors(_) => false,
         }
     }
 }
 
 impl GazelleDeduction for GazelleDeductionFail {
-    fn deduct(&self) -> Deduction {
+    fn deduct(&self, _parsed_log: &ParsedLog) -> Deduction {
         let deduction_score: u32 = match &self {
             GazelleDeductionFail::UnknownEncoding => 100,
             GazelleDeductionFail::UnknownRipper => 100,
@@ -165,11 +158,11 @@ impl GazelleDeduction for GazelleDeductionFail {
 }
 
 impl GazelleDeduction for GazelleDeductionRelease {
-    fn deduct(&self) -> Deduction {
+    fn deduct(&self, parsed_log: &ParsedLog) -> Deduction {
         let deduction_score: u32 = match &self {
             GazelleDeductionRelease::VirtualDrive => 20,
             GazelleDeductionRelease::IncorrectReadOffset => 5,
-            GazelleDeductionRelease::DriveNotFoundDb => 5,
+            GazelleDeductionRelease::DriveNotFoundDb => if parsed_log.read_offset == Some(0) {5} else {0},
             GazelleDeductionRelease::DefeatAudioCacheDisabled => 10,
             GazelleDeductionRelease::EacVersionOld => 30,
             GazelleDeductionRelease::XldNoChecksum => 15,
@@ -210,7 +203,7 @@ impl GazelleDeduction for GazelleDeductionRelease {
 }
 
 impl GazelleDeduction for GazelleDeductionTrack {
-    fn deduct(&self) -> Deduction {
+    fn deduct(&self, _parsed_log: &ParsedLog) -> Deduction {
         let deduction_score: u32 = match &self {
             GazelleDeductionTrack::CouldNotVerifyFilenameTooLong => 0,
             GazelleDeductionTrack::CouldNotVerifyFilenameOrExt => 1,
@@ -242,12 +235,21 @@ impl GazelleDeduction for GazelleDeductionTrack {
 impl Evaluator for OpsEvaluator {
     fn evaluate_combined(&mut self, parsed_logs: &ParsedLogCombined) -> EvaluationCombined {
         let mut evaluations: Vec<Evaluation> = Vec::new();
+        let mut track_deduction_score: i32 = 0_i32;
 
-        for parsed_log in parsed_logs.parsed_logs.iter() {
-            evaluations.push(self.evaluate(parsed_log));
+        let mut it = parsed_logs.parsed_logs.iter().peekable();
+        while let Some(log) = it.next() {
+            let evaluation = self.evaluate(log);
+            if it.peek().is_some() {
+                track_deduction_score += evaluation.deductions.iter()
+                    .filter(|d| matches!(d.data.field, DeductionField::TestAndCopy))
+                    .map(|d| d.deduction_score.parse::<i32>().unwrap_or_default())
+                    .sum::<i32>();
+            }
+            evaluations.push(evaluation);
         }
         
-        let combined_score: i32 = evaluations.iter().map(|ev| from_str::<i32>(ev.score.as_str()).unwrap() - 100).sum::<i32>() + 100_i32;
+        let combined_score: i32 = evaluations.last().unwrap().score.parse::<i32>().unwrap_or_default() - track_deduction_score;
         EvaluationCombined::new(EvaluatorType::OPS, combined_score.to_string(), evaluations)
     }
 
@@ -257,7 +259,7 @@ impl Evaluator for OpsEvaluator {
 
         for gazelle_deduction_fail in GazelleDeductionFail::iter() {
             if OpsEvaluator::check_fail(parsed_log, gazelle_deduction_fail) {
-                let deduction = gazelle_deduction_fail.deduct();
+                let deduction = gazelle_deduction_fail.deduct(parsed_log);
                 score -= from_str::<i32>(deduction.deduction_score.as_str()).unwrap();
                 deductions.push(deduction);
                 return Evaluation::new(score.to_string(), deductions);
@@ -268,7 +270,7 @@ impl Evaluator for OpsEvaluator {
             .par_bridge()
             .filter_map(|gazelle_deduction_release| {
                 if OpsEvaluator::check_release(parsed_log, gazelle_deduction_release) {
-                    let deduction = gazelle_deduction_release.deduct();
+                    let deduction = gazelle_deduction_release.deduct(parsed_log);
                     Some(deduction)
                 } else {
                     None
@@ -293,11 +295,12 @@ impl Evaluator for OpsEvaluator {
                         let gazelle_deduction_track_variant: GazelleDeductionTrack = match gazelle_deduction_track {
                             GazelleDeductionTrack::ReadErrors(_) => GazelleDeductionTrack::ReadErrors(track.errors.read.count),
                             GazelleDeductionTrack::SkippedErrors(_) => GazelleDeductionTrack::SkippedErrors(track.errors.skip.count),
-                            // TODO: InconsistenciesInErrorSectors and DamagedSectors handling
+                            GazelleDeductionTrack::DamagedSectors(_) => GazelleDeductionTrack::DamagedSectors(track.errors.damaged_sectors.count),
+                            // TODO: InconsistenciesInErrorSectors handling
                             other => other,
                         };
                         if OpsEvaluator::check_track(parsed_log, track, gazelle_deduction_track_variant) {
-                            let mut deduction = gazelle_deduction_track_variant.deduct();
+                            let mut deduction = gazelle_deduction_track_variant.deduct(parsed_log);
                             deduction.data.category = DeductionCategory::Track(Some((idx + 1) as u8)); // TODO: Special considerations for HTOA (?)
                             Some(deduction)
                         } else {

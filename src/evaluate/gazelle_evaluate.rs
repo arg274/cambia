@@ -1,6 +1,8 @@
 use serde::{Deserialize, Serialize};
 use strum_macros::EnumIter;
 
+use crate::parser::ParsedLog;
+
 use super::{DeductionCategory, DeductionField, DeductionData, Evaluator, Deduction};
 
 pub mod red_evaluate;
@@ -15,7 +17,8 @@ pub trait GazelleDeductionData {
 }
 
 pub trait GazelleDeduction {
-    fn deduct(&self) -> Deduction;
+    // TODO: Do we need to send the ParsedLog for a single use case (drive not in DB check)?
+    fn deduct(&self, parsed_log: &ParsedLog) -> Deduction;
 }
 
 #[derive(Serialize, Deserialize, EnumIter, Clone, Copy)]

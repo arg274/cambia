@@ -66,6 +66,8 @@ pub struct TrackError {
     pub dropped: TrackErrorData,
     #[serde(skip_serializing_if = "TrackErrorData::is_default")]
     pub duplicated: TrackErrorData,
+    #[serde(skip_serializing_if = "TrackErrorData::is_default")]
+    pub damaged_sectors: TrackErrorData,
 }
 
 #[derive(Serialize, Deserialize, Default, PartialEq, TS)]
@@ -92,12 +94,13 @@ impl TrackError {
             jitter_atom: TrackErrorData::default(),
             drift: TrackErrorData::default(),
             dropped: TrackErrorData::default(),
-            duplicated: TrackErrorData::default()
+            duplicated: TrackErrorData::default(),
+            damaged_sectors: TrackErrorData::default(),
         }
     }
 
     #[allow(clippy::too_many_arguments)]
-    pub fn new_xld(r_c: u32, s_c: u32, jg_c: u32, je_c: u32, ja_c: u32, drf_c: u32, drp_c: u32, dup_c: u32) -> Self {
+    pub fn new_xld(r_c: u32, s_c: u32, jg_c: u32, je_c: u32, ja_c: u32, drf_c: u32, drp_c: u32, dup_c: u32, dmg_c: u32) -> Self {
         TrackError {
             read: TrackErrorData::new_from_count(r_c),
             skip: TrackErrorData::new_from_count(s_c),
@@ -107,6 +110,7 @@ impl TrackError {
             drift: TrackErrorData::new_from_count(drf_c),
             dropped: TrackErrorData::new_from_count(drp_c),
             duplicated: TrackErrorData::new_from_count(dup_c),
+            damaged_sectors: TrackErrorData::new_from_count(dmg_c),
         }
     }
 }
