@@ -18,7 +18,7 @@ use tower_http::{cors::CorsLayer, compression::CompressionLayer};
 use futures::{sink::SinkExt, stream::StreamExt};
 use tower_http::trace::{DefaultMakeSpan, TraceLayer};
 
-use crate::{parse_log_bytes, parse_ws_request};
+use crate::{parse_log_bytes, parse_ws_request, translate_log_bytes};
 
 static INDEX_HTML: &str = "index.html";
 
@@ -204,6 +204,7 @@ impl CambiaServer {
 
         let single_upload = Router::new()
             .route("/v1/upload", post(Self::upload_log))
+            .route("/v1/translate", post(Self::translate_log))
             .layer(CorsLayer::permissive())
             .layer(CompressionLayer::new().gzip(true).no_br().no_zstd());
 
@@ -234,6 +235,17 @@ impl CambiaServer {
             Ok(parsed) => {
                 println!("{}", serde_json::to_string(&parsed).unwrap());
                 (StatusCode::OK, fmt.render(parsed))
+            },
+            Err(e) => (StatusCode::BAD_REQUEST, e.to_string().into_response()),
+        }
+    }
+
+    async fn translate_log(bytes: Bytes) -> impl IntoResponse {
+        let bytes_vec = bytes.to_vec();
+        
+        match translate_log_bytes(bytes_vec) {
+            Ok(parsed) => {
+                (StatusCode::OK, parsed.into_response())
             },
             Err(e) => (StatusCode::BAD_REQUEST, e.to_string().into_response()),
         }

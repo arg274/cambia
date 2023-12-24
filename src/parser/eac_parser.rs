@@ -8,12 +8,14 @@ use phf::OrderedMap;
 use regex::{Regex, RegexBuilder};
 use rayon::prelude::*;
 
-use crate::{extract::{Extractor, Quartet, Ripper, ReadMode, Gap, TrackExtractor}, translate::Translator, integrity::IntegrityChecker, toc::{TocEntry, TocRaw, Toc}, track::{TrackEntry, TestAndCopy, TrackError, TrackErrorRange, TrackErrorData}, util::Time};
+use crate::{extract::{Extractor, Quartet, Ripper, ReadMode, Gap, TrackExtractor}, translate::{Translator, TranslatorCombined}, integrity::IntegrityChecker, toc::{TocEntry, TocRaw, Toc}, track::{TrackEntry, TestAndCopy, TrackError, TrackErrorRange, TrackErrorData}, util::Time};
 use simple_text_decode::DecodedText;
 
 use self::{translation_table::{LANGS, L_DUMMY_MAP, L_47AB3DF2_MAP}, rijndael::Rijndael};
 
 use super::{Parser, ParsedLog, ParserCombined, ParsedLogCombined, ParserTrack};
+
+static SPLIT_SEP: &str = "\r\n------------------------------------------------------------\r\n";
 
 lazy_static! {
     static ref RIPPER_VERSION: Regex = Regex::new(r"Exact Audio Copy (.+) from").unwrap();
@@ -75,6 +77,13 @@ impl EacParser {
             encoded_log,
         }
     }
+
+    pub fn split_combined(&self) -> Vec<&str> {
+        /* TODO: When the log anomaly pipeline is implemented
+           Make sure that combined logs that don't use this sep are detected and handled */
+        // TODO: Might need to use str::split_inclusive in the future
+        self.encoded_log.text.split(SPLIT_SEP).collect::<Vec<_>>()
+    }
 }
 
 struct EacParserTrack {
@@ -127,12 +136,7 @@ impl EacParserSingle {
 
 impl ParserCombined for EacParser {
     fn parse_combined(&self) -> ParsedLogCombined {
-        /* TODO: When the log anomaly pipeline is implemented
-           Make sure that combined logs that don't use this sep are detected and handled */
-        
-        let split_sep = "\r\n------------------------------------------------------------\r\n";
-        // TODO: Might need to use str::split_inclusive in the future
-        let split_logs = self.encoded_log.text.split(split_sep).collect::<Vec<_>>();
+        let split_logs = self.split_combined();
 
         let parsed_logs: Vec<ParsedLog> = split_logs.par_iter().map(
             |split_log| EacParserSingle::new(split_log.trim().to_string()).parse()
@@ -142,6 +146,18 @@ impl ParserCombined for EacParser {
             parsed_logs,
             encoding: self.encoded_log.orig_encoding.to_string()
         }
+    }
+}
+
+impl TranslatorCombined for EacParser {
+    fn translate_combined(&self) -> String {
+        let split_logs = self.split_combined();
+
+        let translated_logs: Vec<String> = split_logs.par_iter().map(
+            |split_log| EacParserSingle::translate(split_log.trim().to_owned()).1
+        ).collect();
+        
+        translated_logs.join(SPLIT_SEP)
     }
 }
 
