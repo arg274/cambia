@@ -28,13 +28,17 @@ type EacLangMap = HashMap<String, HashSet<String>>;
 type EacLangLocalisationMap = HashMap<String, String>;
 
 #[derive(Eq)]
-struct DriveEntryMini(String, i16);
+struct DriveEntryMini(String, Option<i16>);
 
 static AR_DRIVE_DB: &str = "http://www.accuraterip.com/driveoffsets.htm";
 
 impl fmt::Display for DriveEntryMini {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "(r#\"{}\"#, &{}_i16)", self.0, self.1)
+        let offset_str = match self.1 {
+            Some(v) => format!("Some({}_i16)", v),
+            None => String::from("None"),
+        };
+        write!(f, "(r#\"{}\"#, &{})", self.0, offset_str)
     }
 }
 
@@ -265,7 +269,7 @@ fn fetch_drive_offsets() {
     }
 
     fn generate_vendor_map_preamble() -> String {
-        String::from("pub static VENDOR_MAP: Map<&'static str, &'static [(&'static str, &'static i16)]> = phf_map!")
+        String::from("pub static VENDOR_MAP: Map<&'static str, &'static [(&'static str, &'static Option<i16>)]> = phf_map!")
     }
 
     let resp = reqwest::blocking::get(AR_DRIVE_DB).unwrap();
@@ -288,10 +292,7 @@ fn fetch_drive_offsets() {
             entry.select(&submission_count_selector).next().unwrap().text().next().unwrap_or_default().trim().parse::<i32>().ok(),
             entry.select(&percentage_agree_selector).next().unwrap().text().next().unwrap_or_default().replace('%', "").trim().parse::<f64>().ok(),
         );
-        println!("{:?}", drive);
-        if drive.offset.is_some() {
-            drives.push(drive);
-        }
+        drives.push(drive);
     }
 
     let pattern: Regex = Regex::new(r"[^\s\w]").unwrap();
@@ -301,7 +302,7 @@ fn fetch_drive_offsets() {
     for drive in drives {
         let sanitised_drive_name = pattern.replace_all(drive.name.as_str(), "").trim().to_ascii_uppercase();
         let drive_vendor = sanitised_drive_name.as_str().split_whitespace().next().unwrap_or_default().to_string();
-        drive_map.entry(drive_vendor).or_default().insert(DriveEntryMini(ws_pattern.replace_all(sanitised_drive_name.as_str(), "").to_string(), drive.offset.unwrap()));
+        drive_map.entry(drive_vendor).or_default().insert(DriveEntryMini(ws_pattern.replace_all(sanitised_drive_name.as_str(), "").to_string(), drive.offset));
     }
 
     let out_file_path = Path::new("./src/drive/offset_table.rs");
@@ -326,7 +327,7 @@ fn fetch_drive_offsets() {
     vendor_block.fmt(&mut formatter).unwrap();
 
     for (vendor, drive_list) in drive_map {
-        buf.push_str(format!("pub static VND_{}: [(&'static str, &'static i16); {}] = [", vendor, drive_list.len()).as_str());
+        buf.push_str(format!("pub static VND_{}: [(&'static str, &'static Option<i16>); {}] = [", vendor, drive_list.len()).as_str());
         buf.push_str("\n    ");
         buf.push_str(drive_list.iter().join(",\n    ").as_str());
         buf.push_str("\n];\n\n");

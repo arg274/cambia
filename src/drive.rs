@@ -6,6 +6,7 @@ use rayon::prelude::IntoParallelRefIterator;
 use textdistance::str::levenshtein;
 use regex::Regex;
 use rayon::prelude::*;
+use tracing::debug;
 
 #[allow(clippy::redundant_static_lifetimes)]
 mod offset_table;
@@ -20,8 +21,8 @@ pub static VENDOR_SUB_VALS: &[&str] = &["LITEON", "LG ELECTRONICS", "PANASONIC"]
 static DISTANCE_THRESHOLD: usize = 5;
 
 pub enum DriveMatchQuality {
-    STRONG(i16),
-    WEAK(i16),
+    STRONG(Option<i16>),
+    WEAK(Option<i16>),
 }
 
 pub struct DriveUtils;
@@ -57,8 +58,7 @@ impl DriveUtils {
             .min_by_key(|&(_, _, dist)| dist)
             .unwrap();
 
-        // println!("Log drive: {}", drive_sanitised);
-        // println!("Matched drive: {} w/ offset: {}", _matched_drive, offset);
+        debug!("Matched drive: {} w/ offset: {:?}", _matched_drive, offset);
 
         if distance > DISTANCE_THRESHOLD {
             DriveMatchQuality::WEAK(*offset)
