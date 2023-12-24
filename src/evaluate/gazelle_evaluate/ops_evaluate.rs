@@ -242,14 +242,16 @@ impl Evaluator for OpsEvaluator {
             let evaluation = self.evaluate(log);
             if it.peek().is_some() {
                 track_deduction_score += evaluation.deductions.iter()
-                    .filter(|d| matches!(d.data.field, DeductionField::TestAndCopy))
+                    .filter(|d| matches!(d.data.category, DeductionCategory::Track(_)) && matches!(d.data.field, DeductionField::TestAndCopy | DeductionField::Filename))
                     .map(|d| d.deduction_score.parse::<i32>().unwrap_or_default())
                     .sum::<i32>();
+            } else if !(evaluation.deductions.iter().any(|d| matches!(d.data.field, DeductionField::Encoder)) && parsed_logs.parsed_logs.len() > 1) {
+                track_deduction_score += 100 - evaluation.score.parse::<i32>().unwrap_or_default();
             }
             evaluations.push(evaluation);
         }
         
-        let combined_score: i32 = evaluations.last().unwrap().score.parse::<i32>().unwrap_or_default() - track_deduction_score;
+        let combined_score: i32 = 100 - track_deduction_score;
         EvaluationCombined::new(EvaluatorType::OPS, combined_score.to_string(), evaluations)
     }
 

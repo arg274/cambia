@@ -33,7 +33,7 @@ lazy_static! {
     static ref TOC: Regex = Regex::new(r"\s+(?P<track>\d+)\s+\|\s+(?P<start>[0-9:\.]+)\s+\|\s+(?P<length>[0-9:\.]+)\s+\|\s+(?P<start_sector>\d+)\s+\|\s+(?P<end_sector>\d+)").unwrap();
     
     static ref TRACKS: Regex = RegexBuilder::new(r"^Track \d+(\s+)Filename").multi_line(true).build().unwrap();
-    static ref LOG_EOF: Regex = RegexBuilder::new(r"^((No|Some) (errors|inconsistencies) (occurred|found)\s+)?End of status report$").multi_line(true).build().unwrap();
+    static ref LOG_EOF: Regex = Regex::new(r"((No|Some) (errors|inconsistencies) (occurred|found)\s+)?End of status report").unwrap();
 
     // TODO: Some track fields that don't affect scoring were skipped
     // FIXME: There could be CRLF issues due to how regex crate dot_matches_new_line works
