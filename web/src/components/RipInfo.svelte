@@ -1,5 +1,4 @@
 <script lang="ts">
-    import IconVersion from '~icons/carbon/version';
     import IconCdCreateExchange from '~icons/carbon/cd-create-exchange';
     import IconRadar from '~icons/carbon/radar';
     import IconIbmWatsonLanguageTranslator from '~icons/carbon/ibm-watson-language-translator';

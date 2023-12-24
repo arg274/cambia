@@ -42,6 +42,14 @@ export function nonNullAssert<T>(a: T | undefined | null): T {
     return a!;
 }
 
+export function castToType<T>(a: object): T {
+    return a as T;
+}
+
+export function castToTypeArray<T>(a: object): T[] {
+    return a as T[];
+}
+
 export function isNumeric(value: string): boolean {
     return /^-?\d+$/.test(value);
 }

@@ -1,22 +1,67 @@
-<script>
-    import IconMachineLearningModel from '~icons/carbon/machine-learning-model';
+<script lang="ts">
+    import IconMusicbrainz from '~icons/cambia/musicbrainz';
 	import Card from "./frags/Card.svelte";
 	import ComboBox from "./frags/ComboBox.svelte";
+	import { getCaaCovers, getJoinedArtists, getReleasesFromDiscId } from '$lib/api/MusicBrainzApi';
+	import type { ICoverInfo, ILabel, IRelease } from 'musicbrainz-api';
+	import { castToType, castToTypeArray } from '$lib/utils';
 
+    export let mbzTocId: string;
+    let selectedRelease = "";
+
+    const res = (async () => {
+        const _res = await getReleasesFromDiscId(mbzTocId);
+        return await _res.json();
+    })();
+
+    function castToReleases(releases: any): IRelease[] {
+        return castToTypeArray<IRelease>(releases);
+    }
+
+    function castToCoverInfo(coverInfo: any): ICoverInfo {
+        return castToType<ICoverInfo>(coverInfo);
+    }
 </script>
-<Card header="Album Info" addClass="col-span-2">
-    <div class="flex mt-2 justify-between">
-        <div class="flex items-center">
-            <img width="100" height="100" alt="Album by Artist" src="https://is3-ssl.mzstatic.com/image/thumb/Music7/v4/ea/2c/36/ea2c360f-1674-865a-e93a-bcc499bdf381/4511820-93417.jpg/100x100bb.webp" />
-            <div class="ml-4 flex flex-col">
-                <span class="text-md">Kikuo</span>
-                <span class="text-2xl font-bold">Kikuo Miku 4</span>
-            </div>
-        </div>
-        <a type="button" class="btn-icon bg-initial hover:variant-soft self-start" href="https://musicbrainz.org/release/8242a7d2-4269-4ec6-919d-9328dbeac13b" target="_blank"><IconMachineLearningModel /></a>
-    </div>
-    <div class="mt-4 flex justify-between items-end">
-        <span><ComboBox addTriggerClass="h-6" textClass="text-sm font-mono" items={["8242a7d2-4269-4ec6-919d-9328dbeac13b", "fdf81975-402a-4bbe-9c13-2aa0d0e62e40"]} /></span> <!-- TODO: Combobox for releaseMBID goes here -->
-        <span class="text-xs">KSW-0009</span>
-    </div>
-</Card>
+
+{#if mbzTocId}
+    <Card header="Release Info" addClass="col-span-2 h-1/4">
+        {#await res}
+            Loading
+        {:then data}
+            {#if data.releases.length > 0}
+                {@const releases = castToReleases(data.releases)}
+                {@const release = selectedRelease ? releases.filter(rel => rel.id === selectedRelease)[0] : releases[0]}
+                <div class="flex mt-2 justify-between">
+                    <div class="flex items-center">
+                        {#await getCaaCovers(release.id)}
+                            Loading cover
+                        {:then coverRes}
+                            {#await coverRes.json()}
+                                Parsing JSON
+                            {:then coverData} 
+                                {@const frontImages = castToCoverInfo(coverData).images}
+                                {#if frontImages.length > 0}
+                                    <img width="100" height="100" alt="Album by Artist" src={frontImages[0].thumbnails.small} />
+                                {/if}
+                            {/await}
+                        {:catch}
+                            Image loading failed
+                        {/await}
+                        
+                        <div class="ml-4 flex flex-col">
+                            <span class="text-md">{getJoinedArtists(release['artist-credit'])}</span>
+                            <span class="text-2xl font-bold">{release.title}</span>
+                        </div>
+                    </div>
+                    <a type="button" class="btn-icon bg-initial hover:variant-soft self-start" href="https://musicbrainz.org/release/{release.id}" target="_blank"><IconMusicbrainz /></a>
+                </div>
+                <div class="mt-4 flex justify-between items-end">
+                    <span><ComboBox addTriggerClass="h-6" textClass="text-sm font-mono" items={releases.map(rel => rel.id)} bind:value={selectedRelease} /></span>
+                    <span class="text-xs">{release.date}</span>
+                </div>
+            {/if}
+        {:catch}
+            Couldn't fetch
+        {/await}
+    </Card>
+{/if}
