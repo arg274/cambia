@@ -6,7 +6,7 @@ use regex::{Regex, RegexBuilder};
 use base64::{Engine as _, engine::GeneralPurpose, engine::general_purpose::PAD, alphabet::Alphabet};
 use serde_json::from_str;
 
-use crate::{extract::{Extractor, Quartet, Ripper, ReadMode, Gap, MediaType, TrackExtractor}, translate::Translator, integrity::IntegrityChecker, toc::{TocEntry, TocRaw, Toc}, util::Time, track::{TrackEntry, TestAndCopy, TrackError}};
+use crate::{extract::{Extractor, Quartet, Ripper, ReadMode, Gap, MediaType, TrackExtractor}, translate::{Translator, TranslatorCombined}, integrity::IntegrityChecker, toc::{TocEntry, TocRaw, Toc}, util::Time, track::{TrackEntry, TestAndCopy, TrackError}};
 use simple_text_decode::DecodedText;
 
 use self::sha256custom::Sha256Custom;
@@ -108,6 +108,12 @@ impl ParserCombined for XldParser {
             parsed_logs,
             encoding: self.encoded_log.orig_encoding.to_string()
         }
+    }
+}
+
+impl TranslatorCombined for XldParser {
+    fn translate_combined(&self) -> String {
+        self.encoded_log.text.clone()
     }
 }
 

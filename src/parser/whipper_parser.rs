@@ -3,7 +3,7 @@ mod whipper_yaml;
 use regex::Regex;
 use sha2::{Sha256, Digest};
 
-use crate::{extract::{Extractor, Quartet, Ripper, ReadMode, Gap}, translate::Translator, integrity::IntegrityChecker, toc::{TocEntry, TocRaw, Toc}, util::Time};
+use crate::{extract::{Extractor, Quartet, Ripper, ReadMode, Gap}, translate::{Translator, TranslatorCombined}, integrity::IntegrityChecker, toc::{TocEntry, TocRaw, Toc}, util::Time};
 use simple_text_decode::DecodedText;
 
 use self::whipper_yaml::WhipperLogYaml;
@@ -68,6 +68,12 @@ impl ParserCombined for WhipperParser {
             parsed_logs,
             encoding: self.encoded_log.orig_encoding.to_string()
         }
+    }
+}
+
+impl TranslatorCombined for WhipperParser {
+    fn translate_combined(&self) -> String {
+        self.encoded_log.text.clone()
     }
 }
 

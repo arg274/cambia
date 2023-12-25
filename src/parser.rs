@@ -3,10 +3,12 @@ use crate::toc::Toc;
 use crate::track::TrackEntry;
 pub use crate::translate::Translator;
 pub use crate::integrity::{Checksum, IntegrityChecker};
+use crate::translate::TranslatorCombined;
 
 pub mod eac_parser;
 pub mod xld_parser;
 pub mod whipper_parser;
+pub mod cueripper_parser;
 
 use serde::{Serialize, Deserialize};
 use ts_rs::TS;
@@ -56,7 +58,7 @@ pub trait Parser: Extractor + IntegrityChecker {
 
 pub trait ParserSingle: Translator {}
 
-pub trait ParserCombined {
+pub trait ParserCombined: TranslatorCombined {
     fn parse_combined(&self) -> ParsedLogCombined;
 }
 

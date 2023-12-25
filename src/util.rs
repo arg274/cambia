@@ -83,3 +83,7 @@ impl TS for Time {
         false
     }
 }
+
+pub fn first_line(string: &str) -> &str {
+    string.lines().next().unwrap()
+}

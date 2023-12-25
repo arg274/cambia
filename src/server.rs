@@ -18,7 +18,7 @@ use tower_http::{cors::CorsLayer, compression::CompressionLayer};
 use futures::{sink::SinkExt, stream::StreamExt};
 use tower_http::trace::{DefaultMakeSpan, TraceLayer};
 
-use crate::{parse_log_bytes, parse_ws_request, translate_log_bytes};
+use crate::handler::{parse_log_bytes, parse_ws_request, translate_log_bytes};
 
 static INDEX_HTML: &str = "index.html";
 
