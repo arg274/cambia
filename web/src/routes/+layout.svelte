@@ -11,7 +11,7 @@
 	import { afterNavigate, goto } from '$app/navigation';
 	import DropScreen from '../components/frags/DropScreen.svelte';
 	import { fileListStore, hashIndexLookup, initialiseResponseStore, processedCount} from '$lib/LogStore';
-	import { getRipInfoJsonMulti } from '$lib/api/CambiaApi';
+	import { getRipInfoMpMulti } from '$lib/api/CambiaApi';
 	import { onMount } from 'svelte';
 
 	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
@@ -25,7 +25,7 @@
 	function inputChanged() {
 		fileListStore.set(files);
 		initialiseResponseStore(files);
-		getRipInfoJsonMulti(files);
+		getRipInfoMpMulti(files);
     }
 
 	function onToggleHandler(): void {

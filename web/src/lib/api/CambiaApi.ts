@@ -59,7 +59,7 @@ export async function getRipInfoJson(files: FileList | undefined): Promise<Cambi
     });
 }
 
-export async function getRipInfoJsonMulti(files: FileList | undefined) {
+export async function getRipInfoMpMulti(files: FileList | undefined) {
     const ws: WebSocket = new WebSocket(`ws://localhost:${PORT}/ws/v1/upload_multi`);
     const unpackr = new Unpackr( {useRecords: false} );
 
