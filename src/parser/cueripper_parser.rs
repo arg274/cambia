@@ -1,6 +1,6 @@
 use simple_text_decode::DecodedText;
 
-use crate::{translate::TranslatorCombined, extract::{Ripper, Extractor}};
+use crate::{translate::TranslatorCombined, extract::{Ripper, Extractor, Quartet}};
 
 use super::{eac_parser::EacParserSingle, ParsedLog, ParsedLogCombined, ParserCombined, Parser, IntegrityChecker};
 
@@ -59,6 +59,8 @@ impl Parser for CueRipperParserSingle {
         let mut eac_variant = EacParserSingle::new(self.log.trim().to_string()).parse();
         eac_variant.ripper = self.extract_ripper();
         eac_variant.ripper_version = self.extract_ripper_version();
+        eac_variant.checksum = self.get_checksum();
+        eac_variant.id3_enabled = self.extract_id3_enabled();
         eac_variant
     }
 }
@@ -79,6 +81,18 @@ impl Extractor for CueRipperParserSingle {
     fn extract_language(&self) -> String {
         self.language.clone()
     }
+
+    fn extract_id3_enabled(&self) -> crate::extract::Quartet {
+        Quartet::False
+    }
 }
 
-impl IntegrityChecker for CueRipperParserSingle {}
+impl IntegrityChecker for CueRipperParserSingle {
+    fn extract_checksum(&self) -> String {
+        String::new()
+    }
+
+    fn calculate_checksum(&self) -> String {
+        String::new()
+    }
+}
