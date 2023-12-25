@@ -5,7 +5,7 @@ use simple_text_decode::DecodedText;
 use crate::error::CambiaError;
 use crate::util::first_line;
 use crate::evaluate::{EvaluationCombined, Evaluator, gazelle_evaluate::ops_evaluate::OpsEvaluator, cambia_evaluate::CambiaEvaluator};
-use crate::parser::{eac_parser::EacParser, ParserCombined, xld_parser::XldParser, whipper_parser::WhipperParser, ParsedLogCombined};
+use crate::parser::{ParserCombined, ParsedLogCombined};
 use crate::response::CambiaResponse;
 
 pub fn parse_file(filepath: &str) {
@@ -26,9 +26,14 @@ pub fn parse_file(filepath: &str) {
 
 pub fn detect_ripper(encoded_log: DecodedText) -> Result<Box<dyn ParserCombined>, CambiaError> {
     match first_line(&encoded_log.text) {
-        eac if eac.contains("Exact Audio Copy") || eac.contains("EAC") => Ok(Box::new(EacParser::new(encoded_log))),
-        xld if xld.contains("X Lossless Decoder version") => Ok(Box::new(XldParser::new(encoded_log))),
-        whipper if whipper.contains("Log created by: whipper") => Ok(Box::new(WhipperParser::new(encoded_log))),
+        #[cfg(feature = "eac")]
+        eac if eac.contains("Exact Audio Copy") || eac.contains("EAC") => Ok(Box::new(crate::parser::eac_parser::EacParser::new(encoded_log))),
+        #[cfg(feature = "xld")]
+        xld if xld.contains("X Lossless Decoder version") => Ok(Box::new(crate::parser::xld_parser::XldParser::new(encoded_log))),
+        #[cfg(feature = "whipper")]
+        whipper if whipper.contains("Log created by: whipper") => Ok(Box::new(crate::parser::whipper_parser::WhipperParser::new(encoded_log))),
+        #[cfg(feature = "cueripper")]
+        cueripper if cueripper.contains("CUERipper") => Ok(Box::new(crate::parser::cueripper_parser::CueRipperParser::new(encoded_log))),
         _ => Err(CambiaError::new("Unsupported file."))
     }
 } 

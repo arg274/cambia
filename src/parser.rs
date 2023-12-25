@@ -5,9 +5,13 @@ pub use crate::translate::Translator;
 pub use crate::integrity::{Checksum, IntegrityChecker};
 use crate::translate::TranslatorCombined;
 
+#[cfg(feature = "eac")]
 pub mod eac_parser;
+#[cfg(feature = "xld")]
 pub mod xld_parser;
+#[cfg(feature = "whipper")]
 pub mod whipper_parser;
+#[cfg(feature = "cueripper")]
 pub mod cueripper_parser;
 
 use serde::{Serialize, Deserialize};

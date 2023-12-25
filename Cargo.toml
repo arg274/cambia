@@ -3,6 +3,14 @@ name = "cambia"
 version = "0.1.0"
 edition = "2021"
 
+[features]
+default = ["eac", "xld", "whipper"]
+experimental_rippers = ["cueripper"]
+eac = []
+xld = []
+whipper = []
+cueripper = ["eac"]
+
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [build-dependencies]
 codegen = "0.2.0"

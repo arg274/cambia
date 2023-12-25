@@ -65,7 +65,7 @@ pub struct EacParser {
     encoded_log: DecodedText,
 }
 
-struct EacParserSingle {
+pub struct EacParserSingle {
     log: String,
     translated_log: String,
     language: String,
@@ -86,7 +86,7 @@ impl EacParser {
     }
 }
 
-struct EacParserTrack {
+pub struct EacParserTrack {
     is_range: bool,
     use_null_samples: Quartet,
     raw: String,
