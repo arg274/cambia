@@ -1,7 +1,7 @@
 <script lang='ts'>
 	import '../app.postcss';
 
-	import { AppBar, AppShell, initializeStores, setInitialClassState, Toast, modeCurrent, setModeUserPrefers, setModeCurrent } from '@skeletonlabs/skeleton';
+	import { AppBar, AppShell, initializeStores, setInitialClassState, Toast, modeCurrent, setModeUserPrefers, setModeCurrent, getToastStore } from '@skeletonlabs/skeleton';
 	
 	import IconCambiaOutline from '~icons/cambia/cambia-outline';
 	import IconWindowBlackSaturation from '~icons/carbon/window-black-saturation';
@@ -10,17 +10,21 @@
 	import type { AfterNavigate } from '@sveltejs/kit';
 	import { afterNavigate, goto } from '$app/navigation';
 	import DropScreen from '../components/frags/DropScreen.svelte';
-	import { fileListStore, hashIndexLookup, initialiseResponseStore, processedCount} from '$lib/LogStore';
+	import { fileListStore, hashIndexLookup, initialiseResponseStore, processedCount, responseStore} from '$lib/LogStore';
 	import { getRipInfoMpMulti } from '$lib/api/CambiaApi';
 	import { onMount } from 'svelte';
 
 	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
 	import { storePopup } from '@skeletonlabs/skeleton';
+	import type { CambiaError } from '$lib/types/CambiaError';
+	import { showError } from '$lib/utils';
 	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 	
 	initializeStores();
 
 	let files: FileList | undefined;
+
+	const toastStore = getToastStore();
 
 	function inputChanged() {
 		fileListStore.set(files);
@@ -44,7 +48,17 @@
 	onMount(() => {
 		processedCount.subscribe(p => {
 			if (files?.length == 1 && p == 1) {
-				goto(`/log?id=${hashIndexLookup.keys().next().value}`);
+				switch ($responseStore[0].status) {
+					case "processed":
+						goto(`/log?id=${hashIndexLookup.keys().next().value}`);
+						break;
+					case "errored":
+						showError(toastStore, ($responseStore[0].content as CambiaError));
+						break;
+					default:
+						console.log("Error");
+						break;
+				}
 			} else if (files && files.length > 1) {
 				goto('/logs');
 			}

@@ -164,21 +164,17 @@ impl CambiaServer {
                 }
             }
         }
-    
-        // returning from the handler closes the websocket connection
+        
         println!("Websocket context {} destroyed", who);
     }
     
-    /// helper to print contents of messages to stdout. Has special treatment for Close.
     fn process_message(msg: Message, who: SocketAddr) -> ControlFlow<(), Vec<u8>> {
         match msg {
             Message::Binary(d) => {
-                let enc: Vec<u8>;
-                if let Ok(res) = parse_ws_request(d) {
-                    enc = rmp_serde::encode::to_vec_named(&res).unwrap();
-                } else {
-                    enc = Vec::new();
-                }
+                let enc: Vec<u8> = match parse_ws_request(d) {
+                    Ok(res) => rmp_serde::encode::to_vec_named(&res).unwrap(),
+                    Err(e) => rmp_serde::encode::to_vec_named(&e).unwrap(),
+                };
                 return ControlFlow::Continue(enc);
             }
             Message::Close(c) => {

@@ -1,15 +1,18 @@
 use std::fmt;
 
 use serde::{Serialize, Deserialize};
+use ts_rs::TS;
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, TS)]
+#[ts(export)]
 pub struct CambiaError {
+    pub id: Vec<u8>,
     message: String,
 }
 
 impl CambiaError {
     pub fn new(_message: &str) -> Self {
-        CambiaError { message: _message.to_string() }
+        CambiaError { id: Vec::new(), message: _message.to_string() }
     }
 }
 

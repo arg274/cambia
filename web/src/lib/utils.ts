@@ -1,6 +1,8 @@
 import type { ToastSettings, ToastStore } from '@skeletonlabs/skeleton';
 import anime from 'animejs';
 import Color from 'colorjs.io';
+import type { CambiaResponse } from './types/CambiaResponse';
+import type { CambiaError } from './types/CambiaError';
 
 // const toastStore = getToastStore();
 
@@ -24,6 +26,15 @@ export function copySuccess(toastStore: ToastStore) {
     const t: ToastSettings = {
         message: 'Copied to clipboard',
         background: 'variant-glass-primary',
+        timeout: 3000
+    };
+    toastStore.trigger(t);
+}
+
+export function showError(toastStore: ToastStore, err: CambiaError) {
+    const t: ToastSettings = {
+        message: err.message,
+        background: 'variant-glass-error',
         timeout: 3000
     };
     toastStore.trigger(t);
@@ -102,4 +113,12 @@ export function getInfoOverviewPopoverText(miniName: string) {
         "NML": "Normalisation"
     };
     return mapping[miniName];
+}
+
+export function isCambiaResponse(res: CambiaResponse | CambiaError): res is CambiaResponse {
+    return "parsed" in res && res.id.length > 0;
+}
+
+export function isCambiaError(res: CambiaResponse | CambiaError): res is CambiaError {
+    return "message" in res;
 }

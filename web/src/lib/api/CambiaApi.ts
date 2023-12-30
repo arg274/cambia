@@ -4,7 +4,8 @@ import * as bigintConversion from 'bigint-conversion';
 import { hashIndexLookup, processedCount, responseStore, updateStat, updateUnknown } from "$lib/LogStore";
 import { dev } from "$app/environment";
 import { XXH64 } from 'xxh3-ts';
-import { hexify } from "$lib/utils";
+import { hexify, isCambiaError, isCambiaResponse } from "$lib/utils";
+import type { CambiaError } from "$lib/types/CambiaError";
 
 const PORT = dev ? 3031 : 3030;
 
@@ -69,8 +70,8 @@ export async function getRipInfoMpMulti(files: FileList | undefined) {
             r.onload = () => {
                 const buf: ArrayBuffer = r.result as ArrayBuffer;
                 try {
-                    const res = unpackr.unpack(new Uint8Array(buf)) as CambiaResponse;
-                    if (res.id) {
+                    const res = unpackr.unpack(new Uint8Array(buf)) as CambiaResponse | CambiaError;
+                    if (isCambiaResponse(res)) {
                         updateStat(res);
                         responseStore.update(store => {
                             const indices = hashIndexLookup.get(hexify(res.id));
@@ -82,6 +83,18 @@ export async function getRipInfoMpMulti(files: FileList | undefined) {
                                 store[idx].status = "processed";
                                 store[idx].content = res;
                             });
+                            return store;
+                        });
+                    } else if (isCambiaError(res)) {
+                        updateUnknown();
+                        responseStore.update(store => {
+                            const indices = hashIndexLookup.get(hexify(res.id));
+                            if (indices !== undefined) {
+                                indices.forEach(idx => {
+                                    store[idx].status = "errored";
+                                    store[idx].content = res;
+                                });
+                            }
                             return store;
                         });
                     }

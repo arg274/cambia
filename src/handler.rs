@@ -34,6 +34,9 @@ pub fn detect_ripper(encoded_log: DecodedText) -> Result<Box<dyn ParserCombined>
         whipper if whipper.contains("Log created by: whipper") => Ok(Box::new(crate::parser::whipper_parser::WhipperParser::new(encoded_log))),
         #[cfg(feature = "cueripper")]
         cueripper if cueripper.contains("CUERipper") => Ok(Box::new(crate::parser::cueripper_parser::CueRipperParser::new(encoded_log))),
+        cyanrip if cyanrip.contains("cyanrip") => Err(CambiaError::new("cyanrip not supported at the moment.")),
+        dbpa if dbpa.contains("dBpoweramp Release") => Err(CambiaError::new("dBpoweramp not supported at the moment.")),
+        ezcd if ezcd.contains("EZ CD Audio Converter") => Err(CambiaError::new("EZ CD not supported at the moment.")),
         _ => Err(CambiaError::new("Unsupported file."))
     }
 } 
@@ -84,6 +87,9 @@ pub fn parse_ws_request(mut ws_body: Vec<u8>) -> Result<CambiaResponse, CambiaEr
             res.id = ws_body;
             Ok(res)
         },
-        other => other,
+        Err(mut e) => {
+            e.id = ws_body;
+            Err(e)
+        },
     }
 }

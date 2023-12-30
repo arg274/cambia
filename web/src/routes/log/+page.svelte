@@ -14,8 +14,9 @@
             // TODO: See if this can solved using PageData at some other point
             logId = $page.url.searchParams.get("id");
             const indices = logId ? hashIndexLookup.get(logId) : undefined;
-            if (indices !== undefined && indices.length > 0 && $responseStore[indices[0]].status !== 'queued') {
-                res = $responseStore[indices[0]].content;
+            if (indices !== undefined && indices.length > 0 && $responseStore[indices[0]].status === 'processed') {
+                // Outer guards ensure that this never contains a CambiaError
+                res = $responseStore[indices[0]].content as CambiaResponse | null;
             }
         }
     }
