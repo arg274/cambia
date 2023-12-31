@@ -15,8 +15,13 @@ pub enum Ripper {
     CueRipper,
     #[serde(rename = "dBpoweramp")]
     DBPA,
+    #[serde(rename = "cyanrip")]
+    CyanRip,
+    #[serde(rename = "EZ CD Audio Converter")]
+    EZCD,
+    #[serde(rename = "morituri")]
     Morituri,
-    Abcde,
+    #[serde(rename = "Rip")]
     Rip,
     Other,
 }
@@ -25,6 +30,7 @@ pub enum Ripper {
 #[ts(export)]
 pub enum MediaType {
     Pressed,
+    #[serde(rename = "CD-R")]
     CDR,
     Other,
     Unknown,

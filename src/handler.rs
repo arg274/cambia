@@ -36,7 +36,9 @@ pub fn detect_ripper(encoded_log: DecodedText) -> Result<Box<dyn ParserCombined>
         cueripper if cueripper.contains("CUERipper") => Ok(Box::new(crate::parser::cueripper_parser::CueRipperParser::new(encoded_log))),
         cyanrip if cyanrip.contains("cyanrip") => Err(CambiaError::new("cyanrip not supported at the moment.")),
         dbpa if dbpa.contains("dBpoweramp Release") => Err(CambiaError::new("dBpoweramp not supported at the moment.")),
-        ezcd if ezcd.contains("EZ CD Audio Converter") => Err(CambiaError::new("EZ CD not supported at the moment.")),
+        morituri if morituri.contains("Logfile created by: morituri") => Err(CambiaError::new("morituri not supported at the moment.")),
+        ezcd if ezcd.contains("EZ CD Audio Converter") => Err(CambiaError::new("EZ CD Audio Converter not supported at the moment.")),
+        rip if rip.contains("Rip ") && rip.contains(" Audio Extraction Log") => Err(CambiaError::new("Rip (OS X) not supported at the moment.")),
         _ => Err(CambiaError::new("Unsupported file."))
     }
 } 
