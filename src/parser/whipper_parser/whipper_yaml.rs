@@ -2,25 +2,25 @@ use std::collections::HashMap;
 
 use serde::{Serialize, Deserialize};
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct WhipperRippingPhaseInfo {
     #[serde(rename = "Drive")]
     pub drive: String,
     #[serde(rename = "Extraction engine")]
     pub engine: String,
     #[serde(rename = "Defeat audio cache")]
-    pub cache: String,
+    pub cache: Option<String>,
     #[serde(rename = "Read offset correction")]
     pub read_offset: i16,
     #[serde(rename = "Overread into lead-out")]
-    pub overread: String,
+    pub overread: Option<String>,
     #[serde(rename = "Gap detection")]
     pub gap: String,
     #[serde(rename = "CD-R detected")]
-    pub cdr: String,
+    pub cdr: Option<String>,
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct WhipperCDMetadata {
     #[serde(alias = "Release")]
     #[serde(alias = "Album")]
@@ -35,7 +35,7 @@ pub struct WhipperCDMetadata {
     pub mbz_release_url: String,
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct WhipperTocEntry {
     #[serde(rename = "Start")]
     pub start: String,
@@ -47,7 +47,30 @@ pub struct WhipperTocEntry {
     pub end_sector: u32,
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
+pub struct WhipperTrackEntry {
+    #[serde(rename = "Filename")]
+    pub filename: String,
+    #[serde(rename = "Pre-gap length")]
+    pub pregap: Option<String>,
+    #[serde(rename = "Peak level")]
+    pub peak_level: f64,
+    #[serde(rename = "Pre-emphasis")]
+    pub preemphasis: Option<String>,
+    #[serde(rename = "Extraction speed")]
+    pub extraction_speed: String,
+    #[serde(rename = "Extraction quality")]
+    pub extraction_quality: String,
+    #[serde(rename = "Test CRC")]
+    pub test_crc: String,
+    #[serde(rename = "Copy CRC")]
+    pub copy_crc: String,
+    #[serde(rename = "Status")]
+    pub status: String,
+    // FIXME: AccurateRip missing
+}
+
+#[derive(Serialize, Deserialize, Debug)]
 pub struct WhipperLogYaml {
     #[serde(rename = "Log created by")]
     pub version: String,
@@ -59,6 +82,8 @@ pub struct WhipperLogYaml {
     // pub cd_metadata: WhipperCDMetadata,
     #[serde(rename = "TOC")]
     pub toc: HashMap<u32, WhipperTocEntry>,
+    #[serde(rename = "Tracks")]
+    pub tracks: HashMap<usize, WhipperTrackEntry>,
     #[serde(default)]
     #[serde(rename = "SHA-256 hash")]
     pub checksum: String,
@@ -72,11 +97,11 @@ impl Default for WhipperLogYaml {
             ripping_phase_info: WhipperRippingPhaseInfo {
                 drive: String::from("Unknown"),
                 engine: String::from("Unknown"),
-                cache: String::from("Unknown"),
+                cache: None,
                 read_offset: 0,
-                overread: String::from("Unknown"),
+                overread: None,
                 gap: String::from("Unknown"),
-                cdr: String::from("Unknown"),
+                cdr: None,
             },
             // cd_metadata: WhipperCDMetadata {
             //     release: String::from("Unknown"),
@@ -86,6 +111,7 @@ impl Default for WhipperLogYaml {
             //     mbz_release_url: String::from("Unknown"),
             // },
             toc: HashMap::new(),
+            tracks: HashMap::new(),
             checksum: String::from("Unknown")
         }
     }

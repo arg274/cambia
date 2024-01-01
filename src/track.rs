@@ -16,6 +16,7 @@ pub struct TrackEntry {
     pub preemphasis: Option<bool>,
     pub test_and_copy: TestAndCopy,
     pub errors: TrackError,
+    // TODO: Track quality (?)
 }
 
 #[derive(Serialize, Deserialize, TS)]

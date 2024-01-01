@@ -3,10 +3,10 @@ mod whipper_yaml;
 use regex::Regex;
 use sha2::{Sha256, Digest};
 
-use crate::{extract::{Extractor, Quartet, Ripper, ReadMode, Gap, TrackExtractor}, translate::{Translator, TranslatorCombined}, integrity::IntegrityChecker, toc::{TocEntry, TocRaw, Toc}, util::Time};
+use crate::{extract::{Extractor, Quartet, Ripper, ReadMode, Gap, TrackExtractor, MediaType}, translate::{Translator, TranslatorCombined}, integrity::IntegrityChecker, toc::{TocEntry, TocRaw, Toc}, util::Time, track::{TrackEntry, TestAndCopy}};
 use simple_text_decode::DecodedText;
 
-use self::whipper_yaml::WhipperLogYaml;
+use self::whipper_yaml::{WhipperLogYaml, WhipperTrackEntry};
 
 use super::{Parser, ParsedLog, ParserCombined, ParsedLogCombined, ParserTrack};
 
@@ -27,7 +27,9 @@ struct WhipperParserSingle {
     yaml: WhipperLogYaml,
 }
 
-struct WhipperParserTrack;
+struct WhipperParserTrack<'a> {
+    yaml: &'a WhipperTrackEntry,
+}
 
 impl WhipperParser {
     pub fn new(encoded_log: DecodedText) -> WhipperParser {
@@ -51,14 +53,22 @@ impl WhipperParserSingle {
         }
     }
 
-    fn boolean_matcher(&self, value: &str) -> Quartet {
-        match value.to_uppercase().as_str() {
-            "TRUE" => Quartet::True,
-            "YES" => Quartet::True,
-            "FALSE" => Quartet::False,
-            "NO" => Quartet::False,
+    fn boolean_matcher(value: &Option<String>) -> Quartet {
+        if value.is_none() {
+            return Quartet::Unknown;
+        }
+
+        match value.as_ref().unwrap().as_str() {
+            "true" | "Yes" => Quartet::True,
+            "false" | "No" => Quartet::False,
             _ => Quartet::Unknown,
         }
+    }
+}
+
+impl<'a> WhipperParserTrack<'a> {
+    fn new(yaml: &'a WhipperTrackEntry) -> Self {
+        Self { yaml }
     }
 }
 
@@ -111,11 +121,11 @@ impl Extractor for WhipperParserSingle {
     }
 
     fn extract_defeat_audio_cache(&self) -> Quartet {
-        self.boolean_matcher(&self.yaml.ripping_phase_info.cache)
+        Self::boolean_matcher(&self.yaml.ripping_phase_info.cache)
     }
 
     fn extract_overread(&self) -> Quartet {
-        self.boolean_matcher(&self.yaml.ripping_phase_info.overread)
+        Self::boolean_matcher(&self.yaml.ripping_phase_info.overread)
     }
 
     fn extract_use_null_samples(&self) -> Quartet {
@@ -134,6 +144,14 @@ impl Extractor for WhipperParserSingle {
         Gap::Append
     }
 
+    fn extract_media_type(&self) -> MediaType {
+        match Self::boolean_matcher(&self.yaml.ripping_phase_info.cdr) {
+            Quartet::True => MediaType::CDR,
+            Quartet::False => MediaType::Pressed,
+            _ => MediaType::Unknown,
+        }
+    }
+
     fn extract_toc(&self) -> Toc {
         let mut entries: Vec<TocEntry> = Vec::new();
 
@@ -144,12 +162,24 @@ impl Extractor for WhipperParserSingle {
                 Time::from_mm_ss(&v.length),
                 v.start_sector,
                 v.end_sector,
-            ))
+            ));
         }
 
         entries.sort_by_key(|e| e.track);
 
         Toc::new(TocRaw::new(entries))
+    }
+
+    fn extract_tracks(&self) -> Vec<TrackEntry> {
+        let mut tracks: Vec<TrackEntry> = Vec::new();
+
+        let total_tracks = self.yaml.tracks.keys().len();
+
+        for idx in 1..=total_tracks {
+            tracks.push(WhipperParserTrack::new(&self.yaml.tracks[&idx]).parse_track());
+        }
+
+        tracks
     }
 }
 
@@ -179,10 +209,38 @@ impl IntegrityChecker for WhipperParserSingle {
     }
 }
 
-impl ParserTrack for WhipperParserTrack {}
+impl<'a> ParserTrack for WhipperParserTrack<'a> {}
 
-impl TrackExtractor for WhipperParserTrack {
+impl<'a> TrackExtractor for WhipperParserTrack<'a> {
     fn extract_is_range(&self) -> bool {
         false
+    }
+
+    fn extract_filename(&self) -> String {
+        self.yaml.filename.clone()
+    }
+
+    fn extract_peak_level(&self) -> Option<f64> {
+        Some(self.yaml.peak_level)
+    }
+
+    fn extract_pregap_length(&self) -> Option<Time> {
+        self.yaml.pregap.clone().map(|p| Time::from_mm_ss_cs(p.as_str()))
+    }
+
+    fn extract_extraction_speed(&self) -> Option<f64> {
+        self.yaml.extraction_speed.trim_end_matches(" X").parse::<f64>().ok()
+    }
+
+    fn extract_preemphasis(&self) -> Option<bool> {
+        match WhipperParserSingle::boolean_matcher(&self.yaml.preemphasis) {
+            Quartet::True => Some(true),
+            Quartet::False => Some(false),
+            _ => None,
+        }
+    }
+
+    fn extract_test_and_copy(&self) -> TestAndCopy {
+        TestAndCopy::new_no_skipzero(self.yaml.test_crc.clone(), self.yaml.copy_crc.clone())
     }
 }
