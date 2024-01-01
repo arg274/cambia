@@ -161,35 +161,7 @@ impl TranslatorCombined for EacParser {
     }
 }
 
-impl Parser for EacParserSingle {
-    fn parse(&mut self) -> ParsedLog {
-        ParsedLog {
-            ripper: self.extract_ripper(),
-            ripper_version: self.extract_ripper_version(),
-            language: self.extract_language(),
-            read_offset: self.extract_read_offset(),
-            combined_rw_offset: self.extract_combined_rw_offset(),
-            drive: self.extract_drive(),
-            media_type: self.extract_media_type(),
-            accurate_stream: self.extract_accurate_stream(),
-            defeat_audio_cache: self.extract_defeat_audio_cache(),
-            use_c2: self.extract_use_c2(),
-            overread: self.extract_overread(),
-            fill_silence: self.extract_fill_silence(),
-            delete_silence: self.extract_delete_silence(),
-            use_null_samples: self.extract_use_null_samples(),
-            test_and_copy: self.extract_test_and_copy(),
-            normalize: self.extract_normalize(),
-            read_mode: self.extract_read_mode(),
-            gap_handling: self.extract_gap_handling(),
-            checksum: self.get_checksum(),
-            toc: self.extract_toc(),
-            tracks: self.extract_tracks(),
-            id3_enabled: self.extract_id3_enabled(),
-            audio_encoder: self.extract_audio_encoder(),
-        }
-    }
-}
+impl Parser for EacParserSingle {}
 
 impl Extractor for EacParserSingle {
     fn extract_ripper(&self) -> Ripper {
