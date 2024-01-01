@@ -17,6 +17,7 @@ lazy_static! {
 
     static ref TOC: Regex = Regex::new(r"\s+(?P<track>\d+)\s+\|\s+(?P<start>[0-9:\.]+)\s+\|\s+(?P<length>[0-9:\.]+)\s+\|\s+(?P<start_sector>\d+)\s+\|\s+(?P<end_sector>\d+)").unwrap();
 
+    static ref FILENAME: Regex = Regex::new(r"    (.+\..\w+)(\r|\n|\r\n|\n\r)").unwrap();
     static ref PREGAP: Regex = Regex::new(r"\s+(?P<track>\d+)\s+\|\s+(?P<pregap>[0-9:]+)\s+\|\s+(?P<indices>\d+)").unwrap();
     static ref PEAK_CRC: Regex = Regex::new(r"\s+(?P<track>\d{2})\s+(?P<peak>[0-9\.]+)\s+\[(?P<crc>[A-F0-9]{8})\]\s+\[(?P<crcnull>[A-F0-9]{8})\]").unwrap();
 }
@@ -195,11 +196,19 @@ impl Extractor for CueRipperParserSingle {
     fn extract_tracks(&self) -> Vec<TrackEntry> {
         let mut tracks: Vec<TrackEntry> = Vec::new();
 
+        let mut filename_all = FILENAME.captures_iter(&self.log);
         let mut peak_crc_all = PEAK_CRC.captures_iter(&self.log);
         let pregap_all = PREGAP.captures_iter(&self.log);
 
         for pregap in pregap_all {
-            let track_parser = CueRipperParserTrack::new(String::new(), pregap, peak_crc_all.next());
+            let track_parser = CueRipperParserTrack::new(
+                match filename_all.next() {
+                    Some(f) => f.get(1).unwrap().as_str().trim_start().to_owned(),
+                    None => String::new(),
+                },
+                pregap,
+                peak_crc_all.next()
+            );
             tracks.push(track_parser.parse_track());
         }
 
