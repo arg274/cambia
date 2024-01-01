@@ -91,7 +91,7 @@
             {#if singleTrack.filename}
                 <div class="flex flex-col gap-2">   
                     <div class="flex items-center"><IconDocumentBlank class="icon-sm" /><span class="ml-1 dark:font-light text-sm">Filename</span></div>
-                    <div class="font-mono grow bg-surface-50-900-token px-2 py-1 col-span-9 whitespace-nowrap overflow-x-scroll hide-scrollbar">{singleTrack.filename}</div>
+                    <div class="font-mono grow bg-surface-50-900-token px-2 py-1 col-span-9 truncate" dir="rtl">{singleTrack.filename}</div>
                 </div>
             {/if}
             <hr class="!border-t-4 !border-dashed" />
