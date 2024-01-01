@@ -4,13 +4,15 @@ use crate::{evaluate::{Evaluator, EvaluationCombined, Deduction, Evaluation, Eva
 
 use super::{GazelleDeductionData, GazelleDeductionFail, GazelleDeductionRelease, GazelleDeductionTrack, GazelleDeduction};
 
-use regex::Regex;
+use regex::{Regex, RegexBuilder};
+use semver::{Version, Prerelease, BuildMetadata};
 use serde_yaml::from_str;
 use strum::IntoEnumIterator;
 use rayon::prelude::*;
 
 lazy_static! {
     static ref EXTENSION: Regex = Regex::new(r"\..+$").unwrap();
+    static ref WHIPPER_VERSION: Regex = RegexBuilder::new(r"(?P<major>\d+)\.(?P<minor>\d+)\.(?P<patch>\d+)(\.(?P<pre>[0-9a-z]+))?(\+(?P<build>[0-9a-z]+))?").case_insensitive(true).build().unwrap();
 }
 
 #[derive(Default)]
@@ -25,7 +27,34 @@ impl OpsEvaluator {
         match data {
             GazelleDeductionFail::UnknownEncoding => false,
             GazelleDeductionFail::UnknownRipper => parsed_log.ripper != Ripper::EAC && parsed_log.ripper != Ripper::XLD && parsed_log.ripper != Ripper::Whipper,
-            GazelleDeductionFail::WhipperVersionLowerLimit => parsed_log.ripper == Ripper::Whipper && parsed_log.ripper_version.cmp(&String::from("0.7.3")).is_lt(),
+            GazelleDeductionFail::WhipperVersionLowerLimit => {
+                if parsed_log.ripper != Ripper::Whipper {
+                    return false;
+                }
+
+                match WHIPPER_VERSION.captures(&parsed_log.ripper_version) {
+                    Some(c) => {
+                        let r_v = Version {
+                            major: c.name("major").unwrap().as_str().parse().unwrap(),
+                            minor: c.name("minor").unwrap().as_str().parse().unwrap(),
+                            patch: c.name("patch").unwrap().as_str().parse().unwrap(),
+                            pre: if c.name("pre").is_some() { Prerelease::new(c.name("patch").unwrap().as_str()).unwrap() } else { Prerelease::EMPTY },
+                            build: if c.name("build").is_some() { BuildMetadata::new(c.name("build").unwrap().as_str()).unwrap() } else { BuildMetadata::EMPTY },
+                        };
+
+                        let r_thresh = Version {
+                            major: 0,
+                            minor: 7,
+                            patch: 3,
+                            pre: Prerelease::EMPTY,
+                            build: BuildMetadata::EMPTY,
+                        };
+
+                        r_v < r_thresh
+                    },
+                    None => true,
+                }
+            },
             GazelleDeductionFail::CouldNotParseWhipper => false,
         }
     }
