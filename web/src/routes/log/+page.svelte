@@ -5,6 +5,7 @@
     import { page } from '$app/stores'
 	import type { CambiaResponse } from '$lib/types/CambiaResponse';
 	import { hashIndexLookup, responseStore } from '$lib/LogStore';
+	import { goto } from '$app/navigation';
 
     let logId: string | null;
     let res: CambiaResponse | null;
@@ -17,6 +18,8 @@
             if (indices !== undefined && indices.length > 0 && $responseStore[indices[0]].status === 'processed') {
                 // Outer guards ensure that this never contains a CambiaError
                 res = $responseStore[indices[0]].content as CambiaResponse | null;
+            } else {
+                goto("/");
             }
         }
     }
