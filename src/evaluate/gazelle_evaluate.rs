@@ -5,7 +5,9 @@ use crate::parser::ParsedLog;
 
 use super::{DeductionCategory, DeductionField, DeductionData, Evaluator, Deduction};
 
+#[cfg(feature = "red_ev")]
 pub mod red_evaluate;
+#[cfg(feature = "ops_ev")]
 pub mod ops_evaluate;
 
 pub trait GazelleEvaluator: Evaluator {

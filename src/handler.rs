@@ -4,7 +4,7 @@ use simple_text_decode::DecodedText;
 
 use crate::error::CambiaError;
 use crate::util::first_line;
-use crate::evaluate::{EvaluationCombined, Evaluator, gazelle_evaluate::ops_evaluate::OpsEvaluator, cambia_evaluate::CambiaEvaluator};
+use crate::evaluate::{EvaluationCombined, Evaluator};
 use crate::parser::{ParserCombined, ParsedLogCombined};
 use crate::response::CambiaResponse;
 
@@ -56,13 +56,14 @@ pub fn parse_log_bytes(log_raw: Vec<u8>) -> Result<CambiaResponse, CambiaError> 
         Err(e) => return Err(e),
     };
 
-    let mut ops_evaluator: OpsEvaluator = OpsEvaluator::new();
-    let ops_evaluation: EvaluationCombined = ops_evaluator.evaluate_combined(&parsed_logs);
+    let evaluation_combined: Vec<EvaluationCombined> = vec![
+        #[cfg(feature = "ops_ev")]
+        crate::evaluate::gazelle_evaluate::ops_evaluate::OpsEvaluator::new().evaluate_combined(&parsed_logs),
+        #[cfg(feature = "cambia_ev")]
+        crate::evaluate::cambia_evaluate::CambiaEvaluator::new().evaluate_combined(&parsed_logs),
+    ];
 
-    let mut cambia_evaluator = CambiaEvaluator::new();
-    let cambia_evaluation: EvaluationCombined = cambia_evaluator.evaluate_combined(&parsed_logs);
-
-    Ok(CambiaResponse::new(parsed_logs, vec![ops_evaluation, cambia_evaluation]))
+    Ok(CambiaResponse::new(parsed_logs, evaluation_combined))
 }
 
 pub fn translate_log_bytes(log_raw: Vec<u8>) -> Result<String, CambiaError> {

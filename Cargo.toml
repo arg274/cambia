@@ -4,12 +4,17 @@ version = "0.1.0"
 edition = "2021"
 
 [features]
-default = ["eac", "xld", "whipper"]
+default = ["eac", "xld", "whipper", "ops_ev"]
 experimental_rippers = ["cueripper"]
+experimental_evaluators = ["cambia_ev"]
 eac = []
 xld = []
 whipper = []
 cueripper = ["eac"]
+gazelle_ev = []
+ops_ev = ["gazelle_ev"]
+red_ev = ["gazelle_ev"]
+cambia_ev = []
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [build-dependencies]

@@ -2,8 +2,9 @@ use serde::{Serialize, Deserialize};
 use ts_rs::TS;
 
 use crate::parser::{ParsedLogCombined, ParsedLog};
-
+#[cfg(feature = "gazelle_ev")]
 pub mod gazelle_evaluate;
+#[cfg(feature = "cambia_ev")]
 pub mod cambia_evaluate;
 
 #[derive(Serialize, Deserialize, TS)]
