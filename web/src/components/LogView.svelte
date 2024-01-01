@@ -52,7 +52,7 @@
                     <RipInfoQuartet parsedLog={parsedLog} />
                 </div>
             </div>
-            <hr />
+            <hr class="!border-t-4 !border-dashed" />
             <TrackInfo toc={parsedLog.toc.raw} tracks={parsedLog.tracks} />
         </div>
         <div class="flex md:hidden flex-col gap-4">
