@@ -23,6 +23,8 @@ pub enum Ripper {
     Morituri,
     #[serde(rename = "Rip")]
     Rip,
+    #[serde(rename = "fre:ac")]
+    FreAc,
     Other,
 }
 

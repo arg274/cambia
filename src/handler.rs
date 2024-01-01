@@ -39,6 +39,7 @@ pub fn detect_ripper(encoded_log: DecodedText) -> Result<Box<dyn ParserCombined>
         morituri if morituri.contains("Logfile created by: morituri") => Err(CambiaError::new("morituri not supported at the moment.")),
         ezcd if ezcd.contains("EZ CD Audio Converter") => Err(CambiaError::new("EZ CD Audio Converter not supported at the moment.")),
         rip if rip.contains("Rip ") && rip.contains(" Audio Extraction Log") => Err(CambiaError::new("Rip (OS X) not supported at the moment.")),
+        freac if freac.contains("Conversion #") => Err(CambiaError::new("fre:ac not supported at the moment.")),
         _ => Err(CambiaError::new("Unsupported file."))
     }
 } 
