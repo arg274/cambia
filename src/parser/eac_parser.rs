@@ -356,22 +356,7 @@ impl Extractor for EacParserSingle {
     }
 }
 
-impl ParserTrack for EacParserTrack {
-    fn parse_track(&self) -> TrackEntry {
-        TrackEntry {
-            is_range: self.extract_is_range(),
-            aborted: self.extract_is_aborted(),
-            filename: self.extract_filename(),
-            peak_level: self.extract_peak_level(),
-            pregap_length: self.extract_pregap_length(),
-            extraction_speed: self.extract_extraction_speed(),
-            gain: self.extract_gain(),
-            preemphasis: self.extract_preemphasis(),
-            test_and_copy: self.extract_test_and_copy(),
-            errors: self.extract_errors(),
-        }
-    }
-}
+impl ParserTrack for EacParserTrack {}
 
 impl Translator for EacParserSingle {
     fn translate(log: String) -> (String, String) {
