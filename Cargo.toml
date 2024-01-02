@@ -16,7 +16,6 @@ ops_ev = ["gazelle_ev"]
 red_ev = ["gazelle_ev"]
 cambia_ev = []
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [build-dependencies]
 codegen = "0.2.0"
 regex = "1"

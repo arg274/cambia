@@ -262,11 +262,11 @@ impl GazelleDeduction for GazelleDeductionTrack {
 }
 
 impl Evaluator for OpsEvaluator {
-    fn evaluate_combined(&mut self, parsed_logs: &ParsedLogCombined) -> EvaluationCombined {
+    fn evaluate_combined(&mut self, plc: &ParsedLogCombined) -> EvaluationCombined {
         let mut evaluations: Vec<Evaluation> = Vec::new();
         let mut track_deduction_score: i32 = 0_i32;
 
-        let mut it = parsed_logs.parsed_logs.iter().peekable();
+        let mut it = plc.parsed_logs.iter().peekable();
         while let Some(log) = it.next() {
             let evaluation = self.evaluate(log);
             if it.peek().is_some() {
@@ -274,7 +274,7 @@ impl Evaluator for OpsEvaluator {
                     .filter(|d| matches!(d.data.category, DeductionCategory::Track(_)) && matches!(d.data.field, DeductionField::TestAndCopy | DeductionField::Filename))
                     .map(|d| d.deduction_score.parse::<i32>().unwrap_or_default())
                     .sum::<i32>();
-            } else if !(evaluation.deductions.iter().any(|d| matches!(d.data.field, DeductionField::Encoder)) && parsed_logs.parsed_logs.len() > 1) {
+            } else if !(evaluation.deductions.iter().any(|d| matches!(d.data.field, DeductionField::Encoder)) && plc.parsed_logs.len() > 1) {
                 track_deduction_score += 100 - evaluation.score.parse::<i32>().unwrap_or_default();
             }
             evaluations.push(evaluation);
