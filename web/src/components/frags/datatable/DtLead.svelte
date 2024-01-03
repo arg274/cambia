@@ -15,7 +15,7 @@
 	{:else if res.content && isCambiaResponse(res.content) && res.status === "processed"}
 		{@const content = nonNullAssert(res.content)}
 		<a class="font-mono text-xs text-ellipsis line-clamp-1" href="/log?id={hexify(content.id)}">{res.filename}</a>
-		<InfoOverview parsedLogs={content.parsed} evalCombined={content.evaluation_combined.filter(e => e.evaluator === 'Cambia')[0]} />
+		<InfoOverview parsedLogs={content.parsed} evalCombined={content.evaluation_combined.filter(e => e.evaluator === 'OPS')[0]} />
 	{:else if res.content && isCambiaError(res.content) && res.status === "errored"}
 		<div class="flex flex-col gap-2">
 			<span class="font-mono text-xs text-ellipsis line-clamp-1">{res.filename}</span>

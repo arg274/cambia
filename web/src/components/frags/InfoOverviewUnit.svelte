@@ -17,13 +17,26 @@
         placement: 'top'
     };
 
-    function getColor(cambiaGrade: string): string {
+    // FIXME: This is a temp hack
+    function opsMap(val: string | undefined): string {
+        switch (val) {
+            case undefined:
+                return "Good";
+            case "-1" || "0":
+                return "NotIdeal";
+            default:
+                return "Bad";
+        }
+    }
+
+    function getColorWrapperDiv(idx: number, key: string): string {
+        const grade = opsMap(gradeMap[idx].get(key));
         const base = 'border-t-2 opacity-60 hover:opacity-100 bg-gradient-to-b to-transparent ';
         const good = 'border-success-600 from-success-700/40';
         const notIdeal = 'border-warning-600 from-warning-700/40';
         const bad = 'border-error-600 dark:border-error-400 from-error-700/40';
 
-        switch (cambiaGrade) {
+        switch (grade) {
             case 'Good':
                 return base + good;
             case 'NotIdeal':
@@ -31,7 +44,7 @@
             case 'Bad':
                 return base + bad;
             default:
-                return '';
+                return base + good;
         }
     }
 
@@ -50,12 +63,8 @@
         }
     }
 
-    function getColorWrapperDiv(idx: number, key: string): string {
-        return getColor(gradeMap[idx].get(key) ?? '');
-    }
-
     function getColorWrapperText(idx: number, key: string): string {
-        const grade = gradeMap[idx].get(key) ?? '';
+        const grade = opsMap(gradeMap[idx].get(key));
         switch (grade) {
             case 'Good':
                 return 'text-success-700 dark:text-success-600';

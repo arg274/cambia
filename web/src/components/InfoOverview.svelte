@@ -17,6 +17,7 @@
 
 <div class="flex flex-col gap-2">
     {#each parsedLogs.parsed_logs as parsedLog, idx}
+        {@const hideLabel = parsedLogs.parsed_logs.length != (idx + 1)}
         <div class="relative flex items-end h-8">
             <div class="mr-1 flex flex-col text-xxs font-mono leading-none">
                 <span>T</span>
@@ -32,14 +33,14 @@
             <div class="absolute left-2 top-4 w-full border border-dashed border-surface-400 opacity-20"></div>
             <div class="absolute left-2 top-6 w-full border border-dashed border-surface-400 opacity-20"></div>
             
-            <InfoOverviewUnit gradeMap={gradeMap} index={idx} hideLabel={parsedLogs.parsed_logs.length != (idx + 1)} gradeKey='AccurateStream' actualValue={parsedLog.accurate_stream} miniName='ACS' />
-            <InfoOverviewUnit gradeMap={gradeMap} index={idx} hideLabel={parsedLogs.parsed_logs.length != (idx + 1)} gradeKey='Cache' actualValue={parsedLog.defeat_audio_cache} miniName='DAC' />
-            <InfoOverviewUnit gradeMap={gradeMap} index={idx} hideLabel={parsedLogs.parsed_logs.length != (idx + 1)} gradeKey='C2' actualValue={parsedLog.use_c2} miniName='C2E' />
-            <InfoOverviewUnit gradeMap={gradeMap} index={idx} hideLabel={parsedLogs.parsed_logs.length != (idx + 1)} gradeKey='Samples' actualValue={parsedLog.fill_silence} miniName='FMS' />
-            <InfoOverviewUnit gradeMap={gradeMap} index={idx} hideLabel={parsedLogs.parsed_logs.length != (idx + 1)} gradeKey='SilentBlocks' actualValue={parsedLog.delete_silence} miniName='DSB' />
-            <InfoOverviewUnit gradeMap={gradeMap} index={idx} hideLabel={parsedLogs.parsed_logs.length != (idx + 1)} gradeKey='NullSamples' actualValue={parsedLog.use_null_samples} miniName='NSC' />
-            <InfoOverviewUnit gradeMap={gradeMap} index={idx} hideLabel={parsedLogs.parsed_logs.length != (idx + 1)} gradeKey='TestAndCopy' actualValue={parsedLog.test_and_copy} miniName='T&C' />
-            <InfoOverviewUnit gradeMap={gradeMap} index={idx} hideLabel={parsedLogs.parsed_logs.length != (idx + 1)} gradeKey='Normalization' actualValue={parsedLog.normalize} miniName='NML' />
+            <InfoOverviewUnit gradeMap={gradeMap} index={idx} hideLabel={hideLabel} gradeKey='AccurateStream' actualValue={parsedLog.accurate_stream} miniName='ACS' />
+            <InfoOverviewUnit gradeMap={gradeMap} index={idx} hideLabel={hideLabel} gradeKey='Cache' actualValue={parsedLog.defeat_audio_cache} miniName='DAC' />
+            <InfoOverviewUnit gradeMap={gradeMap} index={idx} hideLabel={hideLabel} gradeKey='C2' actualValue={parsedLog.use_c2} miniName='C2E' />
+            <InfoOverviewUnit gradeMap={gradeMap} index={idx} hideLabel={hideLabel} gradeKey='Samples' actualValue={parsedLog.fill_silence} miniName='FMS' />
+            <InfoOverviewUnit gradeMap={gradeMap} index={idx} hideLabel={hideLabel} gradeKey='SilentBlocks' actualValue={parsedLog.delete_silence} miniName='DSB' />
+            <InfoOverviewUnit gradeMap={gradeMap} index={idx} hideLabel={hideLabel} gradeKey='NullSamples' actualValue={parsedLog.use_null_samples} miniName='NSC' />
+            <InfoOverviewUnit gradeMap={gradeMap} index={idx} hideLabel={hideLabel} gradeKey='TestAndCopy' actualValue={parsedLog.test_and_copy} miniName='T&C' />
+            <InfoOverviewUnit gradeMap={gradeMap} index={idx} hideLabel={hideLabel} gradeKey='Normalization' actualValue={parsedLog.normalize} miniName='NML' />
         </div>
     {/each}
 </div>
