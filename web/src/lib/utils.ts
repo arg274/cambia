@@ -3,8 +3,9 @@ import anime from 'animejs';
 import Color from 'colorjs.io';
 import type { CambiaResponse } from './types/CambiaResponse';
 import type { CambiaError } from './types/CambiaError';
+import { Packr } from 'msgpackr';
 
-// const toastStore = getToastStore();
+const packr = new Packr({ useRecords: false });
 
 export function toHeaderId(header: string): string {
     return header.trim().replaceAll(" ", "-").toLowerCase();
@@ -113,6 +114,15 @@ export function getInfoOverviewPopoverText(miniName: string) {
         "NML": "Normalisation"
     };
     return mapping[miniName];
+}
+
+export function clientError (message: string, id: Array<number> = []): MessageEvent {
+    const err: CambiaError = {
+        id,
+        message
+    }
+    const packed = packr.pack(err);
+    return new MessageEvent("message", { data: new Blob([packed]) });
 }
 
 export function isCambiaResponse(res: CambiaResponse | CambiaError): res is CambiaResponse {

@@ -4,7 +4,7 @@ import * as bigintConversion from 'bigint-conversion';
 import { hashIndexLookup, processedCount, responseStore, updateStat, updateUnknown } from "$lib/LogStore";
 import { dev } from "$app/environment";
 import { XXH64 } from 'xxh3-ts';
-import { hexify, isCambiaError, isCambiaResponse } from "$lib/utils";
+import { clientError, hexify, isCambiaError, isCambiaResponse } from "$lib/utils";
 import type { CambiaError } from "$lib/types/CambiaError";
 
 const PORT = dev ? 3031 : 3030;
@@ -125,6 +125,7 @@ export async function getRipInfoMpMulti(files: FileList | undefined) {
                 const hashPadded = new Uint8Array(8);
                 const hash: Uint8Array = (new Uint8Array(bigintConversion.bigintToBuf(XXH64(Buffer.from(bArr)), true))).subarray(0, 8); // clamp to 64-bit
                 hashPadded.set(hash, hashPadded.length - hash.length);
+
                 const hashHex = hexify(Array.from(hashPadded));
                 const tmp: Uint8Array = new Uint8Array(hashPadded.length + bArr.length);
                 
@@ -134,6 +135,11 @@ export async function getRipInfoMpMulti(files: FileList | undefined) {
                     hashIndexLookup.set(hashHex, [idx]);
                 }
                 
+                if (bArr.length > 3145728) {
+                    ws.dispatchEvent(clientError("Files over 3 MiB not allowed.", Array.from(hashPadded)));
+                    return;
+                }
+
                 tmp.set(hashPadded);
                 tmp.set(bArr, hashPadded.length);
                 ws.send(tmp);
