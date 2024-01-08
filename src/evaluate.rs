@@ -16,7 +16,7 @@ pub enum EvaluatorType {
 }
 
 // Ease of grouping on downstream
-#[derive(Serialize, Deserialize, TS)]
+#[derive(Serialize, Deserialize, TS, Hash, PartialEq, Eq, Clone)]
 #[ts(export)]
 pub enum DeductionCategory {
     Release,
@@ -24,7 +24,7 @@ pub enum DeductionCategory {
 }
 
 // This will be used to indicate which field in the log is relevant to a deduction
-#[derive(Serialize, Deserialize, TS)]
+#[derive(Serialize, Deserialize, TS, Hash, PartialEq, Eq, Clone)]
 #[ts(export)]
 pub enum DeductionField {
     Encoding,
@@ -65,7 +65,7 @@ pub enum DeductionField {
 }
 
 // This holds the reasoning for the smallest unit of evaluation
-#[derive(Serialize, Deserialize, TS)]
+#[derive(Serialize, Deserialize, TS, Hash, PartialEq, Eq, Clone)]
 #[ts(export)]
 pub struct DeductionData {
     category: DeductionCategory,
@@ -89,7 +89,7 @@ pub struct Evaluation {
     deductions: Vec<Deduction>,
 }
 
-#[derive(Serialize, Deserialize, TS)]
+#[derive(Serialize, Deserialize, TS, Hash, PartialEq, Eq, Clone)]
 #[ts(export)]
 pub struct Deduction {
     deduction_score: String,

@@ -50,6 +50,7 @@ lazy_static! {
     static ref SPLIT_TRACKS: Regex = RegexBuilder::new(r"Track\s*\d+.+?Copy (OK|finished|aborted)").dot_matches_new_line(true).build().unwrap();
     static ref RANGE_TRACKS: Regex = RegexBuilder::new(r"Range status and errors.+?Copy (OK|finished|aborted)").dot_matches_new_line(true).build().unwrap();
 
+    static ref TRACK_NUMBER: Regex = Regex::new(r"Track\s*(?P<value>\d+)").unwrap();
     static ref COPY_ABORTED: Regex = RegexBuilder::new(r"Copy aborted").multi_line(true).build().unwrap();
     static ref FILENAME: Regex = RegexBuilder::new(r"Filename (?P<value>.+)$").multi_line(true).build().unwrap();
     static ref PREGAP: Regex = Regex::new(r"Pre-gap length(\s*)(?P<time>\d:\d{2}:\d{2}\.\d{2})").unwrap();
@@ -446,6 +447,10 @@ impl EacParserTrack {
 }
 
 impl TrackExtractor for EacParserTrack {
+    fn extract_num(&self) -> u8 {
+        if self.is_range { 0 } else { self.string_match(&TRACK_NUMBER).parse::<u8>().unwrap_or_default() }
+    }
+
     fn extract_is_range(&self) -> bool {
         self.is_range
     }

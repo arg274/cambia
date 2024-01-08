@@ -6,6 +6,7 @@ use crate::{integrity::Integrity, util::Time};
 #[derive(Serialize, Deserialize, TS)]
 #[ts(export)]
 pub struct TrackEntry {
+    pub num: u8,
     pub is_range: bool,
     pub aborted: bool,
     pub filename: String,
@@ -69,6 +70,8 @@ pub struct TrackError {
     pub duplicated: TrackErrorData,
     #[serde(skip_serializing_if = "TrackErrorData::is_default")]
     pub damaged_sectors: TrackErrorData,
+    #[serde(skip_serializing_if = "TrackErrorData::is_default")]
+    pub inconsistent_err_sectors: TrackErrorData,
 }
 
 #[derive(Serialize, Deserialize, Default, PartialEq, TS)]
@@ -97,11 +100,12 @@ impl TrackError {
             dropped: TrackErrorData::default(),
             duplicated: TrackErrorData::default(),
             damaged_sectors: TrackErrorData::default(),
+            inconsistent_err_sectors: TrackErrorData::default(),
         }
     }
 
     #[allow(clippy::too_many_arguments)]
-    pub fn new_xld(r_c: u32, s_c: u32, jg_c: u32, je_c: u32, ja_c: u32, drf_c: u32, drp_c: u32, dup_c: u32, dmg_c: u32) -> Self {
+    pub fn new_xld(r_c: u32, s_c: u32, jg_c: u32, je_c: u32, ja_c: u32, drf_c: u32, drp_c: u32, dup_c: u32, dmg_c: u32, inc_c: u32) -> Self {
         TrackError {
             read: TrackErrorData::new_from_count(r_c),
             skip: TrackErrorData::new_from_count(s_c),
@@ -112,6 +116,7 @@ impl TrackError {
             dropped: TrackErrorData::new_from_count(drp_c),
             duplicated: TrackErrorData::new_from_count(dup_c),
             damaged_sectors: TrackErrorData::new_from_count(dmg_c),
+            inconsistent_err_sectors: TrackErrorData::new_from_count(inc_c),
         }
     }
 }

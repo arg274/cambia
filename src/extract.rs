@@ -160,6 +160,8 @@ pub trait Extractor {
 }
 
 pub trait TrackExtractor {
+    fn extract_num(&self) -> u8;
+
     fn extract_is_range(&self) -> bool;
 
     fn extract_is_aborted(&self) -> bool {

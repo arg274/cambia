@@ -28,6 +28,7 @@ struct WhipperParserSingle {
 }
 
 struct WhipperParserTrack<'a> {
+    num: u8,
     yaml: &'a WhipperTrackEntry,
 }
 
@@ -67,8 +68,8 @@ impl WhipperParserSingle {
 }
 
 impl<'a> WhipperParserTrack<'a> {
-    fn new(yaml: &'a WhipperTrackEntry) -> Self {
-        Self { yaml }
+    fn new(num: u8, yaml: &'a WhipperTrackEntry) -> Self {
+        Self { num, yaml }
     }
 }
 
@@ -172,11 +173,9 @@ impl Extractor for WhipperParserSingle {
 
     fn extract_tracks(&self) -> Vec<TrackEntry> {
         let mut tracks: Vec<TrackEntry> = Vec::new();
-
-        let total_tracks = self.yaml.tracks.keys().len();
-
-        for idx in 1..=total_tracks {
-            tracks.push(WhipperParserTrack::new(&self.yaml.tracks[&idx]).parse_track());
+        
+        for (num, track) in &self.yaml.tracks {
+            tracks.push(WhipperParserTrack::new(num.to_owned().try_into().unwrap_or_default(), track).parse_track());
         }
 
         tracks
@@ -212,6 +211,10 @@ impl IntegrityChecker for WhipperParserSingle {
 impl<'a> ParserTrack for WhipperParserTrack<'a> {}
 
 impl<'a> TrackExtractor for WhipperParserTrack<'a> {
+    fn extract_num(&self) -> u8 {
+        self.num
+    }
+
     fn extract_is_range(&self) -> bool {
         false
     }

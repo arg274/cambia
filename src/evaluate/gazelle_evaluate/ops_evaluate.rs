@@ -1,6 +1,6 @@
-use std::cmp::min;
+use std::{cmp::min, collections::{HashMap, HashSet}};
 
-use crate::{evaluate::{Evaluator, EvaluationCombined, Deduction, Evaluation, EvaluatorType, DeductionCategory, DeductionField}, parser::{ParsedLogCombined, ParsedLog}, extract::{Ripper, Quartet, MediaType, ReadMode, Gap}, track::TrackEntry, integrity::Integrity, drive::{DriveUtils, DriveMatchQuality}};
+use crate::{evaluate::{Evaluator, EvaluationCombined, Deduction, Evaluation, EvaluatorType, DeductionCategory}, parser::{ParsedLogCombined, ParsedLog}, extract::{Ripper, Quartet, MediaType, ReadMode, Gap}, track::TrackEntry, integrity::Integrity, drive::{DriveUtils, DriveMatchQuality}};
 
 use super::{GazelleDeductionData, GazelleDeductionFail, GazelleDeductionRelease, GazelleDeductionTrack, GazelleDeduction};
 
@@ -160,7 +160,7 @@ impl OpsEvaluator {
             GazelleDeductionTrack::CouldNotVerifyDroppedBytesErrors => false,
             GazelleDeductionTrack::CouldNotVerifyDuplicatedBytesErrors => false,
             GazelleDeductionTrack::CouldNotVerifyInconsistentErrorSectors => false,
-            GazelleDeductionTrack::SusPositionsFound => parsed_log.ripper == Ripper::EAC && track_entry.errors.read.count > 0,
+            GazelleDeductionTrack::SusPositionsFound => (parsed_log.ripper == Ripper::EAC && track_entry.errors.read.count > 0) || (parsed_log.ripper == Ripper::XLD && track_entry.errors.inconsistent_err_sectors.count > 0),
             GazelleDeductionTrack::TimingProblemsFound => parsed_log.ripper == Ripper::EAC && track_entry.errors.jitter_generic.count > 0,
             GazelleDeductionTrack::MissingSamplesFound => false, // TODO: Figure out when this happens
             GazelleDeductionTrack::CopyAborted => track_entry.aborted,
@@ -168,8 +168,7 @@ impl OpsEvaluator {
             GazelleDeductionTrack::ReadErrors(_) => parsed_log.ripper == Ripper::XLD && track_entry.errors.read.count > 0,
             GazelleDeductionTrack::SkippedErrors(_) => parsed_log.ripper == Ripper::XLD && track_entry.errors.skip.count > 0,
             GazelleDeductionTrack::DamagedSectors(_) => parsed_log.ripper == Ripper::XLD && track_entry.errors.damaged_sectors.count > 0,
-            // TODO: Figure out when these happen
-            GazelleDeductionTrack::InconsistenciesInErrorSectors(_) => false,
+            GazelleDeductionTrack::InconsistenciesInErrorSectors(_) => parsed_log.ripper == Ripper::XLD && track_entry.errors.inconsistent_err_sectors.count > 0,
         }
     }
 }
@@ -264,23 +263,49 @@ impl GazelleDeduction for GazelleDeductionTrack {
 impl Evaluator for OpsEvaluator {
     fn evaluate_combined(&mut self, plc: &ParsedLogCombined) -> EvaluationCombined {
         let mut evaluations: Vec<Evaluation> = Vec::new();
-        let mut track_deduction_score: i32 = 0_i32;
+        let mut track_deduction_map: HashMap<usize, Vec<Deduction>> = HashMap::new();
+        let mut release_deduction_set: HashSet<Deduction> = HashSet::new();
 
-        let mut it = plc.parsed_logs.iter().peekable();
-        while let Some(log) = it.next() {
+        // This is wrong on so many levels but it's how OPS implements it
+        // TODO: This probably isn't efficient, should drop storing entire deductions in the map and only keep the scores
+        for log in plc.parsed_logs.iter() {
             let evaluation = self.evaluate(log);
-            if it.peek().is_some() {
-                track_deduction_score += evaluation.deductions.iter()
-                    .filter(|d| matches!(d.data.category, DeductionCategory::Track(_)) && matches!(d.data.field, DeductionField::TestAndCopy | DeductionField::Filename))
-                    .map(|d| d.deduction_score.parse::<i32>().unwrap_or_default())
-                    .sum::<i32>();
-            } else if !(evaluation.deductions.iter().any(|d| matches!(d.data.field, DeductionField::Encoder)) && plc.parsed_logs.len() > 1) {
-                track_deduction_score += 100 - evaluation.score.parse::<i32>().unwrap_or_default();
+            let mut log_track_deduction_map: HashMap<usize, Vec<Deduction>> = HashMap::new();
+
+            for deduction in evaluation.deductions.iter() {
+                match deduction.data.category {
+                    DeductionCategory::Release => {
+                        release_deduction_set.insert(deduction.clone());
+                    },
+                    DeductionCategory::Track(t) => {
+                        log_track_deduction_map
+                            .entry(t.unwrap() as usize)
+                            .or_default()
+                            .push(deduction.clone());
+                    },
+                }
             }
+
+            // Overwrite the main map
+            // TODO: Might mess up in HTOA
+            for t in 1..=log.toc.raw.entries.len() {
+                track_deduction_map.insert(t, log_track_deduction_map.remove(&t).unwrap_or_default().to_owned());
+            }
+
             evaluations.push(evaluation);
         }
+
+        // Deduction aggregates
+        let release_deduction_score: i32 = release_deduction_set
+                                            .into_iter()
+                                            .map(|x| x.deduction_score.parse::<i32>().unwrap())
+                                            .sum();
+        let track_deduction_score: i32 = track_deduction_map
+                                            .values()
+                                            .flat_map(|ds| ds.iter().map(|d| d.deduction_score.parse::<i32>().unwrap_or_default()))
+                                            .sum();
         
-        let combined_score: i32 = 100 - track_deduction_score;
+        let combined_score: i32 = 100 - release_deduction_score - track_deduction_score;
         EvaluationCombined::new(EvaluatorType::OPS, combined_score.to_string(), evaluations)
     }
 
@@ -319,20 +344,19 @@ impl Evaluator for OpsEvaluator {
         let mut deductions_track: Vec<_> = parsed_log
             .tracks
             .par_iter()
-            .enumerate()
-            .flat_map(|(idx, track)| {
+            .flat_map(|track| {
                 GazelleDeductionTrack::iter()
                     .filter_map(|gazelle_deduction_track| {
                         let gazelle_deduction_track_variant: GazelleDeductionTrack = match gazelle_deduction_track {
                             GazelleDeductionTrack::ReadErrors(_) => GazelleDeductionTrack::ReadErrors(track.errors.read.count),
                             GazelleDeductionTrack::SkippedErrors(_) => GazelleDeductionTrack::SkippedErrors(track.errors.skip.count),
                             GazelleDeductionTrack::DamagedSectors(_) => GazelleDeductionTrack::DamagedSectors(track.errors.damaged_sectors.count),
-                            // TODO: InconsistenciesInErrorSectors handling
+                            GazelleDeductionTrack::InconsistenciesInErrorSectors(_) => GazelleDeductionTrack::InconsistenciesInErrorSectors(track.errors.inconsistent_err_sectors.count),
                             other => other,
                         };
                         if OpsEvaluator::check_track(parsed_log, track, gazelle_deduction_track_variant) {
                             let mut deduction = gazelle_deduction_track_variant.deduct(parsed_log);
-                            deduction.data.category = DeductionCategory::Track(Some((idx + 1) as u8)); // TODO: Special considerations for HTOA (?)
+                            deduction.data.category = DeductionCategory::Track(Some(track.num)); // TODO: Special considerations for HTOA (?)
                             Some(deduction)
                         } else {
                             None

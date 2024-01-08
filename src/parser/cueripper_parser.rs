@@ -229,6 +229,13 @@ impl IntegrityChecker for CueRipperParserSingle {
 impl<'a> ParserTrack for CueRipperParserTrack<'a> {}
 
 impl<'a> TrackExtractor for CueRipperParserTrack<'a> {
+    fn extract_num(&self) -> u8 {
+        match &self.peak_crc {
+            Some(c) => c.name("track").unwrap().as_str().parse::<u8>().unwrap_or_default(),
+            None => u8::default(),
+        }
+    }
+
     fn extract_is_range(&self) -> bool {
         false
     }

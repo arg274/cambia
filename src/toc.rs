@@ -19,9 +19,9 @@ pub struct TocEntry {
 #[derive(Serialize, Deserialize, Clone, Default, TS)]
 #[ts(export)]
 pub struct TocRaw {
-    entries: Vec<TocEntry>,
-    lead_out: u32,
-    data_tracks: u32,
+    pub entries: Vec<TocEntry>,
+    pub lead_out: u32,
+    pub data_tracks: u32,
 }
 
 #[derive(Serialize, Deserialize, TS)]
@@ -34,11 +34,11 @@ pub struct TocHash {
 #[derive(Serialize, Deserialize, TS)]
 #[ts(export)]
 pub struct Toc {
-    raw: TocRaw,
-    mbz: TocHash,
-    ctdb_tocid: TocHash,
-    gn: TocHash,
-    mcdi: TocHash,
+    pub raw: TocRaw,
+    pub mbz: TocHash,
+    pub ctdb_tocid: TocHash,
+    pub gn: TocHash,
+    pub mcdi: TocHash,
 }
 
 pub struct TocError;

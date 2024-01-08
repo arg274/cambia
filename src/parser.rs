@@ -95,6 +95,7 @@ pub trait ParserCombined: TranslatorCombined {
 pub trait ParserTrack: TrackExtractor {
     fn parse_track(&self) -> TrackEntry {
         TrackEntry {
+            num: self.extract_num(),
             is_range: self.extract_is_range(),
             aborted: self.extract_is_aborted(),
             filename: self.extract_filename(),
