@@ -10,14 +10,13 @@
 	import type { AfterNavigate } from '@sveltejs/kit';
 	import { afterNavigate, goto } from '$app/navigation';
 	import DropScreen from '../components/frags/DropScreen.svelte';
-	import { fileListStore, hashIndexLookup, initialiseResponseStore, processedCount, responseStore} from '$lib/LogStore';
+	import { errorStore, fileListStore, hashIndexLookup, initialiseResponseStore, processedCount, responseStore} from '$lib/LogStore';
 	import { getRipInfoMpMulti } from '$lib/api/CambiaApi';
 	import { onMount } from 'svelte';
 
 	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
 	import { storePopup } from '@skeletonlabs/skeleton';
 	import type { CambiaError } from '$lib/types/CambiaError';
-	import { showError } from '$lib/utils';
 	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 	
 	initializeStores();
@@ -53,7 +52,8 @@
 						goto(`/log?id=${hashIndexLookup.keys().next().value}`);
 						break;
 					case "errored":
-						showError(toastStore, ($responseStore[0].content as CambiaError));
+						errorStore.set($responseStore[0].content as CambiaError);
+						goto("/error")
 						break;
 					default:
 						console.log("Error");
@@ -61,6 +61,18 @@
 				}
 			} else if (files && files.length > 1) {
 				goto('/logs');
+			}
+		});
+
+		// FIXME: Unwanted detection in forms and breaks if pasted in high frequency
+		document.addEventListener("paste", (ev) => {
+			const content = ev.clipboardData?.getData("text");
+			if (content) {
+				const file = new File([content], "pasted.log", {type: 'text/plain'});
+				const dt = new DataTransfer();
+				dt.items.add(file);
+				files = dt.files;
+				inputChanged();
 			}
 		});
 	});
@@ -89,5 +101,4 @@
 	<DropScreen bind:files on:change={inputChanged} >
 		<slot />
 	</DropScreen>
-	<!-- <div class="mt-10"></div> -->
 </AppShell>

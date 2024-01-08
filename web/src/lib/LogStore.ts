@@ -1,6 +1,7 @@
 import { writable } from "svelte/store";
 import type { ResponseEntry } from "./types/ResponseEntry";
 import type { CambiaResponse } from "./types/CambiaResponse";
+import type { CambiaError } from "./types/CambiaError";
 
 // FIXME: No way to know pending/failed requests
 export const processedCount = writable(0);
@@ -11,6 +12,7 @@ export const perfectCount = writable(0);
 export const warningCount = writable(0);
 export const badCount = writable(0);
 export const unknownCount = writable(0);
+export const errorStore = writable<CambiaError | null>(null);
 
 export function initialiseResponseStore(files: FileList | undefined) {
     hashIndexLookup.clear();
