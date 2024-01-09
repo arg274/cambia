@@ -13,6 +13,7 @@ use rayon::prelude::*;
 lazy_static! {
     static ref EXTENSION: Regex = Regex::new(r"\..+$").unwrap();
     static ref WHIPPER_VERSION: Regex = RegexBuilder::new(r"(?P<major>\d+)\.(?P<minor>\d+)\.(?P<patch>\d+)(\.(?P<pre>[0-9a-z]+))?(\+(?P<build>[0-9a-z]+))?").case_insensitive(true).build().unwrap();
+    static ref OPS_EXTENSION_ALLOWLIST: Regex = Regex::new(r"(wav|flac|ape)$").unwrap();
 }
 
 static WHIPPER_VERSION_THRESH: Version = Version {
@@ -154,8 +155,26 @@ impl OpsEvaluator {
 
     fn check_track(parsed_log: &ParsedLog, track_entry: &TrackEntry, data: GazelleDeductionTrack) -> bool {
         match data {
-            GazelleDeductionTrack::CouldNotVerifyFilenameTooLong => !track_entry.is_range && parsed_log.ripper == Ripper::EAC && track_entry.filename.len() >= 243,
-            GazelleDeductionTrack::CouldNotVerifyFilenameOrExt => !(track_entry.is_range || parsed_log.ripper == Ripper::EAC && track_entry.filename.len() >= 243) && (track_entry.filename.is_empty() || !EXTENSION.is_match(&track_entry.filename)),
+            GazelleDeductionTrack::CouldNotVerifyFilenameTooLong => {
+                if !track_entry.is_range && !track_entry.filenames.is_empty() {
+                    let filename = track_entry.filenames.first().unwrap();
+                    if !OPS_EXTENSION_ALLOWLIST.is_match(filename) {
+                        return false;
+                    }
+                    return parsed_log.ripper == Ripper::EAC && filename.len() >= 243;
+                }
+                false
+            },
+            GazelleDeductionTrack::CouldNotVerifyFilenameOrExt => {
+                if track_entry.is_range {
+                    return false;
+                }
+                if track_entry.filenames.is_empty() {
+                    return true;
+                }
+                let filename = track_entry.filenames.first().unwrap();
+                !OPS_EXTENSION_ALLOWLIST.is_match(filename) && parsed_log.ripper == Ripper::EAC && filename.len() < 243
+            },
             // TODO: XLD specific, would probably need to make the count field optional
             GazelleDeductionTrack::CouldNotVerifyReadErrors => false,
             GazelleDeductionTrack::CouldNotVerifySkippedErrors => false,
@@ -314,11 +333,17 @@ impl Evaluator for OpsEvaluator {
             evaluations.push(evaluation);
         }
 
+        // Remove mp3 deduction if combined (apparently it doesn't matter if all of them are mp3)
+        if plc.parsed_logs.len() > 1 {
+            let mp3 = GazelleDeductionRelease::Mp3Log.deduct(plc.parsed_logs.first().unwrap());
+            release_deduction_set.remove(&mp3);
+        }
+
         // OPS evaluator seems to have this unholy chimera of a deduction that's neither release-level nor track-level
         // Should not be used in scoring unless the last log has it
-        let rel = GazelleDeductionRelease::NotSecureCrcMismatch.deduct(plc.parsed_logs.last().unwrap());
-        if release_deduction_set.contains(&rel) && !evaluations.last().unwrap().deductions.contains(&rel) {
-            release_deduction_set.remove(&rel);
+        let nscm = GazelleDeductionRelease::NotSecureCrcMismatch.deduct(plc.parsed_logs.last().unwrap());
+        if release_deduction_set.contains(&nscm) && !evaluations.last().unwrap().deductions.contains(&nscm) {
+            release_deduction_set.remove(&nscm);
         }
 
         // Deduction aggregates
