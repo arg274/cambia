@@ -168,8 +168,8 @@ pub trait TrackExtractor {
         false
     }
 
-    fn extract_filename(&self) -> String {
-        String::default()
+    fn extract_filenames(&self) -> Vec<String> {
+        Vec::new()
     }
 
     fn extract_peak_level(&self) -> Option<f64> {

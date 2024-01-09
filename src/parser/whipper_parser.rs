@@ -219,8 +219,8 @@ impl<'a> TrackExtractor for WhipperParserTrack<'a> {
         false
     }
 
-    fn extract_filename(&self) -> String {
-        self.yaml.filename.clone()
+    fn extract_filenames(&self) -> Vec<String> {
+        if self.yaml.filename.is_empty() { Vec::new() } else { vec![self.yaml.filename.clone()] }
     }
 
     fn extract_peak_level(&self) -> Option<f64> {

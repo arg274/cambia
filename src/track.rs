@@ -9,7 +9,7 @@ pub struct TrackEntry {
     pub num: u8,
     pub is_range: bool,
     pub aborted: bool,
-    pub filename: String,
+    pub filenames: Vec<String>,
     pub peak_level: Option<f64>,
     pub pregap_length: Option<Time>,
     pub extraction_speed: Option<f64>,
@@ -182,15 +182,12 @@ impl TestAndCopy {
     }
 
     pub fn new_integrity_no_data(test_hash: String, copy_hash: String) -> Self {
-        let integrity = if test_hash != copy_hash { Integrity::Mismatch } else { Integrity::Unknown };
-        TestAndCopy {
-            test_hash,
-            copy_hash,
-            test_skipzero_hash: String::default(),
-            copy_skipzero_hash: String::default(),
-            integrity: integrity.clone(),
-            integrity_skipzero: integrity,
+        let mut tc = TestAndCopy::new_no_skipzero(test_hash, copy_hash);
+        if tc.integrity == Integrity::Match && !tc.test_hash.is_empty() && !tc.copy_hash.is_empty() {
+            tc.integrity = Integrity::Unknown;
+            tc.integrity_skipzero = Integrity::Unknown;
         }
+        tc
     }
 }
 

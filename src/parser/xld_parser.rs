@@ -74,7 +74,6 @@ struct XldParserTrack {
 impl XldParserSingle {
     pub fn new(log: String) -> XldParserSingle {
         let (language, translated_log) = XldParserSingle::translate(log.clone());
-        // println!("{}", &log);
         XldParserSingle {
             log,
             translated_log,
@@ -359,8 +358,32 @@ impl TrackExtractor for XldParserTrack {
         self.is_range
     }
 
-    fn extract_filename(&self) -> String {
-        self.string_match(&FILENAME)
+    fn extract_filenames(&self) -> Vec<String> {
+        let mut filenames: Vec<String> = Vec::new();
+        let first_file = self.string_match(&FILENAME);
+
+        if first_file.is_empty() {
+            return Vec::new();
+        }
+
+        filenames.push(first_file.clone());
+
+        let captures = FILENAME_MULTI.captures(&self.raw);
+        if let Some(c) = captures {
+            let value = c.name("value").unwrap().as_str().trim();
+
+            // FIXME: This is not gonna work with filename linebreaks
+            for filename in value.lines().skip(1) {
+                let filename = std::path::Path::new(filename.trim())
+                                            .to_str()
+                                            .unwrap_or_default();
+                if !filename.is_empty() {
+                    filenames.push(filename.to_owned())
+                }
+            }
+        }
+
+        filenames
     }
 
     fn extract_peak_level(&self) -> Option<f64> {

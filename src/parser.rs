@@ -98,7 +98,7 @@ pub trait ParserTrack: TrackExtractor {
             num: self.extract_num(),
             is_range: self.extract_is_range(),
             aborted: self.extract_is_aborted(),
-            filename: self.extract_filename(),
+            filenames: self.extract_filenames(),
             peak_level: self.extract_peak_level(),
             pregap_length: self.extract_pregap_length(),
             extraction_speed: self.extract_extraction_speed(),

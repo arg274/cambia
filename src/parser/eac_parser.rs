@@ -96,8 +96,6 @@ pub struct EacParserTrack {
 impl EacParserSingle {
     pub fn new(log: String) -> EacParserSingle {
         let (language, translated_log) = EacParserSingle::translate(log.clone());
-        // println!("{}", &log);
-        // println!("{}", &translated_log);
         EacParserSingle {
             log,
             translated_log,
@@ -438,6 +436,13 @@ impl EacParserTrack {
         }
     }
 
+    fn string_match_trim_crlf(&self, regex: &Regex) -> String {
+        match regex.captures(&self.raw) {
+            Some(val) => val.name("value").unwrap().as_str().trim_matches(|c| c == '\n' || c == '\r').to_string(),
+            None => String::default(),
+        }
+    }
+
     fn optional_match<T: FromStr>(&self, regex: &Regex) -> Option<T> 
     where
         T: FromStr,
@@ -460,8 +465,9 @@ impl TrackExtractor for EacParserTrack {
         captures.is_some()
     }
 
-    fn extract_filename(&self) -> String {
-        self.string_match(&FILENAME)
+    fn extract_filenames(&self) -> Vec<String> {
+        let filename = self.string_match_trim_crlf(&FILENAME);
+        if filename.is_empty() { Vec::new() } else { vec![filename] }
     }
 
     fn extract_peak_level(&self) -> Option<f64> {
