@@ -34,6 +34,15 @@ html, body { @apply h-full overflow-hidden; }
     .text-spaced-mini {
         @apply p-1 font-medium dark:font-normal tracking-widest uppercase text-xs
     }
+    .hide-scroll-numinput {
+        input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+    }
 }
 
 @font-face {

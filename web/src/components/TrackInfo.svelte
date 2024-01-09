@@ -13,7 +13,19 @@
     export let toc: TocRaw;
     export let tracks: TrackEntry[];
 
-    let selectedTrack = 1;
+    $: selectedTrack = 1;
+    $: trackLookupMap = getTrackLookup(tracks);
+    $: rippedTracks = Array.from(trackLookupMap.keys());
+    
+    function getTrackLookup(trackEntries: TrackEntry[]): Map<number, number> {
+        const trackMap = new Map<number, number>();
+
+        trackEntries.forEach((entry, index) => {
+            trackMap.set(entry.num, index);
+        });
+
+        return trackMap;
+    }
 
     function getBlockNum(i: number): number {
         let laneArea = Math.PI * (((innerRadius + (i + 1) * gapRadius) ** 2) - ((innerRadius + i * gapRadius) ** 2))
@@ -55,19 +67,37 @@
         let localTracks = getTracksFromMinute(segmentNum);
 
         // Data tracks
-        let dataTracks = localTracks.filter(x => ((x > (tracks.length - 1) && x !== 9998)));
-        if (dataTracks.length === 1) {
-            return getCssColor("color-tertiary-400");
-        } else if (dataTracks.length > 1) {
-            // DRM
-            return getCssColor("color-tertiary-600");
+        if (toc.data_tracks > 0) {
+            let dataTracks = localTracks.filter(x => ((x > (tracks.length - 1) && x !== 9998)));
+            if (dataTracks.length === 1) {
+                return getCssColor("color-tertiary-400");
+            } else if (dataTracks.length > 1) {
+                // DRM
+                return getCssColor("color-tertiary-600");
+            }
         }
-
-        // Errors
+        
         for (let idx = 0; idx < localTracks.length; idx++) {
-            let errorCount = Object.keys(tracks[localTracks[idx]].errors).length;
+            // Not selected during rip
+            if (!rippedTracks.includes(localTracks[idx] + 1)) {
+                return getCssColor("color-surface-200");
+            }
+            const orig_idx = trackLookupMap.get(localTracks[idx] + 1)!;
+            // Aborted
+            if (tracks[orig_idx].aborted) {
+                return getCssColor("color-surface-200");
+            }
+            // T&C
+            if (tracks[orig_idx].test_and_copy.integrity === "Mismatch" || tracks[orig_idx].test_and_copy.integrity_skipzero === "Mismatch") {
+                return errorGradient[orig_idx];
+            }
+            if (tracks[orig_idx].test_and_copy.integrity === "Unknown" && tracks[orig_idx].test_and_copy.integrity_skipzero === "Unknown") {
+                return getCssColor("color-warning-600");
+            }
+            // Errors
+            let errorCount = Object.keys(tracks[orig_idx].errors).length;
             if (errorCount > 0) {
-                return errorGradient[localTracks[idx]];
+                return errorGradient[orig_idx];
             }
         }
         return gradient[endMinutes.indexOf(bound)];
@@ -197,6 +227,13 @@
             });
         }
     }
+
+    function clickHandler(segment: SegmentDetails) {
+        const idx = trackLookupMap.get(segment.trackIndices[0] + 1);
+        if (idx !== undefined) {
+            selectedTrack = idx + 1;
+        }
+    }
 </script>
 
 <style>
@@ -214,12 +251,12 @@
             {#if toc.entries.length > 0}
                 {#each lanes as lane}
                     {#each lane.segments as segment}
-                        <circle id="minute-{segment.minute}" class={classNames(segment.trackIndices.map(trackIdx => `track-${trackIdx + 1}`), "hover:stroke-success-400")} cx="{vb / 2}" cy="{vb / 2}" r="{lane.radius}" fill="transparent"
+                        <circle id="minute-{segment.minute}" class={classNames(segment.trackIndices.map(trackIdx => `track-${trackIdx + 1}`), "cursor-pointer hover:stroke-success-400")} cx="{vb / 2}" cy="{vb / 2}" r="{lane.radius}" fill="transparent"
                             stroke="{segment.color}" stroke-width="{gapRadius}"
                             stroke-dasharray="{lane.segmentSize} {lane.segmentGap}"
                             stroke-dashoffset="{segment.offset}"
                             on:keydown={Function.prototype()}
-                            on:click={() => {selectedTrack = segment.trackIndices[0] + 1}}></circle>
+                            on:click={() => clickHandler(segment)}></circle>
                         <text
                             class="pointer-events-none"
                             fill="{segment.textColor}"
@@ -237,7 +274,7 @@
             {/if}
         </svg>
         {#key toc}
-            <TrackInfoText tracks={tracks} selectedTrack={selectedTrack} />
+            <TrackInfoText tracks={tracks} bind:selectedTrack />
         {/key}
     </div>
 </Card>

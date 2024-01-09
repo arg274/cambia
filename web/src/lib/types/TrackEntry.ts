@@ -2,4 +2,4 @@
 import type { TestAndCopy } from "./TestAndCopy";
 import type { TrackError } from "./TrackError";
 
-export interface TrackEntry { is_range: boolean, aborted: boolean, filename: string, peak_level: number | null, pregap_length: string | null, extraction_speed: number | null, gain: number | null, preemphasis: boolean | null, test_and_copy: TestAndCopy, errors: TrackError, }
+export interface TrackEntry { num: number, is_range: boolean, aborted: boolean, filenames: Array<string>, peak_level: number | null, pregap_length: string | null, extraction_speed: number | null, gain: number | null, preemphasis: boolean | null, test_and_copy: TestAndCopy, errors: TrackError, }

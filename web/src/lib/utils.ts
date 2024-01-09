@@ -132,3 +132,14 @@ export function isCambiaResponse(res: CambiaResponse | CambiaError): res is Camb
 export function isCambiaError(res: CambiaResponse | CambiaError): res is CambiaError {
     return "message" in res;
 }
+
+export function trimLeftChar(str: string, ch: string) {
+    let start = 0;
+    const end = str.length;
+
+    while (start < end && str[start] === ch) {
+        ++start;
+    }
+
+    return start > 0 ? str.substring(start, end) : str;
+}
