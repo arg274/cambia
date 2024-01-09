@@ -5,6 +5,7 @@
 	
 	import IconCambiaOutline from '~icons/cambia/cambia-outline';
 	import IconWindowBlackSaturation from '~icons/carbon/window-black-saturation';
+	import IconGithub from '~icons/carbon/logo-github';
 	import { fade } from 'svelte/transition';
 
 	import type { AfterNavigate } from '@sveltejs/kit';
@@ -90,4 +91,14 @@
 	<DropScreen bind:files={$fileListStore} on:change={inputChanged} >
 		<slot />
 	</DropScreen>
+	<svelte:fragment slot="pageFooter">
+		<AppBar class="mt-10" background="bg-surface-100-800-token">
+			<svelte:fragment slot="lead">
+				<IconCambiaOutline class="stroke-surface-300 dark:stroke-surface-400 stroke-2" />
+			</svelte:fragment>
+			<svelte:fragment slot="trail">
+				<a href="https://github.com/arg274/cambia" class="btn-icon bg-initial hover:variant-soft" target="_blank"><IconGithub class="icon-lg" /></a>
+			</svelte:fragment>
+		</AppBar>
+	</svelte:fragment>
 </AppShell>
