@@ -19,7 +19,7 @@
 	{:else if res.content && isCambiaError(res.content) && res.status === "errored"}
 		<div class="flex flex-col gap-2">
 			<span class="font-mono text-xs text-ellipsis line-clamp-1">{res.filename}</span>
-			<span class="text-sm uppercase text-error-400">{res.content.message}</span>
+			<span class="text-sm text-error-400">{res.content.message}</span>
 		</div>
 	{/if}
 </div>
