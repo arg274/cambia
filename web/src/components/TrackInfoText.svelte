@@ -17,10 +17,11 @@
 	import InfoSegment from "./frags/InfoSegment.svelte";
 	import type { TrackEntry } from "$lib/types/TrackEntry";
 	import { nonNullAssert, trimLeftChar } from "$lib/utils";
-	import { onMount } from "svelte";
     
     export let tracks: TrackEntry[];
     export let selectedTrack: number;
+
+    // TODO: Lots of functionality duped from LogView paginator
 
     let page = {
         page: 0,
@@ -45,11 +46,15 @@
     }
 
     function gotoPage() {
-        if (inputPage === null || inputPage === undefined || inputPage > page.size) {
+        if (typeof inputPage !== 'number' || isNaN(inputPage)) {
+            return;
+        }
+        const trunc = Math.ceil(inputPage) - 1;
+        if (trunc < 0 || trunc >= page.size) {
             return;
         }
         page = {
-            page: inputPage - 1,
+            page: trunc,
             limit: 1,
             size: tracks.length,
             amounts: [1]
