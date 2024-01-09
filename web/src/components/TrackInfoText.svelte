@@ -45,8 +45,7 @@
     }
 
     function gotoPage() {
-        // FIXME: Needs sanitisation
-        if (inputPage > page.size) {
+        if (inputPage === null || inputPage === undefined || inputPage > page.size) {
             return;
         }
         page = {
@@ -70,7 +69,7 @@
     <div class="flex justify-center md:justify-end md:items-center items-end gap-2 mb-2">
         <Paginator bind:settings={page} on:page={onPageChange}></Paginator>
         <div class="flex justify-end items-center hide-scroll-numinput">
-            <input type="number" bind:value={inputPage} class="w-12 variant-filled py-1.5 text-center text-sm rounded-l-full" on:keypress={enterHandler} on:click|preventDefault={selectText} bind:this={inputEl} />
+            <input type="number" required bind:value={inputPage} class="w-12 variant-filled py-1.5 text-center text-sm rounded-l-full" on:keypress={enterHandler} on:click|preventDefault={selectText} bind:this={inputEl} />
             <button type="button" class="variant-filled py-1.5 px-2 rounded-r-full" on:click={gotoPage}><IconArrowRight /></button>
         </div>
     </div>
