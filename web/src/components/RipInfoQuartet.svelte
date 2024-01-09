@@ -16,7 +16,7 @@
     export let parsedLog: ParsedLog;
 </script>
 
-<Card header="Rip Settings" addClass="grow">
+<Card header="Rip Settings">
     <div class="flex flex-col striped">
         <InfoSegmentQuartet header="Accurate stream" value={parsedLog.accurate_stream} icon={IconWindStream} />
         <InfoSegmentQuartet header="Defeat audio cache" value={parsedLog.defeat_audio_cache} icon={IconCdCreateArchive} />
