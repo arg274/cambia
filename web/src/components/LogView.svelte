@@ -1,6 +1,7 @@
 <script lang="ts">
     import { Paginator, type PaginationSettings, tocCrawler } from '@skeletonlabs/skeleton';
     import classNames from 'classnames';
+    import IconArrowRight from '~icons/carbon/arrow-right';
     
 	import EvaluationInfo from "./EvaluationInfo.svelte";
 	import Grade from "./Grade.svelte";
@@ -13,6 +14,8 @@
 	import type { CambiaResponse } from '$lib/types/CambiaResponse';
     
     export let res: CambiaResponse;
+    let inputPage = 1;
+    let inputEl: HTMLInputElement;
 
     let pageSettings: PaginationSettings = {
         page: 0,
@@ -20,6 +23,37 @@
         size: res.parsed.parsed_logs.length,
         amounts: [1]
     } as PaginationSettings;
+
+    function onPageChange() {
+        inputPage = pageSettings.page + 1;
+    }
+
+    function enterHandler(ev: KeyboardEvent) {
+        if (ev.key == "Enter") {
+            ev.preventDefault();
+            gotoPage();
+        }
+    }
+
+    function selectText(e: MouseEvent) {
+        inputEl.select();
+    }
+
+    function gotoPage() {
+        if (typeof inputPage !== 'number' || isNaN(inputPage)) {
+            return;
+        }
+        const trunc = Math.ceil(inputPage) - 1;
+        if (trunc < 0 || trunc >= pageSettings.size) {
+            return;
+        }
+        pageSettings = {
+            page: trunc,
+            limit: 1,
+            size: res.parsed.parsed_logs.length,
+            amounts: [1]
+        }
+    }
 </script>
 
 {#if res}
@@ -28,10 +62,13 @@
     {#if combinedLog}
         <div class="flex justify-between items-center">
             <span class="text-xs uppercase tracking-widest">Combined Log</span>
-            <!-- TODO: Poor UX in paginators since individual pages cannot be jumped to -->
-            <Paginator
-                bind:settings={pageSettings}>
-            </Paginator>
+            <div class="flex justify-center md:justify-end md:items-center items-end gap-2 mb-2">
+                <Paginator bind:settings={pageSettings} on:page={onPageChange}></Paginator>
+                <div class="flex justify-end items-center hide-scroll-numinput">
+                    <input type="number" required bind:value={inputPage} class="w-12 variant-filled py-1.5 text-center text-sm rounded-l-full" on:keypress={enterHandler} on:click|preventDefault={selectText} bind:this={inputEl} />
+                    <button type="button" class="variant-filled py-1.5 px-2 rounded-r-full" on:click={gotoPage}><IconArrowRight /></button>
+                </div>
+            </div>
         </div>
     {/if}
 
