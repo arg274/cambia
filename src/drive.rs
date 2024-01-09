@@ -1,5 +1,3 @@
-use std::ops::Deref;
-
 use self::offset_table::VENDOR_MAP;
 use aho_corasick::AhoCorasick;
 use rayon::prelude::IntoParallelRefIterator;
@@ -53,7 +51,7 @@ impl DriveUtils {
         drive_sanitised = WS_FILTER.replace_all(&drive_sanitised, "").to_string();
 
         let (_matched_drive, offset, distance) = VENDOR_MAP.get(&vendor).unwrap()
-            .deref().par_iter()
+            .par_iter()
             .map(|&(drv, offset)| (drv, offset, levenshtein(drv, &drive_sanitised)))
             .min_by_key(|&(_, _, dist)| dist)
             .unwrap();
