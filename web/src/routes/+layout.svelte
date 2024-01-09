@@ -1,7 +1,7 @@
 <script lang='ts'>
 	import '../app.postcss';
 
-	import { AppBar, AppShell, initializeStores, setInitialClassState, Toast, modeCurrent, setModeUserPrefers, setModeCurrent, getToastStore } from '@skeletonlabs/skeleton';
+	import { AppBar, AppShell, initializeStores, setInitialClassState, Toast, modeCurrent, setModeUserPrefers, setModeCurrent } from '@skeletonlabs/skeleton';
 	
 	import IconCambiaOutline from '~icons/cambia/cambia-outline';
 	import IconWindowBlackSaturation from '~icons/carbon/window-black-saturation';
@@ -10,8 +10,7 @@
 	import type { AfterNavigate } from '@sveltejs/kit';
 	import { afterNavigate, goto } from '$app/navigation';
 	import DropScreen from '../components/frags/DropScreen.svelte';
-	import { errorStore, fileListStore, hashIndexLookup, initialiseResponseStore, processedCount, responseStore} from '$lib/LogStore';
-	import { getRipInfoMpMulti } from '$lib/api/CambiaApi';
+	import { errorStore, fileListStore, hashIndexLookup, inputChanged, processedCount, responseStore} from '$lib/LogStore';
 	import { onMount } from 'svelte';
 
 	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
@@ -20,16 +19,6 @@
 	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 	
 	initializeStores();
-
-	let files: FileList | undefined;
-
-	const toastStore = getToastStore();
-
-	function inputChanged() {
-		fileListStore.set(files);
-		initialiseResponseStore(files);
-		getRipInfoMpMulti(files);
-    }
 
 	function onToggleHandler(): void {
 		$modeCurrent = !$modeCurrent;
@@ -46,7 +35,7 @@
 
 	onMount(() => {
 		processedCount.subscribe(p => {
-			if (files?.length == 1 && p == 1) {
+			if ($fileListStore?.length == 1 && p == 1) {
 				switch ($responseStore[0].status) {
 					case "processed":
 						goto(`/log?id=${hashIndexLookup.keys().next().value}`);
@@ -59,7 +48,7 @@
 						console.log("Error");
 						break;
 				}
-			} else if (files && files.length > 1) {
+			} else if ($fileListStore && $fileListStore.length > 1) {
 				goto('/logs');
 			}
 		});
@@ -71,7 +60,7 @@
 				const file = new File([content], "pasted.log", {type: 'text/plain'});
 				const dt = new DataTransfer();
 				dt.items.add(file);
-				files = dt.files;
+				fileListStore.set(dt.files);
 				inputChanged();
 			}
 		});
@@ -98,7 +87,7 @@
 			</svelte:fragment>
 		</AppBar>
 	</svelte:fragment>
-	<DropScreen bind:files on:change={inputChanged} >
+	<DropScreen bind:files={$fileListStore} on:change={inputChanged} >
 		<slot />
 	</DropScreen>
 </AppShell>

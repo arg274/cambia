@@ -1,7 +1,8 @@
-import { writable } from "svelte/store";
+import { get, writable } from "svelte/store";
 import type { ResponseEntry } from "./types/ResponseEntry";
 import type { CambiaResponse } from "./types/CambiaResponse";
 import type { CambiaError } from "./types/CambiaError";
+import { getRipInfoMpMulti } from "./api/CambiaApi";
 
 export const processedCount = writable(0);
 export const responseStore = writable(new Array<ResponseEntry>());
@@ -21,6 +22,11 @@ export function initialiseResponseStore(files: FileList | undefined) {
     badCount.set(0);
     unknownCount.set(0);
     responseStore.set(Array.from(files || []).map(file => <ResponseEntry> {filename: file.name, status: "queued", content: null}));
+}
+
+export function inputChanged() {
+    initialiseResponseStore(get(fileListStore));
+    getRipInfoMpMulti(get(fileListStore));
 }
 
 export function updateUnknown() {
