@@ -139,7 +139,7 @@ impl CambiaServer {
     async fn handle_socket(socket: WebSocket, who: SocketAddr) {
         let (mut sender, mut receiver) = socket.split();
     
-        // FIXME: There should be a better way to do this
+        // TODO: There should be a better way to do this
         let mut recv_task = tokio::spawn(async move {
             let mut cnt = 0;
             while let Some(Ok(msg)) = receiver.next().await {

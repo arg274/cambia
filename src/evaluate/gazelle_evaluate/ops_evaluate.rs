@@ -63,6 +63,7 @@ impl OpsEvaluator {
 
         match data {
             GazelleDeductionRelease::VirtualDrive => parsed_log.drive.to_lowercase().contains("generic dvd-rom scsi cdrom device"),
+            GazelleDeductionRelease::NullDrive => parsed_log.drive.to_lowercase().contains("(null) (null) (revision (null))"),
             GazelleDeductionRelease::IncorrectReadOffset => {
                 match DriveUtils::fuzzy_search_model(parsed_log.drive.clone()) {
                     DriveMatchQuality::STRONG(matched_offset) => {
@@ -141,6 +142,13 @@ impl OpsEvaluator {
 
                 parsed_log.tracks.iter().any(|t| t.test_and_copy.integrity == Integrity::Mismatch)
             },
+            GazelleDeductionRelease::NotSecureNoTC => {
+                if parsed_log.read_mode == ReadMode::Secure || (parsed_log.ripper == Ripper::XLD && parsed_log.read_mode == ReadMode::Paranoid) {
+                    return false;
+                }
+
+                parsed_log.test_and_copy != Quartet::True && parsed_log.tracks.iter().all(|t| !t.aborted)
+            },
         }
     }
 
@@ -189,6 +197,7 @@ impl GazelleDeduction for GazelleDeductionRelease {
     fn deduct(&self, parsed_log: &ParsedLog) -> Deduction {
         let deduction_score: u32 = match &self {
             GazelleDeductionRelease::VirtualDrive => 20,
+            GazelleDeductionRelease::NullDrive => 20,
             GazelleDeductionRelease::IncorrectReadOffset => 5,
             GazelleDeductionRelease::DriveNotFoundDb => if parsed_log.read_offset == Some(0) {5} else {0},
             GazelleDeductionRelease::DefeatAudioCacheDisabled => 10,
@@ -225,6 +234,7 @@ impl GazelleDeduction for GazelleDeductionRelease {
             GazelleDeductionRelease::IncorrectGapHandling => 10,
             GazelleDeductionRelease::Id3OnFlac => 1,
             GazelleDeductionRelease::NotSecureCrcMismatch => 20,
+            GazelleDeductionRelease::NotSecureNoTC => 40,
         };
         Deduction::new_from_u32(deduction_score, self.get_deduction_data())
     }
@@ -287,12 +297,28 @@ impl Evaluator for OpsEvaluator {
             }
 
             // Overwrite the main map
-            // TODO: Might mess up in HTOA
-            for t in 1..=log.toc.raw.entries.len() {
-                track_deduction_map.insert(t, log_track_deduction_map.remove(&t).unwrap_or_default().to_owned());
+            let (start_track, total_tracks): (usize, usize) = match (!log.toc.raw.entries.is_empty(), !log.tracks.is_empty()) {
+                (true, true) => if log.tracks.first().unwrap().is_range { (0, 0) } else { (1, log.toc.raw.entries.len()) },
+                // Impossible to know total track count with full certainty
+                (false, true) => if log.tracks.first().unwrap().is_range { (0, 0) } else { (1, log.tracks.last().unwrap().num as usize) },
+                // This should never happen, skip if it does
+                (_, false) => (1, 0),
+            };
+            let tracks_ripped = log.tracks.par_iter().map(|t| t.num as usize).collect::<HashSet<_>>();
+            for t in start_track..=total_tracks {
+                if tracks_ripped.contains(&t) {
+                    track_deduction_map.insert(t, log_track_deduction_map.remove(&t).unwrap_or_default().to_owned());
+                }
             }
 
             evaluations.push(evaluation);
+        }
+
+        // OPS evaluator seems to have this unholy chimera of a deduction that's neither release-level nor track-level
+        // Should not be used in scoring unless the last log has it
+        let rel = GazelleDeductionRelease::NotSecureCrcMismatch.deduct(plc.parsed_logs.last().unwrap());
+        if release_deduction_set.contains(&rel) && !evaluations.last().unwrap().deductions.contains(&rel) {
+            release_deduction_set.remove(&rel);
         }
 
         // Deduction aggregates

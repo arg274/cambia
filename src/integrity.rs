@@ -1,7 +1,7 @@
 use serde::{Serialize, Deserialize};
 use ts_rs::TS;
 
-#[derive(Serialize, Deserialize, PartialEq, TS)]
+#[derive(Serialize, Deserialize, PartialEq, TS, Clone)]
 #[ts(export)]
 pub enum Integrity {
     Match,

@@ -44,8 +44,7 @@ lazy_static! {
     static ref PEAK_LEVEL: Regex = Regex::new(r"Peak(\s*):(\s*)(?P<value>\d+\.\d+)").unwrap();
     static ref TEST_CRC: Regex = Regex::new(r"CRC32 hash \(test run\)(\s*):(\s*)(?P<value>[A-F0-9]{8})").unwrap();
     static ref COPY_CRC: Regex = Regex::new(r"CRC32 hash(\s*):(\s*)(?P<value>[A-F0-9]{8})").unwrap();
-    // FIXME: Missing some fields
-    // TODO: Does not get damaged sector positions
+    // TODO: Does not get damaged sector positions and suspicious positions
     static ref ERROR: Regex = Regex::new(r"(?P<type>Read error|Skipped \(treated as error\)|Damaged sector count|Inconsistency in error sectors|Missing samples|((Jitter error|Edge jitter error|Atom jitter error|Drift error|Dropped bytes error|Duplicated bytes error) \(maybe fixed\)))((\s*):(\s*)(?P<count>\d+))?").unwrap();
 }
 

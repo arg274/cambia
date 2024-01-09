@@ -3,7 +3,6 @@ import type { ResponseEntry } from "./types/ResponseEntry";
 import type { CambiaResponse } from "./types/CambiaResponse";
 import type { CambiaError } from "./types/CambiaError";
 
-// FIXME: No way to know pending/failed requests
 export const processedCount = writable(0);
 export const responseStore = writable(new Array<ResponseEntry>());
 export const fileListStore = writable<FileList | undefined>();

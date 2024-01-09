@@ -34,6 +34,7 @@ pub enum GazelleDeductionFail {
 #[derive(Serialize, Deserialize, EnumIter, Clone, Copy)]
 pub enum GazelleDeductionRelease {
     VirtualDrive,
+    NullDrive,
     IncorrectReadOffset,
     DriveNotFoundDb,
     DefeatAudioCacheDisabled,
@@ -70,7 +71,7 @@ pub enum GazelleDeductionRelease {
     IncorrectGapHandling,
     Id3OnFlac,
     NotSecureCrcMismatch,
-    // FIXME: Unsecure T&C not handled (-40 points)
+    NotSecureNoTC,
 }
 
 #[derive(Serialize, Deserialize, EnumIter, Clone, Copy)]
@@ -133,6 +134,11 @@ impl GazelleDeductionData for GazelleDeductionRelease {
                 DeductionCategory::Release,
                 DeductionField::Drive,
                 "Virtual drive used"
+            ),
+            GazelleDeductionRelease::NullDrive => DeductionData::new(
+                DeductionCategory::Release,
+                DeductionField::Drive,
+                "Null drive used"
             ),
             GazelleDeductionRelease::IncorrectReadOffset => DeductionData::new(
                 DeductionCategory::Release,
@@ -308,6 +314,11 @@ impl GazelleDeductionData for GazelleDeductionRelease {
                 DeductionCategory::Release,
                 DeductionField::TestAndCopy,
                 "Rip was not done in Secure mode, and experienced CRC mismatches"
+            ),
+            GazelleDeductionRelease::NotSecureNoTC => DeductionData::new(
+                DeductionCategory::Release,
+                DeductionField::TestAndCopy,
+                "Rip was not done in Secure mode, and T+C was not used - as a result, we cannot verify the authenticity of the rip"
             ),
             GazelleDeductionRelease::Id3OnFlac => DeductionData::new(
                 DeductionCategory::Release,

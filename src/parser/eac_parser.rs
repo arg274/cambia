@@ -484,7 +484,7 @@ impl TrackExtractor for EacParserTrack {
         match self.use_null_samples {
             Quartet::True => TestAndCopy::new_no_skipzero(test_crc, copy_crc),
             Quartet::False => TestAndCopy::new_skipzero(test_crc, copy_crc),
-            _ => TestAndCopy::new_integrity_overwrite(test_crc, copy_crc)
+            _ => TestAndCopy::new_integrity_no_data(test_crc, copy_crc)
         }
     }
 

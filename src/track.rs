@@ -48,7 +48,7 @@ pub struct AccurateRipConfidence {
     pub total: u32,
 }
 
-// FIXME: Append [key: string]: TrackErrorData
+// TODO: Append [key: string]: TrackErrorData
 #[derive(Serialize, Deserialize, Default, TS)]
 #[ts(export)]
 pub struct TrackError {
@@ -181,14 +181,15 @@ impl TestAndCopy {
         TestAndCopy::new(String::default(), String::default(), test_hash, copy_hash)
     }
 
-    pub fn new_integrity_overwrite(test_hash: String, copy_hash: String) -> Self {
+    pub fn new_integrity_no_data(test_hash: String, copy_hash: String) -> Self {
+        let integrity = if test_hash != copy_hash { Integrity::Mismatch } else { Integrity::Unknown };
         TestAndCopy {
             test_hash,
             copy_hash,
             test_skipzero_hash: String::default(),
             copy_skipzero_hash: String::default(),
-            integrity: Integrity::Unknown,
-            integrity_skipzero: Integrity::Unknown,
+            integrity: integrity.clone(),
+            integrity_skipzero: integrity,
         }
     }
 }
