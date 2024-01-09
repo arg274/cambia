@@ -79,10 +79,14 @@
         </div>
     </div>
     <div class="flex flex-col gap-4">
-        <h6>Track {tracks[page.page].num}</h6>
+        <div class="flex gap-2 items-center">
+            <h6>Track {tracks[page.page].num}</h6>
+            {#if tracks[page.page].aborted}
+                <div class="variant-soft-error rounded-md text-xs px-2 py-1">Aborted</div>
+            {/if}
+        </div>
         <div class="flex flex-col gap-4">
             <InfoSegment icon={IconSplitScreen} header="Track splitting" value={tracks[page.page].is_range ? "Range" : "Split"} />
-            <InfoSegment icon={IconIncompleteCancel} header="Aborted" value={tracks[page.page].aborted} />
             <InfoSegment icon={IconSidePanelOpenFilled} header="Extraction speed" value={`${tracks[page.page].extraction_speed?.toFixed(1)}x`} />
             <InfoSegment icon={IconMountain} header="Peak level" value={tracks[page.page].peak_level?.toFixed(3)} />
             <InfoSegment icon={IconMicrophone} header="Gain" value={tracks[page.page].gain} />
