@@ -5,5 +5,7 @@
 
 <!-- TODO: Shows dbpa when valid log is dropped from error -->
 {#if $errorStore}
-    <ErrorView err={$errorStore} />
+    <div class="px-4 grid h-full place-items-center">
+        <ErrorView err={$errorStore} />
+    </div>
 {/if}
