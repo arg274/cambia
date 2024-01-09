@@ -4,7 +4,6 @@ use std::{str::FromStr, collections::HashSet};
 
 use regex::{Regex, RegexBuilder};
 use base64::{Engine as _, engine::GeneralPurpose, engine::general_purpose::PAD, alphabet::Alphabet};
-use serde_json::from_str;
 
 use crate::{extract::{Extractor, Quartet, Ripper, ReadMode, Gap, MediaType, TrackExtractor}, translate::{Translator, TranslatorCombined}, integrity::IntegrityChecker, toc::{TocEntry, TocRaw, Toc}, util::Time, track::{TrackEntry, TestAndCopy, TrackError}};
 use simple_text_decode::DecodedText;
@@ -47,7 +46,7 @@ lazy_static! {
     static ref COPY_CRC: Regex = Regex::new(r"CRC32 hash(\s*):(\s*)(?P<value>[A-F0-9]{8})").unwrap();
     // FIXME: Missing some fields
     // TODO: Does not get damaged sector positions
-    static ref ERROR: Regex = Regex::new(r"(?P<type>Read error|Skipped \(treated as error\)|Damaged sector count|Inconsistency in error sectors|((Jitter error|Edge jitter error|Atom jitter error|Drift error|Dropped bytes error|Duplicated bytes error) \(maybe fixed\)))(\s*):(\s*)(?P<count>\d+)").unwrap();
+    static ref ERROR: Regex = Regex::new(r"(?P<type>Read error|Skipped \(treated as error\)|Damaged sector count|Inconsistency in error sectors|Missing samples|((Jitter error|Edge jitter error|Atom jitter error|Drift error|Dropped bytes error|Duplicated bytes error) \(maybe fixed\)))((\s*):(\s*)(?P<count>\d+))?").unwrap();
 }
 
 pub struct XldParser {
@@ -388,10 +387,14 @@ impl TrackExtractor for XldParserTrack {
 
         let (mut r_c, mut s_c, mut drf_c, mut drp_c, mut dup_c, mut dmg_c, mut inc_c) = (0_u32, 0_u32, 0_u32, 0_u32, 0_u32, 0_u32, 0_u32);
         let (mut jg_c, mut je_c, mut ja_c) = (0_u32, 0_u32, 0_u32);
+        let mut m_s = false;
 
         for captures in captures_all {
             let error_type = captures.name("type").unwrap().as_str();
-            let count = from_str::<u32>(captures.name("count").unwrap().as_str()).unwrap();
+            let count = match captures.name("count") {
+                Some(m) => m.as_str().parse::<u32>().unwrap_or_default(),
+                None => 0,
+            };
 
             match error_type {
                 "Read error" => { r_c = count },
@@ -403,11 +406,12 @@ impl TrackExtractor for XldParserTrack {
                 "Drift error (maybe fixed)" => { drf_c = count },
                 "Dropped bytes error (maybe fixed)" => { drp_c = count },
                 "Duplicated bytes error (maybe fixed)" => { dup_c = count },
-                "Inconsistency in error sectors" => { inc_c = count }
+                "Inconsistency in error sectors" => { inc_c = count },
+                "Missing samples" => { m_s = true },
                 _ => {}
             }
         }
 
-        TrackError::new_xld(r_c, s_c, jg_c, je_c, ja_c, drf_c, drp_c, dup_c, dmg_c, inc_c)
+        TrackError::new_xld(r_c, s_c, jg_c, je_c, ja_c, drf_c, drp_c, dup_c, dmg_c, inc_c, m_s)
     }
 }

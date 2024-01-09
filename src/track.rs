@@ -72,6 +72,8 @@ pub struct TrackError {
     pub damaged_sectors: TrackErrorData,
     #[serde(skip_serializing_if = "TrackErrorData::is_default")]
     pub inconsistent_err_sectors: TrackErrorData,
+    #[serde(skip_serializing_if = "TrackErrorData::is_default")]
+    pub missing_samples: TrackErrorData,
 }
 
 #[derive(Serialize, Deserialize, Default, PartialEq, TS)]
@@ -101,11 +103,12 @@ impl TrackError {
             duplicated: TrackErrorData::default(),
             damaged_sectors: TrackErrorData::default(),
             inconsistent_err_sectors: TrackErrorData::default(),
+            missing_samples: TrackErrorData::default(),
         }
     }
 
     #[allow(clippy::too_many_arguments)]
-    pub fn new_xld(r_c: u32, s_c: u32, jg_c: u32, je_c: u32, ja_c: u32, drf_c: u32, drp_c: u32, dup_c: u32, dmg_c: u32, inc_c: u32) -> Self {
+    pub fn new_xld(r_c: u32, s_c: u32, jg_c: u32, je_c: u32, ja_c: u32, drf_c: u32, drp_c: u32, dup_c: u32, dmg_c: u32, inc_c: u32, m_s: bool) -> Self {
         TrackError {
             read: TrackErrorData::new_from_count(r_c),
             skip: TrackErrorData::new_from_count(s_c),
@@ -117,6 +120,7 @@ impl TrackError {
             duplicated: TrackErrorData::new_from_count(dup_c),
             damaged_sectors: TrackErrorData::new_from_count(dmg_c),
             inconsistent_err_sectors: TrackErrorData::new_from_count(inc_c),
+            missing_samples: TrackErrorData::new_from_bool(m_s),
         }
     }
 }
@@ -128,6 +132,10 @@ impl TrackErrorData {
 
     pub fn new_from_count(count: u32) -> Self {
         TrackErrorData { count, ranges: Vec::new() }
+    }
+
+    pub fn new_from_bool(errored: bool) -> Self {
+        TrackErrorData { count: u32::from(errored), ranges: Vec::new() }
     }
 
     pub fn is_default(&self) -> bool {

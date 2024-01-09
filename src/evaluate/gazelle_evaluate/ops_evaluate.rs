@@ -15,6 +15,14 @@ lazy_static! {
     static ref WHIPPER_VERSION: Regex = RegexBuilder::new(r"(?P<major>\d+)\.(?P<minor>\d+)\.(?P<patch>\d+)(\.(?P<pre>[0-9a-z]+))?(\+(?P<build>[0-9a-z]+))?").case_insensitive(true).build().unwrap();
 }
 
+static WHIPPER_VERSION_THRESH: Version = Version {
+    major: 0,
+    minor: 7,
+    patch: 3,
+    pre: Prerelease::EMPTY,
+    build: BuildMetadata::EMPTY,
+};
+
 #[derive(Default)]
 pub struct OpsEvaluator;
 
@@ -42,15 +50,7 @@ impl OpsEvaluator {
                             build: if c.name("build").is_some() { BuildMetadata::new(c.name("build").unwrap().as_str()).unwrap() } else { BuildMetadata::EMPTY },
                         };
 
-                        let r_thresh = Version {
-                            major: 0,
-                            minor: 7,
-                            patch: 3,
-                            pre: Prerelease::EMPTY,
-                            build: BuildMetadata::EMPTY,
-                        };
-
-                        r_v < r_thresh
+                        r_v < WHIPPER_VERSION_THRESH
                     },
                     None => true,
                 }
@@ -162,7 +162,7 @@ impl OpsEvaluator {
             GazelleDeductionTrack::CouldNotVerifyInconsistentErrorSectors => false,
             GazelleDeductionTrack::SusPositionsFound => (parsed_log.ripper == Ripper::EAC && track_entry.errors.read.count > 0) || (parsed_log.ripper == Ripper::XLD && track_entry.errors.inconsistent_err_sectors.count > 0),
             GazelleDeductionTrack::TimingProblemsFound => parsed_log.ripper == Ripper::EAC && track_entry.errors.jitter_generic.count > 0,
-            GazelleDeductionTrack::MissingSamplesFound => false, // TODO: Figure out when this happens
+            GazelleDeductionTrack::MissingSamplesFound => track_entry.errors.missing_samples.count > 0,
             GazelleDeductionTrack::CopyAborted => track_entry.aborted,
             GazelleDeductionTrack::CrcMismatch => track_entry.test_and_copy.integrity == Integrity::Mismatch,
             GazelleDeductionTrack::ReadErrors(_) => parsed_log.ripper == Ripper::XLD && track_entry.errors.read.count > 0,
