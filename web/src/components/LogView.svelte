@@ -12,10 +12,15 @@
 	import ChecksumInfo from "./ChecksumInfo.svelte";
 	import TrackInfo from "./TrackInfo.svelte";
 	import type { CambiaResponse } from '$lib/types/CambiaResponse';
+	import { onMount } from 'svelte';
     
     export let res: CambiaResponse;
     let inputPage = 1;
     let inputEl: HTMLInputElement;
+
+    // TODO: Any way to get this from Tailwind directly?
+    let mq = window.matchMedia("(min-width: 768px)");
+    $: isMd = mq.matches;
 
     let pageSettings: PaginationSettings = {
         page: 0,
@@ -54,6 +59,12 @@
             amounts: [1]
         }
     }
+
+    onMount(() => {
+        mq.addEventListener("change", (e) => {
+            isMd = e.matches;
+        });
+    });
 </script>
 
 {#if res}
@@ -74,34 +85,41 @@
 
     <div class={classNames("flex flex-col gap-y-4", combinedLog ? "mt-4" : "")}>
         <!-- <ReleaseInfo mbzTocId={parsedLog.toc.mbz.hash} /> -->
-        <div class="hidden md:flex flex-col gap-y-4" use:tocCrawler={{ mode: 'generate', queryElements: 'h3' }}>
-            <div class="hidden md:flex gap-x-4">
-                <div class="flex flex-col w-1/2 gap-4">
-                    {#key res.evaluation_combined}
-                        <Grade evaluations={res.evaluation_combined} />
-                    {/key}
-                    <EvaluationInfo combinedEvals={res.evaluation_combined.filter(x => x.evaluator !== 'Cambia')} selectedLogIdx={pageSettings.page} />
-                    <TocInfo toc={parsedLog.toc} />
-                    <ChecksumInfo checksum={parsedLog.checksum} />
+        {#if isMd}
+            <div class="flex flex-col gap-y-4" use:tocCrawler={{ mode: 'generate', queryElements: 'h3' }}>
+                <div class="flex gap-x-4">
+                    <div class="flex flex-col w-1/2 gap-4">
+                        {#key res.evaluation_combined}
+                            <Grade evaluations={res.evaluation_combined} />
+                        {/key}
+                        {#key pageSettings}
+                            <EvaluationInfo combinedEvals={res.evaluation_combined} selectedLogIdx={pageSettings.page} />
+                        {/key}
+                        <TocInfo toc={parsedLog.toc} />
+                        <ChecksumInfo checksum={parsedLog.checksum} />
+                    </div>
+                    <div class="flex flex-col w-1/2 gap-4">
+                        <RipInfo parsedLog={parsedLog} />
+                        <RipInfoQuartet parsedLog={parsedLog} />
+                    </div>
                 </div>
-                <div class="flex flex-col w-1/2 gap-4">
-                    <RipInfo parsedLog={parsedLog} />
-                    <RipInfoQuartet parsedLog={parsedLog} />
-                </div>
+                <hr class="!border-t-4 !border-dashed" />
+                <TrackInfo toc={parsedLog.toc.raw} tracks={parsedLog.tracks} />
             </div>
-            <hr class="!border-t-4 !border-dashed" />
-            <TrackInfo toc={parsedLog.toc.raw} tracks={parsedLog.tracks} />
-        </div>
-        <div class="flex md:hidden flex-col gap-4">
-            {#key res.evaluation_combined}
-                <Grade evaluations={res.evaluation_combined} />
-            {/key}
-            <EvaluationInfo combinedEvals={res.evaluation_combined.filter(x => x.evaluator !== 'Cambia')} selectedLogIdx={pageSettings.page} />
-            <RipInfo parsedLog={parsedLog} />
-            <RipInfoQuartet parsedLog={parsedLog} />
-            <ChecksumInfo checksum={parsedLog.checksum} />
-            <TocInfo toc={parsedLog.toc} />
-            <TrackInfo toc={parsedLog.toc.raw} tracks={parsedLog.tracks} />
-        </div>
+        {:else}
+            <div class="flex flex-col gap-4">
+                {#key res.evaluation_combined}
+                    <Grade evaluations={res.evaluation_combined} />
+                {/key}
+                {#key pageSettings}
+                    <EvaluationInfo combinedEvals={res.evaluation_combined} selectedLogIdx={pageSettings.page} />
+                {/key}
+                <RipInfo parsedLog={parsedLog} />
+                <RipInfoQuartet parsedLog={parsedLog} />
+                <ChecksumInfo checksum={parsedLog.checksum} />
+                <TocInfo toc={parsedLog.toc} />
+                <TrackInfo toc={parsedLog.toc.raw} tracks={parsedLog.tracks} />
+            </div>
+        {/if}
     </div>
 {/if}
