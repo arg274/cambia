@@ -4,6 +4,7 @@ import Color from 'colorjs.io';
 import type { CambiaResponse } from './types/CambiaResponse';
 import type { CambiaError } from './types/CambiaError';
 import { Packr } from 'msgpackr';
+import type { DeductionCategory } from './types/DeductionCategory';
 
 const packr = new Packr({ useRecords: false });
 
@@ -142,4 +143,8 @@ export function trimLeftChar(str: string, ch: string) {
     }
 
     return start > 0 ? str.substring(start, end) : str;
+}
+
+export function deductionCategoryStringify(category: DeductionCategory) {
+    return typeof category === 'string' ? category : `Track ${category.Track}`;
 }

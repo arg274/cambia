@@ -12,6 +12,21 @@ html, body { @apply h-full overflow-hidden; }
 	@apply bg-gradient-to-br;
 	@apply from-primary-500 to-tertiary-500;
 }
+.tree-item {
+    @apply my-1;
+}
+.tree-item-content {
+    @apply w-full;
+}
+.hide-scroll-numinput {
+    input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    input[type="number"] {
+        -moz-appearance: textfield;
+    }
+}
 
 /* TODO: Unify mono text block here */
 
@@ -34,15 +49,7 @@ html, body { @apply h-full overflow-hidden; }
     .text-spaced-mini {
         @apply p-1 font-medium dark:font-normal tracking-widest uppercase text-xs
     }
-    .hide-scroll-numinput {
-        input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-        input[type="number"] {
-            -moz-appearance: textfield;
-        }
-    }
+    
 }
 
 @font-face {

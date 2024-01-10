@@ -1,43 +1,77 @@
 <script lang="ts">
-    import { Accordion, AccordionItem } from "@skeletonlabs/skeleton";
-    import IconMeter from '~icons/carbon/meter';
+    import { RecursiveTreeView, type TreeViewNode } from "@skeletonlabs/skeleton";
+    import slugify from 'slugify';
 	import Card from "./frags/Card.svelte";
     import type { EvaluationCombined } from "$lib/types/EvaluationCombined";
-	import { getScoreVariant } from "$lib/utils";
+    import DeductionSegment from "./frags/treeview/DeductionSegment.svelte";
+    import EvaluatorSegment from "./frags/treeview/EvaluatorSegment.svelte";
+	import EvaluatorLead from "./frags/treeview/EvaluatorLead.svelte";
+	import DeductionCategorySegment from "./frags/treeview/DeductionCategorySegment.svelte";
+	import { deductionCategoryStringify } from "$lib/utils";
+	import DeductionNoneSegment from "./frags/treeview/DeductionNoneSegment.svelte";
+	import type { DeductionAggregate } from "$lib/types/DeductionAggregate";
 
     export let combinedEvals: EvaluationCombined[];
-    export let selectedLogIdx: number = 0;
+    export let selectedLogIdx: number;
+
+    let evaluationCombined = combinedEvals.filter(e => e.evaluator === "OPS")[0];
+    let deductions = evaluationCombined.evaluations[selectedLogIdx].deductions;
+    let deductionsByCategory: { [key: string]: DeductionAggregate } = {};
+
+    let treeViewNodes: TreeViewNode[] = [];
+    let expandedNodes: string[] = [];
+
+    deductions.forEach(deduction => {
+        let categoryKey = deductionCategoryStringify(deduction.data.category);
+        if (!deductionsByCategory[categoryKey]) {
+            const slug = slugify(categoryKey);
+            expandedNodes.push(slug);
+            deductionsByCategory[categoryKey] = { slug: slug, deductions: [ deduction ] };
+        } else {
+            deductionsByCategory[categoryKey].deductions.push(deduction);
+        }
+    });
+
+    treeViewNodes.push({
+        id: evaluationCombined.evaluator,
+        lead: EvaluatorLead,
+        leadProps: {
+            evaluator: evaluationCombined.evaluator
+        },
+        content: EvaluatorSegment,
+        contentProps: {
+            evaluator: evaluationCombined.evaluator,
+            score: evaluationCombined.evaluations[selectedLogIdx].score,
+            combinedScore: evaluationCombined.combined_score
+        },
+        children: deductions.length == 0 ? [{
+            id: "deduction-none",
+            content: DeductionNoneSegment
+        }] : Object.keys(deductionsByCategory).map(category => (
+        {
+            id: deductionsByCategory[category].slug,
+            content: DeductionCategorySegment,
+            contentProps: {
+                category: category
+            },
+            children: deductionsByCategory[category].deductions.map(deduction => ({
+                id: slugify(deduction.data.field),
+                content: DeductionSegment,
+                contentProps: {
+                    deduction: deduction
+                },
+            }))
+        }))
+    });
 </script>
 
 <!-- TODO: This will need a massive overhaul to handle colours and goto highlighting -->
 <Card header="Evaluations">
-    <Accordion regionPanel="space-y-2">
-        {#each combinedEvals as combinedEval}
-            <AccordionItem>
-                <svelte:fragment slot="lead">
-                    <IconMeter />
-                </svelte:fragment>
-                <svelte:fragment slot="summary">
-                    <div class="flex justify-between items-center">
-                        <span>{combinedEval.evaluator}</span>
-                        <div class="flex gap-x-1">
-                            <!-- FIXME: Green chips have a contrast issue in light mode -->
-                            <span class="ml-8 chip {getScoreVariant(combinedEval.evaluations[selectedLogIdx].score)} rounded-full">{combinedEval.evaluations[selectedLogIdx].score}</span>
-                            {#if combinedEval.evaluations[selectedLogIdx].score !== combinedEval.combined_score}
-                                <span class="chip {getScoreVariant(combinedEval.combined_score)} rounded-full">C{combinedEval.combined_score}</span>
-                            {/if}
-                        </div>
-                    </div>
-                </svelte:fragment>
-                <svelte:fragment slot="content">
-                    {#each combinedEval.evaluations[selectedLogIdx].deductions as deduction}
-                        <div class="grid grid-cols-6 items-center">
-                            <span class="col-span-5 text-xs">{deduction.data.message}</span>
-                            <span class="col-span-1 w-10 chip py-1 variant-soft-error rounded-full">-{deduction.deduction_score}</span>
-                        </div>
-                    {/each}
-                </svelte:fragment>
-            </AccordionItem>
-        {/each}
-    </Accordion>
+    <RecursiveTreeView
+        nodes={treeViewNodes}
+        expandedNodes={expandedNodes}
+        indent="ml-1 my-2"
+        padding="pl-2 py-0"
+        hyphenOpacity="opacity-0">
+    </RecursiveTreeView>
 </Card>
