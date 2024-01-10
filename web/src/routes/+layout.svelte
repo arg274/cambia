@@ -56,12 +56,20 @@
 
 		// FIXME: Unwanted detection in forms and breaks if pasted in high frequency
 		document.addEventListener("paste", (ev) => {
-			const content = ev.clipboardData?.getData("text");
-			if (content) {
-				const file = new File([content], "pasted.log", {type: 'text/plain'});
-				const dt = new DataTransfer();
-				dt.items.add(file);
-				fileListStore.set(dt.files);
+			const dt = ev.clipboardData;
+			const tmp_dt = new DataTransfer();
+			if (dt) {
+				if (dt.types.includes("text/plain")) {
+					const file = new File([dt.getData("text")], "pasted.log", {type: 'text/plain'});
+					tmp_dt.items.add(file);
+				} else {
+					for (const file of dt.files) {
+						if (file.name.endsWith(".log") || file.name.endsWith(".txt")) {
+							tmp_dt.items.add(file);
+						}
+					}
+				}
+				fileListStore.set(tmp_dt.files);
 				inputChanged();
 			}
 		});
