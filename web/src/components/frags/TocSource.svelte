@@ -5,6 +5,7 @@
     import { clipboard } from '@skeletonlabs/skeleton';
 	import { copySuccess } from "$lib/utils";
     import { getToastStore } from '@skeletonlabs/skeleton';
+	import type { ComponentType } from 'svelte';
 
     const toastStore = getToastStore();
 
@@ -12,7 +13,7 @@
     export let discid: string;
     export let url: string = "";
 
-    export let icon: ConstructorOfATypedSvelteComponent = IconIbmCloudPakData;
+    export let icon: ComponentType = IconIbmCloudPakData;
 </script>
 <div class="flex flex-col">
     <div class="flex items-center"><svelte:component this={icon} class="icon-sm" /><span class="ml-1 dark:font-light text-sm">{header}</span></div>

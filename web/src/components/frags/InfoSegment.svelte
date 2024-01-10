@@ -1,10 +1,11 @@
 <script lang="ts">
+	import type { ComponentType } from 'svelte';
     import IconUnknown from '~icons/carbon/unknown';
     
     export let header: string = '';
     export let value: string | number | boolean | null | undefined;
 
-    export let icon: ConstructorOfATypedSvelteComponent = IconUnknown;
+    export let icon: ComponentType = IconUnknown;
 
 </script>
 

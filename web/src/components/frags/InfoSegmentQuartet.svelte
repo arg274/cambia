@@ -5,11 +5,12 @@
     import IconHelpFilled from '~icons/carbon/help-filled';
     import IconErrorFilled from '~icons/carbon/error-filled';
     import IconUnknown from '~icons/carbon/unknown';
+	import type { ComponentType } from "svelte";
     
     export let header: string;
     export let value: Quartet;
 
-    export let icon: ConstructorOfATypedSvelteComponent = IconUnknown;
+    export let icon: ComponentType = IconUnknown;
 </script>
 
 {#if value}

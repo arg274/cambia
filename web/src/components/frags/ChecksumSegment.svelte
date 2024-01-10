@@ -5,12 +5,13 @@
 	import { copySuccess } from "$lib/utils";
     import { getToastStore } from '@skeletonlabs/skeleton';
 	import type { Integrity } from '$lib/types/Integrity';
+	import type { ComponentType } from 'svelte';
 
     const toastStore = getToastStore();
 
     export let header: string;
     export let hash: string;
-    export let icon: ConstructorOfATypedSvelteComponent = IconUnknown;
+    export let icon: ComponentType = IconUnknown;
     export let status: Integrity;
 
     let bgColor: string;
