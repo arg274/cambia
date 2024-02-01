@@ -1,5 +1,5 @@
 <script lang="ts">
-    import IconMusicbrainz from '~icons/cambia/musicbrainz';
+    import MusicBrainz from "./icons/MusicBrainz.svelte";
 	import Card from "./frags/Card.svelte";
 	import ComboBox from "./frags/ComboBox.svelte";
 	import { getCaaCovers, getJoinedArtists, getReleasesFromDiscId } from '$lib/api/MusicBrainzApi';
@@ -53,7 +53,9 @@
                             <span class="text-2xl font-bold">{release.title}</span>
                         </div>
                     </div>
-                    <a type="button" class="btn-icon bg-initial hover:variant-soft self-start" href="https://musicbrainz.org/release/{release.id}" target="_blank"><IconMusicbrainz /></a>
+                    <a type="button" class="btn-icon bg-initial hover:variant-soft self-start" href="https://musicbrainz.org/release/{release.id}" target="_blank">
+                        <MusicBrainz />
+                    </a>
                 </div>
                 <div class="mt-4 flex justify-between items-end">
                     <span><ComboBox addTriggerClass="h-6" textClass="text-sm font-mono" items={releases.map(rel => rel.id)} bind:value={selectedRelease} /></span>

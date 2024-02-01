@@ -45,6 +45,7 @@
 </script>
 
 <svelte:window on:dragenter|stopPropagation={dragenter} />
+<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 <label
     class={classNames(baseClass, focused ? focusClass: blurClass, $$props.class)}
     tabIndex="-1"

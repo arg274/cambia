@@ -1,6 +1,6 @@
 <script lang="ts">
     import IconArrowUpRight from '~icons/carbon/arrow-up-right';
-    import IconMusicbrainz from '~icons/cambia/musicbrainz';
+    import MusicBrainz from '../../icons/MusicBrainz.svelte';
 	import type { ResponseEntry } from "$lib/types/ResponseEntry";
 	import { isCambiaResponse } from '$lib/utils';
 
@@ -13,7 +13,9 @@
         {#each sources as source}
             <a class="chip variant-soft font-mono rounded-full" href={source.url} target="_blank">
                 <span class="hidden sm:block text-ellipsis line-clamp-1">{source.hash}</span>
-                <IconMusicbrainz class="sm:hidden icon-sm" />
+                <div class="sm:hidden w-4">
+                    <MusicBrainz />
+                </div>
                 <IconArrowUpRight class="ml-2 icon-sm" />
             </a>
         {/each}

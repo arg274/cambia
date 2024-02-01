@@ -3,7 +3,7 @@
 
 	import { AppBar, AppShell, initializeStores, setInitialClassState, Toast, modeCurrent, setModeUserPrefers, setModeCurrent } from '@skeletonlabs/skeleton';
 	
-	import IconCambiaOutline from '~icons/cambia/cambia-outline';
+	import CambiaLogo from '../components/icons/CambiaLogo.svelte';
 	import IconWindowBlackSaturation from '~icons/carbon/window-black-saturation';
 	import IconGithub from '~icons/carbon/logo-github';
 	import { fade } from 'svelte/transition';
@@ -17,6 +17,7 @@
 	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
 	import { storePopup } from '@skeletonlabs/skeleton';
 	import type { CambiaError } from '$lib/types/CambiaError';
+
 	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 	
 	initializeStores();
@@ -87,7 +88,9 @@
 			<svelte:fragment slot="lead">
 				<a href="/">
 					<div class="flex gap-x-2 items-center">
-						<span>cambia</span> <IconCambiaOutline class="stroke-black dark:stroke-white stroke-2" /> <span><strong>LogTools</strong></span>
+						<span>cambia</span>
+						<CambiaLogo class="w-5 stroke-black dark:stroke-white stroke-1" />
+						<span><strong>LogTools</strong></span>
 					</div>
 				</a>
 			</svelte:fragment>
@@ -102,7 +105,7 @@
 	<svelte:fragment slot="pageFooter">
 		<AppBar class="mt-10" background="bg-surface-100-800-token">
 			<svelte:fragment slot="lead">
-				<IconCambiaOutline class="stroke-surface-300 dark:stroke-surface-400 stroke-2" />
+				<CambiaLogo class="w-8 stroke-surface-300 dark:stroke-surface-400 stroke-1" />
 			</svelte:fragment>
 			<svelte:fragment slot="trail">
 				<a href="https://github.com/arg274/cambia" class="btn-icon bg-initial hover:variant-soft" target="_blank"><IconGithub class="icon-lg" /></a>

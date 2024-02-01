@@ -103,7 +103,7 @@
         </div>
         {#if tracks[page.page].filenames.length > 0}
             <div class="flex flex-col gap-2">   
-                <div class="flex items-center"><IconDocumentBlank class="icon-sm" /><span class="ml-1 dark:font-light text-sm">Filename</span></div>
+                <div class="flex items-center"><IconDocumentBlank class="icon-sm" /><span class="ml-2 dark:font-light text-sm">Filename</span></div>
                 <!-- TODO: Only show the first filename for now -->
                 <!-- Leading slashes in *nix paths need to be trimmed to not mess up RTL -->
                 <div class="font-mono grow bg-surface-50-900-token px-2 py-1 col-span-9 truncate text-end" dir="rtl">{trimLeftChar(tracks[page.page].filenames[0], "/")}</div>

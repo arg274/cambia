@@ -7,13 +7,10 @@ import { FileSystemIconLoader } from 'unplugin-icons/loaders';
 export default defineConfig({
 	plugins: [
 		sveltekit(),
-		purgeCss(),
 		Icons({
 			compiler: 'svelte',
-			customCollections: {
-				'cambia': FileSystemIconLoader('static/icons'),
-			}
 		}),
+		purgeCss(),
 	],
 	test: {
 		include: ['src/**/*.{test,spec}.{js,ts}']

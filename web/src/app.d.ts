@@ -8,3 +8,5 @@ declare namespace App {
 	// interface Error {}
 	// interface Platform {}
 }
+
+export {};

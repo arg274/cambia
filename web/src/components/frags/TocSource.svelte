@@ -16,7 +16,12 @@
     export let icon: ComponentType = IconIbmCloudPakData;
 </script>
 <div class="flex flex-col">
-    <div class="flex items-center"><svelte:component this={icon} class="icon-sm" /><span class="ml-1 dark:font-light text-sm">{header}</span></div>
+    <div class="flex items-center">
+        <div class="min-w-4">
+            <svelte:component this={icon} />
+        </div>
+        <span class="ml-1.5 dark:font-light text-sm">{header}</span>
+    </div>
     <div class="flex items-center place-items-center justify-between">
         <div class="font-mono grow bg-success-900 bg-surface-50-900-token px-2 py-1 truncate">{discid}</div>
         <div class="flex">

@@ -12,7 +12,7 @@
 {#if value && !value.toString().toLocaleLowerCase().startsWith("null") && !value.toString().toLocaleLowerCase().startsWith("undefined")}
     <div class="flex flex-col gap-0.5">
         <div class="flex items-center">
-            <svelte:component this={icon} class="icon-sm" /> <h4 class="ml-1 dark:font-light text-sm">{header}</h4>
+            <svelte:component this={icon} class="icon-sm" /> <h4 class="ml-1.5 dark:font-light text-sm">{header}</h4>
         </div>
         <span class="text-xl font-bold">{value}</span>
     </div>

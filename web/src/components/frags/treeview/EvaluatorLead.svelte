@@ -1,7 +1,7 @@
 <script lang="ts">
     import type { EvaluatorType } from "$lib/types/EvaluatorType";
     import IconUnknown from '~icons/carbon/unknown';
-    import IconOrpheus from '~icons/cambia/orpheus';
+    import Orpheus from "../../icons/Orpheus.svelte";
 	import type { ComponentType } from "svelte";
 
     export let evaluator: EvaluatorType;
@@ -10,7 +10,7 @@
 
     switch (evaluator) {
         case "OPS":
-            icon = IconOrpheus;
+            icon = Orpheus;
             break;
         default:
             icon = IconUnknown;
@@ -18,4 +18,6 @@
     }
 </script>
 
-<svelte:component this={icon} class="stroke-black dark:stroke-white stroke-2" />
+<div class="w-6">
+    <svelte:component this={icon} />
+</div>

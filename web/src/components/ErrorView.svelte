@@ -1,13 +1,13 @@
 <script lang="ts">
 	import type { CambiaError } from "$lib/types/CambiaError";
-    import IconCambiaOutline from '~icons/cambia/cambia-outline';
+    import CambiaLogo from "./icons/CambiaLogo.svelte";
 	import { hexify } from "$lib/utils";
 
     export let err: CambiaError;
 </script>
 
 <div class="flex flex-col md:items-center">
-    <IconCambiaOutline class="stroke-error-400 text-8xl md:text-[14rem]" id="big-error-logo" />
+    <CambiaLogo class="stroke-error-400 w-60 md:w-72 stroke-[0.75]" id="big-error-logo" />
     <div class="flex flex-col">
         <span class="text-5xl md:text-8xl mt-8 font-bold">oops.</span>
         <span class="text-xl md:text-2xl mt-2">something went wrong.</span>
