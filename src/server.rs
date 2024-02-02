@@ -177,7 +177,7 @@ impl CambiaServer {
         } else {
             String::from("Unknown browser")
         };
-        tracing::info!("`{user_agent}` at {addr} connected.");
+        tracing::trace!("`{user_agent}` at {addr} connected.");
         ws.on_upgrade(move |socket| Self::handle_socket(socket, addr))
     }
     
