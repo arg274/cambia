@@ -148,3 +148,9 @@ export function trimLeftChar(str: string, ch: string) {
 export function deductionCategoryStringify(category: DeductionCategory) {
     return typeof category === 'string' ? category : `Track ${category.Track}`;
 }
+
+export function secondsToMMSS(seconds: number): string {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = Math.round((seconds % 60) * 100) / 100;
+    return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+}

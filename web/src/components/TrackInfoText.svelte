@@ -16,7 +16,7 @@
 	import ChecksumSegment from "./frags/ChecksumSegment.svelte";
 	import InfoSegment from "./frags/InfoSegment.svelte";
 	import type { TrackEntry } from "$lib/types/TrackEntry";
-	import { nonNullAssert, trimLeftChar } from "$lib/utils";
+	import { nonNullAssert, secondsToMMSS, trimLeftChar } from "$lib/utils";
     
     export let tracks: TrackEntry[];
     export let selectedTrack: number;
@@ -130,7 +130,7 @@
     {#if Object.keys(tracks[page.page].errors).length > 0}
         <hr class="my-4 !border-t-4 !border-dashed" />
         <div class="flex items-center"><IconWarningAlt /><span class="ml-1 dark:font-light text-sm">Track Errors</span></div>
-        <Accordion regionPanel="space-y-2">
+        <Accordion regionPanel="space-y-0" padding="px-2 py-1" class="mt-2">
             {#each Object.keys(tracks[page.page].errors) as errorType}
                 <AccordionItem>
                     <svelte:fragment slot="lead">
@@ -138,7 +138,7 @@
                     </svelte:fragment>
                     <svelte:fragment slot="summary">
                         <div class="flex justify-between items-center">
-                            <span>{errorType}</span>
+                            <span class="first-letter:capitalize text-sm">{errorType}</span>
                             <span class="chip variant-soft-error rounded-full">{tracks[page.page].errors[errorType].count}</span>
                         </div>
                     </svelte:fragment>
@@ -147,15 +147,20 @@
                             {#each tracks[page.page].errors[errorType].ranges as errorRange}
                                 <div class="flex justify-between items-center">
                                     <div>
-                                        <span class="chip variant-soft-success rounded-full">Start</span>
-                                        <span class="text-sm">{errorRange.start}</span>
+                                        <span class="text-xs variant-soft-primary rounded-full py-1 px-2 uppercase">Start</span>
+                                        <span class="text-xs">{secondsToMMSS(parseFloat(errorRange.start))}</span>
                                     </div>
-                                    <div>
-                                        <span class="chip variant-soft-success rounded-full">Length</span>
-                                        <span class="text-sm">{errorRange.length}</span>
-                                    </div>
+                                    {#if errorRange.length}
+                                        <hr class="mx-2 grow !border-b-2 !border-dotted" />
+                                        <div>
+                                            <span class="text-xs">{secondsToMMSS(parseFloat(errorRange.start) + parseFloat(errorRange.length))}</span>
+                                            <span class="text-xs variant-soft-primary rounded-full py-1 px-2 uppercase">End</span>
+                                        </div>
+                                    {/if}
                                 </div>
                             {/each}
+                        {:else}
+                            <span class="text-xs">Position data not available/applicable.</span>
                         {/if}
                     </svelte:fragment>
                 </AccordionItem>

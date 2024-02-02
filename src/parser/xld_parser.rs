@@ -5,7 +5,7 @@ use std::{str::FromStr, collections::HashSet};
 use regex::{Regex, RegexBuilder};
 use base64::{Engine as _, engine::GeneralPurpose, engine::general_purpose::PAD, alphabet::Alphabet};
 
-use crate::{extract::{Extractor, Quartet, Ripper, ReadMode, Gap, MediaType, TrackExtractor}, translate::{Translator, TranslatorCombined}, integrity::IntegrityChecker, toc::{TocEntry, TocRaw, Toc}, util::Time, track::{TrackEntry, TestAndCopy, TrackError}};
+use crate::{extract::{Extractor, Gap, MediaType, Quartet, ReadMode, Ripper, TrackExtractor}, integrity::IntegrityChecker, toc::{Toc, TocEntry, TocRaw}, track::{TestAndCopy, TrackEntry, TrackError, TrackErrorData, TrackErrorRange}, translate::{Translator, TranslatorCombined}, util::Time};
 use simple_text_decode::DecodedText;
 
 use self::sha256custom::Sha256Custom;
@@ -44,8 +44,10 @@ lazy_static! {
     static ref PEAK_LEVEL: Regex = Regex::new(r"Peak(\s*):(\s*)(?P<value>\d+\.\d+)").unwrap();
     static ref TEST_CRC: Regex = Regex::new(r"CRC32 hash \(test run\)(\s*):(\s*)(?P<value>[A-F0-9]{8})").unwrap();
     static ref COPY_CRC: Regex = Regex::new(r"CRC32 hash(\s*):(\s*)(?P<value>[A-F0-9]{8})").unwrap();
-    // TODO: Does not get damaged sector positions and suspicious positions
     static ref ERROR: Regex = Regex::new(r"(?P<type>Read error|Skipped \(treated as error\)|Damaged sector count|Inconsistency in error sectors|Missing samples|((Jitter error|Edge jitter error|Atom jitter error|Drift error|Dropped bytes error|Duplicated bytes error) \(maybe fixed\)))((\s*):(\s*)(?P<count>\d+))?").unwrap();
+    static ref DAMAGED_SECTORS: Regex =  Regex::new(r"List of damaged sector positions\s*:(?:\s*\(\d+\)\s*\d+:\d+:\d+)+").unwrap();
+    static ref SUSPICIOUS_POSITIONS: Regex = Regex::new(r"List of suspicious positions\s*:(?:\s*\(\d+\)\s*\d+:\d+:\d+)+").unwrap();
+    static ref ERROR_TIME: Regex = Regex::new(r"\s*\(\d+\)\s*(?P<time>\d+:\d+:\d+)").unwrap();
 }
 
 pub struct XldParser {
@@ -434,6 +436,38 @@ impl TrackExtractor for XldParserTrack {
             }
         }
 
-        TrackError::new_xld(r_c, s_c, jg_c, je_c, ja_c, drf_c, drp_c, dup_c, dmg_c, inc_c, m_s)
+        // Damaged sector positions
+        let mut dmg_r: Vec<TrackErrorRange> = Vec::new();
+        if let Some(c) = DAMAGED_SECTORS.captures(&self.raw) {
+            let positions = ERROR_TIME.captures_iter(c.get(0).unwrap().as_str());
+
+            for position in positions {
+                dmg_r.push(
+                    TrackErrorRange::new(
+                        Time::from_mm_ss_cs(position.name("time").unwrap().as_str()),
+                        Time::from_ss("0")
+                    )
+                );
+            }
+        }
+        let dmg_d = TrackErrorData::new(dmg_c, dmg_r);
+
+        // Suspicious positions
+        let mut inc_r: Vec<TrackErrorRange> = Vec::new();
+        if let Some(c) = SUSPICIOUS_POSITIONS.captures(&self.raw) {
+            let positions = ERROR_TIME.captures_iter(c.get(0).unwrap().as_str());
+
+            for position in positions {
+                inc_r.push(
+                    TrackErrorRange::new(
+                        Time::from_mm_ss_cs(position.name("time").unwrap().as_str()),
+                        Time::from_ss("0")
+                    )
+                );
+            }
+        }
+        let inc_d = TrackErrorData::new(inc_c, inc_r);
+
+        TrackError::new_xld(r_c, s_c, jg_c, je_c, ja_c, drf_c, drp_c, dup_c, dmg_d, inc_d, m_s)
     }
 }
