@@ -30,6 +30,7 @@
 		"@typescript-eslint/parser": "^6.20.0",
 		"animejs": "^3.2.2",
 		"autoprefixer": "^10.4.17",
+		"bigint-conversion": "^2.4.3",
 		"class-transformer": "^0.5.1",
 		"classnames": "^2.5.1",
 		"colorjs.io": "^0.4.5",
