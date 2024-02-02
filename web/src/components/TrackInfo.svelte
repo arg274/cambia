@@ -251,6 +251,7 @@
             {#if toc.entries.length > 0}
                 {#each lanes as lane}
                     {#each lane.segments as segment}
+                        <!-- svelte-ignore a11y-no-static-element-interactions -->
                         <circle id="minute-{segment.minute}" class={classNames(segment.trackIndices.map(trackIdx => `track-${trackIdx + 1}`), "cursor-pointer hover:stroke-success-400")} cx="{vb / 2}" cy="{vb / 2}" r="{lane.radius}" fill="transparent"
                             stroke="{segment.color}" stroke-width="{gapRadius}"
                             stroke-dasharray="{lane.segmentSize} {lane.segmentGap}"

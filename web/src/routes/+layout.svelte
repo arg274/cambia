@@ -105,7 +105,7 @@
 	<svelte:fragment slot="pageFooter">
 		<AppBar class="mt-10" background="bg-surface-100-800-token">
 			<svelte:fragment slot="lead">
-				<CambiaLogo class="w-8 stroke-surface-300 dark:stroke-surface-400 stroke-1" />
+				<CambiaLogo class="w-5 stroke-surface-300 dark:stroke-surface-400 stroke-1" />
 			</svelte:fragment>
 			<svelte:fragment slot="trail">
 				<a href="https://github.com/arg274/cambia" class="btn-icon bg-initial hover:variant-soft" target="_blank"><IconGithub class="icon-lg" /></a>
