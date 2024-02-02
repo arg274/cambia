@@ -41,6 +41,6 @@ jobs:
         with:
           name: webui
           path: web/build
-      - uses: dtolnay/rust-toolchain@stable
       - name: Cargo build
+      - uses: dtolnay/rust-toolchain@stable
       - run: cargo build --release --features experimental_rippers
