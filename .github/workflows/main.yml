@@ -22,13 +22,13 @@ jobs:
         run: npm run build
         working-directory: web
       - name: Upload static site files
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: webui
+          name: webui-${{ matrix.os }}
           path: web/build
 
-  test:
-    name: Build executable
+  cargo:
+    name: Build binaries
     needs: npm
     runs-on: ${{ matrix.os }}
     strategy:
@@ -37,10 +37,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Download static site files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
-          name: webui
+          name: webui-${{ matrix.os }}
           path: web/build
       - uses: dtolnay/rust-toolchain@stable
       - name: Build w/ experimental rippers
         run: cargo build --release --features experimental_rippers
+      - name: Upload binaries
+        uses: actions/upload-artifact@v4
+        with:
+          name: cambia-${{ matrix.os }}
+          path: target/release/cambia${{ matrix.os == 'windows-latest' && '.exe' || '' }}
