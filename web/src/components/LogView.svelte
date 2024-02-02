@@ -101,7 +101,7 @@
                             <Grade evaluations={res.evaluation_combined} />
                         {/key}
                         {#key pageSettings}
-                            <EvaluationInfo combinedEvals={res.evaluation_combined} selectedLogIdx={pageSettings.page} />
+                            <EvaluationInfo logs={res.parsed} combinedEvals={res.evaluation_combined} selectedLogIdx={pageSettings.page} />
                         {/key}
                         <TocInfo toc={parsedLog.toc} />
                         <ChecksumInfo checksum={parsedLog.checksum} />
@@ -120,7 +120,7 @@
                     <Grade evaluations={res.evaluation_combined} />
                 {/key}
                 {#key pageSettings}
-                    <EvaluationInfo combinedEvals={res.evaluation_combined} selectedLogIdx={pageSettings.page} />
+                    <EvaluationInfo logs={res.parsed} combinedEvals={res.evaluation_combined} selectedLogIdx={pageSettings.page} />
                 {/key}
                 <RipInfo parsedLog={parsedLog} />
                 <RipInfoQuartet parsedLog={parsedLog} />

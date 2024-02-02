@@ -10,7 +10,9 @@
 	import { deductionCategoryStringify } from "$lib/utils";
 	import DeductionNoneSegment from "./frags/treeview/DeductionNoneSegment.svelte";
 	import type { DeductionAggregate } from "$lib/types/DeductionAggregate";
+	import type { ParsedLogCombined } from "$lib/types/ParsedLogCombined";
 
+    export let logs: ParsedLogCombined;
     export let combinedEvals: EvaluationCombined[];
     export let selectedLogIdx: number;
 
@@ -46,7 +48,10 @@
         },
         children: deductions.length == 0 ? [{
             id: "deduction-none",
-            content: DeductionNoneSegment
+            content: DeductionNoneSegment,
+            contentProps: {
+                checksum: logs.parsed_logs[selectedLogIdx].checksum
+            }
         }] : Object.keys(deductionsByCategory).map(category => (
         {
             id: deductionsByCategory[category].slug,
