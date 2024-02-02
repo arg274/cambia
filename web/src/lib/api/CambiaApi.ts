@@ -7,7 +7,8 @@ import { XXH64 } from 'xxh3-ts';
 import { clientError, hexify, isCambiaError, isCambiaResponse } from "$lib/utils";
 import type { CambiaError } from "$lib/types/CambiaError";
 
-const PORT = dev ? 3031 : 3030;
+// TODO: Make the port configurable as a web UI setting in the future
+const DEFAULT_PORT = dev ? 3031 : 3030;
 
 export async function getRipInfoJson(files: FileList | undefined): Promise<CambiaResponse> {
     const reader: FileReader = new FileReader();
@@ -39,7 +40,7 @@ export async function getRipInfoJson(files: FileList | undefined): Promise<Cambi
                 },
                 body: byteArray,
             }
-            const request = new Request(`http://127.0.0.1:${PORT}/api/v1/upload`);
+            const request = new Request(`http://127.0.0.1:${DEFAULT_PORT}/api/v1/upload`);
 
             try {
                 const res = await fetch(request, options);
@@ -61,7 +62,7 @@ export async function getRipInfoJson(files: FileList | undefined): Promise<Cambi
 }
 
 export async function getRipInfoMpMulti(files: FileList | undefined) {
-    const ws: WebSocket = new WebSocket(`ws://localhost:${PORT}/ws/v1/upload_multi`);
+    const ws: WebSocket = new WebSocket(`ws://localhost:${DEFAULT_PORT}/ws/v1/upload_multi`);
     const unpackr = new Unpackr( {useRecords: false} );
 
     ws.addEventListener('message', (ev) => {

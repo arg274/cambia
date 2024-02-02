@@ -19,6 +19,9 @@ const config = {
             precompress: false,
             strict: true
         }),
+		env: {
+			publicPrefix: 'CAMBIA_'
+		}
 	}
 };
 

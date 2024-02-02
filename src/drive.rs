@@ -4,7 +4,6 @@ use rayon::prelude::IntoParallelRefIterator;
 use textdistance::str::levenshtein;
 use regex::Regex;
 use rayon::prelude::*;
-use tracing::debug;
 
 #[allow(clippy::redundant_static_lifetimes)]
 mod offset_table;
@@ -56,7 +55,7 @@ impl DriveUtils {
             .min_by_key(|&(_, _, dist)| dist)
             .unwrap();
 
-        debug!("Matched drive: {} w/ offset: {:?}", _matched_drive, offset);
+        tracing::debug!("Matched drive: {} w/ offset: {:?}", _matched_drive, offset);
 
         if distance > DISTANCE_THRESHOLD {
             DriveMatchQuality::WEAK(*offset)

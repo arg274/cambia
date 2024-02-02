@@ -18,14 +18,14 @@ use tower_http::{cors::CorsLayer, compression::CompressionLayer};
 use futures::{sink::SinkExt, stream::StreamExt};
 use tower_http::trace::{DefaultMakeSpan, TraceLayer};
 
-use crate::handler::{parse_log_bytes, parse_ws_request, translate_log_bytes};
+use crate::{handler::{parse_log_bytes, parse_ws_request, translate_log_bytes}, Args};
 
 static INDEX_HTML: &str = "index.html";
 
 #[cfg(debug_assertions)]
-static PORT: u16 = 3031;
+static DEFAULT_PORT: u16 = 3031;
 #[cfg(not(debug_assertions))]
-static PORT: u16 = 3030;
+static DEFAULT_PORT: u16 = 3030;
 
 #[derive(RustEmbed)]
 #[folder = "web/build/"]
@@ -77,6 +77,51 @@ where
 pub struct CambiaServer;
 
 impl CambiaServer {
+    fn init_logging(tracing: &Option<String>) {
+        let tracing_level = match tracing {
+            Some(v) => {
+                match v.to_ascii_lowercase().as_str() {
+                    "trace" => tracing::Level::TRACE,
+                    "debug" => tracing::Level::DEBUG,
+                    "warn" => tracing::Level::WARN,
+                    "error" => tracing::Level::ERROR,
+                    _ => tracing::Level::INFO,
+                }
+            },
+            None => tracing::Level::INFO,
+        };
+
+        tracing_subscriber::fmt()
+            .with_max_level(tracing_level)
+            .init();
+    }
+
+    fn init_app() -> Router {
+        let single_upload = Router::new()
+            .route("/v1/upload", post(Self::upload_log))
+            .route("/v1/translate", post(Self::translate_log))
+            .layer(CorsLayer::permissive())
+            .layer(CompressionLayer::new().gzip(true).no_br().no_zstd());
+
+        let multi_upload_ws = Router::new()
+            .route("/v1/upload_multi", get(Self::ws_handler));
+
+        Router::new()
+            .fallback(Self::static_handler)
+            .nest("/api", single_upload)
+            .nest("/ws", multi_upload_ws)
+            .layer(
+                TraceLayer::new_for_http()
+                .make_span_with(DefaultMakeSpan::default().include_headers(true)),
+            )
+    }
+
+    fn init_env(args: &Args) {
+        // Set port using env var so that they can be accessed from the frontend
+        let port = args.port.unwrap_or(DEFAULT_PORT);
+        std::env::set_var("CAMBIA_PORT", port.to_string());
+    }
+
     async fn static_handler(uri: Uri) -> impl IntoResponse {
         let path = uri.path().trim_start_matches('/').to_string();
     
@@ -132,7 +177,7 @@ impl CambiaServer {
         } else {
             String::from("Unknown browser")
         };
-        println!("`{user_agent}` at {addr} connected.");
+        tracing::info!("`{user_agent}` at {addr} connected.");
         ws.on_upgrade(move |socket| Self::handle_socket(socket, addr))
     }
     
@@ -159,13 +204,13 @@ impl CambiaServer {
         tokio::select! {
             rv_b = (&mut recv_task) => {
                 match rv_b {
-                    Ok(b) => println!("Received {} messages", b),
-                    Err(b) => println!("Error receiving messages {:?}", b)
+                    Ok(b) => tracing::debug!("Received {} messages", b),
+                    Err(b) => tracing::debug!("Error receiving messages {:?}", b)
                 }
             }
         }
         
-        println!("Websocket context {} destroyed", who);
+        tracing::debug!("Websocket context {} destroyed", who);
     }
     
     fn process_message(msg: Message, who: SocketAddr) -> ControlFlow<(), Vec<u8>> {
@@ -179,12 +224,12 @@ impl CambiaServer {
             }
             Message::Close(c) => {
                 if let Some(cf) = c {
-                    println!(
+                    tracing::debug!(
                         ">>> {} sent close with code {} and reason `{}`",
                         who, cf.code, cf.reason
                     );
                 } else {
-                    println!(">>> {} somehow sent close message without CloseFrame", who);
+                    tracing::warn!(">>> {} somehow sent close message without CloseFrame", who);
                 }
                 return ControlFlow::Break(());
             }
@@ -193,30 +238,17 @@ impl CambiaServer {
         ControlFlow::Continue(Vec::new())
     }
 
-    pub async fn start() {
-        tracing_subscriber::fmt()
-            .with_max_level(tracing::Level::DEBUG)
-            .init();
+    pub async fn start(args: Args) {
+        Self::init_logging(&args.tracing);
+        Self::init_env(&args);
 
-        let single_upload = Router::new()
-            .route("/v1/upload", post(Self::upload_log))
-            .route("/v1/translate", post(Self::translate_log))
-            .layer(CorsLayer::permissive())
-            .layer(CompressionLayer::new().gzip(true).no_br().no_zstd());
-
-        let multi_upload_ws = Router::new()
-            .route("/v1/upload_multi", get(Self::ws_handler));
-
-        let app = Router::new()
-            .fallback(Self::static_handler)
-            .nest("/api", single_upload)
-            .nest("/ws", multi_upload_ws)
-            .layer(
-                TraceLayer::new_for_http()
-                .make_span_with(DefaultMakeSpan::default().include_headers(true)),
-            );
-
-        let addr = SocketAddr::from(([127, 0, 0, 1], PORT));
+        let app = Self::init_app();
+        let port = std::str::from_utf8(std::env::var_os("CAMBIA_PORT")
+            .unwrap()
+            .as_encoded_bytes())
+            .unwrap_or(DEFAULT_PORT.to_string().as_str())
+            .parse::<u16>().unwrap();
+        let addr = SocketAddr::from(([127, 0, 0, 1], port));
 
         tracing::info!("Cambia server listening on http://{}", addr);
         axum::Server::bind(&addr)
@@ -229,7 +261,7 @@ impl CambiaServer {
         let bytes_vec = bytes.to_vec();
         match parse_log_bytes(bytes_vec) {
             Ok(parsed) => {
-                println!("{}", serde_json::to_string(&parsed).unwrap());
+                tracing::debug!("{}", serde_json::to_string(&parsed).unwrap());
                 (StatusCode::OK, fmt.render(parsed))
             },
             Err(e) => (StatusCode::BAD_REQUEST, e.to_string().into_response()),
