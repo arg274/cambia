@@ -21,6 +21,11 @@ jobs:
       - name: Generate the static site
         run: npm run build
         working-directory: web
+      - name: Upload static site files
+        uses: actions/upload-artifact@v3
+        with:
+          name: webui
+          path: web/build
 
   test:
     name: Build executable
@@ -31,5 +36,11 @@ jobs:
         os: [ubuntu-latest, windows-latest, macos-latest]
     steps:
       - uses: actions/checkout@v4
+      - name: Download static site files
+        uses: actions/download-artifact@v3
+        with:
+          name: webui
+          path: web/build
       - uses: dtolnay/rust-toolchain@stable
+      - name: Cargo build
       - run: cargo build --release --features experimental_rippers
