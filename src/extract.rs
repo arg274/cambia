@@ -61,7 +61,9 @@ pub enum ReadMode {
 #[ts(export)]
 pub enum Gap {
     Append,
+    #[serde(rename = "Append (except HTOA)")]
     AppendNoHtoa,
+    #[serde(rename = "Append (gaps undetected)")]
     AppendUndetected,
     Prepend,
     Discard,

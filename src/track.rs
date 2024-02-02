@@ -56,23 +56,23 @@ pub struct TrackError {
     pub read: TrackErrorData,
     #[serde(skip_serializing_if = "TrackErrorData::is_default")]
     pub skip: TrackErrorData,
-    #[serde(skip_serializing_if = "TrackErrorData::is_default")]
+    #[serde(skip_serializing_if = "TrackErrorData::is_default", rename = "Jitter (maybe fixed)")]
     pub jitter_generic: TrackErrorData,
-    #[serde(skip_serializing_if = "TrackErrorData::is_default")]
+    #[serde(skip_serializing_if = "TrackErrorData::is_default", rename = "Edge jitter (maybe fixed)")]
     pub jitter_edge: TrackErrorData,
-    #[serde(skip_serializing_if = "TrackErrorData::is_default")]
+    #[serde(skip_serializing_if = "TrackErrorData::is_default", rename = "Atom jitter (maybe fixed)")]
     pub jitter_atom: TrackErrorData,
     #[serde(skip_serializing_if = "TrackErrorData::is_default")]
     pub drift: TrackErrorData,
-    #[serde(skip_serializing_if = "TrackErrorData::is_default")]
+    #[serde(skip_serializing_if = "TrackErrorData::is_default", rename = "Dropped bytes")]
     pub dropped: TrackErrorData,
-    #[serde(skip_serializing_if = "TrackErrorData::is_default")]
+    #[serde(skip_serializing_if = "TrackErrorData::is_default", rename = "Duplicated bytes")]
     pub duplicated: TrackErrorData,
-    #[serde(skip_serializing_if = "TrackErrorData::is_default")]
+    #[serde(skip_serializing_if = "TrackErrorData::is_default", rename = "Damaged sectors")]
     pub damaged_sectors: TrackErrorData,
-    #[serde(skip_serializing_if = "TrackErrorData::is_default")]
+    #[serde(skip_serializing_if = "TrackErrorData::is_default", rename = "Inconsistency in error sectors")]
     pub inconsistent_err_sectors: TrackErrorData,
-    #[serde(skip_serializing_if = "TrackErrorData::is_default")]
+    #[serde(skip_serializing_if = "TrackErrorData::is_default", rename = "Missing samples")]
     pub missing_samples: TrackErrorData,
 }
 
@@ -108,7 +108,7 @@ impl TrackError {
     }
 
     #[allow(clippy::too_many_arguments)]
-    pub fn new_xld(r_c: u32, s_c: u32, jg_c: u32, je_c: u32, ja_c: u32, drf_c: u32, drp_c: u32, dup_c: u32, dmg_c: u32, inc_c: u32, m_s: bool) -> Self {
+    pub fn new_xld(r_c: u32, s_c: u32, jg_c: u32, je_c: u32, ja_c: u32, drf_c: u32, drp_c: u32, dup_c: u32, dmg_d: TrackErrorData, inc_d: TrackErrorData, m_s: bool) -> Self {
         TrackError {
             read: TrackErrorData::new_from_count(r_c),
             skip: TrackErrorData::new_from_count(s_c),
@@ -118,8 +118,8 @@ impl TrackError {
             drift: TrackErrorData::new_from_count(drf_c),
             dropped: TrackErrorData::new_from_count(drp_c),
             duplicated: TrackErrorData::new_from_count(dup_c),
-            damaged_sectors: TrackErrorData::new_from_count(dmg_c),
-            inconsistent_err_sectors: TrackErrorData::new_from_count(inc_c),
+            damaged_sectors: dmg_d,
+            inconsistent_err_sectors: inc_d,
             missing_samples: TrackErrorData::new_from_bool(m_s),
         }
     }
