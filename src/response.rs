@@ -12,7 +12,7 @@ pub struct CambiaResponse {
 }
 
 impl CambiaResponse {
-    pub fn new(parsed: ParsedLogCombined, evaluation_combined: Vec<EvaluationCombined>) -> Self {
-        CambiaResponse { id: Vec::new(), parsed, evaluation_combined }
+    pub fn new(id: Vec<u8>, parsed: ParsedLogCombined, evaluation_combined: Vec<EvaluationCombined>) -> Self {
+        Self { id, parsed, evaluation_combined }
     }
 }

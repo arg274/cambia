@@ -33,11 +33,14 @@ pub struct Args {
     server: bool,
     // TODO: This breaks the web UI since env vars can't be accessed on static builds
     /// Specify a port to listen on
-    #[arg(long, hide=true)]
+    #[arg(long, hide = true, value_parser = crate::util::port_in_range)]
     pub port: Option<String>,
     /// Set the log level
     #[arg(long)]
     pub tracing: Option<String>,
+    /// Save the uploaded logs to a directory
+    #[arg(long)]
+    pub save_logs: bool,
 }
 
 // Shuttle does not support feature flags yet

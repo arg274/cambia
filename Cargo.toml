@@ -65,6 +65,7 @@ textdistance = "1.0.2"
 semver = "1.0.20"
 shuttle-runtime = "0.38.0"
 shuttle-axum = "0.38.0"
+xxhash-rust = { version = "0.8.8", features = ["xxh3"] }
 
 [profile.release]
 panic = "abort"

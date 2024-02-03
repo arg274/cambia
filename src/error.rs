@@ -11,7 +11,11 @@ pub struct CambiaError {
 }
 
 impl CambiaError {
-    pub fn new(_message: &str) -> Self {
+    pub fn new(id: Vec<u8>, _message: &str) -> Self {
+        CambiaError { id, message: _message.to_string() }
+    }
+
+    pub fn new_anon(_message: &str) -> Self {
         CambiaError { id: Vec::new(), message: _message.to_string() }
     }
 }

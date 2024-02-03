@@ -1,7 +1,9 @@
-use std::{time::Duration, ops};
+use std::{ops::{self, RangeInclusive}, time::Duration};
 
 use serde::{Serialize, Deserialize};
 use ts_rs::TS;
+
+const PORT_RANGE: RangeInclusive<usize> = 1..=65535;
 
 #[derive(Clone, Copy, PartialEq)]
 pub struct Time(Duration);
@@ -86,4 +88,24 @@ impl TS for Time {
 
 pub fn first_line(string: &str) -> &str {
     string.lines().next().unwrap()
+}
+
+pub fn env_getter(key: &str, default: &str) -> String {
+    let env_val = std::env::var_os(key).unwrap_or_default();
+    std::str::from_utf8(env_val.as_encoded_bytes()).unwrap_or(default).to_owned()
+}
+
+pub fn port_in_range(s: &str) -> Result<Option<String>, String> {
+    let port: usize = s
+        .parse()
+        .map_err(|_| format!("`{s}` isn't a port number"))?;
+    if PORT_RANGE.contains(&port) {
+        Ok(Some(port.to_string()))
+    } else {
+        Err(format!(
+            "port not in range {}-{}",
+            PORT_RANGE.start(),
+            PORT_RANGE.end()
+        ))
+    }
 }

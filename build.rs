@@ -130,7 +130,7 @@ fn create_eac_translation_table() {
                 "Could not read file"
             );
             
-            let file_content = match DecodedText::new(file_bytes) {
+            let file_content = match DecodedText::new(&file_bytes) {
                 Ok(log) => log.text,
                 Err(e) => panic!("{}", e),
             };

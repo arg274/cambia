@@ -14,9 +14,9 @@ pub struct DecodedText {
 pub struct DecodingError;
 
 impl DecodedText {
-    pub fn new(raw: Vec<u8>) -> Result<DecodedText, DecodingError> {
+    pub fn new(raw: &[u8]) -> Result<DecodedText, DecodingError> {
         
-        let bom: Bom = Bom::from(raw.as_slice());
+        let bom: Bom = Bom::from(raw);
         let mut encoding: Option<&Encoding> = None;
 
         match bom {

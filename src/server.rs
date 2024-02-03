@@ -15,7 +15,7 @@ use tower_http::{cors::CorsLayer, compression::CompressionLayer};
 use futures::{sink::SinkExt, stream::StreamExt};
 use tower_http::trace::{DefaultMakeSpan, TraceLayer};
 
-use crate::{handler::{parse_log_bytes, parse_ws_request, translate_log_bytes}, Args};
+use crate::{handler::{parse_log_bytes, parse_ws_request, translate_log_bytes}, util::env_getter, Args};
 
 static INDEX_HTML: &str = "index.html";
 
@@ -113,10 +113,16 @@ impl CambiaServer {
             )
     }
 
+    // TODO: This breaks immutability of the config
     fn init_env(args: &Args) {
-        // Set port using env var so that they can be accessed from the frontend
+        // Port
         let port = args.port.clone().unwrap_or(DEFAULT_PORT.to_owned());
         std::env::set_var("CAMBIA_PORT", port);
+        // Log saving
+        if args.save_logs {
+            tracing::info!("Log saving is enabled");
+            std::env::set_var("CAMBIA_SAVE_LOGS", args.save_logs.to_string());
+        }
     }
 
     async fn static_handler(uri: Uri) -> impl IntoResponse {
@@ -173,7 +179,7 @@ impl CambiaServer {
         } else {
             String::from("Unknown browser")
         };
-        tracing::trace!("`{user_agent}` at {addr} connected.");
+        tracing::trace!("`{user_agent}` at {addr} connected");
         ws.on_upgrade(move |socket| Self::handle_socket(socket, addr))
     }
     
@@ -239,9 +245,7 @@ impl CambiaServer {
         Self::init_env(&args);
 
         let app = Self::init_app();
-        let port_env = std::env::var_os("CAMBIA_PORT").unwrap_or_default();
-        let port = std::str::from_utf8(port_env.as_encoded_bytes()).unwrap_or(DEFAULT_PORT);
-        let listener = TcpListener::bind(format!("0.0.0.0:{}", port)).await.unwrap();
+        let listener = TcpListener::bind(format!("0.0.0.0:{}", env_getter("CAMBIA_PORT", DEFAULT_PORT))).await.unwrap();
 
         tracing::info!("Cambia server listening on http://{:?}", listener.local_addr());
         axum::serve(listener, app.into_make_service_with_connect_info::<SocketAddr>())
@@ -256,7 +260,7 @@ impl CambiaServer {
 
     async fn upload_log(fmt: Format, bytes: Bytes) -> impl IntoResponse {
         let bytes_vec = bytes.to_vec();
-        match parse_log_bytes(bytes_vec) {
+        match parse_log_bytes(Vec::new(), bytes_vec) {
             Ok(parsed) => {
                 tracing::debug!("{}", serde_json::to_string(&parsed).unwrap());
                 (StatusCode::OK, fmt.render(parsed))
