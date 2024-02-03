@@ -19,11 +19,6 @@ use crate::{handler::{parse_log_bytes, parse_ws_request, translate_log_bytes}, u
 
 static INDEX_HTML: &str = "index.html";
 
-#[cfg(debug_assertions)]
-static DEFAULT_PORT: &str = "3031";
-#[cfg(not(debug_assertions))]
-static DEFAULT_PORT: &str = "3030";
-
 #[derive(RustEmbed)]
 #[folder = "web/build/"]
 struct Static;
@@ -116,8 +111,7 @@ impl CambiaServer {
     // TODO: This breaks immutability of the config
     fn init_env(args: &Args) {
         // Port
-        let port = args.port.clone().unwrap_or(DEFAULT_PORT.to_owned());
-        std::env::set_var("CAMBIA_PORT", port);
+        std::env::set_var("CAMBIA_PORT", args.port.clone());
         // Log saving
         if args.save_logs {
             tracing::info!("Log saving is enabled");
@@ -245,9 +239,9 @@ impl CambiaServer {
         Self::init_env(&args);
 
         let app = Self::init_app();
-        let listener = TcpListener::bind(format!("0.0.0.0:{}", env_getter("CAMBIA_PORT", DEFAULT_PORT))).await.unwrap();
+        let listener = TcpListener::bind(format!("0.0.0.0:{}", env_getter("CAMBIA_PORT", crate::consts::DEFAULT_PORT))).await.unwrap();
 
-        tracing::info!("Cambia server listening on http://{:?}", listener.local_addr());
+        tracing::info!("Cambia server listening on http://localhost:{}", listener.local_addr().unwrap().port());
         axum::serve(listener, app.into_make_service_with_connect_info::<SocketAddr>())
             .await
             .unwrap();

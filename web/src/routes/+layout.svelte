@@ -13,6 +13,7 @@
 	import DropScreen from '../components/frags/DropScreen.svelte';
 	import { errorStore, fileListStore, hashIndexLookup, inputChanged, processedCount, responseStore} from '$lib/LogStore';
 	import { onMount } from 'svelte';
+	import { page } from '$app/stores';
 
 	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
 	import { storePopup } from '@skeletonlabs/skeleton';
@@ -71,7 +72,7 @@
 					}
 				}
 				fileListStore.set(tmp_dt.files);
-				inputChanged();
+				inputChanged($page.url.host);
 			}
 		});
 	});
@@ -99,7 +100,7 @@
 			</svelte:fragment>
 		</AppBar>
 	</svelte:fragment>
-	<DropScreen bind:files={$fileListStore} on:change={inputChanged} >
+	<DropScreen bind:files={$fileListStore} on:change={() => {inputChanged($page.url.host)}} >
 		<slot />
 	</DropScreen>
 	<svelte:fragment slot="pageFooter">

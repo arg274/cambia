@@ -9,9 +9,6 @@ use crate::evaluate::{EvaluationCombined, Evaluator};
 use crate::parser::{ParserCombined, ParsedLogCombined};
 use crate::response::CambiaResponse;
 
-// TODO: Make this configurable
-static RIP_LOG_DIR: &str = "rip_logs";
-
 pub fn parse_file(filepath: &str) {
     let mut raw: Vec<u8> = Vec::new();
 
@@ -102,7 +99,7 @@ pub fn parse_ws_request(mut ws_body: Vec<u8>) -> Result<CambiaResponse, CambiaEr
 }
 
 pub fn save_rip_log(id: &[u8], log_raw: &[u8]) {
-    let dir = std::path::Path::new(RIP_LOG_DIR);
+    let dir = std::path::Path::new(crate::consts::RIP_LOG_DIR);
 
     if let Err(e) = std::fs::create_dir_all(dir) {
         tracing::error!("Error creating directory: {}", e);

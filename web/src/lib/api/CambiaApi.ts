@@ -7,63 +7,8 @@ import { XXH64 } from 'xxh3-ts';
 import { clientError, hexify, isCambiaError, isCambiaResponse } from "$lib/utils";
 import type { CambiaError } from "$lib/types/CambiaError";
 
-// TODO: Make the port configurable as a web UI setting in the future
-const DEFAULT_PORT = dev ? 3031 : 3030;
-const DEFAULT_HOST = `localhost:${DEFAULT_PORT}`;
-
-export async function getRipInfoJson(files: FileList | undefined): Promise<CambiaResponse> {
-    const reader: FileReader = new FileReader();
-
-    return new Promise((resolve, reject) => {
-        let byteArray: Uint8Array = new Uint8Array();
-
-        if (!files || files.length <= 0) {
-            reject(new Error("FileList is empty"));
-        }
-
-        // TODO: Upload progress
-        // TODO: File rejection criteria
-        const file = files?.[0];
-        reader.onload = () => {
-            const arrayBuffer: ArrayBuffer = reader.result as ArrayBuffer;
-            byteArray = new Uint8Array(arrayBuffer);
-        }
-
-        reader.readAsArrayBuffer(file as File);
-
-        // TODO: Not a fan of the nested mess here, need to revisit
-        reader.onloadend = async () => {
-            const options: RequestInit = {
-                method: "POST",
-                mode: 'cors',
-                headers: {
-                    'Content-Type': 'application/octet-stream',
-                },
-                body: byteArray,
-            }
-            const request = new Request(`http://${DEFAULT_HOST}/api/v1/upload`);
-
-            try {
-                const res = await fetch(request, options);
-                const infoJson = await res.json();
-
-                if (res.ok) {
-                    if (infoJson.hasOwnProperty.call('error')) {
-                        reject(new Error(`Error ${infoJson['error']} from server`));
-                    }
-                    resolve(infoJson);
-                } else {
-                    reject(new Error(`Error ${res.status} from server`));
-                }
-            } catch (error) {
-                reject(error);
-            }
-        }
-    });
-}
-
-export async function getRipInfoMpMulti(files: FileList | undefined) {
-    const ws: WebSocket = new WebSocket(`ws://${DEFAULT_HOST}/ws/v1/upload_multi`);
+export async function getRipInfoMpMulti(host: string, files: FileList | undefined) {
+    const ws: WebSocket = new WebSocket(`ws://${dev ? "localhost:3031" : host}/ws/v1/upload_multi`);
     const unpackr = new Unpackr( {useRecords: false} );
 
     ws.addEventListener('message', (ev) => {

@@ -95,12 +95,12 @@ pub fn env_getter(key: &str, default: &str) -> String {
     std::str::from_utf8(env_val.as_encoded_bytes()).unwrap_or(default).to_owned()
 }
 
-pub fn port_in_range(s: &str) -> Result<Option<String>, String> {
+pub fn port_in_range(s: &str) -> Result<String, String> {
     let port: usize = s
         .parse()
         .map_err(|_| format!("`{s}` isn't a port number"))?;
     if PORT_RANGE.contains(&port) {
-        Ok(Some(port.to_string()))
+        Ok(port.to_string())
     } else {
         Err(format!(
             "port not in range {}-{}",

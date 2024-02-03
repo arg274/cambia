@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from "svelte";
+    import { page } from '$app/stores';
     import CambiaLogo from "./icons/CambiaLogo.svelte";
 	import { runAnimation } from "$lib/utils";
 	import { fileListStore, inputChanged } from "$lib/LogStore";
@@ -16,7 +17,7 @@
         <span class="text-xl md:text-2xl mt-2">a tool for assessing compact disc rip logs.</span>
         <div class="mt-8 items-center text-lg md:text-xl">
             <label for="cursorfiles"><span class="underline decoration-primary-400 decoration-2 md:decoration-4">click here</span>&nbsp;/ paste / drop your files anywhere to get started.</label>
-            <input id="cursorfiles" class="hidden" type="file" multiple={true} accept=".log, .txt" bind:files={$fileListStore} on:change={inputChanged} />
+            <input id="cursorfiles" class="hidden" type="file" multiple={true} accept=".log, .txt" bind:files={$fileListStore} on:change={() => {inputChanged($page.url.host)}} />
         </div>
     </div>
 </div>
