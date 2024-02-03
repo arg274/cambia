@@ -1,19 +1,16 @@
 use std::{net::SocketAddr, ops::ControlFlow};
 
 use axum::{
-    Router, routing::{get, post}, response::{IntoResponse, Response},
-    http::{StatusCode, Uri, header}, Json, async_trait,
-    extract::{
-        FromRequestParts, Query, TypedHeader, connect_info::ConnectInfo,
-        ws::{Message, WebSocket, WebSocketUpgrade}
-    },
-    body::{Bytes, boxed, Full},
-    headers::UserAgent
+    async_trait, body::{Body, Bytes}, extract::{
+        connect_info::ConnectInfo, ws::{Message, WebSocket, WebSocketUpgrade}, FromRequestParts, Query
+    }, http::{header, StatusCode, Uri}, response::{IntoResponse, Response}, routing::{get, post}, Json, Router
 };
+use axum_extra::{extract::TypedHeader, headers::UserAgent};
 use axum_msgpack::MsgPackRaw;
 use mime_guess;
 use rust_embed::RustEmbed;
 use serde::{Serialize, Deserialize};
+use tokio::net::TcpListener;
 use tower_http::{cors::CorsLayer, compression::CompressionLayer};
 use futures::{sink::SinkExt, stream::StreamExt};
 use tower_http::trace::{DefaultMakeSpan, TraceLayer};
@@ -23,9 +20,9 @@ use crate::{handler::{parse_log_bytes, parse_ws_request, translate_log_bytes}, A
 static INDEX_HTML: &str = "index.html";
 
 #[cfg(debug_assertions)]
-static DEFAULT_PORT: u16 = 3031;
+static DEFAULT_PORT: &str = "3031";
 #[cfg(not(debug_assertions))]
-static DEFAULT_PORT: u16 = 3030;
+static DEFAULT_PORT: &str = "3030";
 
 #[derive(RustEmbed)]
 #[folder = "web/build/"]
@@ -118,8 +115,8 @@ impl CambiaServer {
 
     fn init_env(args: &Args) {
         // Set port using env var so that they can be accessed from the frontend
-        let port = args.port.unwrap_or(DEFAULT_PORT);
-        std::env::set_var("CAMBIA_PORT", port.to_string());
+        let port = args.port.clone().unwrap_or(DEFAULT_PORT.to_owned());
+        std::env::set_var("CAMBIA_PORT", port);
     }
 
     async fn static_handler(uri: Uri) -> impl IntoResponse {
@@ -131,12 +128,11 @@ impl CambiaServer {
     
         match Static::get(path.as_str()) {
             Some(content) => {
-                let body = boxed(Full::from(content.data));
                 let mime = mime_guess::from_path(path).first_or_octet_stream();
     
                 Response::builder()
                     .header(header::CONTENT_TYPE, mime.as_ref())
-                    .body(body)
+                    .body(Body::from(content.data))
                     .unwrap()
             }
             None => {
@@ -152,7 +148,7 @@ impl CambiaServer {
     async fn index_html() -> impl IntoResponse {
         match Static::get(INDEX_HTML) {
             Some(content) => {
-                let body = boxed(Full::from(content.data));
+                let body = Body::from(content.data);
     
                 Response::builder()
                     .header(header::CONTENT_TYPE, "text/html")
@@ -243,18 +239,19 @@ impl CambiaServer {
         Self::init_env(&args);
 
         let app = Self::init_app();
-        let port = std::str::from_utf8(std::env::var_os("CAMBIA_PORT")
-            .unwrap()
-            .as_encoded_bytes())
-            .unwrap_or(DEFAULT_PORT.to_string().as_str())
-            .parse::<u16>().unwrap();
-        let addr = SocketAddr::from(([127, 0, 0, 1], port));
+        let port_env = std::env::var_os("CAMBIA_PORT").unwrap_or_default();
+        let port = std::str::from_utf8(port_env.as_encoded_bytes()).unwrap_or(DEFAULT_PORT);
+        let listener = TcpListener::bind(format!("0.0.0.0:{}", port)).await.unwrap();
 
-        tracing::info!("Cambia server listening on http://{}", addr);
-        axum::Server::bind(&addr)
-            .serve(app.into_make_service_with_connect_info::<SocketAddr>())
+        tracing::info!("Cambia server listening on http://{:?}", listener.local_addr());
+        axum::serve(listener, app.into_make_service_with_connect_info::<SocketAddr>())
             .await
             .unwrap();
+    }
+
+    // FIXME: WebSockets API is broken
+    pub fn start_shuttle() -> Router {
+        Self::init_app()
     }
 
     async fn upload_log(fmt: Format, bytes: Bytes) -> impl IntoResponse {

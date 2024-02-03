@@ -34,14 +34,24 @@ pub struct Args {
     // TODO: This breaks the web UI since env vars can't be accessed on static builds
     /// Specify a port to listen on
     #[arg(long, hide=true)]
-    pub port: Option<u16>,
+    pub port: Option<String>,
     /// Set the log level
     #[arg(long)]
     pub tracing: Option<String>,
 }
 
+// Shuttle does not support feature flags yet
+#[cfg(feature = "shuttle")]
+#[shuttle_runtime::main]
+pub async fn shuttle() -> shuttle_axum::ShuttleAxum {
+    let font = FIGfont::standard().unwrap();
+    println!("{}", font.convert("cambia").unwrap());
+    Ok(CambiaServer::start_shuttle().into())
+}
+
+#[cfg(not(feature = "shuttle"))]
 #[tokio::main]
-async fn main() {
+pub async fn main() {
     let args = Args::parse();
     
     if args.path.is_some() {
