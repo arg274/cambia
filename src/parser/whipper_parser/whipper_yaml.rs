@@ -1,5 +1,4 @@
-use std::collections::HashMap;
-
+use indexmap::IndexMap;
 use serde::{Serialize, Deserialize};
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -81,9 +80,9 @@ pub struct WhipperLogYaml {
     // #[serde(rename = "CD metadata")]
     // pub cd_metadata: WhipperCDMetadata,
     #[serde(rename = "TOC")]
-    pub toc: HashMap<u32, WhipperTocEntry>,
+    pub toc: IndexMap<u32, WhipperTocEntry>,
     #[serde(rename = "Tracks")]
-    pub tracks: HashMap<usize, WhipperTrackEntry>,
+    pub tracks: IndexMap<usize, WhipperTrackEntry>,
     #[serde(default)]
     #[serde(rename = "SHA-256 hash")]
     pub checksum: String,
@@ -110,8 +109,8 @@ impl Default for WhipperLogYaml {
             //     mbz_lookup_url: String::from("Unknown"),
             //     mbz_release_url: String::from("Unknown"),
             // },
-            toc: HashMap::new(),
-            tracks: HashMap::new(),
+            toc: IndexMap::new(),
+            tracks: IndexMap::new(),
             checksum: String::from("Unknown")
         }
     }
