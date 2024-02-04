@@ -44,7 +44,7 @@ lazy_static! {
     static ref NORMALIZE: Regex = Regex::new(r"Normalize to( +): ([0-9% ]+)").unwrap();
     static ref ID3_ENABLED: Regex = Regex::new(r"Add ID3 tag( *): (?P<boolean>Yes|No)").unwrap();
     
-    static ref CHECKSUM: Regex = Regex::new(r"==== (.+) ([0-9A-Z]{64}) ====").unwrap();
+    static ref CHECKSUM: Regex = Regex::new(r"==== (.+)? ([0-9A-Z]{64}) ====").unwrap();
     static ref TOC: Regex = Regex::new(r"\s+(?P<track>\d+)\s+\|\s+(?P<start>[0-9:\.]+)\s+\|\s+(?P<length>[0-9:\.]+)\s+\|\s+(?P<start_sector>\d+)\s+\|\s+(?P<end_sector>\d+)").unwrap();
 
     static ref SPLIT_TRACKS: Regex = RegexBuilder::new(r"Track\s*\d+.+?Copy (OK|finished|aborted)").dot_matches_new_line(true).build().unwrap();
@@ -361,7 +361,7 @@ impl Translator for EacParserSingle {
     fn translate(log: String) -> (String, String) {
         let mut log_lang = &EacLanguage::default();
         for cur_lang in LANGS.iter() {
-            if log.contains(cur_lang.localised_key) {
+            if log.contains(cur_lang.localised_key.trim()) {
                 log_lang = cur_lang;
                 break;
             }
@@ -370,6 +370,7 @@ impl Translator for EacParserSingle {
         match log_lang.lang_id {
             "47AB3DF2" => (log_lang.lang_native.to_owned(), log),
             _ => {
+                tracing::debug!("Translating EAC log from {}", log_lang.lang_id);
                 let patterns = log_lang.table.keys();
                 let ac = AhoCorasickBuilder::new()
                                                         .match_kind(aho_corasick::MatchKind::LeftmostLongest)

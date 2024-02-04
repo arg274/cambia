@@ -53,6 +53,8 @@ pub fn parse_log_bytes(id: Vec<u8>, log_raw: Vec<u8>) -> Result<CambiaResponse, 
     let res_id = if id.is_empty() { xxh3_64(&log_raw).to_be_bytes().to_vec() } else { id };
     let encoded_log = DecodedText::new(&log_raw).unwrap_or_default();
 
+    tracing::debug!("Log {}: {} encoding detected ", hex::encode(&res_id), encoded_log.orig_encoding);
+
     let parsed_logs: ParsedLogCombined = match detect_ripper(encoded_log) {
         Ok(parser) => parser.parse_combined(),
         Err(mut e) => {
