@@ -55,7 +55,7 @@ impl DriveUtils {
             .min_by_key(|&(_, _, dist)| dist)
             .unwrap();
 
-        tracing::debug!("Matched drive: {} w/ offset: {:?}", _matched_drive, offset);
+        tracing::trace!("Matched drive: {} w/ offset: {:?}", _matched_drive, offset);
 
         if distance > DISTANCE_THRESHOLD {
             DriveMatchQuality::WEAK(*offset)

@@ -5,7 +5,7 @@ use axum::{
         connect_info::ConnectInfo, ws::{Message, WebSocket, WebSocketUpgrade}, FromRequestParts, Query
     }, http::{header, StatusCode, Uri}, response::{IntoResponse, Response}, routing::{get, post}, Json, Router
 };
-use axum_extra::{extract::TypedHeader, headers::UserAgent};
+use axum_extra::{headers::UserAgent, TypedHeader};
 use axum_msgpack::MsgPackRaw;
 use mime_guess;
 use rust_embed::RustEmbed;
@@ -14,6 +14,7 @@ use tokio::net::TcpListener;
 use tower_http::{cors::CorsLayer, compression::CompressionLayer};
 use futures::{sink::SinkExt, stream::StreamExt};
 use tower_http::trace::{DefaultMakeSpan, TraceLayer};
+use axum_client_ip::{InsecureClientIp, SecureClientIp, SecureClientIpSource};
 
 use crate::{handler::{parse_log_bytes, parse_ws_request, translate_log_bytes}, util::env_getter, Args};
 
@@ -106,6 +107,7 @@ impl CambiaServer {
                 TraceLayer::new_for_http()
                 .make_span_with(DefaultMakeSpan::default().include_headers(true)),
             )
+            .layer(SecureClientIpSource::ConnectInfo.into_extension())
     }
 
     // TODO: This breaks immutability of the config
@@ -119,8 +121,19 @@ impl CambiaServer {
         }
     }
 
-    async fn static_handler(uri: Uri) -> impl IntoResponse {
+    async fn static_handler(uri: Uri, user_agent: Option<TypedHeader<UserAgent>>, insecure_ip: InsecureClientIp, secure_ip: SecureClientIp) -> impl IntoResponse {
         let path = uri.path().trim_start_matches('/').to_string();
+
+        // Avoid log spamming on asset requests
+        let extension = std::path::Path::new(&path).extension().and_then(std::ffi::OsStr::to_str);
+        if extension.is_none() {
+            let user_agent = if let Some(TypedHeader(user_agent)) = user_agent {
+                user_agent.to_string()
+            } else {
+                String::from("Unknown browser")
+            };
+            tracing::info!("/{path} from UserAgent({user_agent}) | {insecure_ip:?} | {secure_ip:?}");
+        }
     
         if path.is_empty() || path == INDEX_HTML {
             return Self::index_html().await.into_response();
@@ -136,10 +149,6 @@ impl CambiaServer {
                     .unwrap()
             }
             None => {
-                if path.contains('.') {
-                    return Self::not_found().await.into_response();
-                }
-    
                 Self::index_html().await.into_response()
             }
         }
@@ -155,7 +164,9 @@ impl CambiaServer {
                     .body(body)
                     .unwrap()
             }
-            None => Self::not_found().await.into_response(),
+            None => {
+                Self::not_found().await.into_response()
+            },
         }
     }
     
@@ -165,15 +176,8 @@ impl CambiaServer {
     
     async fn ws_handler(
         ws: WebSocketUpgrade,
-        user_agent: Option<TypedHeader<UserAgent>>,
         ConnectInfo(addr): ConnectInfo<SocketAddr>,
     ) -> impl IntoResponse {
-        let user_agent = if let Some(TypedHeader(user_agent)) = user_agent {
-            user_agent.to_string()
-        } else {
-            String::from("Unknown browser")
-        };
-        tracing::trace!("`{user_agent}` at {addr} connected");
         ws.on_upgrade(move |socket| Self::handle_socket(socket, addr))
     }
     
@@ -200,13 +204,13 @@ impl CambiaServer {
         tokio::select! {
             rv_b = (&mut recv_task) => {
                 match rv_b {
-                    Ok(b) => tracing::debug!("Received {} messages", b),
-                    Err(b) => tracing::debug!("Error receiving messages {:?}", b)
+                    Ok(b) => tracing::trace!("Received {} messages", b),
+                    Err(b) => tracing::trace!("Error receiving messages {:?}", b)
                 }
             }
         }
         
-        tracing::debug!("Websocket context {} destroyed", who);
+        tracing::trace!("Websocket context {} destroyed", who);
     }
     
     fn process_message(msg: Message, who: SocketAddr) -> ControlFlow<(), Vec<u8>> {
@@ -220,7 +224,7 @@ impl CambiaServer {
             }
             Message::Close(c) => {
                 if let Some(cf) = c {
-                    tracing::debug!(
+                    tracing::trace!(
                         ">>> {} sent close with code {} and reason `{}`",
                         who, cf.code, cf.reason
                     );
