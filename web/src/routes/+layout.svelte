@@ -18,6 +18,7 @@
 	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
 	import { storePopup } from '@skeletonlabs/skeleton';
 	import type { CambiaError } from '$lib/types/CambiaError';
+	import { removeRoute } from '$lib/utils';
 
 	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 	
@@ -41,18 +42,18 @@
 			if ($fileListStore?.length == 1 && p == 1) {
 				switch ($responseStore[0].status) {
 					case "processed":
-						goto(`/log?id=${hashIndexLookup.keys().next().value}`);
+						goto(`${removeRoute(location.pathname, $page.route.id)}/log?id=${hashIndexLookup.keys().next().value}`);
 						break;
 					case "errored":
 						errorStore.set($responseStore[0].content as CambiaError);
-						goto("/error")
+						goto(`${removeRoute(location.pathname, $page.route.id)}/error`)
 						break;
 					default:
 						console.log("Error");
 						break;
 				}
 			} else if ($fileListStore && $fileListStore.length > 1) {
-				goto('/logs');
+				goto(`${removeRoute(location.pathname, $page.route.id)}/logs`);
 			}
 		});
 
@@ -72,7 +73,7 @@
 					}
 				}
 				fileListStore.set(tmp_dt.files);
-				inputChanged($page.url.host);
+				inputChanged($page.route.id);
 			}
 		});
 	});
@@ -87,7 +88,7 @@
 	<svelte:fragment slot="pageHeader">
 		<AppBar padding="px-4 py-1" background="rounded-br-xl bg-primary-400/10">
 			<svelte:fragment slot="lead">
-				<a href="/">
+				<a href="{removeRoute($page.url.pathname, $page.route.id)}/">
 					<div class="flex gap-x-2 items-center">
 						<span>cambia</span>
 						<CambiaLogo class="w-5 stroke-black dark:stroke-white stroke-1" />
@@ -100,7 +101,7 @@
 			</svelte:fragment>
 		</AppBar>
 	</svelte:fragment>
-	<DropScreen bind:files={$fileListStore} on:change={() => {inputChanged($page.url.host)}} >
+	<DropScreen bind:files={$fileListStore} on:change={() => {inputChanged($page.route.id)}} >
 		<slot />
 	</DropScreen>
 	<svelte:fragment slot="pageFooter">

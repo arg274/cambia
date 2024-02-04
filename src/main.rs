@@ -32,7 +32,6 @@ pub struct Args {
     /// Run the server and the web interface
     #[arg(short, long)]
     server: bool,
-    // TODO: This breaks the web UI since env vars can't be accessed on static builds
     /// Specify a port to listen on
     #[arg(long, value_parser = crate::util::port_in_range, default_value = crate::consts::DEFAULT_PORT)]
     pub port: String,

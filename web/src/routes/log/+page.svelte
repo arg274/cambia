@@ -6,6 +6,7 @@
 	import type { CambiaResponse } from '$lib/types/CambiaResponse';
 	import { hashIndexLookup, responseStore } from '$lib/LogStore';
 	import { goto } from '$app/navigation';
+	import { removeRoute } from '$lib/utils';
 
     let logId: string | null;
     let res: CambiaResponse | null;
@@ -19,7 +20,7 @@
                 // Outer guards ensure that this never contains a CambiaError
                 res = $responseStore[indices[0]].content as CambiaResponse | null;
             } else {
-                goto("/");
+                goto(`${removeRoute(location.pathname, $page.route.id)}/`);
             }
         }
     }

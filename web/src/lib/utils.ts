@@ -145,6 +145,20 @@ export function trimLeftChar(str: string, ch: string) {
     return start > 0 ? str.substring(start, end) : str;
 }
 
+export function trimRightChar(str: string, ch: string) {
+    let end = str.length;
+
+    while (end > 0 && str[end - 1] === ch) {
+        --end;
+    }
+
+    return end < str.length ? str.substring(0, end) : str;
+}
+
+export function removeEnd(str: string, rem: string) {
+    return rem && str.endsWith(rem) ? str.slice(0, -rem.length) : str;
+}
+
 export function deductionCategoryStringify(category: DeductionCategory) {
     return typeof category === 'string' ? category : `Track ${category.Track}`;
 }
@@ -153,4 +167,8 @@ export function secondsToMMSS(seconds: number): string {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = Math.round((seconds % 60) * 100) / 100;
     return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+}
+
+export function removeRoute(path: string, route: string | null) {
+    return route ? removeEnd(trimRightChar(path, "/"), trimRightChar(route, "/")) : trimRightChar(path, "/");
 }

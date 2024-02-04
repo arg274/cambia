@@ -1,14 +1,15 @@
 <script>
-    import { fade } from 'svelte/transition';
 	import MultiLogView from "../../components/MultiLogView.svelte";
 	import { fileListStore } from '$lib/LogStore';
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import LogAggregate from '../../components/frags/LogAggregate.svelte';
+	import { removeRoute } from '$lib/utils';
+	import { page } from '$app/stores';
 
     onMount(() => {
         if (!$fileListStore || ($fileListStore && $fileListStore.length == 0)) {
-            goto('/');
+            goto(`${removeRoute(location.pathname, $page.route.id)}/`);
         }
     });
 

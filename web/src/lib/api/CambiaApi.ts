@@ -4,11 +4,12 @@ import * as bigintConversion from 'bigint-conversion';
 import { hashIndexLookup, processedCount, responseStore, updateStat, updateUnknown } from "$lib/LogStore";
 import { dev } from "$app/environment";
 import { XXH64 } from 'xxh3-ts';
-import { clientError, hexify, isCambiaError, isCambiaResponse } from "$lib/utils";
+import { clientError, hexify, isCambiaError, isCambiaResponse, removeRoute } from "$lib/utils";
 import type { CambiaError } from "$lib/types/CambiaError";
 
-export async function getRipInfoMpMulti(host: string, files: FileList | undefined) {
-    const ws: WebSocket = new WebSocket(`ws://${dev ? "localhost:3031" : host}/ws/v1/upload_multi`);
+export async function getRipInfoMpMulti(from: string | null, files: FileList | undefined) {
+    const endpoint = `${location.protocol.startsWith("https") ? "wss" : "ws"}://${location.host}${removeRoute(location.pathname, from)}`;
+    const ws: WebSocket = new WebSocket(`${dev ? "ws://localhost:3031" : endpoint}/ws/v1/upload_multi`);
     const unpackr = new Unpackr( {useRecords: false} );
 
     ws.addEventListener('message', (ev) => {
@@ -92,9 +93,5 @@ export async function getRipInfoMpMulti(host: string, files: FileList | undefine
                 ws.send(tmp);
             }
         })
-    }
-
-    ws.onclose = () => {
-        console.log("WS closed");
     }
 }

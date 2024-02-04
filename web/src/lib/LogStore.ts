@@ -24,9 +24,9 @@ export function initialiseResponseStore(files: FileList | undefined) {
     responseStore.set(Array.from(files || []).map(file => <ResponseEntry> {filename: file.name, status: "queued", content: null}));
 }
 
-export function inputChanged(host: string) {
+export function inputChanged(from: string | null) {
     initialiseResponseStore(get(fileListStore));
-    getRipInfoMpMulti(host, get(fileListStore));
+    getRipInfoMpMulti(from, get(fileListStore));
 }
 
 export function updateUnknown() {
