@@ -1,7 +1,7 @@
 <script lang='ts'>
 	import '../app.postcss';
 
-	import { AppBar, AppShell, initializeStores, setInitialClassState, Toast, modeCurrent, setModeUserPrefers, setModeCurrent, getToastStore } from '@skeletonlabs/skeleton';
+	import { AppBar, AppShell, initializeStores, setInitialClassState, Toast, modeCurrent, setModeUserPrefers, setModeCurrent, Modal, getModalStore, type ModalComponent, type ModalSettings } from '@skeletonlabs/skeleton';
 	
 	import CambiaLogo from '../components/icons/CambiaLogo.svelte';
 	import IconHelp from '~icons/carbon/help';
@@ -20,11 +20,20 @@
 	import { storePopup } from '@skeletonlabs/skeleton';
 	import type { CambiaError } from '$lib/types/CambiaError';
 	import { removeRoute } from '$lib/utils';
+	import LoadModal from '../components/frags/LoadModal.svelte';
 
 	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
+
+	const modalRegistry: Record<string, ModalComponent> = {
+		loadModal: { ref: LoadModal },
+	};
 	
 	initializeStores();
-	export const toastStore = getToastStore();
+	const modalStore = getModalStore();
+	const modalSettings: ModalSettings = {
+		type: "component",
+		component: "loadModal"
+	}
 
 	function onToggleHandler(): void {
 		$modeCurrent = !$modeCurrent;
@@ -41,7 +50,10 @@
 
 	onMount(() => {
 		processedCount.subscribe(p => {
-			if ($fileListStore?.length == 1 && p == 1) {
+			if ($fileListStore?.length == 1 && p == 0) {
+				modalStore.trigger(modalSettings);
+			} else if ($fileListStore?.length == 1 && p == 1) {
+				modalStore.close();
 				switch ($responseStore[0].status) {
 					case "processed":
 						goto(`${removeRoute(location.pathname, $page.route.id)}/log?id=${hashIndexLookup.keys().next().value}`);
@@ -86,6 +98,7 @@
 </svelte:head>
 
 <Toast rounded="rounded-none" transitionIn={fade} transitionOut={fade} transitionInParams={{duration: 100}} transitionOutParams={{duration: 100}} />
+<Modal components={modalRegistry} padding="p-0" transitionIn={fade} transitionOut={fade} transitionInParams={{duration: 100}} transitionOutParams={{duration: 100}} />
 <AppShell slotPageHeader="sticky top-0 z-50 backdrop-blur-xl bg-opacity-10" regionPage="scroll-smooth" scrollbarGutter="stable">
 	<svelte:fragment slot="pageHeader">
 		<AppBar padding="px-4 py-1" background="rounded-br-xl bg-primary-400/10">
