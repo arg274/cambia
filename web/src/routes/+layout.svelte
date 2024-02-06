@@ -59,11 +59,11 @@
 			}
 		});
 
-		// FIXME: Unwanted detection in forms and breaks if pasted in high frequency
+		// FIXME: Breaks if pasted in high frequency
 		document.addEventListener("paste", (ev) => {
 			const dt = ev.clipboardData;
 			const tmp_dt = new DataTransfer();
-			if (dt) {
+			if (dt && !(ev.target instanceof HTMLInputElement || ev.target instanceof HTMLTextAreaElement)) {
 				if (dt.types.includes("text/plain")) {
 					const file = new File([dt.getData("text")], "pasted.log", {type: 'text/plain'});
 					tmp_dt.items.add(file);
