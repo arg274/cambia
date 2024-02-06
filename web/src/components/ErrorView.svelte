@@ -12,7 +12,7 @@
         <span class="text-5xl md:text-8xl mt-8 font-bold">oops.</span>
         <span class="text-xl md:text-2xl mt-2">something went wrong.</span>
         <div class="mt-8">
-            {#if err.id}
+            {#if err.id.length > 0}
                 <span class="h-6 chip variant-soft-error rounded-full pointer-events-none">{hexify(err.id)}</span>
             {/if}
             <span class="text-error-700 dark:text-error-400 md:text-sm mt-8">{err.message}</span>

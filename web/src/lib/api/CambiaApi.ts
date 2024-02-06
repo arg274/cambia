@@ -1,11 +1,14 @@
 import type { CambiaResponse } from "$lib/types/CambiaResponse";
 import { Unpackr } from 'msgpackr';
 import * as bigintConversion from 'bigint-conversion';
-import { hashIndexLookup, processedCount, responseStore, updateStat, updateUnknown } from "$lib/LogStore";
+import { errorStore, hashIndexLookup, processedCount, responseStore, updateStat, updateUnknown } from "$lib/LogStore";
 import { dev } from "$app/environment";
 import { XXH64 } from 'xxh3-ts';
 import { clientError, hexify, isCambiaError, isCambiaResponse, removeRoute } from "$lib/utils";
 import type { CambiaError } from "$lib/types/CambiaError";
+import { goto } from "$app/navigation";
+import { page } from '$app/stores';
+import { get } from "svelte/store";
 
 export async function getRipInfoMpMulti(from: string | null, files: FileList | undefined) {
     const endpoint = `${location.protocol.startsWith("https") ? "wss" : "ws"}://${location.host}${removeRoute(location.pathname, from)}`;
@@ -93,5 +96,14 @@ export async function getRipInfoMpMulti(from: string | null, files: FileList | u
                 ws.send(tmp);
             }
         })
+    }
+
+    ws.onerror = () => {
+        const error: CambiaError = {
+            id: [],
+            message: "Connection to the API failed."
+        };
+        errorStore.set(error);
+        goto(`${removeRoute(location.pathname, get(page).route.id)}/error`);
     }
 }
