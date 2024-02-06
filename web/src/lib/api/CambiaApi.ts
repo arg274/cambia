@@ -15,7 +15,7 @@ export async function getRipInfoMpMulti(from: string | null, files: FileList | u
     const ws: WebSocket = new WebSocket(`${dev ? "ws://localhost:3031" : endpoint}/ws/v1/upload_multi`);
     const unpackr = new Unpackr( {useRecords: false} );
 
-    ws.addEventListener('message', (ev) => {
+    ws.onmessage = (ev) => {
         if (ev.data instanceof Blob) {
             const r = new FileReader();
             r.onload = () => {
@@ -57,7 +57,7 @@ export async function getRipInfoMpMulti(from: string | null, files: FileList | u
             };
             r.readAsArrayBuffer(ev.data);
         }
-    });
+    };
 
     ws.onopen = () => {
         const fileArray = Array.from(files || []);
