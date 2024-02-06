@@ -1,9 +1,10 @@
 <script lang='ts'>
 	import '../app.postcss';
 
-	import { AppBar, AppShell, initializeStores, setInitialClassState, Toast, modeCurrent, setModeUserPrefers, setModeCurrent } from '@skeletonlabs/skeleton';
+	import { AppBar, AppShell, initializeStores, setInitialClassState, Toast, modeCurrent, setModeUserPrefers, setModeCurrent, getToastStore } from '@skeletonlabs/skeleton';
 	
 	import CambiaLogo from '../components/icons/CambiaLogo.svelte';
+	import IconHelp from '~icons/carbon/help';
 	import IconWindowBlackSaturation from '~icons/carbon/window-black-saturation';
 	import IconGithub from '~icons/carbon/logo-github';
 	import { fade } from 'svelte/transition';
@@ -23,6 +24,7 @@
 	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 	
 	initializeStores();
+	export const toastStore = getToastStore();
 
 	function onToggleHandler(): void {
 		$modeCurrent = !$modeCurrent;
@@ -97,7 +99,10 @@
 				</a>
 			</svelte:fragment>
 			<svelte:fragment slot="trail">
-				<button type="button" class="btn-icon bg-initial hover:variant-soft" on:click={onToggleHandler}><IconWindowBlackSaturation class="icon-lg" /></button>
+				<div class="flex gap-x-0">
+					<a type="button" class="btn-icon bg-initial hover:variant-soft" href="{removeRoute($page.url.pathname, $page.route.id)}/help"><IconHelp class="icon-lg" /></a>
+					<button type="button" class="btn-icon bg-initial hover:variant-soft" on:click={onToggleHandler}><IconWindowBlackSaturation class="icon-lg" /></button>
+				</div>
 			</svelte:fragment>
 		</AppBar>
 	</svelte:fragment>
@@ -105,7 +110,7 @@
 		<slot />
 	</DropScreen>
 	<svelte:fragment slot="pageFooter">
-		<AppBar class="mt-10" background="bg-surface-100-800-token">
+		<AppBar class="mt-10" background="rounded-tr-xl bg-surface-100-800-token">
 			<svelte:fragment slot="lead">
 				<CambiaLogo class="w-5 stroke-surface-300 dark:stroke-surface-400 stroke-1" />
 			</svelte:fragment>
