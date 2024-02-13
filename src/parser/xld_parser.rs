@@ -5,7 +5,7 @@ use std::{str::FromStr, collections::HashSet};
 use regex::{Regex, RegexBuilder};
 use base64::{Engine as _, engine::GeneralPurpose, engine::general_purpose::PAD, alphabet::Alphabet};
 
-use crate::{extract::{Extractor, Gap, MediaType, Quartet, ReadMode, Ripper, TrackExtractor}, integrity::IntegrityChecker, toc::{Toc, TocEntry, TocRaw}, track::{TestAndCopy, TrackEntry, TrackError, TrackErrorData, TrackErrorRange}, translate::{Translator, TranslatorCombined}, util::Time};
+use crate::{extract::{Extractor, Gap, MediaType, Quartet, ReadMode, ReleaseInfo, Ripper, TrackExtractor}, integrity::IntegrityChecker, toc::{Toc, TocEntry, TocRaw}, track::{TestAndCopy, TrackEntry, TrackError, TrackErrorData, TrackErrorRange}, translate::{Translator, TranslatorCombined}, util::Time};
 use simple_text_decode::DecodedText;
 
 use self::sha256custom::Sha256Custom;
@@ -14,6 +14,7 @@ use super::{Parser, ParsedLog, ParserCombined, ParsedLogCombined, ParserTrack};
 
 lazy_static! {
     static ref RIPPER_VERSION: Regex = Regex::new(r"X Lossless Decoder version (.+)").unwrap();
+    static ref RELEASE_INFO: Regex = Regex::new(r"XLD extraction logfile from .+[\r\n]+(?P<relinfo>.+)").unwrap();
     static ref USED_DRIVE: Regex = Regex::new(r"Used drive( *): (.+)").unwrap();
     static ref MEDIA_TYPE: Regex = Regex::new(r"Media type( *): (.+)").unwrap();
 
@@ -129,6 +130,20 @@ impl Extractor for XldParserSingle {
         match captures {
             Some(captures) => captures.get(1).unwrap().as_str().to_string(),
             None => String::from("Unknown"),
+        }
+    }
+
+    fn extract_release_info(&self) -> ReleaseInfo {
+        let captures: Option<regex::Captures<'_>> = RELEASE_INFO.captures(&self.translated_log);
+        match captures {
+            Some(captures) => {
+                let split = captures.name("relinfo").unwrap().as_str().split_once(" / ");
+                match split {
+                    Some(s) => ReleaseInfo::new(s.0.trim().to_owned(), s.1.trim().to_owned()),
+                    None => ReleaseInfo::default(),
+                }
+            },
+            None => ReleaseInfo::default(),
         }
     }
 

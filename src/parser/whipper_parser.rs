@@ -3,10 +3,10 @@ mod whipper_yaml;
 use regex::Regex;
 use sha2::{Sha256, Digest};
 
-use crate::{extract::{Extractor, Quartet, Ripper, ReadMode, Gap, TrackExtractor, MediaType}, translate::{Translator, TranslatorCombined}, integrity::IntegrityChecker, toc::{TocEntry, TocRaw, Toc}, util::Time, track::{TrackEntry, TestAndCopy}};
+use crate::{extract::{Extractor, Gap, MediaType, Quartet, ReadMode, ReleaseInfo, Ripper, TrackExtractor}, integrity::IntegrityChecker, toc::{Toc, TocEntry, TocRaw}, track::{TestAndCopy, TrackEntry}, translate::{Translator, TranslatorCombined}, util::Time};
 use simple_text_decode::DecodedText;
 
-use self::whipper_yaml::{WhipperLogYaml, WhipperTrackEntry};
+use self::whipper_yaml::{WhipperLogYaml, WhipperTrackEntry, ReleaseInfoUnion};
 
 use super::{Parser, ParsedLog, ParserCombined, ParsedLogCombined, ParserTrack};
 
@@ -44,8 +44,9 @@ impl WhipperParserSingle {
     pub fn new(log: String) -> WhipperParserSingle {
         let (language, _) = WhipperParserSingle::translate(log.clone());
 
-        let yaml_sanitised = SANITISE_RELEASE.replace(&log, "${1}: \"{2}\"");
+        let yaml_sanitised = SANITISE_RELEASE.replace(&log, "${1}: \"${2}\"");
         let yaml: WhipperLogYaml = serde_yaml::from_str(&yaml_sanitised).unwrap_or_default();
+        tracing::debug!("Whipper YAML: {yaml:?}");
         
         WhipperParserSingle {
             log,
@@ -102,6 +103,19 @@ impl Extractor for WhipperParserSingle {
         match captures {
             Some(captures) => captures.get(1).unwrap().as_str().to_string(),
             None => String::from("Unknown"),
+        }
+    }
+
+    fn extract_release_info(&self) -> ReleaseInfo {
+        match &self.yaml.cd_metadata.release {
+            ReleaseInfoUnion::String(rs) => {
+                if let Some(s) = rs.split_once(" - ") {
+                    return ReleaseInfo::new(s.0.trim().to_owned(), s.1.trim().to_owned());
+                } else {
+                    ReleaseInfo::default()
+                }
+            },
+            ReleaseInfoUnion::ReleaseInfo(r) => r.clone().into(),
         }
     }
 

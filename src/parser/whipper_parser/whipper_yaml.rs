@@ -1,6 +1,42 @@
 use indexmap::IndexMap;
 use serde::{Serialize, Deserialize};
 
+use crate::extract::ReleaseInfo;
+
+// This separate struct is to stop ts-rs from complaining
+#[derive(Serialize, Deserialize, PartialEq, Debug, Clone)]
+pub struct ReleaseInfoYaml {
+    #[serde(rename = "Artist")]
+    artist: String,
+    #[serde(rename = "Title")]
+    title: String,
+}
+
+impl From<ReleaseInfoYaml> for ReleaseInfo {
+    fn from(val: ReleaseInfoYaml) -> Self {
+        ReleaseInfo::new(val.artist, val.title)
+    }
+}
+
+impl From<ReleaseInfo> for ReleaseInfoYaml {
+    fn from(value: ReleaseInfo) -> Self {
+        Self { artist: value.artist, title: value.title }
+    }
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+#[serde(untagged)]
+pub enum ReleaseInfoUnion {
+    ReleaseInfo(ReleaseInfoYaml),
+    String(String),
+}
+
+impl Default for ReleaseInfoUnion {
+    fn default() -> Self {
+        Self::ReleaseInfo(ReleaseInfo::default().into())
+    }
+}
+
 #[derive(Serialize, Deserialize, Debug)]
 pub struct WhipperRippingPhaseInfo {
     #[serde(rename = "Drive")]
@@ -21,16 +57,15 @@ pub struct WhipperRippingPhaseInfo {
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct WhipperCDMetadata {
-    #[serde(alias = "Release")]
-    #[serde(alias = "Album")]
-    pub release: String,
-    #[serde(rename = "CDDB Disc ID")]
+    #[serde(default, alias = "Release", alias = "Album")]
+    pub release: ReleaseInfoUnion,
+    #[serde(default, rename = "CDDB Disc ID")]
     pub cddb_id: String,
-    #[serde(rename = "MusicBrainz Disc ID")]
+    #[serde(default, rename = "MusicBrainz Disc ID")]
     pub mbz_id: String,
-    #[serde(rename = "MusicBrainz lookup URL")]
+    #[serde(default, alias = "MusicBrainz lookup URL", alias = "MusicBrainz lookup url")]
     pub mbz_lookup_url: String,
-    #[serde(rename = "MusicBrainz Release URL")]
+    #[serde(default, alias = "MusicBrainz Release URL", alias = "MusicBrainz Release url")]
     pub mbz_release_url: String,
 }
 
@@ -77,14 +112,13 @@ pub struct WhipperLogYaml {
     pub rip_date: String,
     #[serde(rename = "Ripping phase information")]
     pub ripping_phase_info: WhipperRippingPhaseInfo,
-    // #[serde(rename = "CD metadata")]
-    // pub cd_metadata: WhipperCDMetadata,
+    #[serde(rename = "CD metadata")]
+    pub cd_metadata: WhipperCDMetadata,
     #[serde(rename = "TOC")]
     pub toc: IndexMap<u32, WhipperTocEntry>,
     #[serde(rename = "Tracks")]
     pub tracks: IndexMap<usize, WhipperTrackEntry>,
-    #[serde(default)]
-    #[serde(rename = "SHA-256 hash")]
+    #[serde(default, rename = "SHA-256 hash")]
     pub checksum: String,
 }
 
@@ -102,13 +136,13 @@ impl Default for WhipperLogYaml {
                 gap: String::from("Unknown"),
                 cdr: None,
             },
-            // cd_metadata: WhipperCDMetadata {
-            //     release: String::from("Unknown"),
-            //     cddb_id: String::from("Unknown"),
-            //     mbz_id: String::from("Unknown"),
-            //     mbz_lookup_url: String::from("Unknown"),
-            //     mbz_release_url: String::from("Unknown"),
-            // },
+            cd_metadata: WhipperCDMetadata {
+                release: ReleaseInfoUnion::default(),
+                cddb_id: String::from("Unknown"),
+                mbz_id: String::from("Unknown"),
+                mbz_lookup_url: String::from("Unknown"),
+                mbz_release_url: String::from("Unknown"),
+            },
             toc: IndexMap::new(),
             tracks: IndexMap::new(),
             checksum: String::from("Unknown")

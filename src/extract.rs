@@ -57,6 +57,28 @@ pub enum ReadMode {
     Unknown,
 }
 
+#[derive(Serialize, Deserialize, PartialEq, TS, Debug, Clone)]
+#[ts(export)]
+pub struct ReleaseInfo {
+    pub artist: String,
+    pub title: String,
+}
+
+impl ReleaseInfo {
+    pub fn new(artist: String, title: String) -> Self {
+        Self {
+            artist: if artist.is_empty() { "Unknown Artist".to_owned() } else { artist },
+            title: if title.is_empty() { "Unknown Album".to_owned() } else { title }
+        }
+    }
+}
+
+impl Default for ReleaseInfo {
+    fn default() -> Self {
+        ReleaseInfo::new("Unknown Artist".to_owned(), "Unknown Album".to_owned())
+    }
+}
+
 #[derive(Serialize, Deserialize, PartialEq, TS)]
 #[ts(export)]
 pub enum Gap {
@@ -78,6 +100,10 @@ pub trait Extractor {
 
     fn extract_ripper_version(&self) -> String {
         String::from("Unknown")
+    }
+
+    fn extract_release_info(&self) -> ReleaseInfo {
+        ReleaseInfo::default()
     }
 
     fn extract_language(&self) -> String {

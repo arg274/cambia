@@ -92,7 +92,7 @@
     {/if}
 
     <div class={classNames("flex flex-col gap-y-4", combinedLog ? "mt-4" : "")}>
-        <!-- <ReleaseInfo mbzTocId={parsedLog.toc.mbz.hash} /> -->
+        <ReleaseInfo mbzTocId={parsedLog.toc.mbz.hash} logRelease={parsedLog.release_info} />
         {#if isMd}
             <div class="flex flex-col gap-y-4" use:tocCrawler={{ mode: 'generate', queryElements: 'h3' }}>
                 <div class="flex gap-x-4">

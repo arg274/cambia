@@ -8,7 +8,7 @@ use phf::OrderedMap;
 use regex::{Regex, RegexBuilder};
 use rayon::prelude::*;
 
-use crate::{extract::{Extractor, Quartet, Ripper, ReadMode, Gap, TrackExtractor}, translate::{Translator, TranslatorCombined}, integrity::IntegrityChecker, toc::{TocEntry, TocRaw, Toc}, track::{TrackEntry, TestAndCopy, TrackError, TrackErrorRange, TrackErrorData}, util::Time};
+use crate::{extract::{Extractor, Gap, Quartet, ReadMode, ReleaseInfo, Ripper, TrackExtractor}, integrity::IntegrityChecker, toc::{Toc, TocEntry, TocRaw}, track::{TestAndCopy, TrackEntry, TrackError, TrackErrorData, TrackErrorRange}, translate::{Translator, TranslatorCombined}, util::Time};
 use simple_text_decode::DecodedText;
 
 use self::{translation_table::{LANGS, L_DUMMY_MAP, L_47AB3DF2_MAP}, rijndael::Rijndael};
@@ -21,6 +21,7 @@ lazy_static! {
     static ref RIPPER_VERSION: Regex = Regex::new(r"Exact Audio Copy (.+) from").unwrap();
     static ref USED_DRIVE: Regex = Regex::new(r"Used drive( *): (.+)").unwrap();
     static ref DRIVE_TRIM: Regex = Regex::new(r"\s*Adapter:\s*\d+\s*ID:\s*\d+").unwrap();
+    static ref RELEASE_INFO: Regex = Regex::new(r"EAC extraction logfile from .+[\r\n]+(?P<relinfo>.+)").unwrap();
 
     static ref READ_MODE: Regex = Regex::new(r"Read mode( *): (\w+)").unwrap();
     static ref ACCURATE_STREAM: Regex = Regex::new(r"Utilize accurate stream( *): (?P<boolean>Yes|No)").unwrap();
@@ -172,6 +173,20 @@ impl Extractor for EacParserSingle {
         match captures {
             Some(captures) => captures.get(1).unwrap().as_str().trim_start_matches('V').to_string(),
             None => String::from("Unknown"),
+        }
+    }
+
+    fn extract_release_info(&self) -> ReleaseInfo {
+        let captures: Option<regex::Captures<'_>> = RELEASE_INFO.captures(&self.translated_log);
+        match captures {
+            Some(captures) => {
+                let split = captures.name("relinfo").unwrap().as_str().split_once(" / ");
+                match split {
+                    Some(s) => ReleaseInfo::new(s.0.trim().to_owned(), s.1.trim().to_owned()),
+                    None => ReleaseInfo::default(),
+                }
+            },
+            None => ReleaseInfo::default(),
         }
     }
 

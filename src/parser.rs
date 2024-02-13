@@ -17,7 +17,7 @@ pub mod cueripper_parser;
 use serde::{Serialize, Deserialize};
 use ts_rs::TS;
 
-use self::extract::MediaType;
+use self::extract::{MediaType, ReleaseInfo};
 
 // TODO: I need to revisit this and make some fields optional
 // Current thought is to make an enum that holds different RipperTypeOptionalData fields in each variant
@@ -26,6 +26,7 @@ use self::extract::MediaType;
 pub struct ParsedLog {
     pub ripper: Ripper,
     pub ripper_version: String,
+    pub release_info: ReleaseInfo,
     pub language: String,
     pub read_offset: Option<i16>,
     pub combined_rw_offset: Option<i32>,
@@ -61,6 +62,7 @@ pub trait Parser: Extractor + IntegrityChecker {
         ParsedLog {
             ripper: self.extract_ripper(),
             ripper_version: self.extract_ripper_version(),
+            release_info: self.extract_release_info(),
             language: self.extract_language(),
             read_offset: self.extract_read_offset(),
             combined_rw_offset: self.extract_combined_rw_offset(),

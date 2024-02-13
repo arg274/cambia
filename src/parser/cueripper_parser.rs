@@ -92,6 +92,7 @@ impl Parser for CueRipperParserSingle {
             None => ParsedLog {
                 ripper: self.extract_ripper(),
                 ripper_version: self.extract_ripper_version(),
+                release_info: self.extract_release_info(),
                 language: self.extract_language(),
                 read_offset: self.extract_read_offset(),
                 combined_rw_offset: self.extract_combined_rw_offset(),
