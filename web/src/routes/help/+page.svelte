@@ -9,6 +9,7 @@
 
     import type { PageData } from './$types';
 	import type { ComponentType } from 'svelte';
+	import Explainable from '../../components/frags/Explainable.svelte';
 
     export let data: PageData;
 
@@ -36,7 +37,7 @@
 </script>
 
 <div class="mt-10 px-4 flex justify-center">
-    <div class="w-full xl:w-3/4 2xl:w-1/2 md:max-lg:self-start flex flex-col gap-4 help-page">
+    <div class="w-full xl:w-3/4 2xl:w-1/2 md:max-lg:self-start flex flex-col gap-12 help-page">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Card header="Supported rippers">
                 <div class="ml-1 text-sm flex flex-col gap-y-1">
@@ -58,7 +59,7 @@
                     {/each}
                 </div>
             </Card>
-            <Card header="Supported rippers">
+            <Card header="Supported evaluators">
                 <div class="ml-1 flex flex-col gap-y-2">
                     <div class="text-sm flex flex-col gap-y-1">
                         {#each data.evaluators as evaluator}
@@ -78,6 +79,16 @@
                 </div>
             </Card>
         </div>
-        <!-- <h3 class="font-bold text-2xl text-primary-800 dark:text-primary-200">Why?</h3> -->
+        <div class="flex flex-col gap-2">
+            <h3 class="font-bold text-2xl">features</h3>
+            <ul class="list-disc list-inside text-sm">
+                <li>Bulk and combined log checking</li>
+                <li>Log integrity checking</li>
+                <li>TOC ID generation as per the MusicBrainz, <Explainable explanation="CUETools Database">CTDB</Explainable>,
+                    Gracenote and <Explainable explanation="Used by Windows Media Player">MCDI</Explainable> specs</li>
+                <li>Data track, <Explainable explanation="Copy Controlled Compact Disc">CCCD</Explainable> <Explainable explanation="Digital Rights Management">DRM</Explainable> detection</li>
+                <li>TOC layout visualization</li>
+            </ul>
+        </div>
     </div>
 </div>
