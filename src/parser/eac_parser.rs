@@ -463,7 +463,9 @@ impl EacParserTrack {
     where
         T: FromStr,
         <T as FromStr>::Err: std::fmt::Debug, {
-        regex.captures(&self.raw).map(|val| val.name("value").unwrap().as_str().trim().parse::<T>().unwrap())
+        regex.captures(&self.raw).and_then(|val| {
+            val.name("value").and_then(|v| v.as_str().trim().parse::<T>().ok())
+        })
     }
 }
 
