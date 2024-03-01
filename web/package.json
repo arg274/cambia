@@ -25,7 +25,7 @@
 		"@tailwindcss/forms": "^0.5.7",
 		"@tailwindcss/typography": "^0.5.10",
 		"@types/animejs": "^3.1.12",
-		"@types/node": "^20.11.16",
+		"@types/node": "^20.11.24",
 		"@typescript-eslint/eslint-plugin": "^6.20.0",
 		"@typescript-eslint/parser": "^6.20.0",
 		"animejs": "^3.2.2",
