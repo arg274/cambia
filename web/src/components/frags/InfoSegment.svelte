@@ -22,9 +22,9 @@
                 <slot name="extra"></slot>
             </div>
             {#if valueOk && valueOk > 0}
-                <IconCloseFilled class="text-error-700 dark:text-error-400" />
+                <IconCloseFilled class="text-error-700 dark:text-error-400 icon-sm" />
             {:else if valueOk == 0}
-                <IconCheckmarkFilled class="text-success-700 visible dark:text-success-400" />
+                <IconCheckmarkFilled class="text-success-700 visible dark:text-success-400 icon-sm" />
             {/if}
         </div>
     </div>

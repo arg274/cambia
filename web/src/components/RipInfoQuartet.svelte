@@ -69,8 +69,8 @@
 <Card header="Rip Settings">
     <div slot="tooltip" class="flex flex-col gap-2">
         <h6 class="text-lg font-bold">Actual values</h6>
-        <div class="flex flex-col gap-2">
-            <p class="max-w-64 text-wrap text-xs">Actual values of a setting are show on the left.</p>
+        <div class="flex flex-col gap-2 text-xs">
+            <p class="max-w-64 text-balanced">Actual values of a setting are show on the left.</p>
             <div class="flex gap-2 items-center">
                 <div class="w-1 h-4 rounded-full {quartetToVariant("True")}"></div>
                 <span>Enabled</span>
@@ -89,14 +89,14 @@
             </div>
         </div>
         <h6 class="text-lg font-bold">Recommendation</h6>
-        <div class="flex flex-col gap-2">
-            <p class="max-w-64 text-wrap text-xs">The ripper settings should be adjusted to ensure that all the values match the recommendation.</p>
+        <div class="flex flex-col gap-2 text-xs">
+            <p class="max-w-64 text-balanced">The ripper settings should be adjusted to ensure that all the values match the recommendation shown on the right.</p>
             <div class="flex gap-2 items-center">
-                <IconCheckmarkFilled class="text-success-700 visible dark:text-success-400" />
+                <IconCheckmarkFilled class="text-success-700 visible dark:text-success-400 icon-sm" />
                 <span>Matches recommended value</span>
             </div>
             <div class="flex gap-2 items-center">
-                <IconCloseFilled class="text-error-700 dark:text-error-400" />
+                <IconCloseFilled class="text-error-700 dark:text-error-400 icon-sm" />
                 <span>Not the recommended value</span>
             </div>
         </div>

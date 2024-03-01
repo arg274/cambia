@@ -83,7 +83,7 @@
                     <span class="text-sm font-mono">MULTIPLE</span>
                 </a>
             {:else if pending}
-                <div class="{classNames(placeholder, animate)} h-4 w-72"></div>
+                <div class="{classNames(placeholder, animate)} h-4 w-16"></div>
             {:else}
                 <span class="text-sm font-mono">N/A</span>
             {/if}
