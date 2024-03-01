@@ -232,7 +232,7 @@ impl GazelleDeductionData for GazelleDeductionRelease {
             ),
             GazelleDeductionRelease::CouldNotVerifyGapHandling => DeductionData::new(
                 DeductionCategory::Release,
-                DeductionField::MediaType,
+                DeductionField::Gap,
                 "Could not verify gap handling"
             ),
             GazelleDeductionRelease::CouldNotVerifyId3 => DeductionData::new(
