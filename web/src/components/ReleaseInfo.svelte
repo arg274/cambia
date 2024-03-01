@@ -8,7 +8,6 @@
 
     export let mbzTocId: string;
     export let logRelease: ReleaseInfo;
-    let selectedRelease = "";
 
     const res = (async () => {
         const _res = await getReleasesFromDiscId(mbzTocId);
@@ -26,15 +25,7 @@
             <ReleaseInfoSegment relLog={logRelease} pending={true} />
         {:then data}
             {#if !data.error && data.releases.length > 0}
-                {@const releases = castToReleases(data.releases)}
-                {@const release = selectedRelease ? releases.filter(rel => rel.id === selectedRelease)[0] : releases[0]}
-                <ReleaseInfoSegment rel={release} relLog={logRelease} pending={true} />
-                
-                <!-- TODO: Allow choosing a release if there are multiple -->
-                <!-- <div class="mt-4 flex justify-between items-end">
-                    <span><ComboBox addTriggerClass="h-6" textClass="text-sm font-mono" items={releases.map(rel => rel.id)} bind:value={selectedRelease} /></span>
-                    <span class="text-xs">{release.date}</span>
-                </div> -->
+                <ReleaseInfoSegment rels={castToReleases(data.releases)} relLog={logRelease} mbzTocId={mbzTocId} pending={true} />
             {:else}
                 <ReleaseInfoSegment relLog={logRelease} />
             {/if}

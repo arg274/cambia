@@ -32,7 +32,7 @@
 	<span class={textClass}>{value ?? "Select"}</span><IconChevronDown class="p-0" />
 </button>
 
-<div class={classNames("card shadow-xl", addListClass)} data-popup="combobox">
+<div class={classNames("card shadow-xl z-10", addListClass)} data-popup="combobox">
 	<ListBox rounded="rounded-none">
 		{#each items as item}
 			<ListBoxItem bind:group={value} name={name} value={item}>

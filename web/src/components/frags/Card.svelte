@@ -10,7 +10,7 @@
 
     let infoPopup: PopupSettings = {
         event: 'hover',
-        target: 'infoPopup',
+        target: `${toCardId(header)}-popup`,
         placement: 'top-start',
         closeQuery: '',
     }
@@ -24,7 +24,7 @@
                 <div class="p-1" use:popup={infoPopup}>
                     <IconHelp class="pointer-events-none" />
                 </div>
-                <div class="text-sm card bg-surface-100-800-token p-4 whitespace-nowrap shadow-xl" data-popup="infoPopup">
+                <div class="text-sm rounded-xl p-4 bg-surface-300/10 backdrop-blur-xl z-max shadow-xl" data-popup="{toCardId(header)}-popup">
                     <slot name="tooltip"></slot>
                 </div>
             {/if}

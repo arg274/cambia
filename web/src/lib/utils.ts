@@ -5,6 +5,7 @@ import type { CambiaResponse } from './types/CambiaResponse';
 import type { CambiaError } from './types/CambiaError';
 import { Packr } from 'msgpackr';
 import type { DeductionCategory } from './types/DeductionCategory';
+import type { Quartet } from './types/Quartet';
 
 const packr = new Packr({ useRecords: false });
 
@@ -171,4 +172,23 @@ export function secondsToMMSS(seconds: number): string {
 
 export function removeRoute(path: string, route: string | null) {
     return route ? removeEnd(trimRightChar(path, "/"), trimRightChar(route, "/")) : trimRightChar(path, "/");
+}
+
+export function quartetToVariant(quartet: Quartet): string {
+    let variant: string;
+    switch (quartet) {
+        case "True":
+            variant = "bg-success-700 dark:bg-success-400";
+            break;
+        case "False":
+            variant = "bg-error-700 dark:bg-error-400";
+            break;
+        case "Unsupported":
+            variant = "bg-black dark:bg-white";
+            break;    
+        default:
+            variant = "bg-warning-700 dark:bg-warning-400";
+            break;
+    }
+    return variant;
 }

@@ -78,9 +78,10 @@
 {#if res}
     {@const combinedLog = res.parsed.parsed_logs.length > 1 ? true : false}
     {@const parsedLog = res.parsed.parsed_logs[pageSettings.page]}
+    {@const ev = res.evaluation_combined.filter(ec => ec.evaluator === "OPS")[0].evaluations[pageSettings.page]}
     {#if combinedLog}
-        <div class="flex justify-between items-center">
-            <span class="text-xs uppercase tracking-widest">Combined Log</span>
+        <div class="flex justify-between items-end md:items-center">
+            <span class="text-xs uppercase tracking-widest mb-2 md:mb-0">Combined Log</span>
             <div class="flex justify-center md:justify-end md:items-center items-end gap-2 mb-2">
                 <Paginator bind:settings={pageSettings} on:page={onPageChange}></Paginator>
                 <div class="flex justify-end items-center hide-scroll-numinput">
@@ -107,8 +108,8 @@
                         <ChecksumInfo checksum={parsedLog.checksum} />
                     </div>
                     <div class="flex flex-col w-1/2 gap-4">
-                        <RipInfo parsedLog={parsedLog} />
-                        <RipInfoQuartet parsedLog={parsedLog} />
+                        <RipInfo parsedLog={parsedLog} evaluation={ev} />
+                        <RipInfoQuartet parsedLog={parsedLog} evaluation={ev} />
                     </div>
                 </div>
                 <hr class="!border-t-4 !border-dashed" />
@@ -122,8 +123,8 @@
                 {#key pageSettings}
                     <EvaluationInfo logs={res.parsed} combinedEvals={res.evaluation_combined} selectedLogIdx={pageSettings.page} />
                 {/key}
-                <RipInfo parsedLog={parsedLog} />
-                <RipInfoQuartet parsedLog={parsedLog} />
+                <RipInfo parsedLog={parsedLog} evaluation={ev} />
+                <RipInfoQuartet parsedLog={parsedLog} evaluation={ev} />
                 <ChecksumInfo checksum={parsedLog.checksum} />
                 <TocInfo toc={parsedLog.toc} />
                 <TrackInfo toc={parsedLog.toc.raw} tracks={parsedLog.tracks} />

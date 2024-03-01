@@ -243,7 +243,8 @@
 </style>
 
 <!-- FIXME: Abysmal UX when accordion expands -->
-<Card header="Track Details">
+<!-- TODO: This addClass is a freakish hack for popups not getting covered -->
+<Card header="Track Details" addClass="!z-0">
     <!-- Rendering might be broken in Chrome if crispEdges is not used in some cases -->
     <div class="grid grid-cols-1 md:grid-cols-2 pb-4">
         <svg class="mb-4" width="100%" height="100%" viewBox="0 0 {vb} {vb}">

@@ -12,6 +12,9 @@ const config = {
 			'../**/*.{html,js,svelte,ts}'
 		),
 	],
+	safelist: [
+		{ pattern: /bg-(success|error|warning|surface)-(300|700)/ }
+	],
 	theme: {
 		extend: {
 			zIndex: {
