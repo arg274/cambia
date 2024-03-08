@@ -70,7 +70,7 @@
     <div slot="tooltip" class="flex flex-col gap-2">
         <h6 class="text-lg font-bold">Actual values</h6>
         <div class="flex flex-col gap-2 text-xs">
-            <p class="max-w-64 text-balanced">Actual values of a setting are show on the left.</p>
+            <p class="max-w-64 text-balanced">Actual values of a setting are shown on the left.</p>
             <div class="flex gap-2 items-center">
                 <div class="w-1 h-4 rounded-full {quartetToVariant("True")}"></div>
                 <span>Enabled</span>
