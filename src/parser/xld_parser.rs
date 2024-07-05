@@ -32,7 +32,7 @@ lazy_static! {
     static ref CHECKSUM: Regex = Regex::new(r"\n-----BEGIN XLD SIGNATURE-----\n(.+)\n-----END XLD SIGNATURE-----").unwrap();
     static ref TOC: Regex = Regex::new(r"\s+(?P<track>\d+)\s+\|\s+(?P<start>[0-9:\.]+)\s+\|\s+(?P<length>[0-9:\.]+)\s+\|\s+(?P<start_sector>\d+)\s+\|\s+(?P<end_sector>\d+)").unwrap();
     
-    static ref TRACKS: Regex = RegexBuilder::new(r"^Track \d+(\s+)Filename").multi_line(true).build().unwrap();
+    static ref TRACKS: Regex = RegexBuilder::new(r"^Track \d+\s+(Filename|Pre-gap length)").multi_line(true).build().unwrap();
     static ref LOG_EOF: Regex = Regex::new(r"((No|Some) (errors|inconsistencies) (occurred|found)\s+)?End of status report").unwrap();
 
     // TODO: Some track fields that don't affect scoring were skipped
@@ -296,17 +296,31 @@ impl Extractor for XldParserSingle {
         let mut tracks: Vec<TrackEntry> = Vec::new();
 
         let last_idx = LOG_EOF.find(&self.translated_log).unwrap().start();
-        let mut captures_all = TRACKS.find_iter(&self.translated_log).peekable();
-        let mut prev_m: Option<regex::Match> = None;
+        let captures_all = TRACKS.captures_iter(&self.translated_log);
+        let mut prev_start: usize = 0;
+        let mut is_range = false;
 
-        while let Some(m) = captures_all.next() {
-            if let Some(p) = prev_m {
-                tracks.push(XldParserTrack::new(false, self.translated_log[p.start()..m.start()].trim().to_owned()).parse_track());
+        for (idx, captures) in captures_all.enumerate() {
+            if let Some(m) = captures.get(0) {
+                let start = m.start();
+
+                // Match already exists, group 1 is bound to exist
+                if !is_range && captures.get(1).unwrap().as_str() != "Filename" {
+                    is_range = true;
+                }
+
+                if idx > 0 {
+                    tracks.push(XldParserTrack::new(is_range, self.translated_log[prev_start..start].trim().to_owned()).parse_track());
+                }
+
+                prev_start = m.start();
+            } else {
+                break;
             }
-            if captures_all.peek().is_none() {
-                tracks.push(XldParserTrack::new(false, self.translated_log[m.start()..last_idx].trim().to_owned()).parse_track());
-            }
-            prev_m = Some(m);
+        }
+
+        if prev_start > 0 {
+            tracks.push(XldParserTrack::new(is_range, self.translated_log[prev_start..last_idx].trim().to_owned()).parse_track());
         }
 
         tracks

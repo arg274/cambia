@@ -106,6 +106,10 @@ impl OpsEvaluator {
             GazelleDeductionRelease::CouldNotVerifyAlbumGain => false, // TODO: XLD specific prop, does not affect scoring
             GazelleDeductionRelease::RippedWithCompressionOffset => false, // TODO: EAC specific prop, does not affect scoring
             GazelleDeductionRelease::RangeRip => {
+                if parsed_log.ripper != Ripper::EAC {
+                    return false;
+                }
+                
                 for track in parsed_log.tracks.iter() {
                     if track.is_range {
                         return true;
@@ -166,11 +170,11 @@ impl OpsEvaluator {
                 false
             },
             GazelleDeductionTrack::CouldNotVerifyFilenameOrExt => {
-                if track_entry.is_range {
-                    return false;
-                }
                 if track_entry.filenames.is_empty() {
                     return true;
+                }
+                if track_entry.is_range {
+                    return false;
                 }
                 let filename = track_entry.filenames.first().unwrap();
                 !OPS_EXTENSION_ALLOWLIST.is_match(filename) && parsed_log.ripper == Ripper::EAC && filename.len() < 243
@@ -317,9 +321,9 @@ impl Evaluator for OpsEvaluator {
 
             // Overwrite the main map
             let (start_track, total_tracks): (usize, usize) = match (!log.toc.raw.entries.is_empty(), !log.tracks.is_empty()) {
-                (true, true) => if log.tracks.first().unwrap().is_range { (0, 0) } else { (1, log.toc.raw.entries.len()) },
+                (true, true) => if log.tracks.first().unwrap().is_range && log.ripper == Ripper::EAC { (0, 0) } else { (1, log.toc.raw.entries.len()) },
                 // Impossible to know total track count with full certainty
-                (false, true) => if log.tracks.first().unwrap().is_range { (0, 0) } else { (1, log.tracks.last().unwrap().num as usize) },
+                (false, true) => if log.tracks.first().unwrap().is_range && log.ripper == Ripper::EAC { (0, 0) } else { (1, log.tracks.last().unwrap().num as usize) },
                 // This should never happen, skip if it does
                 (_, false) => (1, 0),
             };
