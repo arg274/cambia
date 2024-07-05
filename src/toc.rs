@@ -1,3 +1,4 @@
+use std::cmp::max;
 use serde::{Serialize, Deserialize};
 use sha1::{Sha1, Digest};
 use base64::{Engine as _, engine::GeneralPurpose, engine::general_purpose::PAD, alphabet::Alphabet};
@@ -37,8 +38,10 @@ pub struct Toc {
     pub raw: TocRaw,
     pub mbz: TocHash,
     pub ctdb_tocid: TocHash,
+    pub accurip_tocid: TocHash,
     pub gn: TocHash,
     pub mcdi: TocHash,
+    pub freedb: TocHash,
 }
 
 pub struct TocError;
@@ -94,8 +97,10 @@ impl Toc {
             raw: toc_raw.clone(),
             mbz: raw_to_mbz(toc_raw.clone()),
             ctdb_tocid: raw_to_ctdb_tocid(toc_raw.clone()),
+            accurip_tocid: raw_to_accurip_tocid(toc_raw.clone()),
             gn: raw_to_gn(toc_raw.clone()),
             mcdi: raw_to_mcdi(toc_raw.clone()),
+            freedb: raw_to_freedb(toc_raw.clone()),
         }
     }
 }
@@ -185,6 +190,24 @@ pub fn raw_to_ctdb_tocid(toc_raw: TocRaw) -> TocHash {
     TocHash::new(hash, format!("http://db.cuetools.net/top.php?tocid={}", url_param))
 }
 
+pub fn raw_to_accurip_tocid(toc_raw: TocRaw) -> TocHash {
+    if toc_raw.entries.is_empty() {
+        return TocHash::default();
+    }
+
+    let mut offsets_add = toc_raw.entries.len() as u32;
+    let mut offsets_mul = max(toc_raw.entries.last().unwrap().end_sector + 1, 1) * (offsets_add + 1);
+
+    for (i, entry) in toc_raw.entries.iter().enumerate() {
+        offsets_add += entry.end_sector;
+        offsets_mul += max(entry.start_sector, 1) * (i as u32 + 1);
+    }
+
+    let freedb = raw_to_freedb(toc_raw.clone());
+    let id = format!("{:08x}-{:08x}-{}", offsets_add, offsets_mul, freedb.hash.to_lowercase());
+    TocHash::new(id, String::default())
+}
+
 pub fn raw_to_gn(toc_raw: TocRaw) -> TocHash {
 
     let mut offsets: Vec<u32> = toc_raw.entries.iter().map(|toc_entry| toc_entry.start_sector).collect();
@@ -234,6 +257,22 @@ pub fn raw_to_mcdi(toc_raw: TocRaw) -> TocHash {
     let offsets_joined = offsets_str.join("+");
     
     TocHash::new(offsets_joined.clone(), format!("https://musicmatch-ssl.xboxlive.com/cdinfo/GetMDRCD.aspx?locale=409&geoid=f4&version=12.0.17134.48&userlocale=409&CD={}", offsets_joined))
+}
+
+pub fn raw_to_freedb(toc_raw: TocRaw) -> TocHash {
+    if toc_raw.entries.is_empty() {
+        return TocHash::default();
+    }
+
+    let checksum = toc_raw.entries.iter()
+        .map(|entry| (entry.start_sector / 75 + 2).to_string().chars().map(|c| c.to_digit(10).unwrap()).sum::<u32>())
+        .sum::<u32>() % 255;
+
+    let duration = toc_raw.entries.last().unwrap().end_sector / 75;
+    let tracks = toc_raw.entries.len() as u32;
+
+    let id = format!("{:08X}", (checksum << 24) | ((duration) << 8) | tracks);
+    TocHash::new(id.clone(), format!("https://gnudb.org/search/discid/{}", id))
 }
 
 fn get_data_tracks(entries: &Vec<TocEntry>) -> Result<u32, TocError> {

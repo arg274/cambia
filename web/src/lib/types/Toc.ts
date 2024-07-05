@@ -2,4 +2,4 @@
 import type { TocHash } from "./TocHash";
 import type { TocRaw } from "./TocRaw";
 
-export interface Toc { raw: TocRaw, mbz: TocHash, ctdb_tocid: TocHash, gn: TocHash, mcdi: TocHash, }
+export interface Toc { raw: TocRaw, mbz: TocHash, ctdb_tocid: TocHash, accurip_tocid: TocHash, gn: TocHash, mcdi: TocHash, freedb: TocHash, }
