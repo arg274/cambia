@@ -5,10 +5,7 @@ on:
 jobs:
   npm:
     name: Build frontend
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: Setup Node.js
@@ -24,7 +21,7 @@ jobs:
       - name: Upload static site files
         uses: actions/upload-artifact@v4
         with:
-          name: webui-${{ matrix.os }}
+          name: webui
           path: web/build
 
   cargo:
@@ -39,7 +36,7 @@ jobs:
       - name: Download static site files
         uses: actions/download-artifact@v4
         with:
-          name: webui-${{ matrix.os }}
+          name: webui
           path: web/build
       - uses: dtolnay/rust-toolchain@stable
       - name: Build w/ experimental rippers
