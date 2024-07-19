@@ -1,6 +1,6 @@
 use std::{cmp::min, collections::{HashMap, HashSet}};
 
-use crate::{evaluate::{Evaluator, EvaluationCombined, Deduction, Evaluation, EvaluatorType, DeductionCategory}, parser::{ParsedLogCombined, ParsedLog}, extract::{Ripper, Quartet, MediaType, ReadMode, Gap}, track::TrackEntry, integrity::Integrity, drive::{DriveUtils, DriveMatchQuality}};
+use crate::{evaluate::{Evaluator, EvaluationCombined, EvaluationUnit, Evaluation, EvaluatorType, EvaluationUnitCategory}, parser::{ParsedLogCombined, ParsedLog}, extract::{Ripper, Quartet, MediaType, ReadMode, Gap}, track::TrackEntry, integrity::Integrity, drive::{DriveUtils, DriveMatchQuality}};
 
 use super::{GazelleDeductionData, GazelleDeductionFail, GazelleDeductionRelease, GazelleDeductionTrack, GazelleDeduction};
 
@@ -205,19 +205,19 @@ impl OpsEvaluator {
 }
 
 impl GazelleDeduction for GazelleDeductionFail {
-    fn deduct(&self, _parsed_log: &ParsedLog) -> Deduction {
+    fn deduct(&self, _parsed_log: &ParsedLog) -> EvaluationUnit {
         let deduction_score: u32 = match &self {
             GazelleDeductionFail::UnknownEncoding => 100,
             GazelleDeductionFail::UnknownRipper => 100,
             GazelleDeductionFail::WhipperVersionLowerLimit => 100,
             GazelleDeductionFail::CouldNotParseWhipper => 100,
         };
-        Deduction::new_from_u32(deduction_score, self.get_deduction_data())
+        EvaluationUnit::new_from_u32(deduction_score, self.get_deduction_data())
     }
 }
 
 impl GazelleDeduction for GazelleDeductionRelease {
-    fn deduct(&self, parsed_log: &ParsedLog) -> Deduction {
+    fn deduct(&self, parsed_log: &ParsedLog) -> EvaluationUnit {
         let deduction_score: u32 = match &self {
             GazelleDeductionRelease::VirtualDrive => 20,
             GazelleDeductionRelease::NullDrive => 20,
@@ -259,12 +259,12 @@ impl GazelleDeduction for GazelleDeductionRelease {
             GazelleDeductionRelease::NotSecureCrcMismatch => 20,
             GazelleDeductionRelease::NotSecureNoTC => 40,
         };
-        Deduction::new_from_u32(deduction_score, self.get_deduction_data())
+        EvaluationUnit::new_from_u32(deduction_score, self.get_deduction_data())
     }
 }
 
 impl GazelleDeduction for GazelleDeductionTrack {
-    fn deduct(&self, _parsed_log: &ParsedLog) -> Deduction {
+    fn deduct(&self, _parsed_log: &ParsedLog) -> EvaluationUnit {
         let deduction_score: u32 = match &self {
             GazelleDeductionTrack::CouldNotVerifyFilenameTooLong => 0,
             GazelleDeductionTrack::CouldNotVerifyFilenameOrExt => 1,
@@ -289,28 +289,28 @@ impl GazelleDeduction for GazelleDeductionTrack {
             GazelleDeductionTrack::InconsistenciesInErrorSectors(inconsistency_count) => min(*inconsistency_count, 10),
             GazelleDeductionTrack::DamagedSectors(damaged_sector_count) => min(*damaged_sector_count, 10),
         };
-        Deduction::new_from_u32(deduction_score, self.get_deduction_data())
+        EvaluationUnit::new_from_u32(deduction_score, self.get_deduction_data())
     }
 }
 
 impl Evaluator for OpsEvaluator {
     fn evaluate_combined(&mut self, plc: &ParsedLogCombined) -> EvaluationCombined {
         let mut evaluations: Vec<Evaluation> = Vec::new();
-        let mut track_deduction_map: HashMap<usize, Vec<Deduction>> = HashMap::new();
-        let mut release_deduction_set: HashSet<Deduction> = HashSet::new();
+        let mut track_deduction_map: HashMap<usize, Vec<EvaluationUnit>> = HashMap::new();
+        let mut release_deduction_set: HashSet<EvaluationUnit> = HashSet::new();
 
         // This is wrong on so many levels but it's how OPS implements it
         // TODO: This probably isn't efficient, should drop storing entire deductions in the map and only keep the scores
         for log in plc.parsed_logs.iter() {
             let evaluation = self.evaluate(log);
-            let mut log_track_deduction_map: HashMap<usize, Vec<Deduction>> = HashMap::new();
+            let mut log_track_deduction_map: HashMap<usize, Vec<EvaluationUnit>> = HashMap::new();
 
-            for deduction in evaluation.deductions.iter() {
+            for deduction in evaluation.evaluation_units.iter() {
                 match deduction.data.category {
-                    DeductionCategory::Release => {
+                    EvaluationUnitCategory::Release => {
                         release_deduction_set.insert(deduction.clone());
                     },
-                    DeductionCategory::Track(t) => {
+                    EvaluationUnitCategory::Track(t) => {
                         log_track_deduction_map
                             .entry(t.unwrap() as usize)
                             .or_default()
@@ -346,18 +346,18 @@ impl Evaluator for OpsEvaluator {
         // OPS evaluator seems to have this unholy chimera of a deduction that's neither release-level nor track-level
         // Should not be used in scoring unless the last log has it
         let nscm = GazelleDeductionRelease::NotSecureCrcMismatch.deduct(plc.parsed_logs.last().unwrap());
-        if release_deduction_set.contains(&nscm) && !evaluations.last().unwrap().deductions.contains(&nscm) {
+        if release_deduction_set.contains(&nscm) && !evaluations.last().unwrap().evaluation_units.contains(&nscm) {
             release_deduction_set.remove(&nscm);
         }
 
         // Deduction aggregates
         let release_deduction_score: i32 = release_deduction_set
                                             .into_iter()
-                                            .map(|x| x.deduction_score.parse::<i32>().unwrap())
+                                            .map(|x| x.unit_score.parse::<i32>().unwrap())
                                             .sum();
         let track_deduction_score: i32 = track_deduction_map
                                             .values()
-                                            .flat_map(|ds| ds.iter().map(|d| d.deduction_score.parse::<i32>().unwrap_or_default()))
+                                            .flat_map(|ds| ds.iter().map(|d| d.unit_score.parse::<i32>().unwrap_or_default()))
                                             .sum();
         
         let combined_score: i32 = 100 - release_deduction_score - track_deduction_score;
@@ -366,18 +366,18 @@ impl Evaluator for OpsEvaluator {
 
     fn evaluate(&mut self, parsed_log: &ParsedLog) -> Evaluation {
         let mut score: i32 = 100_i32;
-        let mut deductions: Vec<Deduction> = Vec::new();
+        let mut deductions: Vec<EvaluationUnit> = Vec::new();
 
         for gazelle_deduction_fail in GazelleDeductionFail::iter() {
             if OpsEvaluator::check_fail(parsed_log, gazelle_deduction_fail) {
                 let deduction = gazelle_deduction_fail.deduct(parsed_log);
-                score -= from_str::<i32>(deduction.deduction_score.as_str()).unwrap();
+                score -= from_str::<i32>(deduction.unit_score.as_str()).unwrap();
                 deductions.push(deduction);
                 return Evaluation::new(score.to_string(), deductions);
             }
         }
 
-        let mut deductions_release: Vec<Deduction> = GazelleDeductionRelease::iter()
+        let mut deductions_release: Vec<EvaluationUnit> = GazelleDeductionRelease::iter()
             .par_bridge()
             .filter_map(|gazelle_deduction_release| {
                 if OpsEvaluator::check_release(parsed_log, gazelle_deduction_release) {
@@ -390,7 +390,7 @@ impl Evaluator for OpsEvaluator {
             .collect();
         let score_release: i32 = deductions_release
             .iter()
-            .map(|deduction| from_str::<i32>(deduction.deduction_score.as_str()).unwrap())
+            .map(|deduction| from_str::<i32>(deduction.unit_score.as_str()).unwrap())
             .sum();
 
         deductions.append(&mut deductions_release);
@@ -411,7 +411,7 @@ impl Evaluator for OpsEvaluator {
                         };
                         if OpsEvaluator::check_track(parsed_log, track, gazelle_deduction_track_variant) {
                             let mut deduction = gazelle_deduction_track_variant.deduct(parsed_log);
-                            deduction.data.category = DeductionCategory::Track(Some(track.num)); // TODO: Special considerations for HTOA (?)
+                            deduction.data.category = EvaluationUnitCategory::Track(Some(track.num)); // TODO: Special considerations for HTOA (?)
                             Some(deduction)
                         } else {
                             None
@@ -423,7 +423,7 @@ impl Evaluator for OpsEvaluator {
 
         let score_track: i32 = deductions_track
             .iter()
-            .map(|deduction| from_str::<i32>(deduction.deduction_score.as_str()).unwrap())
+            .map(|deduction| from_str::<i32>(deduction.unit_score.as_str()).unwrap())
             .sum();
 
         deductions.append(&mut deductions_track);

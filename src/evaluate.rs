@@ -18,7 +18,7 @@ pub enum EvaluatorType {
 // Ease of grouping on downstream
 #[derive(Serialize, Deserialize, TS, Hash, PartialEq, Eq, Clone)]
 #[ts(export)]
-pub enum DeductionCategory {
+pub enum EvaluationUnitCategory {
     Release,
     Track(Option<u8>),
 }
@@ -26,7 +26,7 @@ pub enum DeductionCategory {
 // This will be used to indicate which field in the log is relevant to a deduction
 #[derive(Serialize, Deserialize, TS, Hash, PartialEq, Eq, Clone)]
 #[ts(export)]
-pub enum DeductionField {
+pub enum EvaluationUnitField {
     Encoding,
     RipperVersion,
     Drive,
@@ -67,9 +67,9 @@ pub enum DeductionField {
 // This holds the reasoning for the smallest unit of evaluation
 #[derive(Serialize, Deserialize, TS, Hash, PartialEq, Eq, Clone)]
 #[ts(export)]
-pub struct DeductionData {
-    category: DeductionCategory,
-    field: DeductionField,
+pub struct EvaluationUnitData {
+    category: EvaluationUnitCategory,
+    field: EvaluationUnitField,
     message: String,
 }
 
@@ -86,14 +86,14 @@ pub struct EvaluationCombined {
 #[ts(export)]
 pub struct Evaluation {
     score: String,
-    deductions: Vec<Deduction>,
+    evaluation_units: Vec<EvaluationUnit>,
 }
 
 #[derive(Serialize, Deserialize, TS, Hash, PartialEq, Eq, Clone)]
 #[ts(export)]
-pub struct Deduction {
-    deduction_score: String,
-    data: DeductionData,
+pub struct EvaluationUnit {
+    unit_score: String,
+    data: EvaluationUnitData,
 }
 
 // All evaluators are required to implement this
@@ -102,29 +102,29 @@ pub trait Evaluator {
     fn evaluate(&mut self, parsed_log: &ParsedLog) -> Evaluation;
 }
 
-impl DeductionData {
-    pub fn new(category: DeductionCategory, field: DeductionField, message: &str) -> Self {
-        DeductionData { category, field, message: message.to_string() }
+impl EvaluationUnitData {
+    pub fn new(category: EvaluationUnitCategory, field: EvaluationUnitField, message: &str) -> Self {
+        EvaluationUnitData { category, field, message: message.to_string() }
     }
 }
 
-impl Deduction {
-    pub fn new(deduction_score: String, data: DeductionData) -> Self {
-        Deduction { deduction_score, data }
+impl EvaluationUnit {
+    pub fn new(unit_score: String, data: EvaluationUnitData) -> Self {
+        EvaluationUnit { unit_score, data }
     }
 
-    pub fn new_from_u32(deduction_score: u32, data: DeductionData) -> Self {
-        Deduction { deduction_score: deduction_score.to_string(), data }
+    pub fn new_from_u32(unit_score: u32, data: EvaluationUnitData) -> Self {
+        EvaluationUnit { unit_score: unit_score.to_string(), data }
     }
 }
 
 impl Evaluation {
-    pub fn new(score: String, deductions: Vec<Deduction>) -> Self {
-        Evaluation { score, deductions }
+    pub fn new(score: String, evaluation_units: Vec<EvaluationUnit>) -> Self {
+        Evaluation { score, evaluation_units }
     }
 
-    pub fn gazelle_fail(deductions: Vec<Deduction>) -> Self {
-        Evaluation::new(String::from("-1"), deductions)
+    pub fn gazelle_fail(evaluation_units: Vec<EvaluationUnit>) -> Self {
+        Evaluation::new(String::from("-1"), evaluation_units)
     }
 }
 

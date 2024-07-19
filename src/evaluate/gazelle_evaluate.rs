@@ -3,7 +3,7 @@ use strum_macros::EnumIter;
 
 use crate::parser::ParsedLog;
 
-use super::{DeductionCategory, DeductionField, DeductionData, Evaluator, Deduction};
+use super::{EvaluationUnitCategory, EvaluationUnitField, EvaluationUnitData, Evaluator, EvaluationUnit};
 
 #[cfg(feature = "red_ev")]
 pub mod red_evaluate;
@@ -11,16 +11,16 @@ pub mod red_evaluate;
 pub mod ops_evaluate;
 
 pub trait GazelleEvaluator: Evaluator {
-    fn deduct(&mut self, data: dyn GazelleDeductionData) -> Deduction;
+    fn deduct(&mut self, data: dyn GazelleDeductionData) -> EvaluationUnit;
 }
 
 pub trait GazelleDeductionData {
-    fn get_deduction_data(&self) -> DeductionData;
+    fn get_deduction_data(&self) -> EvaluationUnitData;
 }
 
 pub trait GazelleDeduction {
     // TODO: Do we need to send the ParsedLog for a single use case (drive not in DB check)?
-    fn deduct(&self, parsed_log: &ParsedLog) -> Deduction;
+    fn deduct(&self, parsed_log: &ParsedLog) -> EvaluationUnit;
 }
 
 #[derive(Serialize, Deserialize, EnumIter, Clone, Copy)]
@@ -101,26 +101,26 @@ pub enum GazelleDeductionTrack {
 }
 
 impl GazelleDeductionData for GazelleDeductionFail {
-    fn get_deduction_data(&self) -> DeductionData {
+    fn get_deduction_data(&self) -> EvaluationUnitData {
         match &self {
-            GazelleDeductionFail::UnknownEncoding => DeductionData::new(
-                DeductionCategory::Release,
-                DeductionField::Encoding,
+            GazelleDeductionFail::UnknownEncoding => EvaluationUnitData::new(
+                EvaluationUnitCategory::Release,
+                EvaluationUnitField::Encoding,
                 "Could not detect log encoding, log is corrupt"
             ),
-            GazelleDeductionFail::UnknownRipper => DeductionData::new(
-                DeductionCategory::Release,
-                DeductionField::Ripper,
+            GazelleDeductionFail::UnknownRipper => EvaluationUnitData::new(
+                EvaluationUnitCategory::Release,
+                EvaluationUnitField::Ripper,
                 "Unknown log file, could not determine ripper"
             ),
-            GazelleDeductionFail::WhipperVersionLowerLimit => DeductionData::new(
-                DeductionCategory::Release,
-                DeductionField::RipperVersion,
+            GazelleDeductionFail::WhipperVersionLowerLimit => EvaluationUnitData::new(
+                EvaluationUnitCategory::Release,
+                EvaluationUnitField::RipperVersion,
                 "Logs must be produced by whipper 0.7.3+"
             ),
-            GazelleDeductionFail::CouldNotParseWhipper => DeductionData::new(
-                DeductionCategory::Release,
-                DeductionField::Ripper,
+            GazelleDeductionFail::CouldNotParseWhipper => EvaluationUnitData::new(
+                EvaluationUnitCategory::Release,
+                EvaluationUnitField::Ripper,
                 "Could not parse whipper log"
             ),
         }
@@ -128,201 +128,201 @@ impl GazelleDeductionData for GazelleDeductionFail {
 }
 
 impl GazelleDeductionData for GazelleDeductionRelease {
-    fn get_deduction_data(&self) -> DeductionData {
+    fn get_deduction_data(&self) -> EvaluationUnitData {
         match &self {
-            GazelleDeductionRelease::VirtualDrive => DeductionData::new(
-                DeductionCategory::Release,
-                DeductionField::Drive,
+            GazelleDeductionRelease::VirtualDrive => EvaluationUnitData::new(
+                EvaluationUnitCategory::Release,
+                EvaluationUnitField::Drive,
                 "Virtual drive used"
             ),
-            GazelleDeductionRelease::NullDrive => DeductionData::new(
-                DeductionCategory::Release,
-                DeductionField::Drive,
+            GazelleDeductionRelease::NullDrive => EvaluationUnitData::new(
+                EvaluationUnitCategory::Release,
+                EvaluationUnitField::Drive,
                 "Null drive used"
             ),
-            GazelleDeductionRelease::IncorrectReadOffset => DeductionData::new(
-                DeductionCategory::Release,
-                DeductionField::Offset,
+            GazelleDeductionRelease::IncorrectReadOffset => EvaluationUnitData::new(
+                EvaluationUnitCategory::Release,
+                EvaluationUnitField::Offset,
                 "Incorrect read offset for drive"
             ),
-            GazelleDeductionRelease::DriveNotFoundDb => DeductionData::new(
-                DeductionCategory::Release,
-                DeductionField::Drive,
+            GazelleDeductionRelease::DriveNotFoundDb => EvaluationUnitData::new(
+                EvaluationUnitCategory::Release,
+                EvaluationUnitField::Drive,
                 "The drive was not found in the database"
             ),
-            GazelleDeductionRelease::DefeatAudioCacheDisabled => DeductionData::new(
-                DeductionCategory::Release,
-                DeductionField::Cache,
+            GazelleDeductionRelease::DefeatAudioCacheDisabled => EvaluationUnitData::new(
+                EvaluationUnitCategory::Release,
+                EvaluationUnitField::Cache,
                 "\"Defeat audio cache\" should be Yes/true"
             ),
-            GazelleDeductionRelease::EacVersionOld => DeductionData::new(
-                DeductionCategory::Release,
-                DeductionField::RipperVersion,
+            GazelleDeductionRelease::EacVersionOld => EvaluationUnitData::new(
+                EvaluationUnitCategory::Release,
+                EvaluationUnitField::RipperVersion,
                 "EAC version older than 0.99"
             ),
-            GazelleDeductionRelease::XldNoChecksum => DeductionData::new(
-                DeductionCategory::Release,
-                DeductionField::Checksum,
+            GazelleDeductionRelease::XldNoChecksum => EvaluationUnitData::new(
+                EvaluationUnitCategory::Release,
+                EvaluationUnitField::Checksum,
                 "No checksum with XLD 20121222 or newer"
             ),
-            GazelleDeductionRelease::Mp3Log => DeductionData::new(
-                DeductionCategory::Release,
-                DeductionField::Encoder,
+            GazelleDeductionRelease::Mp3Log => EvaluationUnitData::new(
+                EvaluationUnitCategory::Release,
+                EvaluationUnitField::Encoder,
                 "Invalid Log (MP3)"
             ),
-            GazelleDeductionRelease::CouldNotVerifyDrive => DeductionData::new(
-                DeductionCategory::Release,
-                DeductionField::Drive,
+            GazelleDeductionRelease::CouldNotVerifyDrive => EvaluationUnitData::new(
+                EvaluationUnitCategory::Release,
+                EvaluationUnitField::Drive,
                 "Could not verify used drive"
             ),
-            GazelleDeductionRelease::CouldNotVerifyMedia => DeductionData::new(
-                DeductionCategory::Release,
-                DeductionField::MediaType,
+            GazelleDeductionRelease::CouldNotVerifyMedia => EvaluationUnitData::new(
+                EvaluationUnitCategory::Release,
+                EvaluationUnitField::MediaType,
                 "Could not verify media type"
             ),
-            GazelleDeductionRelease::CouldNotVerifyReadMode => DeductionData::new(
-                DeductionCategory::Release,
-                DeductionField::ReadMode,
+            GazelleDeductionRelease::CouldNotVerifyReadMode => EvaluationUnitData::new(
+                EvaluationUnitCategory::Release,
+                EvaluationUnitField::ReadMode,
                 "Could not verify read mode"
             ),
-            GazelleDeductionRelease::CouldNotVerifyMaxRetry => DeductionData::new(
-                DeductionCategory::Release,
-                DeductionField::MaxRetryCount,
+            GazelleDeductionRelease::CouldNotVerifyMaxRetry => EvaluationUnitData::new(
+                EvaluationUnitCategory::Release,
+                EvaluationUnitField::MaxRetryCount,
                 "Could not verify max retry count"
             ),
-            GazelleDeductionRelease::CouldNotVerifyAccurateStream => DeductionData::new(
-                DeductionCategory::Release,
-                DeductionField::AccurateStream,
+            GazelleDeductionRelease::CouldNotVerifyAccurateStream => EvaluationUnitData::new(
+                EvaluationUnitCategory::Release,
+                EvaluationUnitField::AccurateStream,
                 "Could not verify accurate stream"
             ),
-            GazelleDeductionRelease::CouldNotVerifyDefeatAudioCache => DeductionData::new(
-                DeductionCategory::Release,
-                DeductionField::Cache,
+            GazelleDeductionRelease::CouldNotVerifyDefeatAudioCache => EvaluationUnitData::new(
+                EvaluationUnitCategory::Release,
+                EvaluationUnitField::Cache,
                 "Could not verify defeat audio cache"
             ),
-            GazelleDeductionRelease::CouldNotVerifyC2 => DeductionData::new(
-                DeductionCategory::Release,
-                DeductionField::C2,
+            GazelleDeductionRelease::CouldNotVerifyC2 => EvaluationUnitData::new(
+                EvaluationUnitCategory::Release,
+                EvaluationUnitField::C2,
                 "Could not verify C2 pointers"
             ),
-            GazelleDeductionRelease::CouldNotVerifyReadOffset => DeductionData::new(
-                DeductionCategory::Release,
-                DeductionField::Offset,
+            GazelleDeductionRelease::CouldNotVerifyReadOffset => EvaluationUnitData::new(
+                EvaluationUnitCategory::Release,
+                EvaluationUnitField::Offset,
                 "Could not verify read offset"
             ),
-            GazelleDeductionRelease::CombinedOffsetUnverifiable => DeductionData::new(
-                DeductionCategory::Release,
-                DeductionField::Offset,
+            GazelleDeductionRelease::CombinedOffsetUnverifiable => EvaluationUnitData::new(
+                EvaluationUnitCategory::Release,
+                EvaluationUnitField::Offset,
                 "Combined read/write offset cannot be verified"
             ),
-            GazelleDeductionRelease::CouldNotVerifyMissingOffsetSamples => DeductionData::new(
-                DeductionCategory::Release,
-                DeductionField::Samples,
+            GazelleDeductionRelease::CouldNotVerifyMissingOffsetSamples => EvaluationUnitData::new(
+                EvaluationUnitCategory::Release,
+                EvaluationUnitField::Samples,
                 "Could not verify missing offset samples"
             ),
-            GazelleDeductionRelease::CouldNotVerifySilentBlocks => DeductionData::new(
-                DeductionCategory::Release,
-                DeductionField::SilentBlocks,
+            GazelleDeductionRelease::CouldNotVerifySilentBlocks => EvaluationUnitData::new(
+                EvaluationUnitCategory::Release,
+                EvaluationUnitField::SilentBlocks,
                 "Could not verify silent blocks"
             ),
-            GazelleDeductionRelease::CouldNotVerifyNullSamples => DeductionData::new(
-                DeductionCategory::Release,
-                DeductionField::NullSamples,
+            GazelleDeductionRelease::CouldNotVerifyNullSamples => EvaluationUnitData::new(
+                EvaluationUnitCategory::Release,
+                EvaluationUnitField::NullSamples,
                 "Could not verify null samples"
             ),
-            GazelleDeductionRelease::CouldNotVerifyGapHandling => DeductionData::new(
-                DeductionCategory::Release,
-                DeductionField::Gap,
+            GazelleDeductionRelease::CouldNotVerifyGapHandling => EvaluationUnitData::new(
+                EvaluationUnitCategory::Release,
+                EvaluationUnitField::Gap,
                 "Could not verify gap handling"
             ),
-            GazelleDeductionRelease::CouldNotVerifyId3 => DeductionData::new(
-                DeductionCategory::Release,
-                DeductionField::Tag,
+            GazelleDeductionRelease::CouldNotVerifyId3 => EvaluationUnitData::new(
+                EvaluationUnitCategory::Release,
+                EvaluationUnitField::Tag,
                 "Could not verify id3 tag setting"
             ),
-            GazelleDeductionRelease::CouldNotVerifyAlbumGain => DeductionData::new(
-                DeductionCategory::Release,
-                DeductionField::Gain,
+            GazelleDeductionRelease::CouldNotVerifyAlbumGain => EvaluationUnitData::new(
+                EvaluationUnitCategory::Release,
+                EvaluationUnitField::Gain,
                 "Could not verify album gain"
             ),
-            GazelleDeductionRelease::RippedWithCompressionOffset => DeductionData::new(
-                DeductionCategory::Release,
-                DeductionField::Offset,
+            GazelleDeductionRelease::RippedWithCompressionOffset => EvaluationUnitData::new(
+                EvaluationUnitCategory::Release,
+                EvaluationUnitField::Offset,
                 "Ripped with compression offset"
             ),
-            GazelleDeductionRelease::RangeRip => DeductionData::new(
-                DeductionCategory::Release,
-                DeductionField::RangeSplit,
+            GazelleDeductionRelease::RangeRip => EvaluationUnitData::new(
+                EvaluationUnitCategory::Release,
+                EvaluationUnitField::RangeSplit,
                 "Range rip detected"
             ),
-            GazelleDeductionRelease::TestAndCopyNotUsed => DeductionData::new(
-                DeductionCategory::Release,
-                DeductionField::TestAndCopy,
+            GazelleDeductionRelease::TestAndCopyNotUsed => EvaluationUnitData::new(
+                EvaluationUnitCategory::Release,
+                EvaluationUnitField::TestAndCopy,
                 "Test and copy was not used"
             ),
-            GazelleDeductionRelease::RipModeNotSecure => DeductionData::new(
-                DeductionCategory::Release,
-                DeductionField::ReadMode,
+            GazelleDeductionRelease::RipModeNotSecure => EvaluationUnitData::new(
+                EvaluationUnitCategory::Release,
+                EvaluationUnitField::ReadMode,
                 "Rip mode not secure"
             ),
-            GazelleDeductionRelease::NotPressedCd => DeductionData::new(
-                DeductionCategory::Release,
-                DeductionField::MediaType,
+            GazelleDeductionRelease::NotPressedCd => EvaluationUnitData::new(
+                EvaluationUnitCategory::Release,
+                EvaluationUnitField::MediaType,
                 "Not a pressed cd"
             ),
-            GazelleDeductionRelease::LowMaxRetryCount => DeductionData::new(
-                DeductionCategory::Release,
-                DeductionField::MaxRetryCount,
+            GazelleDeductionRelease::LowMaxRetryCount => EvaluationUnitData::new(
+                EvaluationUnitCategory::Release,
+                EvaluationUnitField::MaxRetryCount,
                 "Low \"max retry count\" (potentially bad setting)"
             ),
-            GazelleDeductionRelease::AccurateStreamNotUtilized => DeductionData::new(
-                DeductionCategory::Release,
-                DeductionField::AccurateStream,
+            GazelleDeductionRelease::AccurateStreamNotUtilized => EvaluationUnitData::new(
+                EvaluationUnitCategory::Release,
+                EvaluationUnitField::AccurateStream,
                 "\"Utilize accurate stream\" should be yes"
             ),
-            GazelleDeductionRelease::UsedC2 => DeductionData::new(
-                DeductionCategory::Release,
-                DeductionField::C2,
+            GazelleDeductionRelease::UsedC2 => EvaluationUnitData::new(
+                EvaluationUnitCategory::Release,
+                EvaluationUnitField::C2,
                 "C2 pointers were used"
             ),
-            GazelleDeductionRelease::DoesNotFillMissingOffsetSamples => DeductionData::new(
-                DeductionCategory::Release,
-                DeductionField::Samples,
+            GazelleDeductionRelease::DoesNotFillMissingOffsetSamples => EvaluationUnitData::new(
+                EvaluationUnitCategory::Release,
+                EvaluationUnitField::Samples,
                 "Does not fill up missing offset samples with silence"
             ),
-            GazelleDeductionRelease::LeadingTrailingBlocksDeleted => DeductionData::new(
-                DeductionCategory::Release,
-                DeductionField::SilentBlocks,
+            GazelleDeductionRelease::LeadingTrailingBlocksDeleted => EvaluationUnitData::new(
+                EvaluationUnitCategory::Release,
+                EvaluationUnitField::SilentBlocks,
                 "Deletes leading and trailing silent blocks"
             ),
-            GazelleDeductionRelease::NullSamplesNotUsed => DeductionData::new(
-                DeductionCategory::Release,
-                DeductionField::NullSamples,
+            GazelleDeductionRelease::NullSamplesNotUsed => EvaluationUnitData::new(
+                EvaluationUnitCategory::Release,
+                EvaluationUnitField::NullSamples,
                 "Null samples should be used in CRC calculations"
             ),
-            GazelleDeductionRelease::NormalizationUsed => DeductionData::new(
-                DeductionCategory::Release,
-                DeductionField::Normalization,
+            GazelleDeductionRelease::NormalizationUsed => EvaluationUnitData::new(
+                EvaluationUnitCategory::Release,
+                EvaluationUnitField::Normalization,
                 "Normalization should be not be active"
             ),
-            GazelleDeductionRelease::IncorrectGapHandling => DeductionData::new(
-                DeductionCategory::Release,
-                DeductionField::Gap,
+            GazelleDeductionRelease::IncorrectGapHandling => EvaluationUnitData::new(
+                EvaluationUnitCategory::Release,
+                EvaluationUnitField::Gap,
                 "Incorrect gap handling"
             ),
-            GazelleDeductionRelease::NotSecureCrcMismatch => DeductionData::new(
-                DeductionCategory::Release,
-                DeductionField::TestAndCopy,
+            GazelleDeductionRelease::NotSecureCrcMismatch => EvaluationUnitData::new(
+                EvaluationUnitCategory::Release,
+                EvaluationUnitField::TestAndCopy,
                 "Rip was not done in Secure mode, and experienced CRC mismatches"
             ),
-            GazelleDeductionRelease::NotSecureNoTC => DeductionData::new(
-                DeductionCategory::Release,
-                DeductionField::TestAndCopy,
+            GazelleDeductionRelease::NotSecureNoTC => EvaluationUnitData::new(
+                EvaluationUnitCategory::Release,
+                EvaluationUnitField::TestAndCopy,
                 "Rip was not done in Secure mode, and T+C was not used - as a result, we cannot verify the authenticity of the rip"
             ),
-            GazelleDeductionRelease::Id3OnFlac => DeductionData::new(
-                DeductionCategory::Release,
-                DeductionField::Tag,
+            GazelleDeductionRelease::Id3OnFlac => EvaluationUnitData::new(
+                EvaluationUnitCategory::Release,
+                EvaluationUnitField::Tag,
                 "ID3 tags should not be added to FLAC files - they are mainly for MP3 files."
             ),
         }
@@ -330,116 +330,116 @@ impl GazelleDeductionData for GazelleDeductionRelease {
 }
 
 impl GazelleDeductionData for GazelleDeductionTrack {
-    fn get_deduction_data(&self) -> DeductionData {
+    fn get_deduction_data(&self) -> EvaluationUnitData {
         match &self {
-            GazelleDeductionTrack::CouldNotVerifyFilenameTooLong => DeductionData::new(
-                DeductionCategory::Track(None),
-                DeductionField::Filename,
+            GazelleDeductionTrack::CouldNotVerifyFilenameTooLong => EvaluationUnitData::new(
+                EvaluationUnitCategory::Track(None),
+                EvaluationUnitField::Filename,
                 "Could not verify filename, too long"
             ),
-            GazelleDeductionTrack::CouldNotVerifyFilenameOrExt => DeductionData::new(
-                DeductionCategory::Track(None),
-                DeductionField::Filename,
+            GazelleDeductionTrack::CouldNotVerifyFilenameOrExt => EvaluationUnitData::new(
+                EvaluationUnitCategory::Track(None),
+                EvaluationUnitField::Filename,
                 "Could not verify filename or file extension"
             ),
-            GazelleDeductionTrack::CouldNotVerifyReadErrors => DeductionData::new(
-                DeductionCategory::Track(None),
-                DeductionField::Filename,
+            GazelleDeductionTrack::CouldNotVerifyReadErrors => EvaluationUnitData::new(
+                EvaluationUnitCategory::Track(None),
+                EvaluationUnitField::Filename,
                 "Could not verify read errors"
             ),
-            GazelleDeductionTrack::CouldNotVerifySkippedErrors => DeductionData::new(
-                DeductionCategory::Track(None),
-                DeductionField::SkipError,
+            GazelleDeductionTrack::CouldNotVerifySkippedErrors => EvaluationUnitData::new(
+                EvaluationUnitCategory::Track(None),
+                EvaluationUnitField::SkipError,
                 "Could not verify skipped errors"
             ),
-            GazelleDeductionTrack::CouldNotVerifyEdgeJitterErrors => DeductionData::new(
-                DeductionCategory::Track(None),
-                DeductionField::JitterEdgeError,
+            GazelleDeductionTrack::CouldNotVerifyEdgeJitterErrors => EvaluationUnitData::new(
+                EvaluationUnitCategory::Track(None),
+                EvaluationUnitField::JitterEdgeError,
                 "Could not verify edge jitter errors"
             ),
-            GazelleDeductionTrack::CouldNotVerifyAtomJitterErrors => DeductionData::new(
-                DeductionCategory::Track(None),
-                DeductionField::JitterAtomError,
+            GazelleDeductionTrack::CouldNotVerifyAtomJitterErrors => EvaluationUnitData::new(
+                EvaluationUnitCategory::Track(None),
+                EvaluationUnitField::JitterAtomError,
                 "Could not verify atom jitter errors"
             ),
-            GazelleDeductionTrack::CouldNotVerifyJitterErrors => DeductionData::new(
-                DeductionCategory::Track(None),
-                DeductionField::JitterGenericError,
+            GazelleDeductionTrack::CouldNotVerifyJitterErrors => EvaluationUnitData::new(
+                EvaluationUnitCategory::Track(None),
+                EvaluationUnitField::JitterGenericError,
                 "Could not verify jitter errors"
             ),
-            GazelleDeductionTrack::CouldNotVerifyRetrySectorCount => DeductionData::new(
-                DeductionCategory::Track(None),
-                DeductionField::MaxRetryCount,
+            GazelleDeductionTrack::CouldNotVerifyRetrySectorCount => EvaluationUnitData::new(
+                EvaluationUnitCategory::Track(None),
+                EvaluationUnitField::MaxRetryCount,
                 "Could not verify retry sector count"
             ),
-            GazelleDeductionTrack::CouldNotVerifyDamagedSectorCount => DeductionData::new(
-                DeductionCategory::Track(None),
-                DeductionField::DamagedSector,
+            GazelleDeductionTrack::CouldNotVerifyDamagedSectorCount => EvaluationUnitData::new(
+                EvaluationUnitCategory::Track(None),
+                EvaluationUnitField::DamagedSector,
                 "Could not verify damaged sector count"
             ),
-            GazelleDeductionTrack::CouldNotVerifyDriftErrors => DeductionData::new(
-                DeductionCategory::Track(None),
-                DeductionField::DriftError,
+            GazelleDeductionTrack::CouldNotVerifyDriftErrors => EvaluationUnitData::new(
+                EvaluationUnitCategory::Track(None),
+                EvaluationUnitField::DriftError,
                 "Could not verify drift errors"
             ),
-            GazelleDeductionTrack::CouldNotVerifyDroppedBytesErrors => DeductionData::new(
-                DeductionCategory::Track(None),
-                DeductionField::DroppedError,
+            GazelleDeductionTrack::CouldNotVerifyDroppedBytesErrors => EvaluationUnitData::new(
+                EvaluationUnitCategory::Track(None),
+                EvaluationUnitField::DroppedError,
                 "Could not verify dropped bytes errors"
             ),
-            GazelleDeductionTrack::CouldNotVerifyDuplicatedBytesErrors => DeductionData::new(
-                DeductionCategory::Track(None),
-                DeductionField::DuplicatedError,
+            GazelleDeductionTrack::CouldNotVerifyDuplicatedBytesErrors => EvaluationUnitData::new(
+                EvaluationUnitCategory::Track(None),
+                EvaluationUnitField::DuplicatedError,
                 "Could not verify duplicated bytes errors"
             ),
-            GazelleDeductionTrack::CouldNotVerifyInconsistentErrorSectors => DeductionData::new(
-                DeductionCategory::Track(None),
-                DeductionField::InconsistentErrorSectors,
+            GazelleDeductionTrack::CouldNotVerifyInconsistentErrorSectors => EvaluationUnitData::new(
+                EvaluationUnitCategory::Track(None),
+                EvaluationUnitField::InconsistentErrorSectors,
                 "Could not verify inconsistent error sectors"
             ),
-            GazelleDeductionTrack::SusPositionsFound => DeductionData::new(
-                DeductionCategory::Track(None),
-                DeductionField::ReadError,
+            GazelleDeductionTrack::SusPositionsFound => EvaluationUnitData::new(
+                EvaluationUnitCategory::Track(None),
+                EvaluationUnitField::ReadError,
                 "Suspicious position(s) found"
             ),
-            GazelleDeductionTrack::TimingProblemsFound => DeductionData::new(
-                DeductionCategory::Track(None),
-                DeductionField::JitterGenericError,
+            GazelleDeductionTrack::TimingProblemsFound => EvaluationUnitData::new(
+                EvaluationUnitCategory::Track(None),
+                EvaluationUnitField::JitterGenericError,
                 "Timing problem(s) found"
             ),
-            GazelleDeductionTrack::MissingSamplesFound => DeductionData::new(
-                DeductionCategory::Track(None),
-                DeductionField::DamagedSector,
+            GazelleDeductionTrack::MissingSamplesFound => EvaluationUnitData::new(
+                EvaluationUnitCategory::Track(None),
+                EvaluationUnitField::DamagedSector,
                 "Missing sample(s) found"
             ),
-            GazelleDeductionTrack::CopyAborted => DeductionData::new(
-                DeductionCategory::Track(None),
-                DeductionField::Abort,
+            GazelleDeductionTrack::CopyAborted => EvaluationUnitData::new(
+                EvaluationUnitCategory::Track(None),
+                EvaluationUnitField::Abort,
                 "Copy aborted"
             ),
-            GazelleDeductionTrack::CrcMismatch => DeductionData::new(
-                DeductionCategory::Track(None),
-                DeductionField::TestAndCopy,
+            GazelleDeductionTrack::CrcMismatch => EvaluationUnitData::new(
+                EvaluationUnitCategory::Track(None),
+                EvaluationUnitField::TestAndCopy,
                 "CRC mismatch"
             ),
-            GazelleDeductionTrack::ReadErrors(_) => DeductionData::new(
-                DeductionCategory::Track(None),
-                DeductionField::ReadError,
+            GazelleDeductionTrack::ReadErrors(_) => EvaluationUnitData::new(
+                EvaluationUnitCategory::Track(None),
+                EvaluationUnitField::ReadError,
                 "Read error"
             ),
-            GazelleDeductionTrack::SkippedErrors(_) => DeductionData::new(
-                DeductionCategory::Track(None),
-                DeductionField::SkipError,
+            GazelleDeductionTrack::SkippedErrors(_) => EvaluationUnitData::new(
+                EvaluationUnitCategory::Track(None),
+                EvaluationUnitField::SkipError,
                 "Skipped error"
             ),
-            GazelleDeductionTrack::InconsistenciesInErrorSectors(_) => DeductionData::new(
-                DeductionCategory::Track(None),
-                DeductionField::InconsistentErrorSectors,
+            GazelleDeductionTrack::InconsistenciesInErrorSectors(_) => EvaluationUnitData::new(
+                EvaluationUnitCategory::Track(None),
+                EvaluationUnitField::InconsistentErrorSectors,
                 "Inconsistencies in error sectors detected"
             ),
-            GazelleDeductionTrack::DamagedSectors(_) => DeductionData::new(
-                DeductionCategory::Track(None),
-                DeductionField::DamagedSector,
+            GazelleDeductionTrack::DamagedSectors(_) => EvaluationUnitData::new(
+                EvaluationUnitCategory::Track(None),
+                EvaluationUnitField::DamagedSector,
                 "Damaged sectors"
             ),
         }

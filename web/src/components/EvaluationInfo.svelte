@@ -3,13 +3,13 @@
     import slugify from 'slugify';
 	import Card from "./frags/Card.svelte";
     import type { EvaluationCombined } from "$lib/types/EvaluationCombined";
-    import DeductionSegment from "./frags/treeview/DeductionSegment.svelte";
+    import EvaluationUnitSegment from "./frags/treeview/EvaluationUnitSegment.svelte";
     import EvaluatorSegment from "./frags/treeview/EvaluatorSegment.svelte";
 	import EvaluatorLead from "./frags/treeview/EvaluatorLead.svelte";
-	import DeductionCategorySegment from "./frags/treeview/DeductionCategorySegment.svelte";
-	import { deductionCategoryStringify } from "$lib/utils";
-	import DeductionNoneSegment from "./frags/treeview/DeductionNoneSegment.svelte";
-	import type { DeductionAggregate } from "$lib/types/DeductionAggregate";
+	import EvaluationUnitCategorySegment from "./frags/treeview/EvaluationUnitCategorySegment.svelte";
+	import { evaluationUnitCategoryStringify } from "$lib/utils";
+	import EvaluationUnitNoneSegment from "./frags/treeview/EvaluationUnitNoneSegment.svelte";
+	import type { EvaluationUnitAggregate } from "$lib/types/EvaluationUnitAggregate";
 	import type { ParsedLogCombined } from "$lib/types/ParsedLogCombined";
 
     export let logs: ParsedLogCombined;
@@ -17,20 +17,20 @@
     export let selectedLogIdx: number;
 
     let evaluationCombined = combinedEvals.filter(e => e.evaluator === "OPS")[0];
-    let deductions = evaluationCombined.evaluations[selectedLogIdx].deductions;
-    let deductionsByCategory: { [key: string]: DeductionAggregate } = {};
+    let evaluation_units = evaluationCombined.evaluations[selectedLogIdx].evaluation_units;
+    let unitsByCategory: { [key: string]: EvaluationUnitAggregate } = {};
 
     let treeViewNodes: TreeViewNode[] = [];
     let expandedNodes: string[] = [];
 
-    deductions.forEach(deduction => {
-        let categoryKey = deductionCategoryStringify(deduction.data.category);
-        if (!deductionsByCategory[categoryKey]) {
+    evaluation_units.forEach(unit => {
+        let categoryKey = evaluationUnitCategoryStringify(unit.data.category);
+        if (!unitsByCategory[categoryKey]) {
             const slug = slugify(categoryKey);
             expandedNodes.push(slug);
-            deductionsByCategory[categoryKey] = { slug: slug, deductions: [ deduction ] };
+            unitsByCategory[categoryKey] = { slug: slug, evaluation_units: [ unit ] };
         } else {
-            deductionsByCategory[categoryKey].deductions.push(deduction);
+            unitsByCategory[categoryKey].evaluation_units.push(unit);
         }
     });
 
@@ -46,24 +46,24 @@
             score: evaluationCombined.evaluations[selectedLogIdx].score,
             combinedScore: evaluationCombined.combined_score
         },
-        children: deductions.length == 0 ? [{
-            id: "deduction-none",
-            content: DeductionNoneSegment,
+        children: evaluation_units.length == 0 ? [{
+            id: "evaluation-unit-none",
+            content: EvaluationUnitNoneSegment,
             contentProps: {
                 checksum: logs.parsed_logs[selectedLogIdx].checksum
             }
-        }] : Object.keys(deductionsByCategory).map(category => (
+        }] : Object.keys(unitsByCategory).map(category => (
         {
-            id: deductionsByCategory[category].slug,
-            content: DeductionCategorySegment,
+            id: unitsByCategory[category].slug,
+            content: EvaluationUnitCategorySegment,
             contentProps: {
                 category: category
             },
-            children: deductionsByCategory[category].deductions.map(deduction => ({
-                id: slugify(deduction.data.field),
-                content: DeductionSegment,
+            children: unitsByCategory[category].evaluation_units.map(unit => ({
+                id: slugify(unit.data.field),
+                content: EvaluationUnitSegment,
                 contentProps: {
-                    deduction: deduction
+                    evaluation_unit: unit
                 },
             }))
         }))

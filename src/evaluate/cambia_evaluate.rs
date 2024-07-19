@@ -4,10 +4,10 @@ use strum::IntoEnumIterator;
 
 use crate::{parser::{ParsedLogCombined, ParsedLog}, extract::{Quartet, ReadMode, Gap}};
 
-use super::{DeductionCategory, DeductionField, DeductionData, Evaluator, Deduction, EvaluationCombined, Evaluation, EvaluatorType};
+use super::{EvaluationUnitCategory, EvaluationUnitField, EvaluationUnitData, Evaluator, EvaluationUnit, EvaluationCombined, Evaluation, EvaluatorType};
 
 pub trait CambiaDeductionData {
-    fn get_deduction_data(&self) -> DeductionData;
+    fn get_deduction_data(&self) -> EvaluationUnitData;
 }
 
 #[derive(Serialize, Deserialize, EnumIter, Clone, Copy)]
@@ -36,71 +36,71 @@ pub enum CambiaGrade {
 }
 
 impl CambiaDeductionData for CambiaDeduction {
-    fn get_deduction_data(&self) -> DeductionData {
+    fn get_deduction_data(&self) -> EvaluationUnitData {
         match &self {
-            CambiaDeduction::VirtualDrive => DeductionData::new(
-                DeductionCategory::Release,
-                DeductionField::Drive,
+            CambiaDeduction::VirtualDrive => EvaluationUnitData::new(
+                EvaluationUnitCategory::Release,
+                EvaluationUnitField::Drive,
                 "Virtual drives are unlikely to have correct offset, and can be used for deceit"
             ),
-            CambiaDeduction::IncorrectReadOffset => DeductionData::new(
-                DeductionCategory::Release,
-                DeductionField::Offset,
+            CambiaDeduction::IncorrectReadOffset => EvaluationUnitData::new(
+                EvaluationUnitCategory::Release,
+                EvaluationUnitField::Offset,
                 "Incorrect read offset for drive"
             ),
-            CambiaDeduction::DefeatAudioCacheDisabled => DeductionData::new(
-                DeductionCategory::Release,
-                DeductionField::Cache,
+            CambiaDeduction::DefeatAudioCacheDisabled => EvaluationUnitData::new(
+                EvaluationUnitCategory::Release,
+                EvaluationUnitField::Cache,
                 "Audio cache should be defeated/disabled"
             ),
-            CambiaDeduction::LossyLog => DeductionData::new(
-                DeductionCategory::Release,
-                DeductionField::Encoder,
+            CambiaDeduction::LossyLog => EvaluationUnitData::new(
+                EvaluationUnitCategory::Release,
+                EvaluationUnitField::Encoder,
                 "Lossy codecs are not meant for archival"
             ),
-            CambiaDeduction::TestAndCopyNotUsed => DeductionData::new(
-                DeductionCategory::Release,
-                DeductionField::TestAndCopy,
+            CambiaDeduction::TestAndCopyNotUsed => EvaluationUnitData::new(
+                EvaluationUnitCategory::Release,
+                EvaluationUnitField::TestAndCopy,
                 "Test and copy was not used"
             ),
-            CambiaDeduction::RipModeNotAccurate => DeductionData::new(
-                DeductionCategory::Release,
-                DeductionField::ReadMode,
+            CambiaDeduction::RipModeNotAccurate => EvaluationUnitData::new(
+                EvaluationUnitCategory::Release,
+                EvaluationUnitField::ReadMode,
                 "Rip mode should be secure/paranoid"
             ),
-            CambiaDeduction::AccurateStreamNotUtilized => DeductionData::new(
-                DeductionCategory::Release,
-                DeductionField::AccurateStream,
+            CambiaDeduction::AccurateStreamNotUtilized => EvaluationUnitData::new(
+                EvaluationUnitCategory::Release,
+                EvaluationUnitField::AccurateStream,
                 "Accurate stream should be utilised"
             ),
-            CambiaDeduction::UsedC2 => DeductionData::new(
-                DeductionCategory::Release,
-                DeductionField::C2,
+            CambiaDeduction::UsedC2 => EvaluationUnitData::new(
+                EvaluationUnitCategory::Release,
+                EvaluationUnitField::C2,
                 "C2 pointers rely on guesswork and can be used as a DRM tactic"
             ),
-            CambiaDeduction::DoesNotFillMissingOffsetSamples => DeductionData::new(
-                DeductionCategory::Release,
-                DeductionField::Samples,
+            CambiaDeduction::DoesNotFillMissingOffsetSamples => EvaluationUnitData::new(
+                EvaluationUnitCategory::Release,
+                EvaluationUnitField::Samples,
                 "Does not fill up missing offset samples with silence"
             ),
-            CambiaDeduction::LeadingTrailingBlocksDeleted => DeductionData::new(
-                DeductionCategory::Release,
-                DeductionField::SilentBlocks,
+            CambiaDeduction::LeadingTrailingBlocksDeleted => EvaluationUnitData::new(
+                EvaluationUnitCategory::Release,
+                EvaluationUnitField::SilentBlocks,
                 "Deletes leading and trailing silent blocks"
             ),
-            CambiaDeduction::NullSamplesNotUsed => DeductionData::new(
-                DeductionCategory::Release,
-                DeductionField::NullSamples,
+            CambiaDeduction::NullSamplesNotUsed => EvaluationUnitData::new(
+                EvaluationUnitCategory::Release,
+                EvaluationUnitField::NullSamples,
                 "Null samples should be used in CRC calculations"
             ),
-            CambiaDeduction::NormalizationUsed => DeductionData::new(
-                DeductionCategory::Release,
-                DeductionField::Normalization,
+            CambiaDeduction::NormalizationUsed => EvaluationUnitData::new(
+                EvaluationUnitCategory::Release,
+                EvaluationUnitField::Normalization,
                 "Normalization during ripping irreversibly alters data and should never be used in this context"
             ),
-            CambiaDeduction::IncorrectGapHandling => DeductionData::new(
-                DeductionCategory::Release,
-                DeductionField::Gap,
+            CambiaDeduction::IncorrectGapHandling => EvaluationUnitData::new(
+                EvaluationUnitCategory::Release,
+                EvaluationUnitField::Gap,
                 "Gaps should be appended"
             ),
         }
@@ -111,7 +111,7 @@ pub struct CambiaEvaluator;
 
 impl CambiaDeduction {
     // TODO: Requires oversight
-    fn deduct(&self, parsed_log: &ParsedLog) -> Deduction {
+    fn deduct(&self, parsed_log: &ParsedLog) -> EvaluationUnit {
         let grade: CambiaGrade = match &self {
             // FIXME: Virtual drive detection
             CambiaDeduction::VirtualDrive => CambiaGrade::Good,
@@ -131,7 +131,7 @@ impl CambiaDeduction {
             CambiaDeduction::IncorrectGapHandling => if parsed_log.gap_handling != Gap::Append && parsed_log.gap_handling != Gap::AppendNoHtoa { CambiaGrade::Bad } else { CambiaGrade::Good },
         };
 
-        Deduction::new(grade.to_string(), self.get_deduction_data())
+        EvaluationUnit::new(grade.to_string(), self.get_deduction_data())
     }
 }
 
@@ -164,7 +164,7 @@ impl Evaluator for CambiaEvaluator {
     }
 
     fn evaluate(&mut self, parsed_log: &ParsedLog) -> Evaluation {
-        let mut deductions: Vec<Deduction> = Vec::new();
+        let mut deductions: Vec<EvaluationUnit> = Vec::new();
 
         for cambia_deduction in CambiaDeduction::iter() {
             deductions.push(cambia_deduction.deduct(parsed_log))

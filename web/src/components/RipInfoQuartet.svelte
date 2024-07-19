@@ -15,13 +15,13 @@
 	import Card from "./frags/Card.svelte";
 	import InfoSegmentQuartet from "./frags/InfoSegmentQuartet.svelte";
 	import type { Evaluation } from "$lib/types/Evaluation";
-	import type { DeductionField } from "$lib/types/DeductionField";
+	import type { EvaluationUnitField } from "$lib/types/EvaluationUnitField";
 	import { quartetToVariant } from "$lib/utils";
 
     export let parsedLog: ParsedLog;
     export let evaluation: Evaluation;
 
-    let evMap: Record<DeductionField, number> = {
+    let evMap: Record<EvaluationUnitField, number> = {
 		Encoding: 0,
 		RipperVersion: 0,
 		Drive: 0,
@@ -58,9 +58,9 @@
 		DamagedSector: 0,
 		Abort: 0
 	};
-    evaluation.deductions.forEach((deduction) => {
-        if (deduction.data.category === "Release") {
-            const { field } = deduction.data;
+    evaluation.evaluation_units.forEach((unit) => {
+        if (unit.data.category === "Release") {
+            const { field } = unit.data;
             evMap[field] = evMap[field] + 1;
         }
     });

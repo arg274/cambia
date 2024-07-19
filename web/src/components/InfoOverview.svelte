@@ -8,8 +8,8 @@
 
     const gradeMap = evalCombined.evaluations.map(e => {
         const m: Map<string, string> = new Map();
-        e.deductions.forEach(d => {
-            m.set(d.data.field, d.deduction_score);
+        e.evaluation_units.forEach(d => {
+            m.set(d.data.field, d.unit_score);
         });
         return m;
     });
