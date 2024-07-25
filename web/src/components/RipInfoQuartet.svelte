@@ -59,7 +59,7 @@
 		Abort: 0
 	};
     evaluation.evaluation_units.forEach((unit) => {
-        if (unit.data.category === "Release") {
+        if (unit.data.scope === "Release") {
             const { field } = unit.data;
             evMap[field] = evMap[field] + 1;
         }

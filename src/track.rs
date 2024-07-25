@@ -17,7 +17,7 @@ pub struct TrackEntry {
     pub preemphasis: Option<bool>,
     pub test_and_copy: TestAndCopy,
     pub errors: TrackError,
-    // TODO: Track quality (?)
+    pub ar_info: Vec<AccurateRipUnit>,
 }
 
 #[derive(Serialize, Deserialize, TS)]
@@ -31,21 +31,135 @@ pub struct TestAndCopy {
     pub integrity_skipzero: Integrity,
 }
 
-// TODO: These AR fields need some serious rework
 #[derive(Serialize, Deserialize, TS)]
 #[ts(export)]
-pub struct AccurateRipInfo {
-    pub v1_sign: String,
-    pub v2_sign: String,
-    pub confidence: AccurateRipConfidence,
+pub struct AccurateRipUnit {
+    pub version: Option<u8>,
+    pub sign: String,
+    pub offset_sign: String,
+    pub confidence: Option<AccurateRipConfidence>,
+    pub status: AccurateRipStatus,
+}
+
+impl AccurateRipUnit {
+    pub fn new(version: Option<u8>, sign: String, offset_sign: String, confidence: Option<AccurateRipConfidence>, status: AccurateRipStatus) -> Self {
+        Self {
+            version,
+            sign,
+            offset_sign,
+            confidence,
+            status,
+        }
+    }
+
+    pub fn new_eac(version: u8, sign: String, matching: u32) -> Self {
+        Self {
+            version: Some(version),
+            sign: sign.clone(),
+            offset_sign: sign,
+            confidence: Some(AccurateRipConfidence::new(
+                Some(matching),
+                None,
+                AccurateRipOffset::Same
+            )),
+            status: AccurateRipStatus::Match,
+        }
+    }
+
+    pub fn new_eac_mismatch(version: u8, sign: String, offset_sign: String, matching: u32) -> Self {
+        Self {
+            version: Some(version),
+            sign,
+            offset_sign,
+            confidence: Some(AccurateRipConfidence::new(
+                Some(matching),
+                None,
+                AccurateRipOffset::Different(None)
+            )),
+            status: AccurateRipStatus::Mismatch,
+        }
+    }
+
+    pub fn new_eac_notfound() -> Self {
+        Self {
+            version: None,
+            sign: String::default(),
+            offset_sign: String::default(),
+            confidence: None,
+            status: AccurateRipStatus::NotFound,
+        }
+    }
+
+    pub fn new_xld(version: Option<u8>, sign: String, offset_sign: String, confidence: Option<AccurateRipConfidence>) -> Self {
+        let status = if confidence.as_ref().is_none() {
+            AccurateRipStatus::NotFound
+        } else {
+            match confidence.as_ref().unwrap().offset {
+                AccurateRipOffset::Same => AccurateRipStatus::Match,
+                AccurateRipOffset::Different(_) => AccurateRipStatus::Offsetted,
+            }
+        };
+        
+        Self {
+            version,
+            sign,
+            offset_sign,
+            confidence,
+            status,
+        }
+    }
+
+    pub fn new_disabled() -> Self {
+        Self {
+            version: None,
+            sign: String::default(),
+            offset_sign: String::default(),
+            confidence: None,
+            status: AccurateRipStatus::Disabled,
+        }
+    }
+}
+
+#[derive(Serialize, Deserialize, PartialEq, TS, Clone, Copy)]
+#[ts(export)]
+pub enum AccurateRipOffset {
+    Same,
+    Different(Option<i16>),
+}
+
+#[derive(Serialize, Deserialize, PartialEq, TS, Clone, Copy)]
+#[ts(export)]
+pub enum AccurateRipConfidenceTotal {
+    All(u32),
+    Version(u32),
 }
 
 #[derive(Serialize, Deserialize, TS)]
 #[ts(export)]
 pub struct AccurateRipConfidence {
-    pub version: String,
-    pub matching: u32,
-    pub total: u32,
+    pub matching: Option<u32>,
+    pub total: Option<AccurateRipConfidenceTotal>,
+    pub offset: AccurateRipOffset
+}
+
+impl AccurateRipConfidence {
+    pub fn new(matching: Option<u32>, total: Option<AccurateRipConfidenceTotal>, offset: AccurateRipOffset) -> Self {
+        Self {
+            matching,
+            total,
+            offset
+        }
+    }
+}
+
+#[derive(Serialize, Deserialize, PartialEq, TS)]
+#[ts(export)]
+pub enum AccurateRipStatus {
+    Match,
+    Mismatch,
+    Offsetted,
+    NotFound,
+    Disabled,
 }
 
 // TODO: Append [key: string]: TrackErrorData

@@ -43,7 +43,7 @@ pub fn detect_ripper(encoded_log: DecodedText) -> Result<Box<dyn ParserCombined>
         freac if freac.contains("Conversion #") => Err(CambiaError::new_anon("fre:ac not supported at the moment.")),
         _ => Err(CambiaError::new_anon("Unsupported file."))
     }
-} 
+}
 
 pub fn parse_log_bytes(id: Vec<u8>, log_raw: Vec<u8>) -> Result<CambiaResponse, CambiaError> {
     if log_raw.is_empty() {
@@ -70,8 +70,8 @@ pub fn parse_log_bytes(id: Vec<u8>, log_raw: Vec<u8>) -> Result<CambiaResponse, 
     let evaluation_combined: Vec<EvaluationCombined> = vec![
         #[cfg(feature = "ops_ev")]
         crate::evaluate::gazelle_evaluate::ops_evaluate::OpsEvaluator::new().evaluate_combined(&parsed_logs),
-        #[cfg(feature = "cambia_ev")]
-        crate::evaluate::cambia_evaluate::CambiaEvaluator::new().evaluate_combined(&parsed_logs),
+        // #[cfg(feature = "cambia_ev")]
+        // crate::evaluate::cambia_evaluate::CambiaEvaluator::new().evaluate_combined(&parsed_logs),
     ];
     
     Ok(CambiaResponse::new(res_id, parsed_logs, evaluation_combined))

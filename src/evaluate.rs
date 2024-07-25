@@ -4,8 +4,8 @@ use ts_rs::TS;
 use crate::parser::{ParsedLogCombined, ParsedLog};
 #[cfg(feature = "gazelle_ev")]
 pub mod gazelle_evaluate;
-#[cfg(feature = "cambia_ev")]
-pub mod cambia_evaluate;
+// #[cfg(feature = "cambia_ev")]
+// pub mod cambia_evaluate;
 
 #[derive(Serialize, Deserialize, TS)]
 #[ts(export)]
@@ -18,12 +18,22 @@ pub enum EvaluatorType {
 // Ease of grouping on downstream
 #[derive(Serialize, Deserialize, TS, Hash, PartialEq, Eq, Clone)]
 #[ts(export)]
-pub enum EvaluationUnitCategory {
+pub enum EvaluationUnitScope {
     Release,
     Track(Option<u8>),
 }
 
-// This will be used to indicate which field in the log is relevant to a deduction
+#[derive(Serialize, Deserialize, TS, Hash, PartialEq, Eq, Clone)]
+#[ts(export)]
+pub enum EvaluationUnitClass {
+    Critical,
+    Bad,
+    Neutral,
+    Good,
+    Perfect,
+}
+
+// This will be used to indicate which field in the log is relevant to a EvaluationUnit
 #[derive(Serialize, Deserialize, TS, Hash, PartialEq, Eq, Clone)]
 #[ts(export)]
 pub enum EvaluationUnitField {
@@ -68,9 +78,10 @@ pub enum EvaluationUnitField {
 #[derive(Serialize, Deserialize, TS, Hash, PartialEq, Eq, Clone)]
 #[ts(export)]
 pub struct EvaluationUnitData {
-    category: EvaluationUnitCategory,
+    scope: EvaluationUnitScope,
     field: EvaluationUnitField,
     message: String,
+    class: EvaluationUnitClass,
 }
 
 // Output from a single evaluator
@@ -103,8 +114,8 @@ pub trait Evaluator {
 }
 
 impl EvaluationUnitData {
-    pub fn new(category: EvaluationUnitCategory, field: EvaluationUnitField, message: &str) -> Self {
-        EvaluationUnitData { category, field, message: message.to_string() }
+    pub fn new(scope: EvaluationUnitScope, field: EvaluationUnitField, message: &str, class: EvaluationUnitClass) -> Self {
+        EvaluationUnitData { scope, field, message: message.to_string(), class }
     }
 }
 

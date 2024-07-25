@@ -4,7 +4,7 @@ use strum::IntoEnumIterator;
 
 use crate::{parser::{ParsedLogCombined, ParsedLog}, extract::{Quartet, ReadMode, Gap}};
 
-use super::{EvaluationUnitCategory, EvaluationUnitField, EvaluationUnitData, Evaluator, EvaluationUnit, EvaluationCombined, Evaluation, EvaluatorType};
+use super::{EvaluationUnitScope, EvaluationUnitField, EvaluationUnitData, Evaluator, EvaluationUnit, EvaluationCombined, Evaluation, EvaluatorType};
 
 pub trait CambiaDeductionData {
     fn get_deduction_data(&self) -> EvaluationUnitData;
@@ -39,67 +39,67 @@ impl CambiaDeductionData for CambiaDeduction {
     fn get_deduction_data(&self) -> EvaluationUnitData {
         match &self {
             CambiaDeduction::VirtualDrive => EvaluationUnitData::new(
-                EvaluationUnitCategory::Release,
+                EvaluationUnitScope::Release,
                 EvaluationUnitField::Drive,
                 "Virtual drives are unlikely to have correct offset, and can be used for deceit"
             ),
             CambiaDeduction::IncorrectReadOffset => EvaluationUnitData::new(
-                EvaluationUnitCategory::Release,
+                EvaluationUnitScope::Release,
                 EvaluationUnitField::Offset,
                 "Incorrect read offset for drive"
             ),
             CambiaDeduction::DefeatAudioCacheDisabled => EvaluationUnitData::new(
-                EvaluationUnitCategory::Release,
+                EvaluationUnitScope::Release,
                 EvaluationUnitField::Cache,
                 "Audio cache should be defeated/disabled"
             ),
             CambiaDeduction::LossyLog => EvaluationUnitData::new(
-                EvaluationUnitCategory::Release,
+                EvaluationUnitScope::Release,
                 EvaluationUnitField::Encoder,
                 "Lossy codecs are not meant for archival"
             ),
             CambiaDeduction::TestAndCopyNotUsed => EvaluationUnitData::new(
-                EvaluationUnitCategory::Release,
+                EvaluationUnitScope::Release,
                 EvaluationUnitField::TestAndCopy,
                 "Test and copy was not used"
             ),
             CambiaDeduction::RipModeNotAccurate => EvaluationUnitData::new(
-                EvaluationUnitCategory::Release,
+                EvaluationUnitScope::Release,
                 EvaluationUnitField::ReadMode,
                 "Rip mode should be secure/paranoid"
             ),
             CambiaDeduction::AccurateStreamNotUtilized => EvaluationUnitData::new(
-                EvaluationUnitCategory::Release,
+                EvaluationUnitScope::Release,
                 EvaluationUnitField::AccurateStream,
                 "Accurate stream should be utilised"
             ),
             CambiaDeduction::UsedC2 => EvaluationUnitData::new(
-                EvaluationUnitCategory::Release,
+                EvaluationUnitScope::Release,
                 EvaluationUnitField::C2,
                 "C2 pointers rely on guesswork and can be used as a DRM tactic"
             ),
             CambiaDeduction::DoesNotFillMissingOffsetSamples => EvaluationUnitData::new(
-                EvaluationUnitCategory::Release,
+                EvaluationUnitScope::Release,
                 EvaluationUnitField::Samples,
                 "Does not fill up missing offset samples with silence"
             ),
             CambiaDeduction::LeadingTrailingBlocksDeleted => EvaluationUnitData::new(
-                EvaluationUnitCategory::Release,
+                EvaluationUnitScope::Release,
                 EvaluationUnitField::SilentBlocks,
                 "Deletes leading and trailing silent blocks"
             ),
             CambiaDeduction::NullSamplesNotUsed => EvaluationUnitData::new(
-                EvaluationUnitCategory::Release,
+                EvaluationUnitScope::Release,
                 EvaluationUnitField::NullSamples,
                 "Null samples should be used in CRC calculations"
             ),
             CambiaDeduction::NormalizationUsed => EvaluationUnitData::new(
-                EvaluationUnitCategory::Release,
+                EvaluationUnitScope::Release,
                 EvaluationUnitField::Normalization,
                 "Normalization during ripping irreversibly alters data and should never be used in this context"
             ),
             CambiaDeduction::IncorrectGapHandling => EvaluationUnitData::new(
-                EvaluationUnitCategory::Release,
+                EvaluationUnitScope::Release,
                 EvaluationUnitField::Gap,
                 "Gaps should be appended"
             ),

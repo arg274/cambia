@@ -1,7 +1,7 @@
 use serde::{Serialize, Deserialize};
 use ts_rs::TS;
 
-use crate::{toc::Toc, track::{TestAndCopy, TrackError, TrackEntry}, util::Time};
+use crate::{toc::Toc, track::{AccurateRipUnit, TestAndCopy, TrackEntry, TrackError}, util::Time};
 
 #[derive(Serialize, Deserialize, PartialEq, TS)]
 #[ts(export)]
@@ -201,23 +201,23 @@ pub trait TrackExtractor {
     }
 
     fn extract_peak_level(&self) -> Option<f64> {
-        Option::None
+        None
     }
 
     fn extract_pregap_length(&self) -> Option<Time> {
-        Option::None
+        None
     }
 
     fn extract_extraction_speed(&self) -> Option<f64> {
-        Option::None
+        None
     }
 
     fn extract_gain(&self) -> Option<f64> {
-        Option::None
+        None
     }
 
     fn extract_preemphasis(&self) -> Option<bool> {
-        Option::None
+        None
     }
 
     fn extract_test_and_copy(&self) -> TestAndCopy {
@@ -226,5 +226,9 @@ pub trait TrackExtractor {
 
     fn extract_errors(&self) -> TrackError {
         TrackError::default()
+    }
+
+    fn extract_ar_info(&self) -> Vec<AccurateRipUnit> {
+        Vec::new()
     }
 }

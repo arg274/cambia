@@ -6,8 +6,8 @@
     import EvaluationUnitSegment from "./frags/treeview/EvaluationUnitSegment.svelte";
     import EvaluatorSegment from "./frags/treeview/EvaluatorSegment.svelte";
 	import EvaluatorLead from "./frags/treeview/EvaluatorLead.svelte";
-	import EvaluationUnitCategorySegment from "./frags/treeview/EvaluationUnitCategorySegment.svelte";
-	import { evaluationUnitCategoryStringify } from "$lib/utils";
+	import EvaluationUnitScopeSegment from "./frags/treeview/EvaluationUnitScopeSegment.svelte";
+	import { evaluationUnitScopeStringify } from "$lib/utils";
 	import EvaluationUnitNoneSegment from "./frags/treeview/EvaluationUnitNoneSegment.svelte";
 	import type { EvaluationUnitAggregate } from "$lib/types/EvaluationUnitAggregate";
 	import type { ParsedLogCombined } from "$lib/types/ParsedLogCombined";
@@ -18,19 +18,19 @@
 
     let evaluationCombined = combinedEvals.filter(e => e.evaluator === "OPS")[0];
     let evaluation_units = evaluationCombined.evaluations[selectedLogIdx].evaluation_units;
-    let unitsByCategory: { [key: string]: EvaluationUnitAggregate } = {};
+    let unitsByScope: { [key: string]: EvaluationUnitAggregate } = {};
 
     let treeViewNodes: TreeViewNode[] = [];
     let expandedNodes: string[] = [];
 
     evaluation_units.forEach(unit => {
-        let categoryKey = evaluationUnitCategoryStringify(unit.data.category);
-        if (!unitsByCategory[categoryKey]) {
-            const slug = slugify(categoryKey);
+        let scopeKey = evaluationUnitScopeStringify(unit.data.scope);
+        if (!unitsByScope[scopeKey]) {
+            const slug = slugify(scopeKey);
             expandedNodes.push(slug);
-            unitsByCategory[categoryKey] = { slug: slug, evaluation_units: [ unit ] };
+            unitsByScope[scopeKey] = { slug: slug, evaluation_units: [ unit ] };
         } else {
-            unitsByCategory[categoryKey].evaluation_units.push(unit);
+            unitsByScope[scopeKey].evaluation_units.push(unit);
         }
     });
 
@@ -52,14 +52,14 @@
             contentProps: {
                 checksum: logs.parsed_logs[selectedLogIdx].checksum
             }
-        }] : Object.keys(unitsByCategory).map(category => (
+        }] : Object.keys(unitsByScope).map(scope => (
         {
-            id: unitsByCategory[category].slug,
-            content: EvaluationUnitCategorySegment,
+            id: unitsByScope[scope].slug,
+            content: EvaluationUnitScopeSegment,
             contentProps: {
-                category: category
+                scope: scope
             },
-            children: unitsByCategory[category].evaluation_units.map(unit => ({
+            children: unitsByScope[scope].evaluation_units.map(unit => ({
                 id: slugify(unit.data.field),
                 content: EvaluationUnitSegment,
                 contentProps: {

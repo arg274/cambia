@@ -1,11 +1,11 @@
 mod sha256custom;
 
-use std::{str::FromStr, collections::HashSet};
+use std::{collections::{HashMap, HashSet}, iter::zip, str::FromStr};
 
 use regex::{Regex, RegexBuilder};
 use base64::{Engine as _, engine::GeneralPurpose, engine::general_purpose::PAD, alphabet::Alphabet};
 
-use crate::{extract::{Extractor, Gap, MediaType, Quartet, ReadMode, ReleaseInfo, Ripper, TrackExtractor}, integrity::IntegrityChecker, toc::{Toc, TocEntry, TocRaw}, track::{TestAndCopy, TrackEntry, TrackError, TrackErrorData, TrackErrorRange}, translate::{Translator, TranslatorCombined}, util::Time};
+use crate::{extract::{Extractor, Gap, MediaType, Quartet, ReadMode, ReleaseInfo, Ripper, TrackExtractor}, integrity::IntegrityChecker, toc::{Toc, TocEntry, TocRaw}, track::{AccurateRipConfidence, AccurateRipConfidenceTotal, AccurateRipOffset, AccurateRipUnit, TestAndCopy, TrackEntry, TrackError, TrackErrorData, TrackErrorRange}, translate::{Translator, TranslatorCombined}, util::Time};
 use simple_text_decode::DecodedText;
 
 use self::sha256custom::Sha256Custom;
@@ -49,6 +49,10 @@ lazy_static! {
     static ref DAMAGED_SECTORS: Regex =  Regex::new(r"List of damaged sector positions\s*:(?:\s*\(\d+\)\s*\d+:\d+:\d+)+").unwrap();
     static ref SUSPICIOUS_POSITIONS: Regex = Regex::new(r"List of suspicious positions\s*:(?:\s*\(\d+\)\s*\d+:\d+:\d+)+").unwrap();
     static ref ERROR_TIME: Regex = Regex::new(r"\s*\(\d+\)\s*(?P<time>\d+:\d+:\d+)").unwrap();
+
+    static ref AR_BLOCK: Regex = RegexBuilder::new(r"(?P<ar>AccurateRip( v\d+)? signature(.+))Statistics").dot_matches_new_line(true).build().unwrap();
+    static ref AR_SIGNS: Regex = Regex::new(r"AccurateRip( v(?P<version>\d))? signature\s*:\s*(?P<sign>[A-F0-9]{8})( \((?P<off_sign>[A-F0-9]{8}) w/correction\))?").unwrap();
+    static ref AR_FOUND: Regex = Regex::new(r"Accurately ripped(.+)\((?P<version>AR\d+|(v\d+(\+v\d+)*)), confidence (?P<cm>\d+(\+\d+)*)(/(?P<ct>\d+))?(, offset (?P<offset>-?\d+))?\)").unwrap();
 }
 
 pub struct XldParser {
@@ -498,5 +502,64 @@ impl TrackExtractor for XldParserTrack {
         let inc_d = TrackErrorData::new(inc_c, inc_r);
 
         TrackError::new_xld(r_c, s_c, jg_c, je_c, ja_c, drf_c, drp_c, dup_c, dmg_d, inc_d, m_s)
+    }
+
+    fn extract_ar_info(&self) -> Vec<AccurateRipUnit> {
+        let mut ars: Vec<AccurateRipUnit> = Vec::new();
+        
+        if let Some(c) = AR_BLOCK.captures(&self.raw) {
+            let ar_raw = c.name("ar").unwrap().as_str();
+            let ar_found = AR_FOUND.is_match(ar_raw);
+            
+            let mut conf_lut: HashMap<u8, AccurateRipConfidence> = HashMap::new();
+            if let Some(ar_f_raw) = AR_FOUND.captures(ar_raw) {
+                let confidence_versions = ar_f_raw
+                    .name("version").unwrap().as_str()
+                    .split('+')
+                    .map(|m| m.trim_start_matches(char::is_alphabetic).parse::<u8>().unwrap_or_default())
+                    .collect::<Vec<u8>>().into_iter();
+                let confidence_matches = ar_f_raw
+                    .name("cm").unwrap().as_str()
+                    .split('+')
+                    .map(|m| m.parse::<u32>().unwrap_or_default())
+                    .collect::<Vec<u32>>().into_iter();
+                let confidence_total = ar_f_raw.name("ct").map(|t| AccurateRipConfidenceTotal::All(t.as_str().parse().unwrap()));
+                let offset = ar_f_raw.name("offset").map_or(AccurateRipOffset::Same, |t| AccurateRipOffset::Different(Some(t.as_str().parse().unwrap())));
+                let conf_zip = zip(confidence_versions, confidence_matches);
+
+                for (v, m) in conf_zip {
+                    conf_lut.insert(v, AccurateRipConfidence::new(Some(m), confidence_total, offset));
+                }
+            }
+
+            for sign_line in AR_SIGNS.captures_iter(ar_raw) {
+                let mut version = sign_line.name("version").map(|v| v.as_str().parse::<u8>().unwrap());
+                let sign = sign_line.name("sign").unwrap().as_str();
+                let offset_sign = sign_line
+                    .name("off_sign")
+                    .map_or_else(|| if ar_found { sign } else { "" }, |os| os.as_str());
+
+                // AccurateRip entry exists but legacy XLD logging
+                // The only entry in the LUT will have the version
+                if version.is_none() && ar_found {
+                    version = Some(conf_lut.keys().next().unwrap().to_owned());
+                }
+
+                let confidence = conf_lut.remove(&version.unwrap_or_default());
+
+                let ar = AccurateRipUnit::new_xld(
+                    version,
+                    sign.to_owned(),
+                    offset_sign.to_owned(),
+                    confidence,
+                );
+
+                ars.push(ar);
+            }
+        } else {
+            ars.push(AccurateRipUnit::new_disabled());
+        }
+        
+        ars
     }
 }

@@ -13,6 +13,8 @@
 	import TrackInfo from "./TrackInfo.svelte";
 	import type { CambiaResponse } from '$lib/types/CambiaResponse';
 	import { onMount } from 'svelte';
+	import AccurateRipSummary from './AccurateRipSummary.svelte';
+	import CtdbSummary from './CtdbSummary.svelte';
     
     export let res: CambiaResponse;
     let inputPage = 1;
@@ -114,6 +116,14 @@
                 </div>
                 <hr class="!border-t-4 !border-dashed" />
                 <TrackInfo toc={parsedLog.toc.raw} tracks={parsedLog.tracks} />
+                <div class="flex gap-x-4">
+                    <div class="flex flex-col w-1/2 gap-4">
+                        <AccurateRipSummary tracks={parsedLog.tracks} />
+                    </div>
+                    <div class="flex flex-col w-1/2 gap-4">
+                        <CtdbSummary />
+                    </div>
+                </div>
             </div>
         {:else}
             <div class="flex flex-col gap-4">
@@ -128,6 +138,7 @@
                 <ChecksumInfo checksum={parsedLog.checksum} />
                 <TocInfo toc={parsedLog.toc} />
                 <TrackInfo toc={parsedLog.toc.raw} tracks={parsedLog.tracks} />
+                <AccurateRipSummary tracks={parsedLog.tracks} />
             </div>
         {/if}
     </div>

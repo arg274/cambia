@@ -1,6 +1,6 @@
 use std::{cmp::min, collections::{HashMap, HashSet}};
 
-use crate::{evaluate::{Evaluator, EvaluationCombined, EvaluationUnit, Evaluation, EvaluatorType, EvaluationUnitCategory}, parser::{ParsedLogCombined, ParsedLog}, extract::{Ripper, Quartet, MediaType, ReadMode, Gap}, track::TrackEntry, integrity::Integrity, drive::{DriveUtils, DriveMatchQuality}};
+use crate::{evaluate::{Evaluator, EvaluationCombined, EvaluationUnit, Evaluation, EvaluatorType, EvaluationUnitScope}, parser::{ParsedLogCombined, ParsedLog}, extract::{Ripper, Quartet, MediaType, ReadMode, Gap}, track::TrackEntry, integrity::Integrity, drive::{DriveUtils, DriveMatchQuality}};
 
 use super::{GazelleDeductionData, GazelleDeductionFail, GazelleDeductionRelease, GazelleDeductionTrack, GazelleDeduction};
 
@@ -306,11 +306,11 @@ impl Evaluator for OpsEvaluator {
             let mut log_track_deduction_map: HashMap<usize, Vec<EvaluationUnit>> = HashMap::new();
 
             for deduction in evaluation.evaluation_units.iter() {
-                match deduction.data.category {
-                    EvaluationUnitCategory::Release => {
+                match deduction.data.scope {
+                    EvaluationUnitScope::Release => {
                         release_deduction_set.insert(deduction.clone());
                     },
-                    EvaluationUnitCategory::Track(t) => {
+                    EvaluationUnitScope::Track(t) => {
                         log_track_deduction_map
                             .entry(t.unwrap() as usize)
                             .or_default()
@@ -411,7 +411,7 @@ impl Evaluator for OpsEvaluator {
                         };
                         if OpsEvaluator::check_track(parsed_log, track, gazelle_deduction_track_variant) {
                             let mut deduction = gazelle_deduction_track_variant.deduct(parsed_log);
-                            deduction.data.category = EvaluationUnitCategory::Track(Some(track.num)); // TODO: Special considerations for HTOA (?)
+                            deduction.data.scope = EvaluationUnitScope::Track(Some(track.num)); // TODO: Special considerations for HTOA (?)
                             Some(deduction)
                         } else {
                             None

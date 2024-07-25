@@ -108,6 +108,7 @@ pub trait ParserTrack: TrackExtractor {
             preemphasis: self.extract_preemphasis(),
             test_and_copy: self.extract_test_and_copy(),
             errors: self.extract_errors(),
+            ar_info: self.extract_ar_info(),
         }
     }
 }

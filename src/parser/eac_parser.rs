@@ -8,7 +8,7 @@ use phf::OrderedMap;
 use regex::{Regex, RegexBuilder};
 use rayon::prelude::*;
 
-use crate::{extract::{Extractor, Gap, Quartet, ReadMode, ReleaseInfo, Ripper, TrackExtractor}, integrity::IntegrityChecker, toc::{Toc, TocEntry, TocRaw}, track::{TestAndCopy, TrackEntry, TrackError, TrackErrorData, TrackErrorRange}, translate::{Translator, TranslatorCombined}, util::Time};
+use crate::{extract::{Extractor, Gap, Quartet, ReadMode, ReleaseInfo, Ripper, TrackExtractor}, integrity::IntegrityChecker, toc::{Toc, TocEntry, TocRaw}, track::{TestAndCopy, TrackEntry, TrackError, TrackErrorData, TrackErrorRange, AccurateRipUnit}, translate::{Translator, TranslatorCombined}, util::Time};
 use simple_text_decode::DecodedText;
 
 use self::{translation_table::{LANGS, L_DUMMY_MAP, L_47AB3DF2_MAP}, rijndael::Rijndael};
@@ -61,6 +61,10 @@ lazy_static! {
     static ref TEST_CRC: Regex = RegexBuilder::new(r"Test CRC (?P<value>.+)$").multi_line(true).build().unwrap();
     static ref COPY_CRC: Regex = RegexBuilder::new(r"Copy CRC (?P<value>.+)$").multi_line(true).build().unwrap();
     static ref ERROR: Regex = Regex::new(r"(?P<type>Suspicious position|Timing problem)(\s*)(?P<start>\d:\d{2}:\d{2})( - (?P<end>\d:\d{2}:\d{2}))?").unwrap();
+
+    static ref AR_FOUND: Regex = Regex::new(r"Accurately ripped \(confidence (?P<cm>\d+)\)  \[(?P<sign>[A-F0-9]{8})\]  \(AR v(?P<version>\d+)\)").unwrap();
+    static ref AR_MISMATCH: Regex = Regex::new(r"Cannot be verified as accurate \(confidence (?P<cm>\d+)\)  \[(?P<sign>[A-F0-9]{8})\], AccurateRip returned \[(?P<off_sign>[A-F0-9]{8})\]  \(AR v(?P<version>\d+)\)").unwrap();
+    static ref AR_NO_DB: Regex = Regex::new(r"Track not present in AccurateRip database").unwrap();
 }
 
 pub struct EacParser {
@@ -539,6 +543,35 @@ impl TrackExtractor for EacParserTrack {
             TrackErrorData::new(read_errors.len() as u32, read_errors),
             TrackErrorData::new(jitter_errors.len() as u32, jitter_errors)
         )
+    }
+
+    fn extract_ar_info(&self) -> Vec<AccurateRipUnit> {
+        let mut ars: Vec<AccurateRipUnit> = Vec::new();
+
+        // AR enabled but not found in database
+        if AR_NO_DB.is_match(&self.raw) {
+            ars.push(AccurateRipUnit::new_eac_notfound());
+            return ars;
+        }
+
+        if let Some(ar_f_raw) = AR_FOUND.captures(&self.raw) {
+            let version = ar_f_raw.name("version").unwrap().as_str().parse::<u8>().unwrap();
+            let sign = ar_f_raw.name("sign").unwrap().as_str().to_owned();
+            let matching = ar_f_raw.name("cm").unwrap().as_str().parse::<u32>().unwrap();
+            ars.push(AccurateRipUnit::new_eac(version, sign, matching));
+        } else if let Some(ar_m_raw) = AR_MISMATCH.captures(&self.raw) {
+            let version = ar_m_raw.name("version").unwrap().as_str().parse::<u8>().unwrap();
+            let sign = ar_m_raw.name("sign").unwrap().as_str().to_owned();
+            let offset_sign = ar_m_raw.name("off_sign").unwrap().as_str().to_owned();
+            let matching = ar_m_raw.name("cm").unwrap().as_str().parse::<u32>().unwrap();
+            ars.push(AccurateRipUnit::new_eac_mismatch(version, sign, offset_sign, matching));
+        }
+
+        if ars.is_empty() {
+            ars.push(AccurateRipUnit::new_disabled());
+        }
+        
+        ars
     }
 }
 

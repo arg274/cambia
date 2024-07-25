@@ -4,7 +4,7 @@ import Color from 'colorjs.io';
 import type { CambiaResponse } from './types/CambiaResponse';
 import type { CambiaError } from './types/CambiaError';
 import { Packr } from 'msgpackr';
-import type { EvaluationUnitCategory } from './types/EvaluationUnitCategory';
+import type { EvaluationUnitScope } from './types/EvaluationUnitScope';
 import type { Quartet } from './types/Quartet';
 
 const packr = new Packr({ useRecords: false });
@@ -163,8 +163,8 @@ export function removeEnd(str: string, rem: string) {
 	return rem && str.endsWith(rem) ? str.slice(0, -rem.length) : str;
 }
 
-export function evaluationUnitCategoryStringify(category: EvaluationUnitCategory) {
-	return typeof category === 'string' ? category : `Track ${category.Track}`;
+export function evaluationUnitScopeStringify(scope: EvaluationUnitScope) {
+	return typeof scope === 'string' ? scope : `Track ${scope.Track}`;
 }
 
 export function secondsToMMSS(seconds: number): string {
