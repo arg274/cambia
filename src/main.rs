@@ -65,7 +65,7 @@ async fn run(args: Args) {
     parse_file(path, args);
 }
 
-fn init_logging(tracing: &String) {
+fn init_logging(tracing: &str) {
     let tracing_level = match tracing.to_ascii_lowercase().as_str() {
         "trace" => tracing::Level::TRACE,
         "debug" => tracing::Level::DEBUG,

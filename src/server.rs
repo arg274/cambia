@@ -1,12 +1,10 @@
 use std::{net::SocketAddr, ops::ControlFlow};
 use std::ops::RangeInclusive;
-use cambia_core;
 use axum::{async_trait, body::{Body, Bytes}, extract::{
     connect_info::ConnectInfo, ws::{Message, WebSocket, WebSocketUpgrade}, FromRequestParts, Query
 }, http::{header, StatusCode, Uri}, response::{IntoResponse, Response}, routing::{get, post}, Extension, Json, Router};
 use axum_extra::{headers::UserAgent, TypedHeader};
 use axum_msgpack::MsgPackRaw;
-use mime_guess;
 use rust_embed::RustEmbed;
 use serde::{Serialize, Deserialize};
 use tokio::net::TcpListener;
@@ -17,8 +15,8 @@ use axum_client_ip::{InsecureClientIp, SecureClientIp, SecureClientIpSource};
 use cambia_core::error::CambiaError;
 use cambia_core::handler::{parse_log_bytes, translate_log_bytes};
 use cambia_core::response::CambiaResponse;
-use crate::{Args};
-use crate::util::{save_rip_log};
+use crate::Args;
+use crate::util::save_rip_log;
 
 static INDEX_HTML: &str = "index.html";
 
