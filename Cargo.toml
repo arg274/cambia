@@ -4,69 +4,30 @@ version = "0.1.0"
 edition = "2021"
 
 [features]
-default = ["eac", "xld", "whipper", "ops_ev"]
-experimental_rippers = ["cueripper"]
-experimental_evaluators = ["cambia_ev"]
-eac = []
-xld = []
-whipper = []
-cueripper = ["eac"]
-gazelle_ev = []
-ops_ev = ["gazelle_ev"]
-red_ev = ["gazelle_ev"]
-cambia_ev = []
-shuttle = []
-
-[build-dependencies]
-codegen = "0.2.0"
-regex = "1"
-walkdir = "2"
-simple-text-decode = { path = "simple-text-decode" }
-sha2 = "0.10.6"
-hex = "0.4.3"
-scraper = "0.17.1"
-reqwest = { version = "0.11.18", features = ["blocking"] }
-accuraterip-drive-db = { path = "accuraterip-drive-db" }
-itertools = "0.11.0"
+default = ["server"]
+server = []
+experimental_rippers = ["cambia-core/experimental_rippers"]
+experimental_evaluators = ["cambia-core/experimental_evaluators"]
 
 [dependencies]
-aho-corasick = "0.7"
-hex = "0.4.3"
-indexmap = { version = "2.2.2", features = ["serde"] }
-lazy_static = "1.4.0"
-regex = "1"
-serde = { version = "1.0.145", features = ["derive"] }
-serde_json = "1.0"
-simple-text-decode = { path = "simple-text-decode" }
-tokio = { version = "1.36.0", features = ["full"] }
-phf = { version = "0.11.1", features = ["macros"] }
-clap = { version = "4.0.32", features = ["derive"] }
-sha1 = "0.10.5"
-base64 = "0.21.0"
-serde_yaml = "0.9.19"
-sha2 = "0.10.6"
-axum = { version = "0.7.4", features = ["ws"]}
-axum-extra = { version = "0.9.2", features = ["typed-header"]}
+cambia-core = { path = "cambia-core" }
+mime_guess = "2.0.5"
 tracing-subscriber = "0.3.18"
-tracing = "0.1.40"
-tower-http = { version = "0.5.1", features = ["compression-full", "cors", "decompression-full", "trace"] }
-rmp-serde = "1.1.1"
-axum-msgpack = "0.4.0"
-strum = { version = "0.24", features = ["derive"] }
-strum_macros = "0.24.3"
-ts-rs = "6.2.1"
-rust-embed = { version = "8.2.0", features = ["axum", "debug-embed", "compression", "include-exclude"] }
-mime_guess = "2.0.4"
 figlet-rs = "0.1.5"
-urlencoding = "2.1.2"
-futures = "0.3.28"
-rayon = "1.7.0"
-textdistance = "1.0.2"
-semver = "1.0.20"
-shuttle-runtime = "0.38.0"
-shuttle-axum = "0.38.0"
-xxhash-rust = { version = "0.8.8", features = ["xxh3"] }
-axum-client-ip = "0.5.0"
+tracing = "0.1.40"
+hex = "0.4.3"
+tower-http = { version = "0.5.2", features = ["compression-full", "cors", "decompression-full", "trace"] }
+futures = "0.3.30"
+serde = { version = "1.0.210", features = ["derive"] }
+serde_json = "1.0.128"
+rmp-serde = "1.1.1"
+tokio = { version = "1.40.0", features = ["full"] }
+clap = { version = "4.5.17", features = ["env", "derive"] }
+axum = { version = "0.7.5", features = ["ws"] }
+axum-extra = { version = "0.9.3", features = ["typed-header"] }
+axum-msgpack = "0.4.0"
+rust-embed = { version = "8.5.0", features = ["axum", "debug-embed", "compression", "include-exclude"] }
+axum-client-ip = "0.6.0"
 
 [profile.release]
 panic = "abort"

@@ -7,7 +7,7 @@ use ts_rs::TS;
 #[ts(export)]
 pub struct CambiaError {
     pub id: Vec<u8>,
-    message: String,
+    pub message: String,
 }
 
 impl CambiaError {

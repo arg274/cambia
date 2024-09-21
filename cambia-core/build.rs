@@ -75,7 +75,7 @@ fn create_eac_translation_table() {
         scope.fmt(formatter).unwrap();
     }
 
-    fn walk_translation_files(path: &Path) -> Vec<PathBuf> {
+    fn walk_translation_files<P: AsRef<Path>>(path: P) -> Vec<PathBuf> {
         let mut file_paths: Vec<PathBuf> = Vec::new();
         for entry in WalkDir::new(path).into_iter().filter_map(|e| e.ok()) {
             if entry.path().is_file() && entry.path().extension() == Some(OsStr::new("txt")) {
@@ -195,13 +195,14 @@ fn create_eac_translation_table() {
                 Entry::Occupied(mut o) => { o.get_mut().extend(mapping); },
                 Entry::Vacant(v) => { v.insert(mapping); }
             }
-            // break;
         }
         (code_mapping, eac_lang_mapping, native_name_map, latin_name_map)
     }
 
-    let src_dir_path = Path::new("./src/parser/eac_parser/translation_files");
-    let out_file_path = Path::new("./src/parser/eac_parser/translation_table.rs");
+    let build_file_dir = Path::new(env!("CARGO_MANIFEST_DIR"));
+    
+    let src_dir_path = build_file_dir.join(Path::new("src/parser/eac_parser/translation_files"));
+    let out_file_path = build_file_dir.join(Path::new("src/parser/eac_parser/translation_table.rs"));
 
     let out_file = OpenOptions::new()
                     .write(true)
@@ -305,7 +306,9 @@ fn fetch_drive_offsets() {
         drive_map.entry(drive_vendor).or_default().insert(DriveEntryMini(ws_pattern.replace_all(sanitised_drive_name.as_str(), "").to_string(), drive.offset));
     }
 
-    let out_file_path = Path::new("./src/drive/offset_table.rs");
+    let build_file_dir = Path::new(env!("CARGO_MANIFEST_DIR"));
+
+    let out_file_path = build_file_dir.join(Path::new("src/drive/offset_table.rs"));
 
     let out_file = OpenOptions::new()
                     .write(true)

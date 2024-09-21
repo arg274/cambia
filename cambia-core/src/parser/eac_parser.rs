@@ -393,7 +393,8 @@ impl Translator for EacParserSingle {
                 let patterns = log_lang.table.keys();
                 let ac = AhoCorasickBuilder::new()
                                                         .match_kind(aho_corasick::MatchKind::LeftmostLongest)
-                                                        .build(patterns);
+                                                        .build(patterns)
+                                                        .unwrap();
                 let mut translated_log = String::new();
                 ac.replace_all_with(&log, &mut translated_log, |_, k, v| {
                     // Case-insensitive on k > 16 but not sure if it's really needed

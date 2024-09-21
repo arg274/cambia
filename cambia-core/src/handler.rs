@@ -1,29 +1,11 @@
-use std::{fs::OpenOptions, io::Read};
-
 use simple_text_decode::DecodedText;
 use xxhash_rust::xxh3::xxh3_64;
 
 use crate::error::CambiaError;
-use crate::util::{env_getter, first_line};
+use crate::util::{first_line};
 use crate::evaluate::{EvaluationCombined, Evaluator};
 use crate::parser::{ParserCombined, ParsedLogCombined};
 use crate::response::CambiaResponse;
-
-pub fn parse_file(filepath: &str) {
-    let mut raw: Vec<u8> = Vec::new();
-
-    let mut fh = OpenOptions::new().read(true).open(filepath).expect(
-        "Could not open file",
-    );
-
-    fh.read_to_end(&mut raw).expect(
-        "Could not read file"
-    );
-
-    if let Ok(parsed) = parse_log_bytes(Vec::new(), raw) {
-        println!("{}", serde_json::to_string(&parsed).unwrap());
-    }
-}
 
 pub fn detect_ripper(encoded_log: DecodedText) -> Result<Box<dyn ParserCombined>, CambiaError> {
     match first_line(&encoded_log.text) {
@@ -45,7 +27,7 @@ pub fn detect_ripper(encoded_log: DecodedText) -> Result<Box<dyn ParserCombined>
     }
 }
 
-pub fn parse_log_bytes(id: Vec<u8>, log_raw: Vec<u8>) -> Result<CambiaResponse, CambiaError> {
+pub fn parse_log_bytes(id: Vec<u8>, log_raw: &Vec<u8>) -> Result<CambiaResponse, CambiaError> {
     if log_raw.is_empty() {
         return Err(CambiaError::new(id, "Empty request body"));
     }
@@ -63,15 +45,11 @@ pub fn parse_log_bytes(id: Vec<u8>, log_raw: Vec<u8>) -> Result<CambiaResponse, 
         },
     };
 
-    if env_getter("CAMBIA_SAVE_LOGS", "false").to_ascii_lowercase().parse().unwrap_or_default() {
-        save_rip_log(&res_id, &log_raw);
-    }
-
     let evaluation_combined: Vec<EvaluationCombined> = vec![
-        #[cfg(feature = "ops_ev")]
+		#[cfg(feature = "ops_ev")]
         crate::evaluate::gazelle_evaluate::ops_evaluate::OpsEvaluator::new().evaluate_combined(&parsed_logs),
-        // #[cfg(feature = "cambia_ev")]
-        // crate::evaluate::cambia_evaluate::CambiaEvaluator::new().evaluate_combined(&parsed_logs),
+		// #[cfg(feature = "cambia_ev")]
+		// crate::evaluate::cambia_evaluate::CambiaEvaluator::new().evaluate_combined(&parsed_logs),
     ];
     
     Ok(CambiaResponse::new(res_id, parsed_logs, evaluation_combined))
@@ -90,31 +68,4 @@ pub fn translate_log_bytes(log_raw: Vec<u8>) -> Result<String, CambiaError> {
     }
 }
 
-pub fn parse_ws_request(mut ws_body: Vec<u8>) -> Result<CambiaResponse, CambiaError> {
-    // xxH64 is 8 bytes
-    if ws_body.len() < 8 {
-        return Err(CambiaError::new_anon("WS message length too small"));
-    }
-    
-    let log_bytes = ws_body.split_off(8);
-    parse_log_bytes(ws_body, log_bytes)
-}
 
-pub fn save_rip_log(id: &[u8], log_raw: &[u8]) {
-    let dir = std::path::Path::new(crate::consts::RIP_LOG_DIR);
-
-    if let Err(e) = std::fs::create_dir_all(dir) {
-        tracing::error!("Error creating directory: {}", e);
-        return;
-    }
-
-    let mut file_path = dir.join(hex::encode(id));
-    file_path.set_extension("log");
-    
-    if !file_path.exists() {
-        match std::fs::File::create(&file_path).and_then(|mut file| std::io::Write::write_all(&mut file, log_raw)) {
-            Ok(_) => (),
-            Err(e) => tracing::error!("Error writing file: {}", e),
-        }
-    }
-}

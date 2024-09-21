@@ -1,111 +1,46 @@
-use std::{ops::{self, RangeInclusive}, time::Duration};
+use std::fs::OpenOptions;
+use std::io::Read;
+use std::path::PathBuf;
+use cambia_core::handler::parse_log_bytes;
+use crate::Args;
 
-use serde::{Serialize, Deserialize};
-use ts_rs::TS;
+pub fn parse_file(filepath: &str, args: Args) {
+	let mut raw: Vec<u8> = Vec::new();
 
-const PORT_RANGE: RangeInclusive<usize> = 1..=65535;
+	let mut fh = OpenOptions::new().read(true).open(filepath).expect(
+		"Could not open file",
+	);
 
-#[derive(Clone, Copy, PartialEq)]
-pub struct Time(Duration);
+	fh.read_to_end(&mut raw).expect(
+		"Could not read file"
+	);
 
-impl Time {
-    pub fn from_ss(ss: &str) -> Time {
-        Time(Duration::from_secs_f64(str::parse(ss).unwrap()))
-    }
+	let parsed = match parse_log_bytes(Vec::new(), &raw) {
+		Ok(parsed) => parsed,
+		Err(_) => return,
+	};
 
-    pub fn from_mm_ss(mm_ss: &str) -> Time {
-        let split: Vec<&str> = mm_ss.split(':').collect();
-        let m: u64 = str::parse(split[0]).unwrap();
-        let s: f64 = str::parse(split[1]).unwrap();
-        Time(Duration::from_secs(m * 60) + Duration::from_secs_f64(s))
-    }
-    
-    pub fn from_h_mm_ss(h_mm_ss: &str) -> Time {
-        let split: Vec<&str> = h_mm_ss.split(':').collect();
-        let h: u64 = str::parse(split[0]).unwrap();
-        let m: u64 = str::parse(split[1]).unwrap();
-        let s: f64 = str::parse(split[2]).unwrap();
-        Time(Duration::from_secs(h * 3600) + Duration::from_secs(m * 60) + Duration::from_secs_f64(s))
-    }
+	if let Ok(parsed) = parse_log_bytes(Vec::new(), &raw) {
+		println!("{}", serde_json::to_string(&parsed).unwrap());
+	}
 
-    pub fn from_mm_ss_cs(mm_ss_cs: &str) -> Time {
-        let split: Vec<&str> = mm_ss_cs.split(':').collect();
-        let m: u64 = str::parse(split[0]).unwrap();
-        let s: u64 = str::parse(split[1]).unwrap();
-        let cs: u64 = str::parse(split[2]).unwrap();
-        Time(Duration::from_secs(m * 60) + Duration::from_secs(s) + Duration::from_millis(cs * 10))
-    }
+	if let Some(save_logs) = args.save_logs {
+		save_rip_log(save_logs, &parsed.id, &raw);
+	}
 }
 
-impl ops::Add<Time> for Time {
-    type Output = Time;
+pub fn save_rip_log(root_path: PathBuf, id: &[u8], log_raw: &[u8]) {
+	if let Err(e) = std::fs::create_dir_all(&root_path) {
+		tracing::error!("Error creating directory: {}", e);
+		return;
+	}
 
-    fn add(self, rhs: Time) -> Self::Output {
-        Time(self.0 + rhs.0)
-    }
-}
+	let file_path = root_path.join(hex::encode(id)).with_extension("log");
 
-impl ops::Sub<Time> for Time {
-    type Output = Time;
-
-    fn sub(self, rhs: Time) -> Self::Output {
-        Time(self.0 - rhs.0)
-    }
-}
-
-impl Serialize for Time {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-        where
-            S: serde::Serializer {
-        self.0.as_secs_f64().serialize(serializer)
-    }
-}
-
-impl<'de> Deserialize<'de> for Time {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de> {
-        match Deserialize::deserialize(deserializer) {
-            Ok(v) => Ok(Time::from_ss(v)),
-            Err(e) => Err(e),
-        }
-    }
-}
-
-impl TS for Time {
-    fn name() -> String {
-        String::from("string")
-    }
-
-    fn dependencies() -> Vec<ts_rs::Dependency> {
-        Vec::new()
-    }
-
-    fn transparent() -> bool {
-        false
-    }
-}
-
-pub fn first_line(string: &str) -> &str {
-    string.lines().next().unwrap()
-}
-
-pub fn env_getter(key: &str, default: &str) -> String {
-    let env_val = std::env::var_os(key).unwrap_or_default();
-    std::str::from_utf8(env_val.as_encoded_bytes()).unwrap_or(default).to_owned()
-}
-
-pub fn port_in_range(s: &str) -> Result<String, String> {
-    let port: usize = s
-        .parse()
-        .map_err(|_| format!("`{s}` isn't a port number"))?;
-    if PORT_RANGE.contains(&port) {
-        Ok(port.to_string())
-    } else {
-        Err(format!(
-            "port not in range {}-{}",
-            PORT_RANGE.start(),
-            PORT_RANGE.end()
-        ))
-    }
+	if !file_path.exists() {
+		match std::fs::File::create(&file_path).and_then(|mut file| std::io::Write::write_all(&mut file, log_raw)) {
+			Ok(_) => (),
+			Err(e) => tracing::error!("Error writing file: {}", e),
+		}
+	}
 }

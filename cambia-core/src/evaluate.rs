@@ -78,33 +78,33 @@ pub enum EvaluationUnitField {
 #[derive(Serialize, Deserialize, TS, Hash, PartialEq, Eq, Clone)]
 #[ts(export)]
 pub struct EvaluationUnitData {
-    scope: EvaluationUnitScope,
-    field: EvaluationUnitField,
-    message: String,
-    class: EvaluationUnitClass,
+    pub scope: EvaluationUnitScope,
+    pub field: EvaluationUnitField,
+    pub message: String,
+    pub class: EvaluationUnitClass,
 }
 
 // Output from a single evaluator
 #[derive(Serialize, Deserialize, TS)]
 #[ts(export)]
 pub struct EvaluationCombined {
-    evaluator: EvaluatorType,
-    combined_score: String,
-    evaluations: Vec<Evaluation>,
+    pub evaluator: EvaluatorType,
+    pub combined_score: String,
+    pub evaluations: Vec<Evaluation>,
 }
 
 #[derive(Serialize, Deserialize, TS)]
 #[ts(export)]
 pub struct Evaluation {
-    score: String,
-    evaluation_units: Vec<EvaluationUnit>,
+    pub score: String,
+    pub evaluation_units: Vec<EvaluationUnit>,
 }
 
 #[derive(Serialize, Deserialize, TS, Hash, PartialEq, Eq, Clone)]
 #[ts(export)]
 pub struct EvaluationUnit {
-    unit_score: String,
-    data: EvaluationUnitData,
+    pub unit_score: String,
+    pub data: EvaluationUnitData,
 }
 
 // All evaluators are required to implement this

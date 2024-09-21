@@ -28,8 +28,8 @@ pub struct TocRaw {
 #[derive(Serialize, Deserialize, TS)]
 #[ts(export)]
 pub struct TocHash {
-    hash: String,
-    url: String,
+    pub hash: String,
+    pub url: String,
 }
 
 #[derive(Serialize, Deserialize, TS)]

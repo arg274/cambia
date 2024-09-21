@@ -28,7 +28,7 @@ impl DriveUtils {
     fn santitise_drive(drive: String) -> String {
         let drive_sanitised = DRIVE_SANITISATION.replace_all(drive.as_str(), "").to_string();
 
-        let ac = AhoCorasick::new(VENDOR_SUB_KEYS);
+        let ac = AhoCorasick::new(VENDOR_SUB_KEYS).unwrap();
         ac.replace_all(&drive_sanitised, VENDOR_SUB_VALS).to_ascii_uppercase()
     }
     

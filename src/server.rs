@@ -1,10 +1,9 @@
 use std::{net::SocketAddr, ops::ControlFlow};
-
-use axum::{
-    async_trait, body::{Body, Bytes}, extract::{
-        connect_info::ConnectInfo, ws::{Message, WebSocket, WebSocketUpgrade}, FromRequestParts, Query
-    }, http::{header, StatusCode, Uri}, response::{IntoResponse, Response}, routing::{get, post}, Json, Router
-};
+use std::ops::RangeInclusive;
+use cambia_core;
+use axum::{async_trait, body::{Body, Bytes}, extract::{
+    connect_info::ConnectInfo, ws::{Message, WebSocket, WebSocketUpgrade}, FromRequestParts, Query
+}, http::{header, StatusCode, Uri}, response::{IntoResponse, Response}, routing::{get, post}, Extension, Json, Router};
 use axum_extra::{headers::UserAgent, TypedHeader};
 use axum_msgpack::MsgPackRaw;
 use mime_guess;
@@ -15,8 +14,11 @@ use tower_http::{cors::CorsLayer, compression::CompressionLayer};
 use futures::{sink::SinkExt, stream::StreamExt};
 use tower_http::trace::{DefaultMakeSpan, TraceLayer};
 use axum_client_ip::{InsecureClientIp, SecureClientIp, SecureClientIpSource};
-
-use crate::{handler::{parse_log_bytes, parse_ws_request, translate_log_bytes}, util::env_getter, Args};
+use cambia_core::error::CambiaError;
+use cambia_core::handler::{parse_log_bytes, translate_log_bytes};
+use cambia_core::response::CambiaResponse;
+use crate::{Args};
+use crate::util::{save_rip_log};
 
 static INDEX_HTML: &str = "index.html";
 
@@ -67,29 +69,18 @@ where
 }
 
 // TODO: Check for security implications
-pub struct CambiaServer;
+pub struct CambiaServer {
+    args: Args
+}
 
 impl CambiaServer {
-    fn init_logging(tracing: &Option<String>) {
-        let tracing_level = match tracing {
-            Some(v) => {
-                match v.to_ascii_lowercase().as_str() {
-                    "trace" => tracing::Level::TRACE,
-                    "debug" => tracing::Level::DEBUG,
-                    "warn" => tracing::Level::WARN,
-                    "error" => tracing::Level::ERROR,
-                    _ => tracing::Level::INFO,
-                }
-            },
-            None => tracing::Level::INFO,
-        };
-
-        tracing_subscriber::fmt()
-            .with_max_level(tracing_level)
-            .init();
+    pub fn new(args: Args) -> Self {
+        Self{
+            args
+        }
     }
 
-    fn init_app() -> Router {
+    fn init_app(self) -> Router {
         let single_upload = Router::new()
             .route("/v1/upload", post(Self::upload_log))
             .route("/v1/translate", post(Self::translate_log))
@@ -103,22 +94,9 @@ impl CambiaServer {
             .fallback(Self::static_handler)
             .nest("/api", single_upload)
             .nest("/ws", multi_upload_ws)
-            .layer(
-                TraceLayer::new_for_http()
-                .make_span_with(DefaultMakeSpan::default().include_headers(true)),
-            )
+            .layer(Extension(self.args))
+            .layer(TraceLayer::new_for_http().make_span_with(DefaultMakeSpan::default().include_headers(true)))
             .layer(SecureClientIpSource::ConnectInfo.into_extension())
-    }
-
-    // TODO: This breaks immutability of the config
-    fn init_env(args: &Args) {
-        // Port
-        std::env::set_var("CAMBIA_PORT", args.port.clone());
-        // Log saving
-        if args.save_logs {
-            tracing::info!("Log saving is enabled");
-            std::env::set_var("CAMBIA_SAVE_LOGS", args.save_logs.to_string());
-        }
     }
 
     async fn static_handler(uri: Uri, user_agent: Option<TypedHeader<UserAgent>>, insecure_ip: InsecureClientIp, secure_ip: SecureClientIp) -> impl IntoResponse {
@@ -134,15 +112,15 @@ impl CambiaServer {
             };
             tracing::info!("/{path} from UserAgent({user_agent}) | {insecure_ip:?} | {secure_ip:?}");
         }
-    
+
         if path.is_empty() || path == INDEX_HTML {
             return Self::index_html().await.into_response();
         }
-    
+
         match Static::get(path.as_str()) {
             Some(content) => {
                 let mime = mime_guess::from_path(path).first_or_octet_stream();
-    
+
                 Response::builder()
                     .header(header::CONTENT_TYPE, mime.as_ref())
                     .body(Body::from(content.data))
@@ -153,12 +131,12 @@ impl CambiaServer {
             }
         }
     }
-    
+
     async fn index_html() -> impl IntoResponse {
         match Static::get(INDEX_HTML) {
             Some(content) => {
                 let body = Body::from(content.data);
-    
+
                 Response::builder()
                     .header(header::CONTENT_TYPE, "text/html")
                     .body(body)
@@ -169,27 +147,28 @@ impl CambiaServer {
             },
         }
     }
-    
+
     async fn not_found() -> impl IntoResponse {
         (StatusCode::NOT_FOUND, "404")
     }
-    
+
     async fn ws_handler(
+        Extension(args): Extension<Args>,
         ws: WebSocketUpgrade,
         ConnectInfo(addr): ConnectInfo<SocketAddr>,
     ) -> impl IntoResponse {
-        ws.on_upgrade(move |socket| Self::handle_socket(socket, addr))
+        ws.on_upgrade(move |socket| Self::handle_socket(args, socket, addr))
     }
-    
-    async fn handle_socket(socket: WebSocket, who: SocketAddr) {
+
+    async fn handle_socket(args: Args, socket: WebSocket, who: SocketAddr) {
         let (mut sender, mut receiver) = socket.split();
-    
+
         // TODO: There should be a better way to do this
         let mut recv_task = tokio::spawn(async move {
             let mut cnt = 0;
             while let Some(Ok(msg)) = receiver.next().await {
                 cnt += 1;
-                let processed = Self::process_message(msg, who);
+                let processed = Self::process_message(&args, msg, who);
                 if processed.is_break() {
                     break;
                 } else if let ControlFlow::Continue(val) = processed {
@@ -200,7 +179,7 @@ impl CambiaServer {
             }
             cnt
         });
-        
+
         tokio::select! {
             rv_b = (&mut recv_task) => {
                 match rv_b {
@@ -209,14 +188,14 @@ impl CambiaServer {
                 }
             }
         }
-        
+
         tracing::trace!("Websocket context {} destroyed", who);
     }
-    
-    fn process_message(msg: Message, who: SocketAddr) -> ControlFlow<(), Vec<u8>> {
+
+    fn process_message(args: &Args, msg: Message, who: SocketAddr) -> ControlFlow<(), Vec<u8>> {
         match msg {
             Message::Binary(d) => {
-                let enc: Vec<u8> = match parse_ws_request(d) {
+                let enc: Vec<u8> = match Self::parse_ws_request(args, d) {
                     Ok(res) => rmp_serde::encode::to_vec_named(&res).unwrap(),
                     Err(e) => rmp_serde::encode::to_vec_named(&e).unwrap(),
                 };
@@ -238,12 +217,29 @@ impl CambiaServer {
         ControlFlow::Continue(Vec::new())
     }
 
-    pub async fn start(args: Args) {
-        Self::init_logging(&args.tracing);
-        Self::init_env(&args);
+    fn parse_ws_request(args: &Args, mut ws_body: Vec<u8>) -> Result<CambiaResponse, CambiaError> {
+        // xxH64 is 8 bytes
+        if ws_body.len() < 8 {
+            return Err(CambiaError::new_anon("WS message length too small"));
+        }
 
-        let app = Self::init_app();
-        let listener = TcpListener::bind(format!("0.0.0.0:{}", env_getter("CAMBIA_PORT", crate::consts::DEFAULT_PORT))).await.unwrap();
+        let log_bytes = ws_body.split_off(8);
+        let res = parse_log_bytes(ws_body, &log_bytes);
+
+        if let Some(save_logs) = args.save_logs.clone() {
+            if let Ok(ref res) = res {
+                save_rip_log(save_logs, &res.id, &log_bytes);
+            }
+        }
+
+        res
+    }
+
+    pub async fn start(self) {
+        let port = self.args.port.clone();
+
+        let app = self.init_app();
+        let listener = TcpListener::bind(format!("0.0.0.0:{}", port)).await.unwrap();
 
         tracing::info!("Cambia server listening on http://localhost:{}", listener.local_addr().unwrap().port());
         axum::serve(listener, app.into_make_service_with_connect_info::<SocketAddr>())
@@ -251,14 +247,9 @@ impl CambiaServer {
             .unwrap();
     }
 
-    // FIXME: WebSockets API is broken
-    pub fn start_shuttle() -> Router {
-        Self::init_app()
-    }
-
     async fn upload_log(fmt: Format, bytes: Bytes) -> impl IntoResponse {
         let bytes_vec = bytes.to_vec();
-        match parse_log_bytes(Vec::new(), bytes_vec) {
+        match parse_log_bytes(Vec::new(), &bytes_vec) {
             Ok(parsed) => {
                 tracing::debug!("{}", serde_json::to_string(&parsed).unwrap());
                 (StatusCode::OK, fmt.render(parsed))
@@ -269,12 +260,23 @@ impl CambiaServer {
 
     async fn translate_log(bytes: Bytes) -> impl IntoResponse {
         let bytes_vec = bytes.to_vec();
-        
+
         match translate_log_bytes(bytes_vec) {
-            Ok(parsed) => {
-                (StatusCode::OK, parsed.into_response())
-            },
+            Ok(parsed) => (StatusCode::OK, parsed.into_response()),
             Err(e) => (StatusCode::BAD_REQUEST, e.to_string().into_response()),
         }
+    }
+}
+
+pub fn port_in_range(s: &str) -> Result<String, String> {
+    const PORT_RANGE: RangeInclusive<usize> = 1..=65535;
+
+    let port: usize = s
+        .parse()
+        .map_err(|_| format!("`{s}` isn't a port number"))?;
+    if PORT_RANGE.contains(&port) {
+        Ok(port.to_string())
+    } else {
+        Err(format!("port not in range {}-{}", PORT_RANGE.start(), PORT_RANGE.end()))
     }
 }
