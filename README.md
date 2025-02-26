@@ -39,3 +39,10 @@ Experimental rippers such as CUERipper are excluded from the default build confi
 
 ### Anti-goals:
 - Mimicking buggy behaviour from other log parsing/scoring implementations
+
+## Integrations
+Cambia currently supports the following integrations through [loggers](https://gitlab.com/SuperSaltyGamer/loggers):
+- [MusicBee](https://www.getmusicbee.com/)
+- [foobar2000](https://www.foobar2000.org/)
+- Windows Explorer
+- [voidtools Everything](https://www.voidtools.com/)
