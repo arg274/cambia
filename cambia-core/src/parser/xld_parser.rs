@@ -299,7 +299,11 @@ impl Extractor for XldParserSingle {
     fn extract_tracks(&self) -> Vec<TrackEntry> {
         let mut tracks: Vec<TrackEntry> = Vec::new();
 
-        let last_idx = LOG_EOF.find(&self.translated_log).unwrap().start();
+        let last_idx = match LOG_EOF.find(&self.translated_log) {
+            Some(idx) => idx.start(),
+            None => return tracks,
+        };
+
         let captures_all = TRACKS.captures_iter(&self.translated_log);
         let mut prev_start: usize = 0;
         let mut is_range = false;

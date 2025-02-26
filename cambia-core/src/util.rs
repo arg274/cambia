@@ -85,7 +85,7 @@ impl TS for Time {
 }
 
 pub fn first_line(string: &str) -> &str {
-    string.lines().next().unwrap()
+    string.lines().next().unwrap_or_default()
 }
 
 pub fn env_getter(key: &str, default: &str) -> String {
