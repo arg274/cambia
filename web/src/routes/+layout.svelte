@@ -44,9 +44,8 @@
 	afterNavigate((params: AfterNavigate) => {
 		const isNewPage = params.from?.url.pathname !== params.to?.url.pathname;
 		const elemPage = document.querySelector('#page');
-		if (isNewPage && elemPage !== null) {
-			elemPage.scrollTop = 0;
-    }});
+		if (isNewPage && elemPage !== null) elemPage.scrollTop = 0;
+	});
 
 	onMount(() => {
 		processedCount.subscribe(p => {
@@ -67,7 +66,7 @@
 						break;
 				}
 			} else if ($fileListStore && $fileListStore.length > 1) {
-				goto(`${removeRoute(location.pathname, $page.route.id)}/logs`);
+				if (location.pathname !== '/logs') goto(`${removeRoute(location.pathname, $page.route.id)}/logs`);
 			}
 		});
 

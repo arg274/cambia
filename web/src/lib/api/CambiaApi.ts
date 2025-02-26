@@ -10,10 +10,14 @@ import { goto } from "$app/navigation";
 import { page } from '$app/stores';
 import { get } from "svelte/store";
 
-export async function getRipInfoMpMulti(from: string | null, files: FileList | undefined) {
+export async function getRipInfoMpMulti(from: string | null, files: FileList | undefined, signal: AbortSignal) {
     const endpoint = `${location.protocol.startsWith("https") ? "wss" : "ws"}://${location.host}${removeRoute(location.pathname, from)}`;
     const ws: WebSocket = new WebSocket(`${dev ? "ws://localhost:3031" : endpoint}/ws/v1/upload_multi`);
     const unpackr = new Unpackr( {useRecords: false} );
+
+    signal.addEventListener("abort", () => {
+        ws.close();
+    });
 
     ws.onmessage = (ev) => {
         if (ev.data instanceof Blob) {
@@ -62,8 +66,10 @@ export async function getRipInfoMpMulti(from: string | null, files: FileList | u
     ws.onopen = () => {
         const fileArray = Array.from(files || []);
         let bArr: Uint8Array = new Uint8Array();
-        
+
         fileArray.forEach((f, idx) => {
+            signal.throwIfAborted();
+
             const r: FileReader = new FileReader();
             r.onload = () => {
                 const aBuf: ArrayBuffer = r.result as ArrayBuffer;
@@ -71,7 +77,7 @@ export async function getRipInfoMpMulti(from: string | null, files: FileList | u
             }
 
             r.readAsArrayBuffer(f as File);
-            
+
             r.onloadend = async () => {
                 const hashPadded = new Uint8Array(8);
                 const hash: Uint8Array = (new Uint8Array(bigintConversion.bigintToBuf(XXH64(Buffer.from(bArr)), true))).subarray(0, 8); // clamp to 64-bit
@@ -79,13 +85,13 @@ export async function getRipInfoMpMulti(from: string | null, files: FileList | u
 
                 const hashHex = hexify(Array.from(hashPadded));
                 const tmp: Uint8Array = new Uint8Array(hashPadded.length + bArr.length);
-                
+
                 if (hashIndexLookup.has(hashHex)) {
                     hashIndexLookup.get(hashHex)?.push(idx);
                 } else {
                     hashIndexLookup.set(hashHex, [idx]);
                 }
-                
+
                 if (bArr.length > 3145728) {
                     ws.dispatchEvent(clientError("Files over 3 MiB not allowed.", Array.from(hashPadded)));
                     return;
@@ -95,7 +101,7 @@ export async function getRipInfoMpMulti(from: string | null, files: FileList | u
                 tmp.set(bArr, hashPadded.length);
                 ws.send(tmp);
             }
-        })
+        });
     }
 
     ws.onerror = () => {

@@ -36,11 +36,15 @@
     }
 
     function drop(ev: DragEvent) {
+        if (!ev.dataTransfer) return;
         blur();
-        if (ev.dataTransfer && ev.dataTransfer.types.filter(t => t === 'Files').length > 0) {
-            files = ev.dataTransfer?.files;
-            dispatch('change');
-        }
+
+        let dtFiles = ev.dataTransfer.types.filter(t => t === 'Files')
+
+        if (dtFiles.length <= 0) return;
+        
+        files = ev.dataTransfer?.files;
+        dispatch('change');
     }
 </script>
 

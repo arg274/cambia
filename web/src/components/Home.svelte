@@ -16,7 +16,7 @@
         <span class="text-5xl md:text-8xl mt-8 tracking-tighter">this is <strong class="gradient-text">cambia.</strong></span>
         <span class="text-xl md:text-2xl mt-2">a tool for assessing compact disc rip logs.</span>
         <div class="mt-8 items-center text-lg md:text-xl">
-            <label for="cursorfiles"><span class="underline decoration-primary-400 decoration-2 md:decoration-4">click here</span>&nbsp;/ paste / drop your files anywhere to get started.</label>
+            <label for="cursorfiles"><span class="underline decoration-primary-400 decoration-2 md:decoration-4">click here</span>&nbsp;/ paste / drop your logs anywhere to get started.</label>
             <input id="cursorfiles" class="hidden" type="file" multiple={true} accept=".log, .txt" bind:files={$fileListStore} on:change={() => {inputChanged($page.route.id)}} />
         </div>
     </div>
