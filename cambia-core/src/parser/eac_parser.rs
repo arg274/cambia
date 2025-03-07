@@ -19,7 +19,9 @@ static SPLIT_SEP: &str = "\r\n--------------------------------------------------
 
 lazy_static! {
     static ref RIPPER_VERSION: Regex = Regex::new(r"Exact Audio Copy (.+) from").unwrap();
-    static ref USED_DRIVE: Regex = Regex::new(r"Used drive( *): (.+)").unwrap();
+    // Drive regex is a bit looser due to certain translations replacing the colon
+    // Since replacement is based on longest match, it cannot be overridden with custom translation rules
+    static ref USED_DRIVE: Regex = Regex::new(r"Used drive( *)(: )?(?P<drive>.+)").unwrap();
     static ref DRIVE_TRIM: Regex = Regex::new(r"\s*Adapter:\s*\d+\s*ID:\s*\d+").unwrap();
     static ref RELEASE_INFO: Regex = Regex::new(r"EAC extraction logfile from .+[\r\n]+(?P<relinfo>.+)").unwrap();
 
@@ -212,7 +214,7 @@ impl Extractor for EacParserSingle {
         let captures = USED_DRIVE.captures(&self.translated_log);
         match captures {
             Some(captures) => {
-                let untrimmed = captures.get(2).unwrap().as_str().trim().to_string();
+                let untrimmed = captures.name("drive").unwrap().as_str().trim().to_string();
                 DRIVE_TRIM.replace_all(&untrimmed, "").to_string()
             },
             None => String::default(),
@@ -378,35 +380,52 @@ impl ParserTrack for EacParserTrack {}
 
 impl Translator for EacParserSingle {
     fn translate(log: String) -> (String, String) {
-        let mut log_lang = &EacLanguage::default();
-        for cur_lang in LANGS.iter() {
-            if log.contains(cur_lang.localised_key.trim()) {
-                log_lang = cur_lang;
-                break;
+        let mut best_lang = &EacLanguage::default();
+        let mut best_translated_log = String::new();
+        let mut max_replacements = 0;
+        
+        let matching_langs: Vec<&&EacLanguage> = LANGS.iter()
+            .filter(|cur_lang| log.contains(cur_lang.localised_key.trim()))
+            .collect();
+        
+        for &log_lang in matching_langs.iter() {
+            if log_lang.lang_id == "47AB3DF2" {
+                // English doesn't need translation
+                return (log_lang.lang_native.to_owned(), log);
+            }
+            
+            tracing::debug!("Translating EAC log from {}", log_lang.lang_id);
+            let patterns = log_lang.table.keys();
+            let ac = AhoCorasickBuilder::new()
+                .match_kind(aho_corasick::MatchKind::LeftmostLongest)
+                .build(patterns)
+                .unwrap();
+            
+            let mut translated_log = String::new();
+            let mut replacements = 0;
+            
+            ac.replace_all_with(&log, &mut translated_log, |_, k, v| {
+                // Case-insensitive on k > 16 but not sure if it's really needed
+                let string_id = log_lang.table.get(k).unwrap();
+                if let Some(en_val) = &L_47AB3DF2_MAP.get(string_id) {
+                    v.push_str(en_val);
+                    replacements += 1;
+                }
+                true
+            });
+            
+            if replacements > max_replacements {
+                max_replacements = replacements;
+                best_lang = log_lang;
+                best_translated_log = translated_log;
             }
         }
         
-        match log_lang.lang_id {
-            "47AB3DF2" => (log_lang.lang_native.to_owned(), log),
-            _ => {
-                tracing::debug!("Translating EAC log from {}", log_lang.lang_id);
-                let patterns = log_lang.table.keys();
-                let ac = AhoCorasickBuilder::new()
-                                                        .match_kind(aho_corasick::MatchKind::LeftmostLongest)
-                                                        .build(patterns)
-                                                        .unwrap();
-                let mut translated_log = String::new();
-                ac.replace_all_with(&log, &mut translated_log, |_, k, v| {
-                    // Case-insensitive on k > 16 but not sure if it's really needed
-                    let string_id = log_lang.table.get(k).unwrap();
-                    if let Some(en_val) = &L_47AB3DF2_MAP.get(string_id) {
-                        v.push_str(en_val);
-                    }
-                    true
-                });
-                (log_lang.lang_native.to_owned(), translated_log)
-            }
+        if matching_langs.is_empty() || max_replacements == 0 {
+            return (EacLanguage::default().lang_native.to_owned(), log);
         }
+        
+        (best_lang.lang_native.to_owned(), best_translated_log)
     }
 }
 
