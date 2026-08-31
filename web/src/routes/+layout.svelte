@@ -98,54 +98,43 @@
 </script>
 
 <svelte:head>
-	{@html `<script>(${setInitialClassState.toString()})();</script>`}
+	<!-- eslint-disable-next-line svelte/no-at-html-tags, no-useless-escape -->
+	{@html `<script>(${setInitialClassState.toString()})();<\/script>`}
 </svelte:head>
 
 <Toast rounded="rounded-none" transitionIn={fade} transitionOut={fade} transitionInParams={{duration: 100}} transitionOutParams={{duration: 100}} />
 <Modal components={modalRegistry} padding="p-0" transitionIn={fade} transitionOut={fade} transitionInParams={{duration: 100}} transitionOutParams={{duration: 100}} />
 <AppShell slotPageHeader="sticky top-0 z-50 backdrop-blur-xl bg-opacity-10" regionPage="scroll-smooth" scrollbarGutter="stable">
 	{#snippet pageHeader()}
-	
-			<AppBar padding="px-4 py-1" background="rounded-br-xl bg-primary-400/10">
-				{#snippet lead()}
-					
-						<a href="{removeRoute($page.url.pathname, $page.route.id)}/">
-							<div class="flex gap-x-2 items-center">
-								<span>cambia</span>
-								<CambiaLogo class="w-5 stroke-black dark:stroke-white stroke-1" />
-								<span><strong>LogTools</strong></span>
-							</div>
-						</a>
-					
-					{/snippet}
-				{#snippet trail()}
-					
-						<div class="flex gap-x-0">
-							<a type="button" class="btn-icon bg-initial hover:variant-soft" href="{removeRoute($page.url.pathname, $page.route.id)}/help"><IconHelp class="icon-lg" /></a>
-							<button type="button" class="btn-icon bg-initial hover:variant-soft" onclick={onToggleHandler}><IconWindowBlackSaturation class="icon-lg" /></button>
-						</div>
-					
-					{/snippet}
-			</AppBar>
-		
+		<AppBar padding="px-4 py-1" background="rounded-br-xl bg-primary-400/10">
+			{#snippet lead()}
+				<a href="{removeRoute(page.url.pathname, page.route.id)}/">
+					<div class="flex gap-x-2 items-center">
+						<span>cambia</span>
+						<CambiaLogo class="w-5 stroke-black dark:stroke-white stroke-1" />
+						<span><strong>LogTools</strong></span>
+					</div>
+				</a>
+			{/snippet}
+			{#snippet trail()}
+				<div class="flex gap-x-0">
+					<a type="button" class="btn-icon bg-initial hover:variant-soft" href="{removeRoute(page.url.pathname, page.route.id)}/help"><IconHelp class="icon-lg" /></a>
+					<button type="button" class="btn-icon bg-initial hover:variant-soft" onclick={onToggleHandler}><IconWindowBlackSaturation class="icon-lg" /></button>
+				</div>
+			{/snippet}
+		</AppBar>
 	{/snippet}
-	<DropScreen bind:files={$fileListStore} on:change={() => {inputChanged(page.route.id)}} >
+	<DropScreen bind:files={$fileListStore} onchange={() => {inputChanged(page.route.id)}} >
 		{@render children?.()}
 	</DropScreen>
 	{#snippet pageFooter()}
-	
-			<AppBar class="mt-10" background="rounded-tr-xl bg-surface-100-800-token">
-				{#snippet lead()}
-					
-						<CambiaLogo class="w-5 stroke-surface-300 dark:stroke-surface-400 stroke-1" />
-					
-					{/snippet}
-				{#snippet trail()}
-					
-						<a href="https://github.com/arg274/cambia" class="btn-icon bg-initial hover:variant-soft" target="_blank"><IconGithub class="icon-lg" /></a>
-					
-					{/snippet}
-			</AppBar>
-		
+		<AppBar class="mt-10" background="rounded-tr-xl bg-surface-100-800-token">
+			{#snippet lead()}
+				<CambiaLogo class="w-5 stroke-surface-300 dark:stroke-surface-400 stroke-1" />
+			{/snippet}
+			{#snippet trail()}
+				<a href="https://github.com/arg274/cambia" class="btn-icon bg-initial hover:variant-soft" target="_blank"><IconGithub class="icon-lg" /></a>
+			{/snippet}
+		</AppBar>
 	{/snippet}
 </AppShell>

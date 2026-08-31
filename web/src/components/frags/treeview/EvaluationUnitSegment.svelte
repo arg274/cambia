@@ -8,7 +8,7 @@
     let { evaluation_unit }: Props = $props();
 
     // TODO: This only applies to OPS for now
-    let neg = typeof evaluation_unit.unit_score === "number" && parseInt(evaluation_unit.unit_score) > 0;
+    const neg = $derived(typeof evaluation_unit.unit_score === "number" && parseInt(evaluation_unit.unit_score) > 0);
 </script>
 
 <div class="grid grid-cols-6 items-center py-0.5">

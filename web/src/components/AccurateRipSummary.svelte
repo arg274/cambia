@@ -13,8 +13,8 @@
     
     
     const boxSize = 8;
-    const n = Math.ceil(Math.sqrt(tracks.length));
-    const n_sq = n * n;
+    const n = $derived(Math.ceil(Math.sqrt(tracks.length)));
+    const n_sq = $derived(n * n);
 
     function getColor(status?: AccurateRipStatus) {
         switch (status) {

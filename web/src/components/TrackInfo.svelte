@@ -1,6 +1,4 @@
 <script lang="ts">
-    import { run } from 'svelte/legacy';
-
     import Color from 'colorjs.io';
 
 	import type { TocRaw } from "$lib/types/TocRaw";
@@ -19,7 +17,6 @@
 
     let { toc, tracks }: Props = $props();
 
-    
     function getTrackLookup(trackEntries: TrackEntry[]): Map<number, number> {
         const trackMap = new Map<number, number>();
 
@@ -30,146 +27,36 @@
         return trackMap;
     }
 
-    function getBlockNum(i: number): number {
-        let laneArea = Math.PI * (((innerRadius + (i + 1) * gapRadius) ** 2) - ((innerRadius + i * gapRadius) ** 2))
-        return Math.round(laneArea / segArea);
-    }
-
-    function getBound(num: number, reverse: boolean = false): number | null {
-        let bound = reverse ? startMinutes.filter(x => x <= num) : endMinutes.filter(x => x >= num);
-        if (bound.length === 0) {
-            return null;
-        }
-        return reverse ? Math.max(...bound) : Math.min(...bound);
-    }
-
-    function getTracksFromMinute(minute: number, reverse: boolean = false): number[] {
-        // HTOA
-        if (minute < startMinutes[0]) {
-            return [-1];
-        }
-
-        let bound = getBound(minute, reverse);
-        if (bound === null) {
-            return [9998];
-        }
-        return reverse ? reverseLookupStart.get(bound)! : reverseLookupEnd.get(bound)!;
-    }
-
-    function getTrackColor(segmentNum: number): Color {
-        // HTOA
-        if (segmentNum < startMinutes[0]) {
-            return getCssColor("color-warning-400");
-        }
-
-        let bound = getBound(segmentNum);
-        if (bound === null) {
-            return getCssColor("color-surface-600");
-        }
-
-        let localTracks = getTracksFromMinute(segmentNum);
-
-        // Data tracks
-        if (toc.data_tracks > 0) {
-            let dataTracks = localTracks.filter(x => ((x > (tracks.length - 1) && x !== 9998)));
-            if (dataTracks.length === 1) {
-                return getCssColor("color-tertiary-400");
-            } else if (dataTracks.length > 1) {
-                // DRM
-                return getCssColor("color-tertiary-600");
-            }
-        }
-        
-        for (let idx = 0; idx < localTracks.length; idx++) {
-            // Not selected during rip
-            if (!rippedTracks.includes(localTracks[idx] + 1)) {
-                return getCssColor("color-surface-200");
-            }
-            const orig_idx = trackLookupMap.get(localTracks[idx] + 1)!;
-            // Aborted
-            if (tracks[orig_idx].aborted) {
-                return getCssColor("color-surface-200");
-            }
-            // T&C
-            if (tracks[orig_idx].test_and_copy.integrity === "Mismatch" || tracks[orig_idx].test_and_copy.integrity_skipzero === "Mismatch") {
-                return errorGradient[orig_idx];
-            }
-            if (tracks[orig_idx].test_and_copy.integrity === "Unknown" && tracks[orig_idx].test_and_copy.integrity_skipzero === "Unknown") {
-                return getCssColor("color-warning-600");
-            }
-            // Errors
-            let errorCount = Object.keys(tracks[orig_idx].errors).length;
-            if (errorCount > 0) {
-                return errorGradient[orig_idx];
-            }
-        }
-        return gradient[endMinutes.indexOf(bound)];
-    }
-
-    function getSegmentText(segmentNum: number) {
-        // HTOA
-        if (segmentNum === 0 && segmentNum < startMinutes[0]) {
-            return "HT";
-        }
-
-        if (!endMinutes.includes(segmentNum)) {
-            return "";
-        }
-
-        let localTracks = getTracksFromMinute(segmentNum);
-
-        // Data tracks
-        if (toc.data_tracks > 0) {
-            let dataTracks = localTracks.filter(x => ((x > (tracks.length - 1) && x !== 9998)));
-            if (dataTracks.length === 1) {
-                return "DAT";
-            } else if (dataTracks.length > 1) {
-                // DRM
-                return "DRM";
-            }
-        }
-
-        return (localTracks.length > 1) ? "TM" : `T${localTracks[0] + 1}`;
-    }
-
-    let reverseLookupEnd: Map<number, number[]> = $state();
-    let reverseLookupStart: Map<number, number[]> = $state();
-
-    let endMinutes: number[] = $state();
-    let startMinutes: number[] = $state();
-
-    let vb: number = $state();
-    let outerRadius: number = $state();
-    let innerRadius: number = $state();
-    let laneCount: number = $state();
-    let minutes: number = $state();
-    let gapRadius: number = $state();
-    let segArea: number = $state();
-    
-    let startColor: Color = getCssColor("color-primary-300");
-    let endColor: Color = getCssColor("color-primary-700");
-    let errorStartColor: Color = getCssColor("color-error-300");
-    let errorEndColor: Color = getCssColor("color-error-700");
-
-    let gradient: Color[] = $state();
-    let errorGradient: Color[] = $state();
-
-    let lanes: LaneDetails[] = $state();
-
-
     function clickHandler(segment: SegmentDetails) {
         const idx = trackLookupMap.get(segment.trackIndices[0] + 1);
         if (idx !== undefined) {
             selectedTrack = idx + 1;
         }
     }
+
     let selectedTrack = $state(1);
-    
+
     let trackLookupMap = $derived(getTrackLookup(tracks));
     let rippedTracks = $derived(Array.from(trackLookupMap.keys()));
-    run(() => {
-        reverseLookupEnd = new Map();
-        reverseLookupStart = new Map();
+
+    const startColor: Color = getCssColor("color-primary-300");
+    const endColor: Color = getCssColor("color-primary-700");
+    const errorStartColor: Color = getCssColor("color-error-300");
+    const errorEndColor: Color = getCssColor("color-error-700");
+
+    interface DiscGeometry {
+        vb: number;
+        outerRadius: number;
+        innerRadius: number;
+        gapRadius: number;
+        lanes: LaneDetails[];
+    }
+
+    // The whole disc is derived in one pass: the helpers below read values
+    // computed earlier in the same pass, so they have to share its scope.
+    const geometry: DiscGeometry = $derived.by(() => {
+        const reverseLookupEnd: Map<number, number[]> = new Map();
+        const reverseLookupStart: Map<number, number[]> = new Map();
 
         for (let idx = 0; idx < toc.entries.length; idx++) {
             let startMinute = Math.round(toc.entries[idx].start_sector / (75 * 60));
@@ -178,41 +65,143 @@
             reverseLookupStart.has(startMinute) ? reverseLookupStart.get(startMinute)!.push(idx) : reverseLookupStart.set(startMinute, [idx]);
         }
 
-        endMinutes = Array.from(reverseLookupEnd.keys());
-        startMinutes = Array.from(reverseLookupStart.keys());
+        const endMinutes: number[] = Array.from(reverseLookupEnd.keys());
+        const startMinutes: number[] = Array.from(reverseLookupStart.keys());
 
-        vb = 36;
-        outerRadius = 100 / (2 * Math.PI);
-        innerRadius = 5;
-        laneCount = 5;
-        minutes = Math.max(Math.ceil(toc.lead_out / (75 * 60)), 80);
-        gapRadius = (outerRadius - innerRadius) / laneCount;
+        const vb = 36;
+        const outerRadius = 100 / (2 * Math.PI);
+        const innerRadius = 5;
+        const laneCount = 5;
+        const minutes = Math.max(Math.ceil(toc.lead_out / (75 * 60)), 80);
+        const gapRadius = (outerRadius - innerRadius) / laneCount;
 
         // Segment count might not always be exact always due to rounding issues
         // Adding 1 so that it doesn't underestimate
-        segArea = (Math.PI * (outerRadius ** 2 - innerRadius ** 2)) / (minutes + 1);
+        const segArea = (Math.PI * (outerRadius ** 2 - innerRadius ** 2)) / (minutes + 1);
 
-        gradient = Color.steps(startColor, endColor, {
+        const gradient: Color[] = Color.steps(startColor, endColor, {
                                 space: "srgb",
                                 outputSpace: "srgb",
                                 steps: endMinutes.length,
                             }).map(plainColor => new Color(plainColor));
-        errorGradient = Color.steps(errorStartColor, errorEndColor, {
+        const errorGradient: Color[] = Color.steps(errorStartColor, errorEndColor, {
                                     space: "srgb",
                                     outputSpace: "srgb",
                                     steps: tracks.length,
                                 }).map(plainColor => new Color(plainColor));
 
+        function getBlockNum(i: number): number {
+            let laneArea = Math.PI * (((innerRadius + (i + 1) * gapRadius) ** 2) - ((innerRadius + i * gapRadius) ** 2))
+            return Math.round(laneArea / segArea);
+        }
+
+        function getBound(num: number, reverse: boolean = false): number | null {
+            let bound = reverse ? startMinutes.filter(x => x <= num) : endMinutes.filter(x => x >= num);
+            if (bound.length === 0) {
+                return null;
+            }
+            return reverse ? Math.max(...bound) : Math.min(...bound);
+        }
+
+        function getTracksFromMinute(minute: number, reverse: boolean = false): number[] {
+            // HTOA
+            if (minute < startMinutes[0]) {
+                return [-1];
+            }
+
+            let bound = getBound(minute, reverse);
+            if (bound === null) {
+                return [9998];
+            }
+            return reverse ? reverseLookupStart.get(bound)! : reverseLookupEnd.get(bound)!;
+        }
+
+        function getTrackColor(segmentNum: number): Color {
+            // HTOA
+            if (segmentNum < startMinutes[0]) {
+                return getCssColor("color-warning-400");
+            }
+
+            let bound = getBound(segmentNum);
+            if (bound === null) {
+                return getCssColor("color-surface-600");
+            }
+
+            let localTracks = getTracksFromMinute(segmentNum);
+
+            // Data tracks
+            if (toc.data_tracks > 0) {
+                let dataTracks = localTracks.filter(x => ((x > (tracks.length - 1) && x !== 9998)));
+                if (dataTracks.length === 1) {
+                    return getCssColor("color-tertiary-400");
+                } else if (dataTracks.length > 1) {
+                    // DRM
+                    return getCssColor("color-tertiary-600");
+                }
+            }
+
+            for (let idx = 0; idx < localTracks.length; idx++) {
+                // Not selected during rip
+                if (!rippedTracks.includes(localTracks[idx] + 1)) {
+                    return getCssColor("color-surface-200");
+                }
+                const orig_idx = trackLookupMap.get(localTracks[idx] + 1)!;
+                // Aborted
+                if (tracks[orig_idx].aborted) {
+                    return getCssColor("color-surface-200");
+                }
+                // T&C
+                if (tracks[orig_idx].test_and_copy.integrity === "Mismatch" || tracks[orig_idx].test_and_copy.integrity_skipzero === "Mismatch") {
+                    return errorGradient[orig_idx];
+                }
+                if (tracks[orig_idx].test_and_copy.integrity === "Unknown" && tracks[orig_idx].test_and_copy.integrity_skipzero === "Unknown") {
+                    return getCssColor("color-warning-600");
+                }
+                // Errors
+                let errorCount = Object.keys(tracks[orig_idx].errors).length;
+                if (errorCount > 0) {
+                    return errorGradient[orig_idx];
+                }
+            }
+            return gradient[endMinutes.indexOf(bound)];
+        }
+
+        function getSegmentText(segmentNum: number) {
+            // HTOA
+            if (segmentNum === 0 && segmentNum < startMinutes[0]) {
+                return "HT";
+            }
+
+            if (!endMinutes.includes(segmentNum)) {
+                return "";
+            }
+
+            let localTracks = getTracksFromMinute(segmentNum);
+
+            // Data tracks
+            if (toc.data_tracks > 0) {
+                let dataTracks = localTracks.filter(x => ((x > (tracks.length - 1) && x !== 9998)));
+                if (dataTracks.length === 1) {
+                    return "DAT";
+                } else if (dataTracks.length > 1) {
+                    // DRM
+                    return "DRM";
+                }
+            }
+
+            return (localTracks.length > 1) ? "TM" : `T${localTracks[0] + 1}`;
+        }
+
         let currentMinute = 0;
 
-        lanes = [];
+        const lanes: LaneDetails[] = [];
 
         for (let l = 0; l < laneCount; l++) {
             let blocks = getBlockNum(l);
             let segments: SegmentDetails[] = [];
             let radius = innerRadius + (l * gapRadius);
             let perimeter = 2 * Math.PI * radius;
-            
+
 
             for (let b = 0; b < blocks; b++) {
                 let unitAngle = 2 * Math.PI / blocks;
@@ -220,7 +209,7 @@
 
                 let darkContrast = trackColor.contrastWCAG21(getCssColor("color-tertiary-900"));
                 let lightContrast = trackColor.contrastWCAG21(getCssColor("color-tertiary-50"));
-                
+
                 segments.push({
                     minute: currentMinute,
                     text: getSegmentText(currentMinute),
@@ -240,7 +229,15 @@
                 segments: segments
             });
         }
+
+        return { vb, outerRadius, innerRadius, gapRadius, lanes };
     });
+
+    const vb = $derived(geometry.vb);
+    const outerRadius = $derived(geometry.outerRadius);
+    const innerRadius = $derived(geometry.innerRadius);
+    const gapRadius = $derived(geometry.gapRadius);
+    const lanes = $derived(geometry.lanes);
 </script>
 
 <style>

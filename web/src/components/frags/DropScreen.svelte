@@ -1,13 +1,25 @@
-<!-- @migration-task Error while migrating Svelte code: $$props is used together with named props in a way that cannot be automatically migrated. -->
 <script lang="ts">
-    import { createEventDispatcher } from 'svelte';
     import classNames from 'classnames';
     import IconCloudUpload from '~icons/carbon/cloud-upload';
-    
-    export let files: FileList | undefined;
+    import type { Snippet } from 'svelte';
+    import type { HTMLInputAttributes } from 'svelte/elements';
 
-    const dispatch = createEventDispatcher();
-    let focused: boolean = false;
+    interface Props extends Omit<HTMLInputAttributes, 'files' | 'class' | 'onchange' | 'children'> {
+        files?: FileList;
+        class?: string;
+        onchange?: () => void;
+        children?: Snippet;
+    }
+
+    let {
+        files = $bindable(),
+        class: className,
+        onchange,
+        children,
+        ...rest
+    }: Props = $props();
+
+    let focused: boolean = $state(false);
 
     const baseClass: string = "fixed top-0 left-0 right-0 group flex flex-col justify-center items-center w-screen h-screen z-max";
     const focusClass = "visible ease-in duration-200 bg-surface-100-800-token";
@@ -18,8 +30,8 @@
     const svgBaseClass = "mt-4 h-36 w-36";
     const svgFocusClass = "";
     const svgBlurClass = "hidden";
-    
-    let input: HTMLInputElement;
+
+    let input: HTMLInputElement | undefined = $state();
 
     function focus() {
         focused = true;
@@ -37,40 +49,35 @@
     }
 
     function drop(ev: DragEvent) {
+        ev.preventDefault();
         if (!ev.dataTransfer) return;
         blur();
 
         let dtFiles = ev.dataTransfer.types.filter(t => t === 'Files')
 
         if (dtFiles.length <= 0) return;
-        
+
         files = ev.dataTransfer?.files;
-        dispatch('change');
+        onchange?.();
     }
 </script>
 
-<svelte:window on:dragenter|stopPropagation={dragenter} />
-<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+<svelte:window ondragenter={(ev) => { ev.stopPropagation(); dragenter(ev); }} />
+<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+<!-- svelte-ignore a11y_click_events_have_key_events -->
 <label
-    class={classNames(baseClass, focused ? focusClass: blurClass, $$props.class)}
+    class={classNames(baseClass, focused ? focusClass: blurClass, className)}
     tabIndex="-1"
-    on:click|preventDefault
-    on:keydown
-    on:focus
-    on:blur
-    on:mouseenter
-    on:mouseleave
-    on:mouseover
-    on:dragenter
-    on:dragleave|preventDefault={blur}
-    on:dragover|preventDefault
-    on:drop|preventDefault={drop}>
+    onclick={(ev) => ev.preventDefault()}
+    ondragleave={(ev) => { ev.preventDefault(); blur(); }}
+    ondragover={(ev) => ev.preventDefault()}
+    ondrop={drop}>
     <div class="flex flex-col justify-center items-center pointer-events-none">
         <IconCloudUpload class={classNames(svgBaseClass, focused ? svgFocusClass : svgBlurClass)} />
         <p class={classNames(textBaseClass, focused ? textFocusClass : textBlurClass)}><span class="font-bold">Drag and drop</span> log files here</p>
     </div>
-    <input {...$$restProps} bind:files bind:this={input} type="file" class="hidden" on:change on:click />
+    <input {...rest} bind:files bind:this={input} type="file" class="hidden" onchange={() => onchange?.()} />
 </label>
 <div class={focused ? classNames("hidden", "pointer-events-none") : "visible h-full"}>
-    <slot />
+    {@render children?.()}
 </div>

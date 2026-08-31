@@ -6,6 +6,7 @@
 	import DtDiscId from "./frags/datatable/DtDiscId.svelte";
 	import DtScore from "./frags/datatable/DtScore.svelte";
 	import DtLead from "./frags/datatable/DtLead.svelte";
+	import { asLegacyComponent } from "$lib/utils";
 
     const table = createTable(responseStore, {page: addPagination()});
 
@@ -13,17 +14,17 @@
         table.column({
             header: 'Lead',
             accessor: (res) => res,
-            cell: (val) => createRender(DtLead, {res: val.value}),
+            cell: (val) => createRender(asLegacyComponent(DtLead), {res: val.value}),
         }),
         table.column({
             header: 'Score',
             accessor: (res) => res,
-            cell: (val) => createRender(DtScore, {res: val.value}),
+            cell: (val) => createRender(asLegacyComponent(DtScore), {res: val.value}),
         }),
         table.column({
             header: 'MBZ DiscID',
             accessor: (res) => res,
-            cell: (val) => createRender(DtDiscId, {res: val.value}),
+            cell: (val) => createRender(asLegacyComponent(DtDiscId), {res: val.value}),
         }),
     ]);
 
@@ -44,12 +45,19 @@
         hasPreviousPage
     } = pluginStates.page;
 
-    let page = $derived({
-        page: $pageIndex,
+    // `bind:settings` mutates this object, so it has to be `$state` rather than
+    // `$derived` — the store values are pushed in through an effect instead.
+    let page: PaginationSettings = $state({
+        page: 0,
         limit: 1,
-        size: $pageCount,
+        size: 0,
         amounts: [1]
-    } as PaginationSettings);
+    });
+
+    $effect(() => {
+        page.page = $pageIndex;
+        page.size = $pageCount;
+    });
 
     function onPageChange(e: CustomEvent) {
         pageIndex.update(_ => e.detail as number);
@@ -76,22 +84,22 @@
 <table class="w-full table-fixed" {...$tableAttrs}>
     <tbody {...$tableBodyAttrs}>
         {#each $pageRows as row (row.id)}
-            <Subscribe rowAttrs={row.attrs()} >
-                {#snippet children({ rowAttrs })}
-                                <tr class="bg-surface-100-800-token" {...rowAttrs}>
+            <Subscribe rowAttrs={row.attrs()}>
+                {#snippet children({ rowAttrs }: { rowAttrs: Record<string, unknown> })}
+                    <tr class="bg-surface-100-800-token" {...rowAttrs}>
                         {#each row.cells as cell (cell.id)}
-                            <Subscribe attrs={cell.attrs()} >
-                                {#snippet children({ attrs })}
-                                                        <td class="py-4 px-2 {getColumnSize(cell.id)}" {...attrs}>
+                            <Subscribe attrs={cell.attrs()}>
+                                {#snippet children({ attrs }: { attrs: Record<string, unknown> })}
+                                    <td class="py-4 px-2 {getColumnSize(cell.id)}" {...attrs}>
                                         <Render of={cell.render()} />
                                     </td>
-                                                                                    {/snippet}
-                                                </Subscribe>
+                                {/snippet}
+                            </Subscribe>
                         {/each}
                     </tr>
                     <div class="h-2"></div>
-                                            {/snippet}
-                        </Subscribe>
+                {/snippet}
+            </Subscribe>
         {/each}
     </tbody>
 </table>

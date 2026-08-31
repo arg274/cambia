@@ -5,7 +5,7 @@
     import { clipboard } from '@skeletonlabs/skeleton';
 	import { copySuccess } from "$lib/utils";
     import { getToastStore } from '@skeletonlabs/skeleton';
-	import type { ComponentType } from 'svelte';
+	import type { IconComponent } from "$lib/types/IconComponent";
 
     const toastStore = getToastStore();
 
@@ -14,7 +14,7 @@
         header: string;
         discid: string;
         url?: string;
-        icon?: ComponentType;
+        icon?: IconComponent;
     }
 
     let {

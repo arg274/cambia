@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ComponentType } from 'svelte';
+	import type { IconComponent } from "$lib/types/IconComponent";
     import IconUnknown from '~icons/carbon/unknown';
     import IconCheckmarkFilled from '~icons/carbon/checkmark-filled';
     import IconCloseFilled from '~icons/carbon/close-filled';
@@ -8,7 +8,7 @@
     interface Props {
         header?: string;
         value: string | number | boolean | null | undefined;
-        icon?: ComponentType;
+        icon?: IconComponent;
         valueOk?: number | null | undefined;
         extra?: import('svelte').Snippet;
     }

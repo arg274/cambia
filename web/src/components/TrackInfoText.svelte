@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { run, preventDefault } from 'svelte/legacy';
+    import { untrack } from 'svelte';
 
 	import { Paginator, Accordion, AccordionItem, type PaginationSettings } from "@skeletonlabs/skeleton";
     import IconSplitScreen from '~icons/carbon/split-screen';
@@ -25,20 +25,20 @@
         selectedTrack: number;
     }
 
-    let { tracks, selectedTrack }: Props = $props();
+    let { tracks, selectedTrack = $bindable() }: Props = $props();
 
     // TODO: Lots of functionality duped from LogView paginator
 
     let page = $state({
         page: 0,
         limit: 1,
-        size: tracks.length,
+        size: untrack(() => tracks.length),
         amounts: [1]
     } as PaginationSettings);
     
     let outerTrack = $derived(selectedTrack);
     let inputPage = $state(selectedTrack);
-    let inputEl: HTMLInputElement = $state();
+    let inputEl: HTMLInputElement | undefined = $state();
 
     function onPageChange() {
         inputPage = page.page + 1;
@@ -75,13 +75,16 @@
         }
     }
 
-    function selectText(e: MouseEvent) {
-        inputEl.select();
+    function selectText() {
+        inputEl?.select();
     }
     
-    run(() => {
-        inputPage = outerTrack;
-        gotoPage();
+    $effect(() => {
+        const track = outerTrack;
+        untrack(() => {
+            inputPage = track;
+            gotoPage();
+        });
     });
 </script>
 {#if tracks.length > 0}
@@ -89,7 +92,7 @@
         <div class="flex justify-center md:justify-end md:items-center items-end gap-2 mb-2">
             <Paginator bind:settings={page} on:page={onPageChange}></Paginator>
             <div class="flex justify-end items-center hide-scroll-numinput">
-                <input type="number" required bind:value={inputPage} class="w-12 variant-filled py-1.5 text-center text-sm rounded-l-full" onkeypress={pageInputHandler} onclick={preventDefault(selectText)} bind:this={inputEl} />
+                <input type="number" required bind:value={inputPage} class="w-12 variant-filled py-1.5 text-center text-sm rounded-l-full" onkeypress={pageInputHandler} onclick={(e) => { e.preventDefault(); selectText(); }} bind:this={inputEl} />
                 <button type="button" class="variant-filled py-1.5 px-2 rounded-r-full" onclick={gotoPage}><IconArrowRight /></button>
             </div>
         </div>
@@ -141,20 +144,15 @@
                 {#each Object.keys(tracks[page.page].errors) as errorType}
                     <AccordionItem>
                         {#snippet lead()}
-                                            
                                 <IconCheckmarkFilledError />
-                            
-                                            {/snippet}
+                        {/snippet}
                         {#snippet summary()}
-                                            
                                 <div class="flex justify-between items-center">
                                     <span class="first-letter:capitalize text-sm">{errorType}</span>
                                     <span class="chip variant-soft-error rounded-full">{tracks[page.page].errors[errorType].count}</span>
                                 </div>
-                            
-                                            {/snippet}
+                        {/snippet}
                         {#snippet content()}
-                                            
                                 {#if tracks[page.page].errors[errorType].ranges.length > 0}
                                     {#each tracks[page.page].errors[errorType].ranges as errorRange}
                                         <div class="flex justify-between items-center">
@@ -174,8 +172,7 @@
                                 {:else}
                                     <span class="text-xs">Position data not available/applicable.</span>
                                 {/if}
-                            
-                                            {/snippet}
+                        {/snippet}
                     </AccordionItem>
                 {/each}
             </Accordion>

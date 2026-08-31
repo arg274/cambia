@@ -25,7 +25,8 @@
 
     let { parsedLog, evaluation }: Props = $props();
 
-    let evMap: Record<EvaluationUnitField, number> = $state({
+    const evMap: Record<EvaluationUnitField, number> = $derived.by(() => {
+		const map: Record<EvaluationUnitField, number> = {
 		Encoding: 0,
 		RipperVersion: 0,
 		Drive: 0,
@@ -61,13 +62,17 @@
 		InconsistentErrorSectors: 0,
 		DamagedSector: 0,
 		Abort: 0
+		};
+
+		evaluation.evaluation_units.forEach((unit) => {
+			if (unit.data.scope === "Release") {
+				const { field } = unit.data;
+				map[field] = map[field] + 1;
+			}
+		});
+
+		return map;
 	});
-    evaluation.evaluation_units.forEach((unit) => {
-        if (unit.data.scope === "Release") {
-            const { field } = unit.data;
-            evMap[field] = evMap[field] + 1;
-        }
-    });
 </script>
 
 <Card header="Rip Settings">

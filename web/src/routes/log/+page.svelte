@@ -1,28 +1,26 @@
 <script lang="ts">
-    import { run } from 'svelte/legacy';
-
     import { browser } from '$app/environment';
 	import LogView from '../../components/LogView.svelte';
-    
-    import { page } from '$app/stores'
+
+    import { page } from '$app/state'
 	import type { CambiaResponse } from '$lib/types/CambiaResponse';
 	import { hashIndexLookup, responseStore } from '$lib/LogStore';
 	import { goto } from '$app/navigation';
 	import { removeRoute } from '$lib/utils';
 
-    let logId: string | null = $state();
-    let res: CambiaResponse | null = $state();
+    let logId: string | null = $state(null);
+    let res: CambiaResponse | null = $state(null);
 
-    run(() => {
+    $effect(() => {
         if (browser) {
             // TODO: See if this can solved using PageData at some other point
-            logId = $page.url.searchParams.get("id");
+            logId = page.url.searchParams.get("id");
             const indices = logId ? hashIndexLookup.get(logId) : undefined;
             if (indices !== undefined && indices.length > 0 && $responseStore[indices[0]].status === 'processed') {
                 // Outer guards ensure that this never contains a CambiaError
                 res = $responseStore[indices[0]].content as CambiaResponse | null;
             } else {
-                goto(`${removeRoute(location.pathname, $page.route.id)}/`);
+                goto(`${removeRoute(location.pathname, page.route.id)}/`);
             }
         }
     });

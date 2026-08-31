@@ -21,7 +21,8 @@
 
     let { parsedLog, evaluation }: Props = $props();
 
-    let evMap: Record<EvaluationUnitField, number> = $state({
+    const evMap: Record<EvaluationUnitField, number> = $derived.by(() => {
+		const map: Record<EvaluationUnitField, number> = {
 		Encoding: 0,
 		RipperVersion: 0,
 		Drive: 0,
@@ -57,13 +58,17 @@
 		InconsistentErrorSectors: 0,
 		DamagedSector: 0,
 		Abort: 0
+		};
+
+		evaluation.evaluation_units.forEach((unit) => {
+			if (unit.data.scope === "Release") {
+				const { field } = unit.data;
+				map[field] = map[field] + 1;
+			}
+		});
+
+		return map;
 	});
-    evaluation.evaluation_units.forEach((unit) => {
-        if (unit.data.scope === "Release") {
-            const { field } = unit.data;
-            evMap[field] = evMap[field] + 1;
-        }
-    });
 
     const chipClass = "variant-soft-primary rounded-md text-xs px-2 py-1 font-semibold";
 </script>
@@ -89,7 +94,7 @@
         <InfoSegment icon={IconCdCreateExchange} header="Ripper" value={parsedLog.ripper} valueOk={evMap["Ripper"] + evMap["RipperVersion"]}>
             {#snippet extra()}
                         <div  class={chipClass}>{parsedLog.ripper_version === "Unknown" ? "" : "v"}{parsedLog.ripper_version}</div>
-                    {/snippet}
+            {/snippet}
         </InfoSegment>
         <InfoSegment icon={IconDocumentWordProcessorReference} header="Read mode" value={parsedLog.read_mode} valueOk={evMap["ReadMode"]} />
         <!-- TODO: Merge this with drive -->
@@ -99,7 +104,7 @@
         <InfoSegment icon={IconShowDataCards} header="Drive" value={parsedLog.drive} valueOk={evMap["Drive"]}>
             {#snippet extra()}
                         <div  class={chipClass}>{parsedLog.read_offset && parsedLog.read_offset > 0 ? "+" : ""}{parsedLog.read_offset}</div>
-                    {/snippet}
+            {/snippet}
         </InfoSegment>
         {#if parsedLog.media_type !== "Unknown"}
             <InfoSegment icon={IconCdArchive} header="Media type" value={parsedLog.media_type} />

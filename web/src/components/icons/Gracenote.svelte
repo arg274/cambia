@@ -1,4 +1,12 @@
-<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+<script lang="ts">
+	interface Props {
+		class?: string;
+	}
+
+	let { class: className }: Props = $props();
+</script>
+
+<svg class={className} version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	viewBox="0 0 32 32" fill="currentColor" style="enable-background:new 0 0 32 32;" xml:space="preserve">
 <style type="text/css">
 	.st0{fill-rule:evenodd;clip-rule:evenodd;}

@@ -22,18 +22,18 @@
         hideLabel
     }: Props = $props();
 
-    let popupHover: PopupSettings = {
+    const popupHover: PopupSettings = $derived({
         event: 'hover',
         target: miniName,
         placement: 'top'
-    };
+    });
 
     // FIXME: This is a temp hack
     function opsMap(val: string | undefined): string {
         switch (val) {
             case undefined:
                 return "Good";
-            case "-1" || "0":
+            case "-1":
                 return "NotIdeal";
             default:
                 return "Bad";

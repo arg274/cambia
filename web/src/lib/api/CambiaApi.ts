@@ -7,8 +7,7 @@ import { XXH64 } from 'xxh3-ts';
 import { clientError, hexify, isCambiaError, isCambiaResponse, removeRoute } from "$lib/utils";
 import type { CambiaError } from "$lib/types/CambiaError";
 import { goto } from "$app/navigation";
-import { page } from '$app/stores';
-import { get } from "svelte/store";
+import { page } from '$app/state';
 
 export async function getRipInfoMpMulti(from: string | null, files: FileList | undefined, signal: AbortSignal) {
     const endpoint = `${location.protocol.startsWith("https") ? "wss" : "ws"}://${location.host}${removeRoute(location.pathname, from)}`;
@@ -110,6 +109,6 @@ export async function getRipInfoMpMulti(from: string | null, files: FileList | u
             message: "Connection to the API failed."
         };
         errorStore.set(error);
-        goto(`${removeRoute(location.pathname, get(page).route.id)}/error`);
+        goto(`${removeRoute(location.pathname, page.route.id)}/error`);
     }
 }

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { page } from "$app/stores";
+	import { page } from "$app/state";
 	import type { ResponseEntry } from "$lib/types/ResponseEntry";
 	import { hexify, isCambiaError, isCambiaResponse, nonNullAssert, removeRoute } from "$lib/utils";
 	import InfoOverview from "../../InfoOverview.svelte";
@@ -19,7 +19,7 @@
 		</div>
 	{:else if res.content && isCambiaResponse(res.content) && res.status === "processed"}
 		{@const content = nonNullAssert(res.content)}
-		<a class="font-mono text-xs text-ellipsis line-clamp-1" href="{removeRoute(location.pathname, $page.route.id)}/log?id={hexify(content.id)}">{res.filename}</a>
+		<a class="font-mono text-xs text-ellipsis line-clamp-1" href="{removeRoute(location.pathname, page.route.id)}/log?id={hexify(content.id)}">{res.filename}</a>
 		<InfoOverview parsedLogs={content.parsed} evalCombined={content.evaluation_combined.filter(e => e.evaluator === 'OPS')[0]} />
 	{:else if res.content && isCambiaError(res.content) && res.status === "errored"}
 		<div class="flex flex-col gap-2">

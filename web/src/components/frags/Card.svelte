@@ -19,12 +19,12 @@
         children
     }: Props = $props();
 
-    let infoPopup: PopupSettings = {
+    const infoPopup: PopupSettings = $derived({
         event: 'hover',
         target: `${toCardId(header)}-popup`,
         placement: 'top-start',
         closeQuery: '',
-    }
+    })
 </script>
 
 <div class={classNames("flex flex-col bg-surface-100-800-token p-4 z-10", addClass)} id={toCardId(header)}>

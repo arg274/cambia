@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { preventDefault } from 'svelte/legacy';
-
 	import { Paginator, type PaginationSettings, tocCrawler } from '@skeletonlabs/skeleton';
 	import classNames from 'classnames';
 	import IconArrowRight from '~icons/carbon/arrow-right';
@@ -14,7 +12,7 @@
 	import ChecksumInfo from './ChecksumInfo.svelte';
 	import TrackInfo from './TrackInfo.svelte';
 	import type { CambiaResponse } from '$lib/types/CambiaResponse';
-	import { onMount } from 'svelte';
+	import { onMount, untrack } from 'svelte';
 	import AccurateRipSummary from './AccurateRipSummary.svelte';
 	import CtdbSummary from './CtdbSummary.svelte';
 
@@ -24,16 +22,16 @@
 
 	let { res }: Props = $props();
 	let inputPage = $state(1);
-	let inputEl: HTMLInputElement = $state();
+	let inputEl: HTMLInputElement | undefined = $state();
 
 	// TODO: Any way to get this from Tailwind directly?
 	let mq = window.matchMedia('(min-width: 768px)');
-	let isMd = $derived(mq.matches);
+	let isMd = $state(mq.matches);
 
 	let pageSettings: PaginationSettings = $state({
 		page: 0,
 		limit: 1,
-		size: res.parsed.parsed_logs.length,
+		size: untrack(() => res.parsed.parsed_logs.length),
 		amounts: [1]
 	} as PaginationSettings);
 
@@ -56,8 +54,8 @@
 		}
 	}
 
-	function selectText(e: MouseEvent) {
-		inputEl.select();
+	function selectText() {
+		inputEl?.select();
 	}
 
 	function gotoPage() {
@@ -77,9 +75,11 @@
 	}
 
 	onMount(() => {
-		mq.addEventListener('change', (e) => {
+		const onMediaChange = (e: MediaQueryListEvent) => {
 			isMd = e.matches;
-		});
+		};
+		mq.addEventListener('change', onMediaChange);
+		return () => mq.removeEventListener('change', onMediaChange);
 	});
 </script>
 
@@ -101,7 +101,7 @@
 						bind:value={inputPage}
 						class="w-12 variant-filled py-1.5 text-center text-sm rounded-l-full"
 						onkeypress={pageInputHandler}
-						onclick={preventDefault(selectText)}
+						onclick={(e) => { e.preventDefault(); selectText(); }}
 						bind:this={inputEl}
 					/>
 					<button

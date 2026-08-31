@@ -5,14 +5,14 @@
 	import { copySuccess } from "$lib/utils";
     import { getToastStore } from '@skeletonlabs/skeleton';
 	import type { Integrity } from '$lib/types/Integrity';
-	import type { ComponentType } from 'svelte';
+	import type { IconComponent } from "$lib/types/IconComponent";
 
     const toastStore = getToastStore();
 
     interface Props {
         header: string;
         hash: string;
-        icon?: ComponentType;
+        icon?: IconComponent;
         status: Integrity;
     }
 
@@ -23,18 +23,16 @@
         status
     }: Props = $props();
 
-    let bgColor: string = $state();
-    switch (status) {
-        case "Match":
-            bgColor = "success";
-            break;
-        case "Mismatch":
-            bgColor = "error";
-            break;
-        default:
-            bgColor = "surface";
-            break;
-    }
+    const bgColor: string = $derived.by(() => {
+        switch (status) {
+            case "Match":
+                return "success";
+            case "Mismatch":
+                return "error";
+            default:
+                return "surface";
+        }
+    });
 </script>
 
 {#if hash}

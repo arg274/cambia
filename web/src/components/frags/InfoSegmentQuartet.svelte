@@ -3,7 +3,7 @@
     import IconCheckmarkFilled from '~icons/carbon/checkmark-filled';
     import IconCloseFilled from '~icons/carbon/close-filled';
     import IconUnknown from '~icons/carbon/unknown';
-	import type { ComponentType } from "svelte";
+	import type { IconComponent } from "$lib/types/IconComponent";
 	import { quartetToVariant } from "$lib/utils";
     
 
@@ -11,7 +11,7 @@
         header: string;
         value: Quartet;
         valueOk?: number;
-        icon?: ComponentType;
+        icon?: IconComponent;
     }
 
     let {

@@ -8,7 +8,7 @@
 	import Card from '../../components/frags/Card.svelte';
 
     import type { PageData } from './$types';
-	import type { ComponentType } from 'svelte';
+	import type { IconComponent } from '$lib/types/IconComponent';
 	import Explainable from '../../components/frags/Explainable.svelte';
 
     interface Props {
@@ -17,7 +17,7 @@
 
     let { data }: Props = $props();
 
-    function getPlatformLogo(platform: string): ComponentType {
+    function getPlatformLogo(platform: string): IconComponent {
         switch (platform.toLowerCase()) {
             case "windows":
                 return IconWindows;
@@ -30,7 +30,7 @@
         }
     }
 
-    function getEvaluatorLogo(evaluator: string): ComponentType {
+    function getEvaluatorLogo(evaluator: string): IconComponent {
         switch (evaluator.toLowerCase()) {
             case "orpheus":
                 return Orpheus;

@@ -9,11 +9,9 @@
     }
 
     let { header, sign, arOffset = undefined }: Props = $props();
-    let offset: number | null = $state(null);
-
-    if (arOffset && arOffset !== "Same") {
-        offset = arOffset.Different;
-    }
+    const offset: number | null = $derived(
+        arOffset && arOffset !== "Same" ? arOffset.Different : null
+    );
 </script>
 
 {#if sign}

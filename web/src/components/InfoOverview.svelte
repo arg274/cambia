@@ -10,13 +10,13 @@
 
     let { parsedLogs, evalCombined }: Props = $props();
 
-    const gradeMap = evalCombined.evaluations.map(e => {
+    const gradeMap = $derived(evalCombined.evaluations.map(e => {
         const m: Map<string, string> = new Map();
         e.evaluation_units.forEach(d => {
             m.set(d.data.field, d.unit_score);
         });
         return m;
-    });
+    }));
 </script>
 
 <div class="flex flex-col gap-2">

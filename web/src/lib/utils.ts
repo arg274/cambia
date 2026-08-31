@@ -6,8 +6,18 @@ import type { CambiaError } from './types/CambiaError';
 import { Packr } from 'msgpackr';
 import type { EvaluationUnitScope } from './types/EvaluationUnitScope';
 import type { Quartet } from './types/Quartet';
+import type { Component, ComponentType } from 'svelte';
 
 const packr = new Packr({ useRecords: false });
+
+/**
+ * Skeleton v2 and svelte-headless-table describe component props with Svelte 4's
+ * class-based `ComponentType`. Svelte 5 components are plain functions, which
+ * both libraries render correctly at runtime -- only the types disagree.
+ */
+export function asLegacyComponent<T extends Record<string, any>>(component: Component<T>): ComponentType {
+	return component as unknown as ComponentType;
+}
 
 export function toHeaderId(header: string): string {
 	return header.trim().replaceAll(' ', '-').toLowerCase();
@@ -127,7 +137,7 @@ export function clientError(message: string, id: Array<number> = []): MessageEve
 		message
 	};
 	const packed = packr.pack(err);
-	return new MessageEvent('message', { data: new Blob([packed]) });
+	return new MessageEvent('message', { data: new Blob([new Uint8Array(packed)]) });
 }
 
 export function isCambiaResponse(res: CambiaResponse | CambiaError): res is CambiaResponse {

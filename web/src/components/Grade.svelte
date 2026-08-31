@@ -8,41 +8,34 @@
 
     let { evaluations }: Props = $props();
 
-    const opsEvaluations = evaluations.filter(x => x.evaluator === 'OPS');
+    const opsEvaluations = $derived(evaluations.filter(x => x.evaluator === 'OPS'));
 
-    let status: string = $state();
-    let statusGrade: string = $state("N/A");
+    const grade: { status: string, statusGrade: string } = $derived.by(() => {
+        if (opsEvaluations.length === 0) {
+            return { status: "surface", statusGrade: "N/A" };
+        }
 
-    if (opsEvaluations.length > 0) {
         const score = parseInt(opsEvaluations[0].combined_score);
-        
+
         // TODO: Score-based evaluation is dumb; switch to Cambia eval in future
         switch (true) {
             case (score < 0):
-                status = "error";
-                statusGrade = "F"
-                break;
+                return { status: "error", statusGrade: "F" };
             case (score < 50):
-                status = "warning";
-                statusGrade = "C";
-                break;
+                return { status: "warning", statusGrade: "C" };
             case (score < 80):
-                status = "warning";
-                statusGrade = "B";
-                break;
+                return { status: "warning", statusGrade: "B" };
             case (score < 100):
-                status = "warning";
-                statusGrade = "A"
-                break;
+                return { status: "warning", statusGrade: "A" };
             case (score == 100):
-                status = "success";
-                statusGrade = "S"
-                break;
+                return { status: "success", statusGrade: "S" };
             default:
-                status = "surface";
-                break;
+                return { status: "surface", statusGrade: "N/A" };
         }
-    }
+    });
+
+    const status = $derived(grade.status);
+    const statusGrade = $derived(grade.statusGrade);
 </script>
 <div class="relative overflow-hidden">
     <Card header="Grade" addClass="relative border-4 border-{status}-700 dark:border-{status}-500">
