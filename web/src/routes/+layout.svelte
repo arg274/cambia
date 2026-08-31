@@ -1,7 +1,7 @@
 <script lang='ts'>
 	import '../app.postcss';
 
-	import { AppBar, AppShell, initializeStores, setInitialClassState, Toast, modeCurrent, setModeUserPrefers, setModeCurrent, Modal, getModalStore, type ModalComponent, type ModalSettings } from '@skeletonlabs/skeleton';
+	import { AppBar, AppShell, initializeStores, Toast, modeCurrent, setModeUserPrefers, setModeCurrent, Modal, getModalStore, type ModalComponent, type ModalSettings } from '@skeletonlabs/skeleton';
 	
 	import CambiaLogo from '../components/icons/CambiaLogo.svelte';
 	import IconHelp from '~icons/carbon/help';
@@ -96,11 +96,6 @@
 		});
 	});
 </script>
-
-<svelte:head>
-	<!-- eslint-disable-next-line svelte/no-at-html-tags, no-useless-escape -->
-	{@html `<script>(${setInitialClassState.toString()})();<\/script>`}
-</svelte:head>
 
 <Toast rounded="rounded-none" transitionIn={fade} transitionOut={fade} transitionInParams={{duration: 100}} transitionOutParams={{duration: 100}} />
 <Modal components={modalRegistry} padding="p-0" transitionIn={fade} transitionOut={fade} transitionInParams={{duration: 100}} transitionOutParams={{duration: 100}} />
