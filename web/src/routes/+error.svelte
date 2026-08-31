@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { page } from '$app/stores';
+    import { page } from '$app/state';
 	import DecoGrid from '../components/frags/DecoGrid.svelte';
 </script>
 
@@ -9,13 +9,13 @@
         <div class="flex flex-col">
             <span class="text-5xl md:text-8xl mt-8 font-bold">oops.</span>
             <span class="text-xl md:text-2xl mt-2">oops, something went wrong.</span>
-            {#if $page.error}
+            {#if page.error}
                 <div class="mt-8">
-                    {#if $page.status}
-                        <span class="h-6 chip variant-soft-error rounded-full pointer-events-none">{$page.status}</span>
+                    {#if page.status}
+                        <span class="h-6 chip variant-soft-error rounded-full pointer-events-none">{page.status}</span>
                     {/if}
-                    {#if $page.error.message}
-                        <span class="text-error-700 dark:text-error-400 md:text-sm mt-8 lowercase">{$page.error.message}.</span>
+                    {#if page.error.message}
+                        <span class="text-error-700 dark:text-error-400 md:text-sm mt-8 lowercase">{page.error.message}.</span>
                     {/if}
                 </div>
             {/if}

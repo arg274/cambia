@@ -6,19 +6,29 @@
 	import type { ComponentType } from "svelte";
 	import { quartetToVariant } from "$lib/utils";
     
-    export let header: string;
-    export let value: Quartet;
-    export let valueOk: number = 0;
 
-    export let icon: ComponentType = IconUnknown;
+    interface Props {
+        header: string;
+        value: Quartet;
+        valueOk?: number;
+        icon?: ComponentType;
+    }
+
+    let {
+        header,
+        value,
+        valueOk = 0,
+        icon = IconUnknown
+    }: Props = $props();
 </script>
 
 {#if value}
+    {@const SvelteComponent = icon}
     <div class="flex flex-col px-2 py-1">
         <div class="flex items-center justify-between">
             <div class="flex gap-2 items-center">
                 <div class="w-1 h-4 rounded-full {quartetToVariant(value)}"></div>
-                <svelte:component this={icon} class="icon-sm" />
+                <SvelteComponent class="icon-sm" />
                 <h4 class="dark:font-light text-sm">{header}</h4>
             </div>
             {#if valueOk && valueOk > 0}

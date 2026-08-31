@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { run } from 'svelte/legacy';
+
     import { browser } from '$app/environment';
 	import LogView from '../../components/LogView.svelte';
     
@@ -8,10 +10,10 @@
 	import { goto } from '$app/navigation';
 	import { removeRoute } from '$lib/utils';
 
-    let logId: string | null;
-    let res: CambiaResponse | null;
+    let logId: string | null = $state();
+    let res: CambiaResponse | null = $state();
 
-    $: {
+    run(() => {
         if (browser) {
             // TODO: See if this can solved using PageData at some other point
             logId = $page.url.searchParams.get("id");
@@ -23,7 +25,7 @@
                 goto(`${removeRoute(location.pathname, $page.route.id)}/`);
             }
         }
-    }
+    });
 </script>
 
 {#if res}

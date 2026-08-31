@@ -4,12 +4,23 @@
     import { popup } from '@skeletonlabs/skeleton';
 	import type { PopupSettings } from "@skeletonlabs/skeleton";
 
-    export let gradeMap: Map<string, string>[];
-    export let index: number;
-    export let gradeKey: string;
-    export let actualValue: Quartet;
-    export let miniName: string;
-    export let hideLabel: boolean;
+    interface Props {
+        gradeMap: Map<string, string>[];
+        index: number;
+        gradeKey: string;
+        actualValue: Quartet;
+        miniName: string;
+        hideLabel: boolean;
+    }
+
+    let {
+        gradeMap,
+        index,
+        gradeKey,
+        actualValue,
+        miniName,
+        hideLabel
+    }: Props = $props();
 
     let popupHover: PopupSettings = {
         event: 'hover',

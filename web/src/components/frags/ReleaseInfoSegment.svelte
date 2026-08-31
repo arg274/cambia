@@ -7,13 +7,22 @@
 	import classNames from "classnames";
 	import { onMount } from "svelte";
 
-    export let rels: IRelease[] = [];
-    export let relLog: ReleaseInfo;
-    export let pending: boolean = false;
-    export let mbzTocId: string = "";
+    interface Props {
+        rels?: IRelease[];
+        relLog: ReleaseInfo;
+        pending?: boolean;
+        mbzTocId?: string;
+    }
 
-    let frontImages: IImage[] = [];
-    let errored: boolean = false;
+    let {
+        rels = [],
+        relLog,
+        pending = false,
+        mbzTocId = ""
+    }: Props = $props();
+
+    let frontImages: IImage[] = $state([]);
+    let errored: boolean = $state(false);
 
     const placeholder = "placeholder rounded-none";
     const imgDim = "w-[100px] h-[100px]";

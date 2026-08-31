@@ -5,7 +5,11 @@
 
     let row = 10;
     let column = 10;
-    export let color = "bg-primary-400-500-token"
+    interface Props {
+        color?: string;
+    }
+
+    let { color = "bg-primary-400-500-token" }: Props = $props();
 
     onMount(() => {
         anime({

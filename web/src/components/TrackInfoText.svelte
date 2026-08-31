@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { run, preventDefault } from 'svelte/legacy';
+
 	import { Paginator, Accordion, AccordionItem, type PaginationSettings } from "@skeletonlabs/skeleton";
     import IconSplitScreen from '~icons/carbon/split-screen';
     import IconIncompleteCancel from '~icons/carbon/incomplete-cancel';
@@ -18,21 +20,25 @@
 	import type { TrackEntry } from "$lib/types/TrackEntry";
 	import { nonNullAssert, secondsToMMSS, trimLeftChar } from "$lib/utils";
     
-    export let tracks: TrackEntry[];
-    export let selectedTrack: number;
+    interface Props {
+        tracks: TrackEntry[];
+        selectedTrack: number;
+    }
+
+    let { tracks, selectedTrack }: Props = $props();
 
     // TODO: Lots of functionality duped from LogView paginator
 
-    let page = {
+    let page = $state({
         page: 0,
         limit: 1,
         size: tracks.length,
         amounts: [1]
-    } as PaginationSettings;
+    } as PaginationSettings);
     
-    $: outerTrack = selectedTrack;
-    let inputPage = selectedTrack;
-    let inputEl: HTMLInputElement;
+    let outerTrack = $derived(selectedTrack);
+    let inputPage = $state(selectedTrack);
+    let inputEl: HTMLInputElement = $state();
 
     function onPageChange() {
         inputPage = page.page + 1;
@@ -73,18 +79,18 @@
         inputEl.select();
     }
     
-    $: {
+    run(() => {
         inputPage = outerTrack;
         gotoPage();
-    }
+    });
 </script>
 {#if tracks.length > 0}
     <div>
         <div class="flex justify-center md:justify-end md:items-center items-end gap-2 mb-2">
             <Paginator bind:settings={page} on:page={onPageChange}></Paginator>
             <div class="flex justify-end items-center hide-scroll-numinput">
-                <input type="number" required bind:value={inputPage} class="w-12 variant-filled py-1.5 text-center text-sm rounded-l-full" on:keypress={pageInputHandler} on:click|preventDefault={selectText} bind:this={inputEl} />
-                <button type="button" class="variant-filled py-1.5 px-2 rounded-r-full" on:click={gotoPage}><IconArrowRight /></button>
+                <input type="number" required bind:value={inputPage} class="w-12 variant-filled py-1.5 text-center text-sm rounded-l-full" onkeypress={pageInputHandler} onclick={preventDefault(selectText)} bind:this={inputEl} />
+                <button type="button" class="variant-filled py-1.5 px-2 rounded-r-full" onclick={gotoPage}><IconArrowRight /></button>
             </div>
         </div>
         <div class="flex flex-col gap-4">
@@ -114,14 +120,14 @@
             <InfoSegment header="Integrity" value={tracks[page.page].test_and_copy.integrity} icon={IconDoubleInteger} />
             <InfoSegment header="Integrity (skip zeroes)" value={tracks[page.page].test_and_copy.integrity_skipzero} icon={IconDoubleInteger} />
             
-            {#if tracks[page.page].test_and_copy.integrity === 'Match' }
+            {#if tracks[page.page].test_and_copy.integrity === 'Match'}
                 <ChecksumSegment header="T&C hash" hash={tracks[page.page].test_and_copy.test_hash} icon={IconHashtag} status={tracks[page.page].test_and_copy.integrity} />
             {:else}
                 <ChecksumSegment header="Test hash" hash={tracks[page.page].test_and_copy.test_hash} icon={IconHashtag} status={tracks[page.page].test_and_copy.integrity} />
                 <ChecksumSegment header="Copy hash" hash={tracks[page.page].test_and_copy.copy_hash} icon={IconHashtag} status={tracks[page.page].test_and_copy.integrity} />
             {/if}
 
-            {#if tracks[page.page].test_and_copy.integrity_skipzero === 'Match' }
+            {#if tracks[page.page].test_and_copy.integrity_skipzero === 'Match'}
                 <ChecksumSegment header="T&C hash (skip zeroes)" hash={tracks[page.page].test_and_copy.test_skipzero_hash} icon={IconHashtag} status={tracks[page.page].test_and_copy.integrity_skipzero} />
             {:else}
             <ChecksumSegment header="Test hash (skip zeroes)" hash={tracks[page.page].test_and_copy.test_skipzero_hash} icon={IconHashtag} status={tracks[page.page].test_and_copy.integrity_skipzero} />
@@ -134,36 +140,42 @@
             <Accordion regionPanel="space-y-0" padding="px-2 py-1" class="mt-2">
                 {#each Object.keys(tracks[page.page].errors) as errorType}
                     <AccordionItem>
-                        <svelte:fragment slot="lead">
-                            <IconCheckmarkFilledError />
-                        </svelte:fragment>
-                        <svelte:fragment slot="summary">
-                            <div class="flex justify-between items-center">
-                                <span class="first-letter:capitalize text-sm">{errorType}</span>
-                                <span class="chip variant-soft-error rounded-full">{tracks[page.page].errors[errorType].count}</span>
-                            </div>
-                        </svelte:fragment>
-                        <svelte:fragment slot="content">
-                            {#if tracks[page.page].errors[errorType].ranges.length > 0}
-                                {#each tracks[page.page].errors[errorType].ranges as errorRange}
-                                    <div class="flex justify-between items-center">
-                                        <div>
-                                            <span class="text-xs variant-soft-primary rounded-full py-1 px-2 uppercase">Start</span>
-                                            <span class="text-xs">{secondsToMMSS(parseFloat(errorRange.start))}</span>
-                                        </div>
-                                        {#if errorRange.length}
-                                            <hr class="mx-2 grow !border-b-2 !border-dotted" />
+                        {#snippet lead()}
+                                            
+                                <IconCheckmarkFilledError />
+                            
+                                            {/snippet}
+                        {#snippet summary()}
+                                            
+                                <div class="flex justify-between items-center">
+                                    <span class="first-letter:capitalize text-sm">{errorType}</span>
+                                    <span class="chip variant-soft-error rounded-full">{tracks[page.page].errors[errorType].count}</span>
+                                </div>
+                            
+                                            {/snippet}
+                        {#snippet content()}
+                                            
+                                {#if tracks[page.page].errors[errorType].ranges.length > 0}
+                                    {#each tracks[page.page].errors[errorType].ranges as errorRange}
+                                        <div class="flex justify-between items-center">
                                             <div>
-                                                <span class="text-xs">{secondsToMMSS(parseFloat(errorRange.start) + parseFloat(errorRange.length))}</span>
-                                                <span class="text-xs variant-soft-primary rounded-full py-1 px-2 uppercase">End</span>
+                                                <span class="text-xs variant-soft-primary rounded-full py-1 px-2 uppercase">Start</span>
+                                                <span class="text-xs">{secondsToMMSS(parseFloat(errorRange.start))}</span>
                                             </div>
-                                        {/if}
-                                    </div>
-                                {/each}
-                            {:else}
-                                <span class="text-xs">Position data not available/applicable.</span>
-                            {/if}
-                        </svelte:fragment>
+                                            {#if errorRange.length}
+                                                <hr class="mx-2 grow !border-b-2 !border-dotted" />
+                                                <div>
+                                                    <span class="text-xs">{secondsToMMSS(parseFloat(errorRange.start) + parseFloat(errorRange.length))}</span>
+                                                    <span class="text-xs variant-soft-primary rounded-full py-1 px-2 uppercase">End</span>
+                                                </div>
+                                            {/if}
+                                        </div>
+                                    {/each}
+                                {:else}
+                                    <span class="text-xs">Position data not available/applicable.</span>
+                                {/if}
+                            
+                                            {/snippet}
                     </AccordionItem>
                 {/each}
             </Accordion>

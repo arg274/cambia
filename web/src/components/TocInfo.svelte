@@ -9,7 +9,11 @@
     import IconCheckCircleOutline from "~icons/material-symbols/check-circle-outline";
     import IconAdjustOutline from "~icons/material-symbols/adjust-outline";
 
-    export let toc: Toc;
+    interface Props {
+        toc: Toc;
+    }
+
+    let { toc }: Props = $props();
 </script>
 
 {#if toc.raw.entries.length > 0}

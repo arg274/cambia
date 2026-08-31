@@ -5,11 +5,11 @@
 	import { onMount } from 'svelte';
 	import LogAggregate from '../../components/frags/LogAggregate.svelte';
 	import { removeRoute } from '$lib/utils';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 
     onMount(() => {
         if (!$fileListStore || ($fileListStore && $fileListStore.length == 0)) {
-            goto(`${removeRoute(location.pathname, $page.route.id)}/`);
+            goto(`${removeRoute(location.pathname, page.route.id)}/`);
         }
     });
 

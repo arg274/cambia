@@ -11,7 +11,11 @@
 	import type { ComponentType } from 'svelte';
 	import Explainable from '../../components/frags/Explainable.svelte';
 
-    export let data: PageData;
+    interface Props {
+        data: PageData;
+    }
+
+    let { data }: Props = $props();
 
     function getPlatformLogo(platform: string): ComponentType {
         switch (platform.toLowerCase()) {
@@ -42,6 +46,7 @@
             <Card header="Supported rippers">
                 <div class="ml-1 text-sm flex flex-col gap-y-1">
                     {#each data.rippers as ripper}
+                        {@const SvelteComponent = getPlatformLogo(ripper.platform)}
                         <div class="flex justify-between">
                             <div>
                                 <span class="py-0.5">{ripper.name}</span>
@@ -50,7 +55,7 @@
                                 {/if}
                             </div>
                             <div class="flex gap-4 items-center">
-                                <svelte:component this={getPlatformLogo(ripper.platform)} class="icon-sm" />
+                                <SvelteComponent class="icon-sm" />
                                 <a href={ripper.link} class="bg-initial hover:variant-soft" target="_blank">
                                     <IconArrowUpRight class="icon-xs" />
                                 </a>
@@ -63,11 +68,12 @@
                 <div class="ml-1 flex flex-col gap-y-2">
                     <div class="text-sm flex flex-col gap-y-1">
                         {#each data.evaluators as evaluator}
+                            {@const SvelteComponent_1 = getEvaluatorLogo(evaluator.name)}
                             <div class="flex justify-between">
                                 <span>{evaluator.name}</span>
                                 <div class="flex gap-4 items-center">
                                     <div class="w-5">
-                                        <svelte:component this={getEvaluatorLogo(evaluator.name)} class="icon-sm" />
+                                        <SvelteComponent_1 class="icon-sm" />
                                     </div>
                                     <a href={evaluator.link} class="bg-initial hover:variant-soft" target="_blank">
                                         <IconArrowUpRight class="icon-xs" />

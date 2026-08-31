@@ -9,12 +9,21 @@
 
     const toastStore = getToastStore();
 
-    export let header: string;
-    export let hash: string;
-    export let icon: ComponentType = IconUnknown;
-    export let status: Integrity;
+    interface Props {
+        header: string;
+        hash: string;
+        icon?: ComponentType;
+        status: Integrity;
+    }
 
-    let bgColor: string;
+    let {
+        header,
+        hash,
+        icon = IconUnknown,
+        status
+    }: Props = $props();
+
+    let bgColor: string = $state();
     switch (status) {
         case "Match":
             bgColor = "success";
@@ -29,11 +38,12 @@
 </script>
 
 {#if hash}
+    {@const SvelteComponent = icon}
     <div class="flex flex-col">   
-        <div class="flex items-center"><svelte:component this={icon} class="icon-sm" /><span class="ml-2 dark:font-light text-sm">{header}</span></div>
+        <div class="flex items-center"><SvelteComponent class="icon-sm" /><span class="ml-2 dark:font-light text-sm">{header}</span></div>
         <div class="flex items-center place-items-center justify-between">
             <div class="font-mono grow bg-{bgColor}-400 bg-opacity-25 dark:bg-{bgColor}-900 dark:bg-opacity-25 px-2 py-1 truncate">{hash}</div>
-            <div class="flex"><button type="button" class="btn-icon bg-initial hover:variant-soft" use:clipboard={hash} on:click={() => {copySuccess(toastStore)}} ><IconCopy /></button></div>
+            <div class="flex"><button type="button" class="btn-icon bg-initial hover:variant-soft" use:clipboard={hash} onclick={() => {copySuccess(toastStore)}} ><IconCopy /></button></div>
         </div>
     </div>
 {/if}

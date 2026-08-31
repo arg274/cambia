@@ -3,7 +3,11 @@
     import CambiaLogo from "./icons/CambiaLogo.svelte";
 	import { hexify } from "$lib/utils";
 
-    export let err: CambiaError;
+    interface Props {
+        err: CambiaError;
+    }
+
+    let { err }: Props = $props();
 </script>
 
 <div class="flex flex-col md:items-center">

@@ -6,8 +6,12 @@
 	import type { ReleaseInfo } from "$lib/types/ReleaseInfo";
 	import ReleaseInfoSegment from "./frags/ReleaseInfoSegment.svelte";
 
-    export let mbzTocId: string;
-    export let logRelease: ReleaseInfo;
+    interface Props {
+        mbzTocId: string;
+        logRelease: ReleaseInfo;
+    }
+
+    let { mbzTocId, logRelease }: Props = $props();
 
     const res = (async () => {
         const _res = await getReleasesFromDiscId(mbzTocId);

@@ -1,7 +1,11 @@
 <script lang="ts">
     import type { EvaluationUnit } from "$lib/types/EvaluationUnit";
 
-    export let evaluation_unit: EvaluationUnit;
+    interface Props {
+        evaluation_unit: EvaluationUnit;
+    }
+
+    let { evaluation_unit }: Props = $props();
 
     // TODO: This only applies to OPS for now
     let neg = typeof evaluation_unit.unit_score === "number" && parseInt(evaluation_unit.unit_score) > 0;

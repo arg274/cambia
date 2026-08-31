@@ -2,10 +2,14 @@
 	import type { AccurateRipOffset } from "$lib/types/AccurateRipOffset";
     import IconHashtag from '~icons/carbon/hashtag';
 
-    export let header: string;
-    export let sign: string;
-    export let arOffset: AccurateRipOffset | undefined = undefined;
-    let offset: number | null = null;
+    interface Props {
+        header: string;
+        sign: string;
+        arOffset?: AccurateRipOffset | undefined;
+    }
+
+    let { header, sign, arOffset = undefined }: Props = $props();
+    let offset: number | null = $state(null);
 
     if (arOffset && arOffset !== "Same") {
         offset = arOffset.Different;

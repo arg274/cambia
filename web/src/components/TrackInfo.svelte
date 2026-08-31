@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { run } from 'svelte/legacy';
+
     import Color from 'colorjs.io';
 
 	import type { TocRaw } from "$lib/types/TocRaw";
@@ -10,12 +12,13 @@
 	import classNames from 'classnames';
 	import TrackInfoText from './TrackInfoText.svelte';
 
-    export let toc: TocRaw;
-    export let tracks: TrackEntry[];
+    interface Props {
+        toc: TocRaw;
+        tracks: TrackEntry[];
+    }
 
-    $: selectedTrack = 1;
-    $: trackLookupMap = getTrackLookup(tracks);
-    $: rippedTracks = Array.from(trackLookupMap.keys());
+    let { toc, tracks }: Props = $props();
+
     
     function getTrackLookup(trackEntries: TrackEntry[]): Map<number, number> {
         const trackMap = new Map<number, number>();
@@ -129,31 +132,42 @@
         return (localTracks.length > 1) ? "TM" : `T${localTracks[0] + 1}`;
     }
 
-    let reverseLookupEnd: Map<number, number[]>;
-    let reverseLookupStart: Map<number, number[]>;
+    let reverseLookupEnd: Map<number, number[]> = $state();
+    let reverseLookupStart: Map<number, number[]> = $state();
 
-    let endMinutes: number[];
-    let startMinutes: number[];
+    let endMinutes: number[] = $state();
+    let startMinutes: number[] = $state();
 
-    let vb: number;
-    let outerRadius: number;
-    let innerRadius: number;
-    let laneCount: number;
-    let minutes: number;
-    let gapRadius: number;
-    let segArea: number;
+    let vb: number = $state();
+    let outerRadius: number = $state();
+    let innerRadius: number = $state();
+    let laneCount: number = $state();
+    let minutes: number = $state();
+    let gapRadius: number = $state();
+    let segArea: number = $state();
     
     let startColor: Color = getCssColor("color-primary-300");
     let endColor: Color = getCssColor("color-primary-700");
     let errorStartColor: Color = getCssColor("color-error-300");
     let errorEndColor: Color = getCssColor("color-error-700");
 
-    let gradient: Color[];
-    let errorGradient: Color[];
+    let gradient: Color[] = $state();
+    let errorGradient: Color[] = $state();
 
-    let lanes: LaneDetails[];
+    let lanes: LaneDetails[] = $state();
 
-    $: {
+
+    function clickHandler(segment: SegmentDetails) {
+        const idx = trackLookupMap.get(segment.trackIndices[0] + 1);
+        if (idx !== undefined) {
+            selectedTrack = idx + 1;
+        }
+    }
+    let selectedTrack = $state(1);
+    
+    let trackLookupMap = $derived(getTrackLookup(tracks));
+    let rippedTracks = $derived(Array.from(trackLookupMap.keys()));
+    run(() => {
         reverseLookupEnd = new Map();
         reverseLookupStart = new Map();
 
@@ -226,14 +240,7 @@
                 segments: segments
             });
         }
-    }
-
-    function clickHandler(segment: SegmentDetails) {
-        const idx = trackLookupMap.get(segment.trackIndices[0] + 1);
-        if (idx !== undefined) {
-            selectedTrack = idx + 1;
-        }
-    }
+    });
 </script>
 
 <style>
@@ -252,13 +259,13 @@
             {#if toc.entries.length > 0}
                 {#each lanes as lane}
                     {#each lane.segments as segment}
-                        <!-- svelte-ignore a11y-no-static-element-interactions -->
+                        <!-- svelte-ignore a11y_no_static_element_interactions -->
                         <circle id="minute-{segment.minute}" class={classNames(segment.trackIndices.map(trackIdx => `track-${trackIdx + 1}`), "cursor-pointer hover:stroke-success-400")} cx="{vb / 2}" cy="{vb / 2}" r="{lane.radius}" fill="transparent"
                             stroke="{segment.color}" stroke-width="{gapRadius}"
                             stroke-dasharray="{lane.segmentSize} {lane.segmentGap}"
                             stroke-dashoffset="{segment.offset}"
-                            on:keydown={Function.prototype()}
-                            on:click={() => clickHandler(segment)}></circle>
+                            onkeydown={Function.prototype()}
+                            onclick={() => clickHandler(segment)}></circle>
                         <text
                             class="pointer-events-none"
                             fill="{segment.textColor}"

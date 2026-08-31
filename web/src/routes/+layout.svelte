@@ -14,13 +14,18 @@
 	import DropScreen from '../components/frags/DropScreen.svelte';
 	import { errorStore, fileListStore, hashIndexLookup, inputChanged, processedCount, responseStore} from '$lib/LogStore';
 	import { onMount } from 'svelte';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 
 	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
 	import { storePopup } from '@skeletonlabs/skeleton';
 	import type { CambiaError } from '$lib/types/CambiaError';
 	import { removeRoute } from '$lib/utils';
 	import LoadModal from '../components/frags/LoadModal.svelte';
+	interface Props {
+		children?: import('svelte').Snippet;
+	}
+
+	let { children }: Props = $props();
 
 	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 
@@ -55,18 +60,18 @@
 				modalStore.close();
 				switch ($responseStore[0].status) {
 					case "processed":
-						goto(`${removeRoute(location.pathname, $page.route.id)}/log?id=${hashIndexLookup.keys().next().value}`);
+						goto(`${removeRoute(location.pathname, page.route.id)}/log?id=${hashIndexLookup.keys().next().value}`);
 						break;
 					case "errored":
 						errorStore.set($responseStore[0].content as CambiaError);
-						goto(`${removeRoute(location.pathname, $page.route.id)}/error`)
+						goto(`${removeRoute(location.pathname, page.route.id)}/error`)
 						break;
 					default:
 						console.log("Error");
 						break;
 				}
 			} else if ($fileListStore && $fileListStore.length > 1) {
-				if (location.pathname !== '/logs') goto(`${removeRoute(location.pathname, $page.route.id)}/logs`);
+				if (location.pathname !== '/logs') goto(`${removeRoute(location.pathname, page.route.id)}/logs`);
 			}
 		});
 
@@ -86,7 +91,7 @@
 					}
 				}
 				fileListStore.set(tmp_dt.files);
-				inputChanged($page.route.id);
+				inputChanged(page.route.id);
 			}
 		});
 	});
@@ -99,36 +104,48 @@
 <Toast rounded="rounded-none" transitionIn={fade} transitionOut={fade} transitionInParams={{duration: 100}} transitionOutParams={{duration: 100}} />
 <Modal components={modalRegistry} padding="p-0" transitionIn={fade} transitionOut={fade} transitionInParams={{duration: 100}} transitionOutParams={{duration: 100}} />
 <AppShell slotPageHeader="sticky top-0 z-50 backdrop-blur-xl bg-opacity-10" regionPage="scroll-smooth" scrollbarGutter="stable">
-	<svelte:fragment slot="pageHeader">
-		<AppBar padding="px-4 py-1" background="rounded-br-xl bg-primary-400/10">
-			<svelte:fragment slot="lead">
-				<a href="{removeRoute($page.url.pathname, $page.route.id)}/">
-					<div class="flex gap-x-2 items-center">
-						<span>cambia</span>
-						<CambiaLogo class="w-5 stroke-black dark:stroke-white stroke-1" />
-						<span><strong>LogTools</strong></span>
-					</div>
-				</a>
-			</svelte:fragment>
-			<svelte:fragment slot="trail">
-				<div class="flex gap-x-0">
-					<a type="button" class="btn-icon bg-initial hover:variant-soft" href="{removeRoute($page.url.pathname, $page.route.id)}/help"><IconHelp class="icon-lg" /></a>
-					<button type="button" class="btn-icon bg-initial hover:variant-soft" on:click={onToggleHandler}><IconWindowBlackSaturation class="icon-lg" /></button>
-				</div>
-			</svelte:fragment>
-		</AppBar>
-	</svelte:fragment>
-	<DropScreen bind:files={$fileListStore} on:change={() => {inputChanged($page.route.id)}} >
-		<slot />
+	{#snippet pageHeader()}
+	
+			<AppBar padding="px-4 py-1" background="rounded-br-xl bg-primary-400/10">
+				{#snippet lead()}
+					
+						<a href="{removeRoute($page.url.pathname, $page.route.id)}/">
+							<div class="flex gap-x-2 items-center">
+								<span>cambia</span>
+								<CambiaLogo class="w-5 stroke-black dark:stroke-white stroke-1" />
+								<span><strong>LogTools</strong></span>
+							</div>
+						</a>
+					
+					{/snippet}
+				{#snippet trail()}
+					
+						<div class="flex gap-x-0">
+							<a type="button" class="btn-icon bg-initial hover:variant-soft" href="{removeRoute($page.url.pathname, $page.route.id)}/help"><IconHelp class="icon-lg" /></a>
+							<button type="button" class="btn-icon bg-initial hover:variant-soft" onclick={onToggleHandler}><IconWindowBlackSaturation class="icon-lg" /></button>
+						</div>
+					
+					{/snippet}
+			</AppBar>
+		
+	{/snippet}
+	<DropScreen bind:files={$fileListStore} on:change={() => {inputChanged(page.route.id)}} >
+		{@render children?.()}
 	</DropScreen>
-	<svelte:fragment slot="pageFooter">
-		<AppBar class="mt-10" background="rounded-tr-xl bg-surface-100-800-token">
-			<svelte:fragment slot="lead">
-				<CambiaLogo class="w-5 stroke-surface-300 dark:stroke-surface-400 stroke-1" />
-			</svelte:fragment>
-			<svelte:fragment slot="trail">
-				<a href="https://github.com/arg274/cambia" class="btn-icon bg-initial hover:variant-soft" target="_blank"><IconGithub class="icon-lg" /></a>
-			</svelte:fragment>
-		</AppBar>
-	</svelte:fragment>
+	{#snippet pageFooter()}
+	
+			<AppBar class="mt-10" background="rounded-tr-xl bg-surface-100-800-token">
+				{#snippet lead()}
+					
+						<CambiaLogo class="w-5 stroke-surface-300 dark:stroke-surface-400 stroke-1" />
+					
+					{/snippet}
+				{#snippet trail()}
+					
+						<a href="https://github.com/arg274/cambia" class="btn-icon bg-initial hover:variant-soft" target="_blank"><IconGithub class="icon-lg" /></a>
+					
+					{/snippet}
+			</AppBar>
+		
+	{/snippet}
 </AppShell>

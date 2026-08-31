@@ -4,9 +4,13 @@
     import Orpheus from "../../icons/Orpheus.svelte";
 	import type { ComponentType } from "svelte";
 
-    export let evaluator: EvaluatorType;
+    interface Props {
+        evaluator: EvaluatorType;
+    }
 
-    let icon: ComponentType;
+    let { evaluator }: Props = $props();
+
+    let icon: ComponentType = $state();
 
     switch (evaluator) {
         case "OPS":
@@ -16,8 +20,10 @@
             icon = IconUnknown;
             break;
     }
+
+    const SvelteComponent = $derived(icon);
 </script>
 
 <div class="w-6">
-    <svelte:component this={icon} />
+    <SvelteComponent />
 </div>

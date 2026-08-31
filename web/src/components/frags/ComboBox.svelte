@@ -5,13 +5,24 @@
 	
 	import IconChevronDown from '~icons/carbon/chevron-down';
 
-	export let addListClass: string = "";
-	export let addTriggerClass: string = "";
-	export let textClass: string = "";
-	export let items: string[] = [];
-	export let name: string = "";
 
-    export let value: string = "";
+	interface Props {
+		addListClass?: string;
+		addTriggerClass?: string;
+		textClass?: string;
+		items?: string[];
+		name?: string;
+		value?: string;
+	}
+
+	let {
+		addListClass = "",
+		addTriggerClass = "",
+		textClass = "",
+		items = [],
+		name = "",
+		value = $bindable("")
+	}: Props = $props();
 
     let popupCombobox: PopupSettings = {
         event: 'focus-click',
@@ -40,5 +51,5 @@
 			</ListBoxItem>
 		{/each}
 	</ListBox>
-	<div class="arrow bg-surface-100-800-token" />
+	<div class="arrow bg-surface-100-800-token"></div>
 </div>

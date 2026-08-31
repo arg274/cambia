@@ -4,22 +4,34 @@
     import IconCheckmarkFilled from '~icons/carbon/checkmark-filled';
     import IconCloseFilled from '~icons/carbon/close-filled';
     
-    export let header: string = '';
-    export let value: string | number | boolean | null | undefined;
 
-    export let icon: ComponentType = IconUnknown;
-    export let valueOk: number | null | undefined = null;
+    interface Props {
+        header?: string;
+        value: string | number | boolean | null | undefined;
+        icon?: ComponentType;
+        valueOk?: number | null | undefined;
+        extra?: import('svelte').Snippet;
+    }
+
+    let {
+        header = '',
+        value,
+        icon = IconUnknown,
+        valueOk = null,
+        extra
+    }: Props = $props();
 </script>
 
 {#if value && !value.toString().toLocaleLowerCase().startsWith("null") && !value.toString().toLocaleLowerCase().startsWith("undefined")}
+    {@const SvelteComponent = icon}
     <div class="flex flex-col gap-0.5">
         <div class="flex items-center">
-            <svelte:component this={icon} class="icon-sm" /> <h4 class="ml-1.5 dark:font-light text-sm">{header}</h4>
+            <SvelteComponent class="icon-sm" /> <h4 class="ml-1.5 dark:font-light text-sm">{header}</h4>
         </div>
         <div class="flex items-center gap-2">
             <div class="flex gap-2 items-center">
                 <span class="text-xl font-bold">{value}</span>
-                <slot name="extra"></slot>
+                {@render extra?.()}
             </div>
             {#if valueOk && valueOk > 0}
                 <IconCloseFilled class="text-error-700 dark:text-error-400 icon-sm" />

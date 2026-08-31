@@ -5,8 +5,19 @@
 
     import { toCardId, toHeaderId } from '$lib/utils';
     
-    export let header: string = "";
-    export let addClass: string = "";
+    interface Props {
+        header?: string;
+        addClass?: string;
+        tooltip?: import('svelte').Snippet;
+        children?: import('svelte').Snippet;
+    }
+
+    let {
+        header = "",
+        addClass = "",
+        tooltip,
+        children
+    }: Props = $props();
 
     let infoPopup: PopupSettings = {
         event: 'hover',
@@ -20,15 +31,15 @@
     {#if header}
         <div class="flex items-center justify-between mb-4">
             <h3 class="text-spaced-mini" id={toHeaderId(header)}>{header}</h3>
-            {#if $$slots.tooltip}
+            {#if tooltip}
                 <div class="p-1" use:popup={infoPopup}>
                     <IconHelp class="pointer-events-none" />
                 </div>
                 <div class="text-sm rounded-xl p-4 bg-surface-300/10 backdrop-blur-xl z-max shadow-xl" data-popup="{toCardId(header)}-popup">
-                    <slot name="tooltip"></slot>
+                    {@render tooltip?.()}
                 </div>
             {/if}
         </div>
     {/if}
-    <slot />
+    {@render children?.()}
 </div>

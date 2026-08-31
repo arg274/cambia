@@ -44,12 +44,12 @@
         hasPreviousPage
     } = pluginStates.page;
 
-    $: page = {
+    let page = $derived({
         page: $pageIndex,
         limit: 1,
         size: $pageCount,
         amounts: [1]
-    } as PaginationSettings;
+    } as PaginationSettings);
 
     function onPageChange(e: CustomEvent) {
         pageIndex.update(_ => e.detail as number);
@@ -76,18 +76,22 @@
 <table class="w-full table-fixed" {...$tableAttrs}>
     <tbody {...$tableBodyAttrs}>
         {#each $pageRows as row (row.id)}
-            <Subscribe rowAttrs={row.attrs()} let:rowAttrs>
-                <tr class="bg-surface-100-800-token" {...rowAttrs}>
-                    {#each row.cells as cell (cell.id)}
-                        <Subscribe attrs={cell.attrs()} let:attrs>
-                            <td class="py-4 px-2 {getColumnSize(cell.id)}" {...attrs}>
-                                <Render of={cell.render()} />
-                            </td>
+            <Subscribe rowAttrs={row.attrs()} >
+                {#snippet children({ rowAttrs })}
+                                <tr class="bg-surface-100-800-token" {...rowAttrs}>
+                        {#each row.cells as cell (cell.id)}
+                            <Subscribe attrs={cell.attrs()} >
+                                {#snippet children({ attrs })}
+                                                        <td class="py-4 px-2 {getColumnSize(cell.id)}" {...attrs}>
+                                        <Render of={cell.render()} />
+                                    </td>
+                                                                                    {/snippet}
+                                                </Subscribe>
+                        {/each}
+                    </tr>
+                    <div class="h-2"></div>
+                                            {/snippet}
                         </Subscribe>
-                    {/each}
-                </tr>
-                <div class="h-2"></div>
-            </Subscribe>
         {/each}
     </tbody>
 </table>

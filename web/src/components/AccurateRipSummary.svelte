@@ -4,8 +4,13 @@
 	import Card from "./frags/Card.svelte";
 	import AccurateRipInfoText from "./AccurateRipInfoText.svelte";
 
-    export let tracks: TrackEntry[];
-    $: selectedTrack = 0;
+    interface Props {
+        tracks: TrackEntry[];
+    }
+
+    let { tracks }: Props = $props();
+    let selectedTrack = $state(0);
+    
     
     const boxSize = 8;
     const n = Math.ceil(Math.sqrt(tracks.length));
@@ -56,11 +61,11 @@
             {#each Array(n_sq) as _, trackIdx}
                 {@const ars = tracks[trackIdx]?.ar_info}
                 {@const ar = ars ? ars[ars.length - 1] : undefined}
-                <!-- svelte-ignore a11y-no-static-element-interactions -->
+                <!-- svelte-ignore a11y_no_static_element_interactions -->
                 <div class="{getColor(ar?.status)} hover:bg-success-400 hover:cursor-pointer text-center text-xs content-center"
                     style={cubeGenerator(n)}
-                    on:keydown={Function.prototype()}
-                    on:click={() => {clickHandler(trackIdx)}}>
+                    onkeydown={Function.prototype()}
+                    onclick={() => {clickHandler(trackIdx)}}>
                 </div>
             {/each}
         </div>

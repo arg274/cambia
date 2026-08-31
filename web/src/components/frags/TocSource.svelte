@@ -9,23 +9,34 @@
 
     const toastStore = getToastStore();
 
-    export let header: string;
-    export let discid: string;
-    export let url: string = "";
 
-    export let icon: ComponentType = IconIbmCloudPakData;
+    interface Props {
+        header: string;
+        discid: string;
+        url?: string;
+        icon?: ComponentType;
+    }
+
+    let {
+        header,
+        discid,
+        url = "",
+        icon = IconIbmCloudPakData
+    }: Props = $props();
+
+    const SvelteComponent = $derived(icon);
 </script>
 <div class="flex flex-col">
     <div class="flex items-center">
         <div class="min-w-4">
-            <svelte:component this={icon} />
+            <SvelteComponent />
         </div>
         <span class="ml-1.5 dark:font-light text-sm">{header}</span>
     </div>
     <div class="flex items-center place-items-center justify-between">
         <div class="font-mono grow bg-success-900 bg-surface-50-900-token px-2 py-1 truncate">{discid}</div>
         <div class="flex">
-            <button type="button" class="btn-icon bg-initial hover:variant-soft" use:clipboard={discid} on:click={() => {copySuccess(toastStore)}}><IconCopy /></button>
+            <button type="button" class="btn-icon bg-initial hover:variant-soft" use:clipboard={discid} onclick={() => {copySuccess(toastStore)}}><IconCopy /></button>
             <a type="button" class="btn-icon bg-initial hover:variant-soft {url ? "visible" : "invisible"}" href={url} target="_blank"><IconArrowUpRight /></a>
         </div>
     </div>

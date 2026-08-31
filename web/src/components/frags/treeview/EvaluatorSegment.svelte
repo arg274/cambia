@@ -2,9 +2,13 @@
     import type { EvaluatorType } from "$lib/types/EvaluatorType";
 	import { getScoreVariant } from "$lib/utils";
 
-    export let evaluator: EvaluatorType;
-    export let score: string;
-    export let combinedScore: string;
+    interface Props {
+        evaluator: EvaluatorType;
+        score: string;
+        combinedScore: string;
+    }
+
+    let { evaluator, score, combinedScore }: Props = $props();
 </script>
 
 <div class="py-1.5 flex justify-between items-center">

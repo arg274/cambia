@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { preventDefault } from 'svelte/legacy';
+
 	import { Paginator, type PaginationSettings, tocCrawler } from '@skeletonlabs/skeleton';
 	import classNames from 'classnames';
 	import IconArrowRight from '~icons/carbon/arrow-right';
@@ -16,20 +18,24 @@
 	import AccurateRipSummary from './AccurateRipSummary.svelte';
 	import CtdbSummary from './CtdbSummary.svelte';
 
-	export let res: CambiaResponse;
-	let inputPage = 1;
-	let inputEl: HTMLInputElement;
+	interface Props {
+		res: CambiaResponse;
+	}
+
+	let { res }: Props = $props();
+	let inputPage = $state(1);
+	let inputEl: HTMLInputElement = $state();
 
 	// TODO: Any way to get this from Tailwind directly?
 	let mq = window.matchMedia('(min-width: 768px)');
-	$: isMd = mq.matches;
+	let isMd = $derived(mq.matches);
 
-	let pageSettings: PaginationSettings = {
+	let pageSettings: PaginationSettings = $state({
 		page: 0,
 		limit: 1,
 		size: res.parsed.parsed_logs.length,
 		amounts: [1]
-	} as PaginationSettings;
+	} as PaginationSettings);
 
 	function onPageChange() {
 		inputPage = pageSettings.page + 1;
@@ -94,14 +100,14 @@
 						required
 						bind:value={inputPage}
 						class="w-12 variant-filled py-1.5 text-center text-sm rounded-l-full"
-						on:keypress={pageInputHandler}
-						on:click|preventDefault={selectText}
+						onkeypress={pageInputHandler}
+						onclick={preventDefault(selectText)}
 						bind:this={inputEl}
 					/>
 					<button
 						type="button"
 						class="variant-filled py-1.5 px-2 rounded-r-full"
-						on:click={gotoPage}><IconArrowRight /></button
+						onclick={gotoPage}><IconArrowRight /></button
 					>
 				</div>
 			</div>

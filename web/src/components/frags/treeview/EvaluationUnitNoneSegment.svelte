@@ -2,7 +2,11 @@
 	import type { Checksum } from "$lib/types/Checksum";
 	import Explainable from "../Explainable.svelte";
 
-    export let checksum: Checksum;
+    interface Props {
+        checksum: Checksum;
+    }
+
+    let { checksum }: Props = $props();
 </script>
 
 <div class="text-xs py-2">

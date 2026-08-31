@@ -7,7 +7,11 @@
     import IconDoubleInteger from '~icons/carbon/double-integer';
     import IconCopyFile from '~icons/carbon/copy-file';
 
-    export let checksum: Checksum;
+    interface Props {
+        checksum: Checksum;
+    }
+
+    let { checksum }: Props = $props();
 
 </script>
 

@@ -12,9 +12,13 @@
 	import type { EvaluationUnitAggregate } from "$lib/types/EvaluationUnitAggregate";
 	import type { ParsedLogCombined } from "$lib/types/ParsedLogCombined";
 
-    export let logs: ParsedLogCombined;
-    export let combinedEvals: EvaluationCombined[];
-    export let selectedLogIdx: number;
+    interface Props {
+        logs: ParsedLogCombined;
+        combinedEvals: EvaluationCombined[];
+        selectedLogIdx: number;
+    }
+
+    let { logs, combinedEvals, selectedLogIdx }: Props = $props();
 
     let evaluationCombined = combinedEvals.filter(e => e.evaluator === "OPS")[0];
     let evaluation_units = evaluationCombined.evaluations[selectedLogIdx].evaluation_units;

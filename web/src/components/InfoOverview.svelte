@@ -3,8 +3,12 @@
 	import type { ParsedLogCombined } from "$lib/types/ParsedLogCombined";
 	import InfoOverviewUnit from "./frags/InfoOverviewUnit.svelte";
 
-    export let parsedLogs: ParsedLogCombined;
-    export let evalCombined: EvaluationCombined;
+    interface Props {
+        parsedLogs: ParsedLogCombined;
+        evalCombined: EvaluationCombined;
+    }
+
+    let { parsedLogs, evalCombined }: Props = $props();
 
     const gradeMap = evalCombined.evaluations.map(e => {
         const m: Map<string, string> = new Map();

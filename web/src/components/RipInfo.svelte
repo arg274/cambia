@@ -14,10 +14,14 @@
 	import type { Evaluation } from '$lib/types/Evaluation';
 	import type { EvaluationUnitField } from '$lib/types/EvaluationUnitField';
 
-    export let parsedLog: ParsedLog;
-    export let evaluation: Evaluation;
+    interface Props {
+        parsedLog: ParsedLog;
+        evaluation: Evaluation;
+    }
 
-    let evMap: Record<EvaluationUnitField, number> = {
+    let { parsedLog, evaluation }: Props = $props();
+
+    let evMap: Record<EvaluationUnitField, number> = $state({
 		Encoding: 0,
 		RipperVersion: 0,
 		Drive: 0,
@@ -53,7 +57,7 @@
 		InconsistentErrorSectors: 0,
 		DamagedSector: 0,
 		Abort: 0
-	};
+	});
     evaluation.evaluation_units.forEach((unit) => {
         if (unit.data.scope === "Release") {
             const { field } = unit.data;
@@ -65,23 +69,27 @@
 </script>
 
 <Card header="Rip Info">
-    <div slot="tooltip" class="flex flex-col gap-2">
-        <div class="flex flex-col gap-2 text-xs">
-            <p class="max-w-64 text-balanced">The ripper settings should be adjusted to ensure that all the values match the recommendation.
-                Note that some <strong>rippers</strong>, albeit being <strong>functionally fine</strong>, might be marked as <em>not recommended</em> due to the lack of private tracker support.</p>
-            <div class="flex gap-2 items-center">
-                <IconCheckmarkFilled class="text-success-700 visible dark:text-success-400 icon-sm" />
-                <span>Matches recommended value</span>
-            </div>
-            <div class="flex gap-2 items-center">
-                <IconCloseFilled class="text-error-700 dark:text-error-400 icon-sm" />
-                <span>Not the recommended value</span>
+    {#snippet tooltip()}
+        <div  class="flex flex-col gap-2">
+            <div class="flex flex-col gap-2 text-xs">
+                <p class="max-w-64 text-balanced">The ripper settings should be adjusted to ensure that all the values match the recommendation.
+                    Note that some <strong>rippers</strong>, albeit being <strong>functionally fine</strong>, might be marked as <em>not recommended</em> due to the lack of private tracker support.</p>
+                <div class="flex gap-2 items-center">
+                    <IconCheckmarkFilled class="text-success-700 visible dark:text-success-400 icon-sm" />
+                    <span>Matches recommended value</span>
+                </div>
+                <div class="flex gap-2 items-center">
+                    <IconCloseFilled class="text-error-700 dark:text-error-400 icon-sm" />
+                    <span>Not the recommended value</span>
+                </div>
             </div>
         </div>
-    </div>
+    {/snippet}
     <div class="flex flex-col gap-4">
         <InfoSegment icon={IconCdCreateExchange} header="Ripper" value={parsedLog.ripper} valueOk={evMap["Ripper"] + evMap["RipperVersion"]}>
-            <div slot="extra" class={chipClass}>{parsedLog.ripper_version === "Unknown" ? "" : "v"}{parsedLog.ripper_version}</div>
+            {#snippet extra()}
+                        <div  class={chipClass}>{parsedLog.ripper_version === "Unknown" ? "" : "v"}{parsedLog.ripper_version}</div>
+                    {/snippet}
         </InfoSegment>
         <InfoSegment icon={IconDocumentWordProcessorReference} header="Read mode" value={parsedLog.read_mode} valueOk={evMap["ReadMode"]} />
         <!-- TODO: Merge this with drive -->
@@ -89,7 +97,9 @@
         <InfoSegment icon={IconIbmWatsonLanguageTranslator} header="Language" value={parsedLog.language} />
         <InfoSegment icon={IconWorkspace} header="Gap handling" value={parsedLog.gap_handling} valueOk={evMap["Gap"]} />
         <InfoSegment icon={IconShowDataCards} header="Drive" value={parsedLog.drive} valueOk={evMap["Drive"]}>
-            <div slot="extra" class={chipClass}>{parsedLog.read_offset && parsedLog.read_offset > 0 ? "+" : ""}{parsedLog.read_offset}</div>
+            {#snippet extra()}
+                        <div  class={chipClass}>{parsedLog.read_offset && parsedLog.read_offset > 0 ? "+" : ""}{parsedLog.read_offset}</div>
+                    {/snippet}
         </InfoSegment>
         {#if parsedLog.media_type !== "Unknown"}
             <InfoSegment icon={IconCdArchive} header="Media type" value={parsedLog.media_type} />

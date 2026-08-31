@@ -3,9 +3,13 @@
 	import AccurateRipChecksumSegment from './frags/AccurateRipChecksumSegment.svelte';
 	import InfoSegment from './frags/InfoSegment.svelte';
 
-	export let track: TrackEntry;
+	interface Props {
+		track: TrackEntry;
+	}
 
-	$: ar = track.ar_info[track.ar_info.length - 1];
+	let { track }: Props = $props();
+
+	let ar = $derived(track.ar_info[track.ar_info.length - 1]);
 </script>
 
 <div class="flex flex-col gap-4">

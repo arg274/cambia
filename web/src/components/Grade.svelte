@@ -2,12 +2,16 @@
 	import Card from "./frags/Card.svelte";
     import type { EvaluationCombined } from "$lib/types/EvaluationCombined";
 
-    export let evaluations: EvaluationCombined[];
+    interface Props {
+        evaluations: EvaluationCombined[];
+    }
+
+    let { evaluations }: Props = $props();
 
     const opsEvaluations = evaluations.filter(x => x.evaluator === 'OPS');
 
-    let status: string;
-    let statusGrade: string = "N/A";
+    let status: string = $state();
+    let statusGrade: string = $state("N/A");
 
     if (opsEvaluations.length > 0) {
         const score = parseInt(opsEvaluations[0].combined_score);
