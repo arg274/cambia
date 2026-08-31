@@ -13,19 +13,19 @@
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-4">
             <div class={statusContainerClass}>
                 <span class={statusCountClass}>{$perfectCount}</span>
-                <div class={`${statusLabelClass} variant-soft-success`}>Perfect</div>
+                <div class={`${statusLabelClass} preset-tonal-success`}>Perfect</div>
             </div>
             <div class={statusContainerClass}>
                 <span class={statusCountClass}>{$warningCount}</span>
-                <div class={`${statusLabelClass} variant-soft-warning`}>Warning</div>
+                <div class={`${statusLabelClass} preset-tonal-warning`}>Warning</div>
             </div>
             <div class={statusContainerClass}>
                 <span class={statusCountClass}>{$badCount}</span>
-                <div class={`${statusLabelClass} variant-soft-error`}>Bad</div>
+                <div class={`${statusLabelClass} preset-tonal-error`}>Bad</div>
             </div>
             <div class={statusContainerClass}>
                 <span class={statusCountClass}>{$unknownCount}</span>
-                <div class={`${statusLabelClass} variant-soft-surface`}>Unknown</div>
+                <div class={`${statusLabelClass} preset-tonal-surface`}>Unknown</div>
             </div>
         </div>
     </Card>

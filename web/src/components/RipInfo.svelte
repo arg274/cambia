@@ -70,7 +70,7 @@
 		return map;
 	});
 
-    const chipClass = "variant-soft-primary rounded-md text-xs px-2 py-1 font-semibold";
+    const chipClass = "preset-tonal-primary rounded-md text-xs px-2 py-1 font-semibold";
 </script>
 
 <Card header="Rip Info">

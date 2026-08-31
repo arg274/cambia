@@ -1,4 +1,3 @@
-import type { ToastSettings, ToastStore } from '@skeletonlabs/skeleton';
 import anime from 'animejs';
 import Color from 'colorjs.io';
 import type { CambiaResponse } from './types/CambiaResponse';
@@ -6,18 +5,9 @@ import type { CambiaError } from './types/CambiaError';
 import { Packr } from 'msgpackr';
 import type { EvaluationUnitScope } from './types/EvaluationUnitScope';
 import type { Quartet } from './types/Quartet';
-import type { Component, ComponentType } from 'svelte';
+import { toaster } from './toaster';
 
 const packr = new Packr({ useRecords: false });
-
-/**
- * Skeleton v2 and svelte-headless-table describe component props with Svelte 4's
- * class-based `ComponentType`. Svelte 5 components are plain functions, which
- * both libraries render correctly at runtime -- only the types disagree.
- */
-export function asLegacyComponent<T extends Record<string, any>>(component: Component<T>): ComponentType {
-	return component as unknown as ComponentType;
-}
 
 export function toHeaderId(header: string): string {
 	return header.trim().replaceAll(' ', '-').toLowerCase();
@@ -35,26 +25,34 @@ export function toCardId(header: string): string {
 	return header.trim().replaceAll(' ', '-').toLowerCase() + '-card';
 }
 
-export function copySuccess(toastStore: ToastStore) {
-	const t: ToastSettings = {
-		message: 'Copied to clipboard',
-		background: 'variant-glass-primary',
-		timeout: 3000
-	};
-	toastStore.trigger(t);
+/**
+ * Copies text and reports the outcome. Replaces Skeleton v2's `use:clipboard`
+ * action, which v5 dropped in favour of the platform API.
+ */
+export async function copyToClipboard(value: string) {
+	try {
+		await navigator.clipboard.writeText(value);
+		toaster.create({
+			title: 'Copied to clipboard',
+			type: 'success'
+		});
+	} catch {
+		toaster.create({
+			title: 'Could not copy to clipboard',
+			type: 'error'
+		});
+	}
 }
 
-export function showError(toastStore: ToastStore, err: CambiaError) {
-	const t: ToastSettings = {
-		message: err.message,
-		background: 'variant-glass-error',
-		timeout: 3000
-	};
-	toastStore.trigger(t);
+export function showError(err: CambiaError) {
+	toaster.create({
+		title: err.message,
+		type: 'error'
+	});
 }
 
 export function getCssColor(cssVar: string): Color {
-	return new Color(`rgb(${getComputedStyle(document.body).getPropertyValue('--' + cssVar)})`);
+	return new Color(getComputedStyle(document.documentElement).getPropertyValue('--' + cssVar).trim());
 }
 
 export function getCssColorHex(cssVar: string): string {
@@ -107,14 +105,14 @@ export function getScoreVariant(score: string): string {
 		const numScore = parseFloat(score);
 		switch (true) {
 			case numScore == 100:
-				return 'variant-soft-success';
+				return 'preset-tonal-success';
 			case numScore >= 50:
-				return 'variant-soft-warning';
+				return 'preset-tonal-warning';
 			case numScore < 50:
-				return 'variant-soft-error';
+				return 'preset-tonal-error';
 		}
 	}
-	return 'variant-soft-surface';
+	return 'preset-tonal-surface';
 }
 
 export function getInfoOverviewPopoverText(miniName: string) {

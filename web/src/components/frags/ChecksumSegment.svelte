@@ -1,13 +1,9 @@
 <script lang="ts">
     import IconUnknown from '~icons/carbon/unknown';
     import IconCopy from '~icons/carbon/copy';
-    import { clipboard } from '@skeletonlabs/skeleton';
-	import { copySuccess } from "$lib/utils";
-    import { getToastStore } from '@skeletonlabs/skeleton';
+	import { copyToClipboard } from "$lib/utils";
 	import type { Integrity } from '$lib/types/Integrity';
 	import type { IconComponent } from "$lib/types/IconComponent";
-
-    const toastStore = getToastStore();
 
     interface Props {
         header: string;
@@ -41,7 +37,7 @@
         <div class="flex items-center"><SvelteComponent class="icon-sm" /><span class="ml-2 dark:font-light text-sm">{header}</span></div>
         <div class="flex items-center place-items-center justify-between">
             <div class="font-mono grow bg-{bgColor}-400 bg-opacity-25 dark:bg-{bgColor}-900 dark:bg-opacity-25 px-2 py-1 truncate">{hash}</div>
-            <div class="flex"><button type="button" class="btn-icon bg-initial hover:variant-soft" use:clipboard={hash} onclick={() => {copySuccess(toastStore)}} ><IconCopy /></button></div>
+            <div class="flex"><button type="button" class="btn-icon hover:preset-tonal" onclick={() => copyToClipboard(hash)}><IconCopy /></button></div>
         </div>
     </div>
 {/if}

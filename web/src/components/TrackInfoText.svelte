@@ -1,7 +1,8 @@
 <script lang="ts">
     import { untrack } from 'svelte';
 
-	import { Paginator, Accordion, AccordionItem, type PaginationSettings } from "@skeletonlabs/skeleton";
+	import { Accordion } from "@skeletonlabs/skeleton-svelte";
+    import Paginator from "./frags/Paginator.svelte";
     import IconSplitScreen from '~icons/carbon/split-screen';
     import IconIncompleteCancel from '~icons/carbon/incomplete-cancel';
     import IconSidePanelOpenFilled from '~icons/carbon/side-panel-open-filled';
@@ -29,19 +30,15 @@
 
     // TODO: Lots of functionality duped from LogView paginator
 
-    let page = $state({
-        page: 0,
-        limit: 1,
-        size: untrack(() => tracks.length),
-        amounts: [1]
-    } as PaginationSettings);
+    let pageIndex = $state(0);
+    const pageCount = $derived(tracks.length);
     
     let outerTrack = $derived(selectedTrack);
     let inputPage = $state(selectedTrack);
     let inputEl: HTMLInputElement | undefined = $state();
 
     function onPageChange() {
-        inputPage = page.page + 1;
+        inputPage = pageIndex + 1;
     }
 
     function pageInputHandler(ev: KeyboardEvent) {
@@ -64,15 +61,10 @@
             return;
         }
         const trunc = Math.ceil(inputPage) - 1;
-        if (trunc < 0 || trunc >= page.size) {
+        if (trunc < 0 || trunc >= pageCount) {
             return;
         }
-        page = {
-            page: trunc,
-            limit: 1,
-            size: tracks.length,
-            amounts: [1]
-        }
+        pageIndex = trunc;
     }
 
     function selectText() {
@@ -90,90 +82,88 @@
 {#if tracks.length > 0}
     <div>
         <div class="flex justify-center md:justify-end md:items-center items-end gap-2 mb-2">
-            <Paginator bind:settings={page} on:page={onPageChange}></Paginator>
+            <Paginator count={pageCount} bind:page={pageIndex} {onPageChange} />
             <div class="flex justify-end items-center hide-scroll-numinput">
-                <input type="number" required bind:value={inputPage} class="w-12 variant-filled py-1.5 text-center text-sm rounded-l-full" onkeypress={pageInputHandler} onclick={(e) => { e.preventDefault(); selectText(); }} bind:this={inputEl} />
-                <button type="button" class="variant-filled py-1.5 px-2 rounded-r-full" onclick={gotoPage}><IconArrowRight /></button>
+                <input type="number" required bind:value={inputPage} class="w-12 preset-filled py-1.5 text-center text-sm rounded-l-full" onkeypress={pageInputHandler} onclick={(e) => { e.preventDefault(); selectText(); }} bind:this={inputEl} />
+                <button type="button" class="preset-filled py-1.5 px-2 rounded-r-full" onclick={gotoPage}><IconArrowRight /></button>
             </div>
         </div>
         <div class="flex flex-col gap-4">
             <div class="flex gap-2 items-center">
-                <h6>Track {tracks[page.page].num}</h6>
-                {#if tracks[page.page].aborted}
-                    <div class="variant-soft-error rounded-md text-xs px-2 py-1">Aborted</div>
+                <h6>Track {tracks[pageIndex].num}</h6>
+                {#if tracks[pageIndex].aborted}
+                    <div class="preset-tonal-error rounded-md text-xs px-2 py-1">Aborted</div>
                 {/if}
             </div>
             <div class="flex flex-col gap-4">
-                <InfoSegment icon={IconSplitScreen} header="Track splitting" value={tracks[page.page].is_range ? "Range" : "Split"} />
-                <InfoSegment icon={IconSidePanelOpenFilled} header="Extraction speed" value={`${tracks[page.page].extraction_speed?.toFixed(1)}x`} />
-                <InfoSegment icon={IconMountain} header="Peak level" value={tracks[page.page].peak_level?.toFixed(3)} />
-                <InfoSegment icon={IconMicrophone} header="Gain" value={tracks[page.page].gain} />
-                <InfoSegment icon={IconExpandCategories} header="Pregap length" value={tracks[page.page].pregap_length ? `${parseFloat(nonNullAssert(tracks[page.page].pregap_length)).toFixed(2)} sec` : null} />
-                <InfoSegment icon={IconTransmissionLte} header="Pre-emphasis" value={tracks[page.page].preemphasis} />
+                <InfoSegment icon={IconSplitScreen} header="Track splitting" value={tracks[pageIndex].is_range ? "Range" : "Split"} />
+                <InfoSegment icon={IconSidePanelOpenFilled} header="Extraction speed" value={`${tracks[pageIndex].extraction_speed?.toFixed(1)}x`} />
+                <InfoSegment icon={IconMountain} header="Peak level" value={tracks[pageIndex].peak_level?.toFixed(3)} />
+                <InfoSegment icon={IconMicrophone} header="Gain" value={tracks[pageIndex].gain} />
+                <InfoSegment icon={IconExpandCategories} header="Pregap length" value={tracks[pageIndex].pregap_length ? `${parseFloat(nonNullAssert(tracks[pageIndex].pregap_length)).toFixed(2)} sec` : null} />
+                <InfoSegment icon={IconTransmissionLte} header="Pre-emphasis" value={tracks[pageIndex].preemphasis} />
             </div>
-            {#if tracks[page.page].filenames.length > 0}
+            {#if tracks[pageIndex].filenames.length > 0}
                 <div class="flex flex-col gap-2">   
                     <div class="flex items-center"><IconDocumentBlank class="icon-sm" /><span class="ml-2 dark:font-light text-sm">Filename</span></div>
                     <!-- TODO: Only show the first filename for now -->
                     <!-- Leading slashes in *nix paths need to be trimmed to not mess up RTL -->
-                    <div class="font-mono grow bg-surface-50-900-token px-2 py-1 col-span-9 truncate text-end" dir="rtl">{trimLeftChar(tracks[page.page].filenames[0], "/")}</div>
+                    <div class="font-mono grow bg-surface-50-950 px-2 py-1 col-span-9 truncate text-end" dir="rtl">{trimLeftChar(tracks[pageIndex].filenames[0], "/")}</div>
                 </div>
             {/if}
             <hr class="!border-t-4 !border-dashed" />
-            <InfoSegment header="Integrity" value={tracks[page.page].test_and_copy.integrity} icon={IconDoubleInteger} />
-            <InfoSegment header="Integrity (skip zeroes)" value={tracks[page.page].test_and_copy.integrity_skipzero} icon={IconDoubleInteger} />
+            <InfoSegment header="Integrity" value={tracks[pageIndex].test_and_copy.integrity} icon={IconDoubleInteger} />
+            <InfoSegment header="Integrity (skip zeroes)" value={tracks[pageIndex].test_and_copy.integrity_skipzero} icon={IconDoubleInteger} />
             
-            {#if tracks[page.page].test_and_copy.integrity === 'Match'}
-                <ChecksumSegment header="T&C hash" hash={tracks[page.page].test_and_copy.test_hash} icon={IconHashtag} status={tracks[page.page].test_and_copy.integrity} />
+            {#if tracks[pageIndex].test_and_copy.integrity === 'Match'}
+                <ChecksumSegment header="T&C hash" hash={tracks[pageIndex].test_and_copy.test_hash} icon={IconHashtag} status={tracks[pageIndex].test_and_copy.integrity} />
             {:else}
-                <ChecksumSegment header="Test hash" hash={tracks[page.page].test_and_copy.test_hash} icon={IconHashtag} status={tracks[page.page].test_and_copy.integrity} />
-                <ChecksumSegment header="Copy hash" hash={tracks[page.page].test_and_copy.copy_hash} icon={IconHashtag} status={tracks[page.page].test_and_copy.integrity} />
+                <ChecksumSegment header="Test hash" hash={tracks[pageIndex].test_and_copy.test_hash} icon={IconHashtag} status={tracks[pageIndex].test_and_copy.integrity} />
+                <ChecksumSegment header="Copy hash" hash={tracks[pageIndex].test_and_copy.copy_hash} icon={IconHashtag} status={tracks[pageIndex].test_and_copy.integrity} />
             {/if}
 
-            {#if tracks[page.page].test_and_copy.integrity_skipzero === 'Match'}
-                <ChecksumSegment header="T&C hash (skip zeroes)" hash={tracks[page.page].test_and_copy.test_skipzero_hash} icon={IconHashtag} status={tracks[page.page].test_and_copy.integrity_skipzero} />
+            {#if tracks[pageIndex].test_and_copy.integrity_skipzero === 'Match'}
+                <ChecksumSegment header="T&C hash (skip zeroes)" hash={tracks[pageIndex].test_and_copy.test_skipzero_hash} icon={IconHashtag} status={tracks[pageIndex].test_and_copy.integrity_skipzero} />
             {:else}
-            <ChecksumSegment header="Test hash (skip zeroes)" hash={tracks[page.page].test_and_copy.test_skipzero_hash} icon={IconHashtag} status={tracks[page.page].test_and_copy.integrity_skipzero} />
-            <ChecksumSegment header="Copy hash (skip zeroes)" hash={tracks[page.page].test_and_copy.copy_skipzero_hash} icon={IconHashtag} status={tracks[page.page].test_and_copy.integrity_skipzero} />
+            <ChecksumSegment header="Test hash (skip zeroes)" hash={tracks[pageIndex].test_and_copy.test_skipzero_hash} icon={IconHashtag} status={tracks[pageIndex].test_and_copy.integrity_skipzero} />
+            <ChecksumSegment header="Copy hash (skip zeroes)" hash={tracks[pageIndex].test_and_copy.copy_skipzero_hash} icon={IconHashtag} status={tracks[pageIndex].test_and_copy.integrity_skipzero} />
             {/if}
         </div>
-        {#if Object.keys(tracks[page.page].errors).length > 0}
+        {#if Object.keys(tracks[pageIndex].errors).length > 0}
             <hr class="my-4 !border-t-4 !border-dashed" />
             <div class="flex items-center"><IconWarningAlt /><span class="ml-1 dark:font-light text-sm">Track Errors</span></div>
-            <Accordion regionPanel="space-y-0" padding="px-2 py-1" class="mt-2">
-                {#each Object.keys(tracks[page.page].errors) as errorType}
-                    <AccordionItem>
-                        {#snippet lead()}
-                                <IconCheckmarkFilledError />
-                        {/snippet}
-                        {#snippet summary()}
-                                <div class="flex justify-between items-center">
-                                    <span class="first-letter:capitalize text-sm">{errorType}</span>
-                                    <span class="chip variant-soft-error rounded-full">{tracks[page.page].errors[errorType].count}</span>
-                                </div>
-                        {/snippet}
-                        {#snippet content()}
-                                {#if tracks[page.page].errors[errorType].ranges.length > 0}
-                                    {#each tracks[page.page].errors[errorType].ranges as errorRange}
-                                        <div class="flex justify-between items-center">
-                                            <div>
-                                                <span class="text-xs variant-soft-primary rounded-full py-1 px-2 uppercase">Start</span>
-                                                <span class="text-xs">{secondsToMMSS(parseFloat(errorRange.start))}</span>
-                                            </div>
-                                            {#if errorRange.length}
-                                                <hr class="mx-2 grow !border-b-2 !border-dotted" />
-                                                <div>
-                                                    <span class="text-xs">{secondsToMMSS(parseFloat(errorRange.start) + parseFloat(errorRange.length))}</span>
-                                                    <span class="text-xs variant-soft-primary rounded-full py-1 px-2 uppercase">End</span>
-                                                </div>
-                                            {/if}
+            <Accordion multiple collapsible class="mt-2 space-y-0">
+                {#each Object.keys(tracks[pageIndex].errors) as errorType (errorType)}
+                    <Accordion.Item value={errorType}>
+                        <Accordion.ItemTrigger class="w-full flex items-center gap-2 px-2 py-1">
+                            <IconCheckmarkFilledError />
+                            <div class="grow flex justify-between items-center">
+                                <span class="first-letter:capitalize text-sm">{errorType}</span>
+                                <span class="chip preset-tonal-error rounded-full">{tracks[pageIndex].errors[errorType].count}</span>
+                            </div>
+                        </Accordion.ItemTrigger>
+                        <Accordion.ItemContent class="px-2 py-1">
+                            {#if tracks[pageIndex].errors[errorType].ranges.length > 0}
+                                {#each tracks[pageIndex].errors[errorType].ranges as errorRange}
+                                    <div class="flex justify-between items-center">
+                                        <div>
+                                            <span class="text-xs preset-tonal-primary rounded-full py-1 px-2 uppercase">Start</span>
+                                            <span class="text-xs">{secondsToMMSS(parseFloat(errorRange.start))}</span>
                                         </div>
-                                    {/each}
-                                {:else}
-                                    <span class="text-xs">Position data not available/applicable.</span>
-                                {/if}
-                        {/snippet}
-                    </AccordionItem>
+                                        {#if errorRange.length}
+                                            <hr class="mx-2 grow !border-b-2 !border-dotted" />
+                                            <div>
+                                                <span class="text-xs">{secondsToMMSS(parseFloat(errorRange.start) + parseFloat(errorRange.length))}</span>
+                                                <span class="text-xs preset-tonal-primary rounded-full py-1 px-2 uppercase">End</span>
+                                            </div>
+                                        {/if}
+                                    </div>
+                                {/each}
+                            {:else}
+                                <span class="text-xs">Position data not available/applicable.</span>
+                            {/if}
+                        </Accordion.ItemContent>
+                    </Accordion.Item>
                 {/each}
             </Accordion>
         {/if}

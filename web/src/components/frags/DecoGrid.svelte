@@ -9,7 +9,7 @@
         color?: string;
     }
 
-    let { color = "bg-primary-400-500-token" }: Props = $props();
+    let { color = "bg-primary-400-600" }: Props = $props();
 
     onMount(() => {
         anime({

@@ -1,8 +1,7 @@
 <script lang="ts">
 	import type { Quartet } from "$lib/types/Quartet";
 	import { getInfoOverviewPopoverText } from "$lib/utils";
-    import { popup } from '@skeletonlabs/skeleton';
-	import type { PopupSettings } from "@skeletonlabs/skeleton";
+    import { Tooltip } from '@skeletonlabs/skeleton-svelte';
 
     interface Props {
         gradeMap: Map<string, string>[];
@@ -22,11 +21,6 @@
         hideLabel
     }: Props = $props();
 
-    const popupHover: PopupSettings = $derived({
-        event: 'hover',
-        target: miniName,
-        placement: 'top'
-    });
 
     // FIXME: This is a temp hack
     function opsMap(val: string | undefined): string {
@@ -89,13 +83,17 @@
     }
 </script>
 
-<div class="relative flex-auto flex place-content-center {getColorWrapperDiv(index, gradeKey)} h-{getHeight(actualValue)} [&>*]:pointer-events-none" use:popup={popupHover}>
-    {#if !hideLabel}
-        <div class="hidden sm:block text-xs absolute -bottom-4 {getColorWrapperText(index, gradeKey)}">{miniName}</div>
-    {/if}
-</div>
-
-<!-- https://github.com/skeletonlabs/skeleton/issues/1019 -->
-<div class="card p-2 variant-glass-surface z-50" data-popup={miniName}>
-	<p class="text-xs">{getInfoOverviewPopoverText(miniName)}</p>
-</div>
+<Tooltip openDelay={100} closeDelay={100} positioning={{ placement: 'top' }}>
+    <Tooltip.Trigger
+        class="relative flex-auto flex place-content-center {getColorWrapperDiv(index, gradeKey)} h-{getHeight(actualValue)} [&>*]:pointer-events-none"
+    >
+        {#if !hideLabel}
+            <div class="hidden sm:block text-xs absolute -bottom-4 {getColorWrapperText(index, gradeKey)}">{miniName}</div>
+        {/if}
+    </Tooltip.Trigger>
+    <Tooltip.Positioner>
+        <Tooltip.Content class="card p-2 preset-tonal-surface z-50">
+            <p class="text-xs">{getInfoOverviewPopoverText(miniName)}</p>
+        </Tooltip.Content>
+    </Tooltip.Positioner>
+</Tooltip>

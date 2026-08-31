@@ -1,13 +1,16 @@
 <script lang='ts'>
-	import '../app.postcss';
+	import '../app.css';
 
-	import { AppBar, AppShell, initializeStores, Toast, modeCurrent, setModeUserPrefers, setModeCurrent, Modal, getModalStore, type ModalComponent, type ModalSettings } from '@skeletonlabs/skeleton';
-	
+	import { AppBar, Toast } from '@skeletonlabs/skeleton-svelte';
+	// Skeleton v5 dropped the lightswitch utilities; this repo already carries a
+	// copy of the v2 implementation, so the toggle keeps behaving as before.
+	import { modeCurrent, setModeUserPrefers, setModeCurrent } from '$lib/lightswitch';
+	import { toaster } from '$lib/toaster';
+
 	import CambiaLogo from '../components/icons/CambiaLogo.svelte';
 	import IconHelp from '~icons/carbon/help';
 	import IconWindowBlackSaturation from '~icons/carbon/window-black-saturation';
 	import IconGithub from '~icons/carbon/logo-github';
-	import { fade } from 'svelte/transition';
 
 	import type { AfterNavigate } from '@sveltejs/kit';
 	import { afterNavigate, goto } from '$app/navigation';
@@ -16,29 +19,19 @@
 	import { onMount } from 'svelte';
 	import { page } from '$app/state';
 
-	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
-	import { storePopup } from '@skeletonlabs/skeleton';
 	import type { CambiaError } from '$lib/types/CambiaError';
 	import { removeRoute } from '$lib/utils';
 	import LoadModal from '../components/frags/LoadModal.svelte';
+
 	interface Props {
 		children?: import('svelte').Snippet;
 	}
 
 	let { children }: Props = $props();
 
-	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
-
-	const modalRegistry: Record<string, ModalComponent> = {
-		loadModal: { ref: LoadModal },
-	};
-	
-	initializeStores();
-	const modalStore = getModalStore();
-	const modalSettings: ModalSettings = {
-		type: "component",
-		component: "loadModal"
-	}
+	// v2 drove this through the modal store; LoadModal is itself a full-screen
+	// overlay, so a plain flag is enough.
+	let loading = $state(false);
 
 	function onToggleHandler(): void {
 		$modeCurrent = !$modeCurrent;
@@ -55,9 +48,9 @@
 	onMount(() => {
 		processedCount.subscribe(p => {
 			if ($fileListStore?.length == 1 && p == 0) {
-				modalStore.trigger(modalSettings);
+				loading = true;
 			} else if ($fileListStore?.length == 1 && p == 1) {
-				modalStore.close();
+				loading = false;
 				switch ($responseStore[0].status) {
 					case "processed":
 						goto(`${removeRoute(location.pathname, page.route.id)}/log?id=${hashIndexLookup.keys().next().value}`);
@@ -97,39 +90,52 @@
 	});
 </script>
 
-<Toast rounded="rounded-none" transitionIn={fade} transitionOut={fade} transitionInParams={{duration: 100}} transitionOutParams={{duration: 100}} />
-<Modal components={modalRegistry} padding="p-0" transitionIn={fade} transitionOut={fade} transitionInParams={{duration: 100}} transitionOutParams={{duration: 100}} />
-<AppShell slotPageHeader="sticky top-0 z-50 backdrop-blur-xl bg-opacity-10" regionPage="scroll-smooth" scrollbarGutter="stable">
-	{#snippet pageHeader()}
-		<AppBar padding="px-4 py-1" background="rounded-br-xl bg-primary-400/10">
-			{#snippet lead()}
-				<a href="{removeRoute(page.url.pathname, page.route.id)}/">
-					<div class="flex gap-x-2 items-center">
-						<span>cambia</span>
-						<CambiaLogo class="w-5 stroke-black dark:stroke-white stroke-1" />
-						<span><strong>LogTools</strong></span>
-					</div>
-				</a>
-			{/snippet}
-			{#snippet trail()}
-				<div class="flex gap-x-0">
-					<a type="button" class="btn-icon bg-initial hover:variant-soft" href="{removeRoute(page.url.pathname, page.route.id)}/help"><IconHelp class="icon-lg" /></a>
-					<button type="button" class="btn-icon bg-initial hover:variant-soft" onclick={onToggleHandler}><IconWindowBlackSaturation class="icon-lg" /></button>
-				</div>
-			{/snippet}
-		</AppBar>
+<Toast.Group {toaster}>
+	{#snippet children(toast)}
+		<Toast {toast} class="card preset-filled-surface-100-900 shadow-xl p-3 text-sm min-w-56">
+			<Toast.Title>{toast.title}</Toast.Title>
+		</Toast>
 	{/snippet}
+</Toast.Group>
+
+{#if loading}
+	<LoadModal />
+{/if}
+
+<!-- Skeleton v5 removed AppShell; this is the same three-region layout by hand. -->
+<div id="page" class="w-full h-full overflow-y-auto overflow-x-hidden scroll-smooth" style="scrollbar-gutter: stable;">
+	<div class="sticky top-0 z-50 backdrop-blur-xl">
+		<AppBar class="rounded-br-xl bg-primary-400/10 px-4 py-1">
+			<AppBar.Toolbar class="flex items-center justify-between">
+				<AppBar.Lead>
+					<a href="{removeRoute(page.url.pathname, page.route.id)}/">
+						<div class="flex gap-x-2 items-center">
+							<span>cambia</span>
+							<CambiaLogo class="w-5 stroke-black dark:stroke-white stroke-1" />
+							<span><strong>LogTools</strong></span>
+						</div>
+					</a>
+				</AppBar.Lead>
+				<AppBar.Trail>
+					<div class="flex gap-x-0">
+						<a type="button" class="btn-icon hover:preset-tonal" href="{removeRoute(page.url.pathname, page.route.id)}/help"><IconHelp class="icon-lg" /></a>
+						<button type="button" class="btn-icon hover:preset-tonal" onclick={onToggleHandler}><IconWindowBlackSaturation class="icon-lg" /></button>
+					</div>
+				</AppBar.Trail>
+			</AppBar.Toolbar>
+		</AppBar>
+	</div>
 	<DropScreen bind:files={$fileListStore} onchange={() => {inputChanged(page.route.id)}} >
 		{@render children?.()}
 	</DropScreen>
-	{#snippet pageFooter()}
-		<AppBar class="mt-10" background="rounded-tr-xl bg-surface-100-800-token">
-			{#snippet lead()}
+	<AppBar class="mt-10 rounded-tr-xl bg-surface-100-900 px-4 py-1">
+		<AppBar.Toolbar class="flex items-center justify-between">
+			<AppBar.Lead>
 				<CambiaLogo class="w-5 stroke-surface-300 dark:stroke-surface-400 stroke-1" />
-			{/snippet}
-			{#snippet trail()}
-				<a href="https://github.com/arg274/cambia" class="btn-icon bg-initial hover:variant-soft" target="_blank"><IconGithub class="icon-lg" /></a>
-			{/snippet}
-		</AppBar>
-	{/snippet}
-</AppShell>
+			</AppBar.Lead>
+			<AppBar.Trail>
+				<a href="https://github.com/arg274/cambia" class="btn-icon hover:preset-tonal" target="_blank"><IconGithub class="icon-lg" /></a>
+			</AppBar.Trail>
+		</AppBar.Toolbar>
+	</AppBar>
+</div>

@@ -1,54 +1,96 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-@tailwind variants;
+@import 'tailwindcss';
 
-html, body { @apply h-full overflow-hidden; }
+@plugin '@tailwindcss/forms';
+@plugin '@tailwindcss/typography';
 
-.permalink { @apply invisible; }
-.paginator-label { @apply invisible; }
+@import '@skeletonlabs/skeleton';
+@import './cambia-theme.css';
+
+/* Skeleton's Svelte components ship their own classes; Tailwind 4 needs to be
+   pointed at any source outside this project that it should scan. */
+@source '../node_modules/@skeletonlabs/skeleton-svelte/dist';
+
+/* Tailwind 4 defaults to the `prefers-color-scheme` dark variant; this app
+   drives dark mode with a `.dark` class on <html>. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+	--animate-blob: blob 7s infinite;
+
+	@keyframes blob {
+		0% {
+			transform: translate(0px, 0px) scale(1);
+		}
+		33% {
+			transform: translate(40px, -5px) scale(1.1);
+		}
+		66% {
+			transform: translate(-30px, 20px) scale(0.9);
+		}
+		100% {
+			transform: translate(0px, 0px) scale(1);
+		}
+	}
+
+	--text-xxs: 0.5rem;
+}
+
+@utility z-max {
+	z-index: 9999999999;
+}
+
+html,
+body {
+	@apply h-full overflow-hidden;
+}
+
+.permalink {
+	@apply invisible;
+}
+
 .gradient-text {
 	@apply bg-clip-text text-transparent box-decoration-clone;
-	@apply bg-gradient-to-br;
+	@apply bg-linear-to-br;
 	@apply from-primary-500 to-tertiary-500;
 }
-.tree-item {
-    @apply my-1;
-}
-.tree-item-content {
-    @apply w-full;
-}
+
 .hide-scroll-numinput {
-    input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-    }
-    input[type="number"] {
-        -moz-appearance: textfield;
-    }
+	input[type='number']::-webkit-outer-spin-button,
+	input[type='number']::-webkit-inner-spin-button {
+		-webkit-appearance: none;
+		margin: 0;
+	}
+	input[type='number'] {
+		-moz-appearance: textfield;
+	}
 }
 
 /* TODO: Unify mono text block here */
 
-@layer utilities {
-    .striped div:nth-child(even) {
-        @apply bg-surface-200-700-token rounded-full;
-    }
-    .icon-xs {
-        @apply text-xs min-w-fit;
-    }
-    .icon-sm {
-        @apply text-sm min-w-fit;
-    }
-    .icon-lg {
-        @apply text-xl min-w-fit;
-    }
-    .animation-delay-2000 {
-        animation-delay: 2s;
-    }
-    .text-spaced-mini {
-        @apply p-1 font-medium dark:font-normal tracking-widest uppercase text-xs;
-    }
+@utility striped {
+	div:nth-child(even) {
+		@apply bg-surface-200-800 rounded-full;
+	}
+}
+
+@utility icon-xs {
+	@apply text-xs min-w-fit;
+}
+
+@utility icon-sm {
+	@apply text-sm min-w-fit;
+}
+
+@utility icon-lg {
+	@apply text-xl min-w-fit;
+}
+
+@utility animation-delay-2000 {
+	animation-delay: 2s;
+}
+
+@utility text-spaced-mini {
+	@apply p-1 font-medium dark:font-normal tracking-widest uppercase text-xs;
 }
 
 @font-face {

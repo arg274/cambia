@@ -1,12 +1,11 @@
 <script lang="ts">
     import { responseStore } from "$lib/LogStore";
-    import { createTable, Subscribe, Render, createRender } from "svelte-headless-table";
-    import { addPagination } from 'svelte-headless-table/plugins';
-    import { Paginator, type PaginationSettings } from '@skeletonlabs/skeleton';
+    import { createTable, Subscribe, Render, createRender } from "@humanspeak/svelte-headless-table";
+    import { addPagination } from '@humanspeak/svelte-headless-table/plugins';
+    import Paginator from "./frags/Paginator.svelte";
 	import DtDiscId from "./frags/datatable/DtDiscId.svelte";
 	import DtScore from "./frags/datatable/DtScore.svelte";
 	import DtLead from "./frags/datatable/DtLead.svelte";
-	import { asLegacyComponent } from "$lib/utils";
 
     const table = createTable(responseStore, {page: addPagination()});
 
@@ -14,17 +13,17 @@
         table.column({
             header: 'Lead',
             accessor: (res) => res,
-            cell: (val) => createRender(asLegacyComponent(DtLead), {res: val.value}),
+            cell: (val) => createRender(DtLead, {res: val.value}),
         }),
         table.column({
             header: 'Score',
             accessor: (res) => res,
-            cell: (val) => createRender(asLegacyComponent(DtScore), {res: val.value}),
+            cell: (val) => createRender(DtScore, {res: val.value}),
         }),
         table.column({
             header: 'MBZ DiscID',
             accessor: (res) => res,
-            cell: (val) => createRender(asLegacyComponent(DtDiscId), {res: val.value}),
+            cell: (val) => createRender(DtDiscId, {res: val.value}),
         }),
     ]);
 
@@ -45,22 +44,11 @@
         hasPreviousPage
     } = pluginStates.page;
 
-    // `bind:settings` mutates this object, so it has to be `$state` rather than
-    // `$derived` — the store values are pushed in through an effect instead.
-    let page: PaginationSettings = $state({
-        page: 0,
-        limit: 1,
-        size: 0,
-        amounts: [1]
-    });
+    // The table plugin owns the page index; mirror it for the paginator.
+    let page = $derived($pageIndex);
 
-    $effect(() => {
-        page.page = $pageIndex;
-        page.size = $pageCount;
-    });
-
-    function onPageChange(e: CustomEvent) {
-        pageIndex.update(_ => e.detail as number);
+    function onPageChange(nextPage: number) {
+        pageIndex.update(() => nextPage);
     }
 
     function getColumnSize(cellId: string): string {
@@ -78,7 +66,7 @@
 </script>
 
 <div class="flex self-end items-center">
-    <Paginator bind:settings={page} on:page={onPageChange}></Paginator>
+    <Paginator count={$pageCount} {page} onPageChange={(next) => onPageChange(next)} />
 </div>
 
 <table class="w-full table-fixed" {...$tableAttrs}>
@@ -86,7 +74,7 @@
         {#each $pageRows as row (row.id)}
             <Subscribe rowAttrs={row.attrs()}>
                 {#snippet children({ rowAttrs }: { rowAttrs: Record<string, unknown> })}
-                    <tr class="bg-surface-100-800-token" {...rowAttrs}>
+                    <tr class="bg-surface-100-900" {...rowAttrs}>
                         {#each row.cells as cell (cell.id)}
                             <Subscribe attrs={cell.attrs()}>
                                 {#snippet children({ attrs }: { attrs: Record<string, unknown> })}

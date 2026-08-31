@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Paginator, type PaginationSettings, tocCrawler } from '@skeletonlabs/skeleton';
+	import Paginator from './frags/Paginator.svelte';
 	import classNames from 'classnames';
 	import IconArrowRight from '~icons/carbon/arrow-right';
 
@@ -12,7 +12,7 @@
 	import ChecksumInfo from './ChecksumInfo.svelte';
 	import TrackInfo from './TrackInfo.svelte';
 	import type { CambiaResponse } from '$lib/types/CambiaResponse';
-	import { onMount, untrack } from 'svelte';
+	import { onMount } from 'svelte';
 	import AccurateRipSummary from './AccurateRipSummary.svelte';
 	import CtdbSummary from './CtdbSummary.svelte';
 
@@ -28,15 +28,11 @@
 	let mq = window.matchMedia('(min-width: 768px)');
 	let isMd = $state(mq.matches);
 
-	let pageSettings: PaginationSettings = $state({
-		page: 0,
-		limit: 1,
-		size: untrack(() => res.parsed.parsed_logs.length),
-		amounts: [1]
-	} as PaginationSettings);
+	let pageIndex = $state(0);
+	const pageCount = $derived(res.parsed.parsed_logs.length);
 
 	function onPageChange() {
-		inputPage = pageSettings.page + 1;
+		inputPage = pageIndex + 1;
 	}
 
 	function pageInputHandler(ev: KeyboardEvent) {
@@ -63,15 +59,10 @@
 			return;
 		}
 		const trunc = Math.ceil(inputPage) - 1;
-		if (trunc < 0 || trunc >= pageSettings.size) {
+		if (trunc < 0 || trunc >= pageCount) {
 			return;
 		}
-		pageSettings = {
-			page: trunc,
-			limit: 1,
-			size: res.parsed.parsed_logs.length,
-			amounts: [1]
-		};
+		pageIndex = trunc;
 	}
 
 	onMount(() => {
@@ -85,28 +76,28 @@
 
 {#if res}
 	{@const combinedLog = res.parsed.parsed_logs.length > 1 ? true : false}
-	{@const parsedLog = res.parsed.parsed_logs[pageSettings.page]}
+	{@const parsedLog = res.parsed.parsed_logs[pageIndex]}
 	{@const ev = res.evaluation_combined.filter((ec) => ec.evaluator === 'OPS')[0].evaluations[
-		pageSettings.page
+		pageIndex
 	]}
 	{#if combinedLog}
 		<div class="flex justify-between items-end md:items-center">
 			<span class="text-xs uppercase tracking-widest mb-2 md:mb-0">Combined Log</span>
 			<div class="flex justify-center md:justify-end md:items-center items-end gap-2 mb-2">
-				<Paginator bind:settings={pageSettings} on:page={onPageChange}></Paginator>
+				<Paginator count={pageCount} bind:page={pageIndex} {onPageChange} />
 				<div class="flex justify-end items-center hide-scroll-numinput">
 					<input
 						type="number"
 						required
 						bind:value={inputPage}
-						class="w-12 variant-filled py-1.5 text-center text-sm rounded-l-full"
+						class="w-12 preset-filled py-1.5 text-center text-sm rounded-l-full"
 						onkeypress={pageInputHandler}
 						onclick={(e) => { e.preventDefault(); selectText(); }}
 						bind:this={inputEl}
 					/>
 					<button
 						type="button"
-						class="variant-filled py-1.5 px-2 rounded-r-full"
+						class="preset-filled py-1.5 px-2 rounded-r-full"
 						onclick={gotoPage}><IconArrowRight /></button
 					>
 				</div>
@@ -117,17 +108,17 @@
 	<div class={classNames('flex flex-col gap-y-4', combinedLog ? 'mt-4' : '')}>
 		<ReleaseInfo mbzTocId={parsedLog.toc.mbz.hash} logRelease={parsedLog.release_info} />
 		{#if isMd}
-			<div class="flex flex-col gap-y-4" use:tocCrawler={{ mode: 'generate', queryElements: 'h3' }}>
+			<div class="flex flex-col gap-y-4">
 				<div class="flex gap-x-4">
 					<div class="flex flex-col w-1/2 gap-4">
 						{#key res.evaluation_combined}
 							<Grade evaluations={res.evaluation_combined} />
 						{/key}
-						{#key pageSettings}
+						{#key pageIndex}
 							<EvaluationInfo
 								logs={res.parsed}
 								combinedEvals={res.evaluation_combined}
-								selectedLogIdx={pageSettings.page}
+								selectedLogIdx={pageIndex}
 							/>
 						{/key}
 						<TocInfo toc={parsedLog.toc} />
@@ -154,11 +145,11 @@
 				{#key res.evaluation_combined}
 					<Grade evaluations={res.evaluation_combined} />
 				{/key}
-				{#key pageSettings}
+				{#key pageIndex}
 					<EvaluationInfo
 						logs={res.parsed}
 						combinedEvals={res.evaluation_combined}
-						selectedLogIdx={pageSettings.page}
+						selectedLogIdx={pageIndex}
 					/>
 				{/key}
 				<RipInfo {parsedLog} evaluation={ev} />

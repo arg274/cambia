@@ -15,7 +15,7 @@
 <div class="flex flex-col gap-y-1 pr-4">
     {#if sources && sources.length > 0}
         {#each sources as source}
-            <a class="chip variant-soft font-mono rounded-full" href={source.url} target="_blank">
+            <a class="chip preset-tonal font-mono rounded-full" href={source.url} target="_blank">
                 <span class="hidden sm:block text-ellipsis line-clamp-1">{source.hash}</span>
                 <div class="sm:hidden w-4">
                     <MusicBrainz />
@@ -24,6 +24,6 @@
             </a>
         {/each}
     {:else}
-        <div class="chip variant-soft font-mono rounded-full cursor-default">N/A</div>
+        <div class="chip preset-tonal font-mono rounded-full cursor-default">N/A</div>
     {/if}
 </div>

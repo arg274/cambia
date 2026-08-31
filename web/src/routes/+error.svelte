@@ -12,7 +12,7 @@
             {#if page.error}
                 <div class="mt-8">
                     {#if page.status}
-                        <span class="h-6 chip variant-soft-error rounded-full pointer-events-none">{page.status}</span>
+                        <span class="h-6 chip preset-tonal-error rounded-full pointer-events-none">{page.status}</span>
                     {/if}
                     {#if page.error.message}
                         <span class="text-error-700 dark:text-error-400 md:text-sm mt-8 lowercase">{page.error.message}.</span>

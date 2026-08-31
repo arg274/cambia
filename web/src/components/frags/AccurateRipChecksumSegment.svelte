@@ -22,9 +22,9 @@
             </div>
             <span class="ml-1.5 dark:font-light text-sm">{header}</span>
             {#if offset !== null}
-                <span class="ml-2 variant-soft-primary rounded-md text-xs px-1.5 py-0.5 font-semibold">{offset}</span>
+                <span class="ml-2 preset-tonal-primary rounded-md text-xs px-1.5 py-0.5 font-semibold">{offset}</span>
             {/if}
         </div>
-        <div class="font-mono grow bg-success-900 bg-surface-50-900-token px-2 py-1 truncate">{sign}</div>
+        <div class="font-mono grow bg-success-900 bg-surface-50-950 px-2 py-1 truncate">{sign}</div>
     </div>
 {/if}

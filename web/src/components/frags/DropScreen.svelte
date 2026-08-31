@@ -22,7 +22,7 @@
     let focused: boolean = $state(false);
 
     const baseClass: string = "fixed top-0 left-0 right-0 group flex flex-col justify-center items-center w-screen h-screen z-max";
-    const focusClass = "visible ease-in duration-200 bg-surface-100-800-token";
+    const focusClass = "visible ease-in duration-200 bg-surface-100-900";
     const blurClass = "invisible ease-out duration-200";
     const textBaseClass = "mt-2 mb-2";
     const textFocusClass = "";
@@ -78,6 +78,6 @@
     </div>
     <input {...rest} bind:files bind:this={input} type="file" class="hidden" onchange={() => onchange?.()} />
 </label>
-<div class={focused ? classNames("hidden", "pointer-events-none") : "visible h-full"}>
+<div class={focused ? classNames("hidden", "pointer-events-none") : "visible min-h-full"}>
     {@render children?.()}
 </div>

@@ -51,12 +51,12 @@
                             <div>
                                 <span class="py-0.5">{ripper.name}</span>
                                 {#if ripper.experimental}
-                                    <span class="ml-1 px-2 py-0.5 variant-soft-primary rounded-full text-xs uppercase">Experimental</span>
+                                    <span class="ml-1 px-2 py-0.5 preset-tonal-primary rounded-full text-xs uppercase">Experimental</span>
                                 {/if}
                             </div>
                             <div class="flex gap-4 items-center">
                                 <SvelteComponent class="icon-sm" />
-                                <a href={ripper.link} class="bg-initial hover:variant-soft" target="_blank">
+                                <a href={ripper.link} class="hover:preset-tonal" target="_blank">
                                     <IconArrowUpRight class="icon-xs" />
                                 </a>
                             </div>
@@ -75,7 +75,7 @@
                                     <div class="w-5">
                                         <SvelteComponent_1 class="icon-sm" />
                                     </div>
-                                    <a href={evaluator.link} class="bg-initial hover:variant-soft" target="_blank">
+                                    <a href={evaluator.link} class="hover:preset-tonal" target="_blank">
                                         <IconArrowUpRight class="icon-xs" />
                                     </a>
                                 </div>

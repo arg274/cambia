@@ -14,5 +14,5 @@
 <div class="grid grid-cols-6 items-center py-0.5">
 
     <span class="col-span-5 text-xs">{evaluation_unit.data.message}</span>
-    <span class="col-span-1 w-10 chip py-1 variant-soft-error rounded-full">{neg ? "-" : ""}{evaluation_unit.unit_score}</span>
+    <span class="col-span-1 w-10 chip py-1 preset-tonal-error rounded-full">{neg ? "-" : ""}{evaluation_unit.unit_score}</span>
 </div>

@@ -16,7 +16,7 @@
 	<div class="flex gap-2 items-center">
 		<h6>Track {track.num}</h6>
 		{#if track.aborted}
-			<div class="variant-soft-error rounded-md text-xs px-2 py-1">Aborted</div>
+			<div class="preset-tonal-error rounded-md text-xs px-2 py-1">Aborted</div>
 		{/if}
 	</div>
 	<div class="flex flex-col gap-4">
