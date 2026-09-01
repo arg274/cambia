@@ -92,7 +92,7 @@
         {/if}
     </Tooltip.Trigger>
     <Tooltip.Positioner>
-        <Tooltip.Content class="card p-2 preset-tonal-surface z-50">
+        <Tooltip.Content class="card p-2 preset-tonal-surface backdrop-blur-xl shadow-xl z-50">
             <p class="text-xs">{getInfoOverviewPopoverText(miniName)}</p>
         </Tooltip.Content>
     </Tooltip.Positioner>
