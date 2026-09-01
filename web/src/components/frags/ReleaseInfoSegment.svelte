@@ -66,13 +66,13 @@
             <div class="ml-4 flex flex-col">
                 {#if rels.length > 0}
                     <!-- Only using the first release -->
-                    <span class="text-md">{getJoinedArtists(rels[0]['artist-credit'])}</span>
+                    <span class="text-base">{getJoinedArtists(rels[0]['artist-credit'])}</span>
                     <span class="text-2xl font-bold">{rels[0].title}</span>
                 {:else if pending}
                     <div class="{classNames(placeholder, animate)} h-4 w-8"></div>
                     <div class="{classNames(placeholder, animate)} h-8 w-20 mt-2"></div>
                 {:else}
-                    <span class="text-md">{relLog.artist}</span>
+                    <span class="text-base">{relLog.artist}</span>
                     <span class="text-2xl font-bold">{relLog.title}</span>
                 {/if}
             </div>

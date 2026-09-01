@@ -41,23 +41,24 @@
 	These utilities are sized differently in v5 than they were in v2, which
 	changed the app's vertical rhythm in several places. Restore the original
 	dimensions rather than let the upgrade quietly restyle the UI.
+
+	Declared with @utility so Tailwind sorts them ahead of core utilities: an
+	explicit py-1 or h-6 on the same element still wins, as it did in v2.
 */
-@layer utilities {
+@utility btn-icon {
 	/* v5 resolves this to 30px; v2 was a fixed 43px square. The copy buttons
 	   sitting beside the mono hash fields also set those rows' heights. */
-	.btn-icon {
-		width: 43px;
-		height: 43px;
-		padding: 0;
-	}
+	width: 43px;
+	height: 43px;
+	padding: 0;
+}
 
+@utility chip {
 	/* v2: 0.75rem text with 0.375rem/0.75rem padding. */
-	.chip {
-		font-size: 0.75rem;
-		line-height: 1rem;
-		padding-block: 0.375rem;
-		padding-inline: 0.75rem;
-	}
+	font-size: 0.75rem;
+	line-height: 1rem;
+	padding-block: 0.375rem;
+	padding-inline: 0.75rem;
 }
 
 /*

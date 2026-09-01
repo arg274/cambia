@@ -77,7 +77,7 @@
     {#snippet tooltip()}
         <div  class="flex flex-col gap-2">
             <div class="flex flex-col gap-2 text-xs">
-                <p class="max-w-64 text-balanced">The ripper settings should be adjusted to ensure that all the values match the recommendation.
+                <p class="max-w-64 text-balance">The ripper settings should be adjusted to ensure that all the values match the recommendation.
                     Note that some <strong>rippers</strong>, albeit being <strong>functionally fine</strong>, might be marked as <em>not recommended</em> due to the lack of private tracker support.</p>
                 <div class="flex gap-2 items-center">
                     <IconCheckmarkFilled class="text-success-700 visible dark:text-success-400 icon-sm" />

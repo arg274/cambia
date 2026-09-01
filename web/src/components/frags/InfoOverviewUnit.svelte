@@ -85,7 +85,7 @@
 
 <Tooltip openDelay={100} closeDelay={100} positioning={{ placement: 'top' }}>
     <Tooltip.Trigger
-        class="relative flex-auto flex place-content-center {getColorWrapperDiv(index, gradeKey)} h-{getHeight(actualValue)} [&>*]:pointer-events-none"
+        class="relative flex-auto flex place-content-center {getColorWrapperDiv(index, gradeKey)} h-{getHeight(actualValue)} *:pointer-events-none"
     >
         {#if !hideLabel}
             <div class="hidden sm:block text-xs absolute -bottom-4 {getColorWrapperText(index, gradeKey)}">{miniName}</div>

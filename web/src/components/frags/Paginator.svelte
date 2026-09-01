@@ -31,7 +31,7 @@
 		page = details.page - 1;
 		onPageChange?.(page);
 	}}
-	class="inline-flex flex-row items-center overflow-hidden isolate rounded-[var(--radius-base)] preset-filled"
+	class="inline-flex flex-row items-center overflow-hidden isolate rounded-(--radius-base) preset-filled"
 >
 	<Pagination.PrevTrigger class={buttonClass} aria-label="Previous page">
 		<IconArrowLeft class="w-3.5 h-3.5" />

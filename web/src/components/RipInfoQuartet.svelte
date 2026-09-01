@@ -80,7 +80,7 @@
         <div  class="flex flex-col gap-2">
             <h6 class="text-lg font-bold">Actual values</h6>
             <div class="flex flex-col gap-2 text-xs">
-                <p class="max-w-64 text-balanced">Actual values of a setting are shown on the left.</p>
+                <p class="max-w-64 text-balance">Actual values of a setting are shown on the left.</p>
                 <div class="flex gap-2 items-center">
                     <div class="w-1 h-4 rounded-full {quartetToVariant("True")}"></div>
                     <span>Enabled</span>
@@ -100,7 +100,7 @@
             </div>
             <h6 class="text-lg font-bold">Recommendation</h6>
             <div class="flex flex-col gap-2 text-xs">
-                <p class="max-w-64 text-balanced">The ripper settings should be adjusted to ensure that all the values match the recommendation shown on the right.</p>
+                <p class="max-w-64 text-balance">The ripper settings should be adjusted to ensure that all the values match the recommendation shown on the right.</p>
                 <div class="flex gap-2 items-center">
                     <IconCheckmarkFilled class="text-success-700 visible dark:text-success-400 icon-sm" />
                     <span>Matches recommended value</span>
