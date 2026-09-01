@@ -33,7 +33,7 @@ export function toCardId(header: string): string {
  * A bare `writeText` call matches the ClickFix scam pattern and gets blocked by
  * uBlock Origin and similar content blockers.
  */
-export async function copyToClipboard(value: string) {
+export async function copyToClipboard(value: string): Promise<boolean> {
 	try {
 		if (navigator.clipboard.write) {
 			await navigator.clipboard.write([
@@ -42,15 +42,14 @@ export async function copyToClipboard(value: string) {
 		} else {
 			await navigator.clipboard.writeText(value);
 		}
-		toaster.create({
-			title: 'Copied to clipboard',
-			type: 'success'
-		});
+		return true;
 	} catch {
+		// Success is shown on the button itself; only failure needs announcing.
 		toaster.create({
 			title: 'Could not copy to clipboard',
 			type: 'error'
 		});
+		return false;
 	}
 }
 

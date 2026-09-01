@@ -62,6 +62,19 @@
 }
 
 /*
+	Tailwind 4 drops Preflight's `cursor: pointer` on buttons to match native
+	browser behaviour. This app treats them as clickable affordances, so put it
+	back rather than have every button feel inert.
+*/
+@layer base {
+	button:not(:disabled),
+	[role='button']:not(:disabled),
+	summary {
+		cursor: pointer;
+	}
+}
+
+/*
 	Tailwind 4 defaults border-color to currentColor; under Tailwind 3 the
 	Skeleton plugin defaulted it to a muted surface tone. Without this the
 	dashed rules render at full text contrast.
