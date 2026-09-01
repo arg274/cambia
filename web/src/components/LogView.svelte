@@ -85,19 +85,19 @@
 			<span class="text-xs uppercase tracking-widest mb-2 md:mb-0">Combined Log</span>
 			<div class="flex justify-center md:justify-end md:items-center items-end gap-2 mb-2">
 				<Paginator count={pageCount} bind:page={pageIndex} {onPageChange} />
-				<div class="flex justify-end items-stretch hide-scroll-numinput">
+				<div class="flex justify-end items-center hide-scroll-numinput">
 					<input
 						type="number"
 						required
 						bind:value={inputPage}
-						class="w-12 preset-filled py-1.5 text-center text-sm rounded-l-full"
+						class="w-12 h-8 preset-filled py-1.5 text-center text-sm rounded-l-full"
 						onkeypress={pageInputHandler}
 						onclick={(e) => { e.preventDefault(); selectText(); }}
 						bind:this={inputEl}
 					/>
 					<button
 						type="button"
-						class="preset-filled py-1.5 px-2 text-sm rounded-r-full"
+						class="preset-filled h-8 px-2 text-sm inline-flex items-center justify-center rounded-r-full"
 						onclick={gotoPage}><IconArrowRight class="w-3.5 h-3.5" /></button
 					>
 				</div>
