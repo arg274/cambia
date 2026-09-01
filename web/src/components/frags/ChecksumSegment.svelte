@@ -19,14 +19,16 @@
         status
     }: Props = $props();
 
-    const bgColor: string = $derived.by(() => {
+    // Written out in full so Tailwind can see them; interpolated class names
+    // are invisible to its scanner.
+    const bgClass: string = $derived.by(() => {
         switch (status) {
             case "Match":
-                return "success";
+                return "bg-success-400/25 dark:bg-success-900/25";
             case "Mismatch":
-                return "error";
+                return "bg-error-400/25 dark:bg-error-900/25";
             default:
-                return "surface";
+                return "bg-surface-400/25 dark:bg-surface-950/25";
         }
     });
 </script>
@@ -36,7 +38,7 @@
     <div class="flex flex-col">   
         <div class="flex items-center"><SvelteComponent class="icon-sm" /><span class="ml-2 dark:font-light text-sm">{header}</span></div>
         <div class="flex items-center place-items-center justify-between">
-            <div class="font-mono grow bg-{bgColor}-400 bg-opacity-25 dark:bg-{bgColor}-900 dark:bg-opacity-25 px-2 py-1 truncate">{hash}</div>
+            <div class="font-mono grow {bgClass} px-2 py-1 truncate">{hash}</div>
             <div class="flex"><button type="button" class="btn-icon hover:preset-tonal" onclick={() => copyToClipboard(hash)}><IconCopy /></button></div>
         </div>
     </div>
