@@ -35,6 +35,117 @@
 	--text-xxs: 0.5rem;
 }
 
+/*
+	Skeleton v2 -> v5 metric shims.
+
+	These utilities are sized differently in v5 than they were in v2, which
+	changed the app's vertical rhythm in several places. Restore the original
+	dimensions rather than let the upgrade quietly restyle the UI.
+*/
+@layer utilities {
+	/* v5 resolves this to 30px; v2 was a fixed 43px square. The copy buttons
+	   sitting beside the mono hash fields also set those rows' heights. */
+	.btn-icon {
+		width: 43px;
+		height: 43px;
+		padding: 0;
+	}
+
+	/* v2: 0.75rem text with 0.375rem/0.75rem padding. */
+	.chip {
+		font-size: 0.75rem;
+		line-height: 1rem;
+		padding-block: 0.375rem;
+		padding-inline: 0.75rem;
+	}
+}
+
+/*
+	Tailwind 4 defaults border-color to currentColor; under Tailwind 3 the
+	Skeleton plugin defaulted it to a muted surface tone. Without this the
+	dashed rules render at full text contrast.
+*/
+@layer base {
+	*,
+	::after,
+	::before,
+	::backdrop,
+	::file-selector-button {
+		border-color: var(--color-surface-300-700);
+	}
+}
+
+/*
+	v2 rendered `variant-soft-*` as the palette's 400 shade at 20% alpha with a
+	700/200 text colour. v5's `preset-tonal-*` is a solid 50/950 pairing, which
+	reads far brighter, so chips and badges lost their tint. Keep v2 treatment.
+*/
+@layer utilities {
+	.preset-tonal {
+		background-color: color-mix(in srgb, var(--color-surface-400) 20%, transparent);
+		color: var(--color-surface-700);
+	}
+	.preset-tonal:where(.dark, .dark *) {
+		color: var(--color-surface-200);
+	}
+
+	.preset-tonal-primary {
+		background-color: color-mix(in srgb, var(--color-primary-400) 20%, transparent);
+		color: var(--color-primary-700);
+	}
+	.preset-tonal-primary:where(.dark, .dark *) {
+		color: var(--color-primary-200);
+	}
+
+	.preset-tonal-secondary {
+		background-color: color-mix(in srgb, var(--color-secondary-400) 20%, transparent);
+		color: var(--color-secondary-700);
+	}
+	.preset-tonal-secondary:where(.dark, .dark *) {
+		color: var(--color-secondary-200);
+	}
+
+	.preset-tonal-tertiary {
+		background-color: color-mix(in srgb, var(--color-tertiary-400) 20%, transparent);
+		color: var(--color-tertiary-700);
+	}
+	.preset-tonal-tertiary:where(.dark, .dark *) {
+		color: var(--color-tertiary-200);
+	}
+
+	.preset-tonal-success {
+		background-color: color-mix(in srgb, var(--color-success-400) 20%, transparent);
+		color: var(--color-success-700);
+	}
+	.preset-tonal-success:where(.dark, .dark *) {
+		color: var(--color-success-200);
+	}
+
+	.preset-tonal-warning {
+		background-color: color-mix(in srgb, var(--color-warning-400) 20%, transparent);
+		color: var(--color-warning-700);
+	}
+	.preset-tonal-warning:where(.dark, .dark *) {
+		color: var(--color-warning-200);
+	}
+
+	.preset-tonal-error {
+		background-color: color-mix(in srgb, var(--color-error-400) 20%, transparent);
+		color: var(--color-error-700);
+	}
+	.preset-tonal-error:where(.dark, .dark *) {
+		color: var(--color-error-200);
+	}
+
+	.preset-tonal-surface {
+		background-color: color-mix(in srgb, var(--color-surface-400) 20%, transparent);
+		color: var(--color-surface-700);
+	}
+	.preset-tonal-surface:where(.dark, .dark *) {
+		color: var(--color-surface-200);
+	}
+}
+
 @utility z-max {
 	z-index: 9999999999;
 }

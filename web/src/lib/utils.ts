@@ -27,11 +27,21 @@ export function toCardId(header: string): string {
 
 /**
  * Copies text and reports the outcome. Replaces Skeleton v2's `use:clipboard`
- * action, which v5 dropped in favour of the platform API.
+ * action, which v5 dropped.
+ *
+ * Prefers `clipboard.write` with a ClipboardItem, exactly as the v2 action did.
+ * A bare `writeText` call matches the ClickFix scam pattern and gets blocked by
+ * uBlock Origin and similar content blockers.
  */
 export async function copyToClipboard(value: string) {
 	try {
-		await navigator.clipboard.writeText(value);
+		if (navigator.clipboard.write) {
+			await navigator.clipboard.write([
+				new ClipboardItem({ 'text/plain': new Blob([value], { type: 'text/plain' }) })
+			]);
+		} else {
+			await navigator.clipboard.writeText(value);
+		}
 		toaster.create({
 			title: 'Copied to clipboard',
 			type: 'success'

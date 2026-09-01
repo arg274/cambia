@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Pagination } from '@skeletonlabs/skeleton-svelte';
-	import IconChevronLeft from '~icons/carbon/chevron-left';
-	import IconChevronRight from '~icons/carbon/chevron-right';
+	import IconArrowLeft from '~icons/carbon/arrow-left';
+	import IconArrowRight from '~icons/carbon/arrow-right';
 
 	interface Props {
 		/** Total number of items (one per page). */
@@ -14,12 +14,14 @@
 
 	let { count, page = $bindable(), onPageChange }: Props = $props();
 
-	const triggerClass = 'btn-icon hover:preset-tonal';
-	const itemClass =
-		'btn-icon hover:preset-tonal data-[selected]:preset-filled-primary-500 cursor-pointer';
+	const buttonClass = 'px-3 py-1.5 fill-current disabled:opacity-50 disabled:cursor-not-allowed';
 </script>
 
-<!-- Skeleton's Pagination is one-based; the app tracks pages from zero. -->
+<!--
+	Mirrors Skeleton v2's Paginator, which showed a pair of arrows either side of
+	an "x-y of n" readout rather than a button per page. Skeleton's Pagination is
+	one-based; the app tracks pages from zero.
+-->
 <Pagination
 	{count}
 	pageSize={1}
@@ -28,19 +30,15 @@
 		page = details.page - 1;
 		onPageChange?.(page);
 	}}
-	class="flex items-center gap-1"
+	class="inline-flex flex-row items-center overflow-hidden isolate rounded-[var(--radius-base)] preset-filled"
 >
-	<Pagination.PrevTrigger class={triggerClass}><IconChevronLeft /></Pagination.PrevTrigger>
-	<Pagination.Context>
-		{#snippet children(api)}
-			{#each api().pages as pageItem, index (index)}
-				{#if pageItem.type === 'page'}
-					<Pagination.Item {...pageItem} class={itemClass}>{pageItem.value}</Pagination.Item>
-				{:else}
-					<Pagination.Ellipsis {index} class="px-1">&hellip;</Pagination.Ellipsis>
-				{/if}
-			{/each}
-		{/snippet}
-	</Pagination.Context>
-	<Pagination.NextTrigger class={triggerClass}><IconChevronRight /></Pagination.NextTrigger>
+	<Pagination.PrevTrigger class={buttonClass} aria-label="Previous page">
+		<IconArrowLeft class="w-4 h-4" />
+	</Pagination.PrevTrigger>
+	<button type="button" class="{buttonClass} pointer-events-none text-sm">
+		{page + 1}-{Math.min(page + 1, count)}&nbsp;<span class="opacity-50">of {count}</span>
+	</button>
+	<Pagination.NextTrigger class={buttonClass} aria-label="Next page">
+		<IconArrowRight class="w-4 h-4" />
+	</Pagination.NextTrigger>
 </Pagination>

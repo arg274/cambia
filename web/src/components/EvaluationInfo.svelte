@@ -1,5 +1,6 @@
 <script lang="ts">
     import { TreeView, createTreeViewCollection } from "@skeletonlabs/skeleton-svelte";
+    import IconChevronDown from '~icons/carbon/chevron-down';
     import slugify from 'slugify';
 	import Card from "./frags/Card.svelte";
     import type { EvaluationCombined } from "$lib/types/EvaluationCombined";
@@ -44,7 +45,7 @@
         const evaluationCombined = combinedEvals.filter(e => e.evaluator === "OPS")[0];
         const evaluation_units = evaluationCombined.evaluations[selectedLogIdx].evaluation_units;
         const unitsByScope: { [key: string]: EvaluationUnitAggregate } = {};
-        const expanded: string[] = [evaluationCombined.evaluator];
+        const expanded: string[] = [];
 
         evaluation_units.forEach(unit => {
             const scopeKey = evaluationUnitScopeStringify(unit.data.scope);
@@ -119,7 +120,10 @@
     <TreeView.NodeProvider value={{ node, indexPath }}>
         {#if node.children && node.children.length > 0}
             <TreeView.Branch class="my-1">
-                <TreeView.BranchControl class="flex items-center gap-1 pl-2 py-0 cursor-pointer">
+                <TreeView.BranchControl class="flex items-center gap-4 pl-2 py-0 cursor-pointer">
+                    <TreeView.BranchIndicator class="shrink-0 w-3 fill-current transition-transform duration-200 data-[state=open]:rotate-180">
+                        <IconChevronDown class="w-3" />
+                    </TreeView.BranchIndicator>
                     {@render nodeBody(node)}
                 </TreeView.BranchControl>
                 <TreeView.BranchContent class="ml-1 my-2">
@@ -129,7 +133,7 @@
                 </TreeView.BranchContent>
             </TreeView.Branch>
         {:else}
-            <TreeView.Item class="flex items-center gap-1 pl-2 py-0 my-1">
+            <TreeView.Item class="flex items-center gap-4 pl-2 py-0 my-1">
                 {@render nodeBody(node)}
             </TreeView.Item>
         {/if}
