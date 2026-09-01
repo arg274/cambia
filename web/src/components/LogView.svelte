@@ -85,7 +85,7 @@
 			<span class="text-xs uppercase tracking-widest mb-2 md:mb-0">Combined Log</span>
 			<div class="flex justify-center md:justify-end md:items-center items-end gap-2 mb-2">
 				<Paginator count={pageCount} bind:page={pageIndex} {onPageChange} />
-				<div class="flex justify-end items-center hide-scroll-numinput">
+				<div class="flex justify-end items-stretch hide-scroll-numinput">
 					<input
 						type="number"
 						required
@@ -97,8 +97,8 @@
 					/>
 					<button
 						type="button"
-						class="preset-filled py-1.5 px-2 rounded-r-full"
-						onclick={gotoPage}><IconArrowRight /></button
+						class="preset-filled py-1.5 px-2 text-sm rounded-r-full"
+						onclick={gotoPage}><IconArrowRight class="w-3.5 h-3.5" /></button
 					>
 				</div>
 			</div>

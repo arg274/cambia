@@ -14,7 +14,8 @@
 
 	let { count, page = $bindable(), onPageChange }: Props = $props();
 
-	const buttonClass = 'px-3 py-1.5 fill-current disabled:opacity-50 disabled:cursor-not-allowed';
+	const buttonClass =
+		'px-3 py-1.5 text-sm fill-current disabled:opacity-50 disabled:cursor-not-allowed';
 </script>
 
 <!--
@@ -33,12 +34,12 @@
 	class="inline-flex flex-row items-center overflow-hidden isolate rounded-[var(--radius-base)] preset-filled"
 >
 	<Pagination.PrevTrigger class={buttonClass} aria-label="Previous page">
-		<IconArrowLeft class="w-4 h-4" />
+		<IconArrowLeft class="w-3.5 h-3.5" />
 	</Pagination.PrevTrigger>
-	<button type="button" class="{buttonClass} pointer-events-none text-sm">
-		{page + 1}-{Math.min(page + 1, count)}&nbsp;<span class="opacity-50">of {count}</span>
+	<button type="button" class="{buttonClass} pointer-events-none">
+		{page + 1}&nbsp;<span class="opacity-50">of {count}</span>
 	</button>
 	<Pagination.NextTrigger class={buttonClass} aria-label="Next page">
-		<IconArrowRight class="w-4 h-4" />
+		<IconArrowRight class="w-3.5 h-3.5" />
 	</Pagination.NextTrigger>
 </Pagination>
