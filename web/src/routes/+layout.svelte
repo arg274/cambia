@@ -105,7 +105,7 @@
 <!-- Skeleton v5 removed AppShell; this is the same three-region layout by hand. -->
 <div id="page" class="w-full h-full overflow-y-auto overflow-x-hidden scroll-smooth" style="scrollbar-gutter: stable;">
 	<div class="sticky top-0 z-50 backdrop-blur-xl">
-		<AppBar class="rounded-br-xl bg-primary-400/10 px-4 py-1">
+		<AppBar class="bg-primary-400/10 px-4 py-1">
 			<AppBar.Toolbar class="flex items-center justify-between">
 				<AppBar.Lead>
 					<a href="{removeRoute(page.url.pathname, page.route.id)}/">

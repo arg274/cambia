@@ -51,6 +51,14 @@
 	width: 43px;
 	height: 43px;
 	padding: 0;
+
+	/* v5 pins child icons to --btn-size, which overrides the icon-* classes and
+	   the 1.2em the icons ship with. Size them from their own font-size again,
+	   so icon-lg/icon-sm control them as they did under v2. */
+	& > svg {
+		width: 1.2em;
+		height: 1.2em;
+	}
 }
 
 @utility chip {
