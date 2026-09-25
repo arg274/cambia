@@ -90,7 +90,7 @@
 						type="number"
 						required
 						bind:value={inputPage}
-						class="w-12 h-8 preset-filled py-1.5 text-center text-sm rounded-l-full"
+						class="w-12 h-8 border-0 preset-filled py-1.5 text-center text-sm rounded-l-full"
 						onkeypress={pageInputHandler}
 						onclick={(e) => { e.preventDefault(); selectText(); }}
 						bind:this={inputEl}

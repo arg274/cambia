@@ -84,7 +84,7 @@
         <div class="flex justify-center md:justify-end md:items-center items-end gap-2 mb-2">
             <Paginator count={pageCount} bind:page={pageIndex} {onPageChange} />
             <div class="flex justify-end items-center hide-scroll-numinput">
-                <input type="number" required bind:value={inputPage} class="w-12 h-8 preset-filled py-1.5 text-center text-sm rounded-l-full" onkeypress={pageInputHandler} onclick={(e) => { e.preventDefault(); selectText(); }} bind:this={inputEl} />
+                <input type="number" required bind:value={inputPage} class="w-12 h-8 border-0 preset-filled py-1.5 text-center text-sm rounded-l-full" onkeypress={pageInputHandler} onclick={(e) => { e.preventDefault(); selectText(); }} bind:this={inputEl} />
                 <button type="button" class="preset-filled h-8 px-2 text-sm inline-flex items-center justify-center rounded-r-full" onclick={gotoPage}><IconArrowRight class="w-3.5 h-3.5" /></button>
             </div>
         </div>
