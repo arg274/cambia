@@ -78,6 +78,6 @@
     </div>
     <input {...rest} bind:files bind:this={input} type="file" class="hidden" onchange={() => onchange?.()} />
 </label>
-<div class={focused ? classNames("hidden", "pointer-events-none") : "visible min-h-full"}>
+<div class={focused ? classNames("hidden", "pointer-events-none") : "visible"}>
     {@render children?.()}
 </div>

@@ -93,7 +93,7 @@
 {/if}
 
 <!-- Skeleton v5 removed AppShell; this is the same three-region layout by hand. -->
-<div id="page" class="w-full h-full overflow-y-auto overflow-x-hidden scroll-smooth" style="scrollbar-gutter: stable;">
+<div id="page" class="w-full h-full grid grid-rows-[auto_1fr_auto] overflow-y-auto overflow-x-hidden scroll-smooth" style="scrollbar-gutter: stable;">
 	<div class="sticky top-0 z-50 backdrop-blur-xl">
 		<header class="bg-primary-400/10 px-4 py-1">
 			<div class="flex items-center justify-between">
