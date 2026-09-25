@@ -13,7 +13,7 @@
 	import type { AfterNavigate } from '@sveltejs/kit';
 	import { afterNavigate, goto } from '$app/navigation';
 	import DropScreen from '../components/frags/DropScreen.svelte';
-	import { errorStore, fileListStore, hashIndexLookup, inputChanged, processedCount, processing, responseStore} from '$lib/LogStore';
+	import { errorStore, fileListStore, hashIndexLookup, clearFileList, inputChanged, processedCount, processing, responseStore} from '$lib/LogStore';
 	import { onMount } from 'svelte';
 	import { get } from 'svelte/store';
 	import { page } from '$app/state';
@@ -43,6 +43,11 @@
 		const isNewPage = params.from?.url.pathname !== params.to?.url.pathname;
 		const elemPage = document.querySelector('#page');
 		if (isNewPage && elemPage !== null) elemPage.scrollTop = 0;
+
+		// Drop the selection on returning home. Not on the result routes: /logs
+		// reads the list as its "is there a batch" signal, so clearing it there
+		// would blank the page and break going back to it from a single log.
+		if (params.to?.route.id === '/') clearFileList();
 	});
 
 	onMount(() => {

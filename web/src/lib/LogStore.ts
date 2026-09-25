@@ -19,6 +19,15 @@ export const fetchController = writable<AbortController>(new AbortController());
 /** True only while an upload is in flight, so a stale file list cannot drive routing. */
 export const processing = writable(false);
 
+/**
+ * Drops the pending selection, including whatever the file inputs still hold.
+ * An empty FileList rather than undefined, so `bind:files` clears the DOM too.
+ */
+export function clearFileList() {
+	if (typeof DataTransfer === "undefined") return;
+	fileListStore.set(new DataTransfer().files);
+}
+
 export function initialiseResponseStore(files: FileList | undefined) {
     hashIndexLookup.clear();
     processedCount.set(0);
@@ -37,7 +46,7 @@ export function inputChanged(from: string | null) {
 
 	const files = get(fileListStore);
 	initialiseResponseStore(files);
-	processing.set(!!files && files.length > 0);
+	processing.set(files?.length === 1);
 	getRipInfoMpMulti(from, files, newController.signal);
 
 	// Routing follows the act of choosing files. Deciding it from the file list
