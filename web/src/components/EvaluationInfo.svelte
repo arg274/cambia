@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { TreeView, createTreeViewCollection } from "@skeletonlabs/skeleton-svelte";
+    import { Collapsible } from "bits-ui";
     import IconChevronDown from '~icons/carbon/chevron-down';
     import slugify from 'slugify';
 	import Card from "./frags/Card.svelte";
@@ -90,11 +90,6 @@
         };
     });
 
-    const collection = $derived(createTreeViewCollection<EvalNode>({
-        rootNode: tree.root,
-        nodeToValue: (node) => node.id,
-        nodeToString: (node) => node.id
-    }));
 </script>
 
 {#snippet nodeBody(node: EvalNode)}
@@ -116,39 +111,36 @@
     {/if}
 {/snippet}
 
-{#snippet treeNode(node: EvalNode, indexPath: number[])}
-    <TreeView.NodeProvider value={{ node, indexPath }}>
-        {#if node.children && node.children.length > 0}
-            <TreeView.Branch class="my-1">
-                <TreeView.BranchControl class="flex items-center gap-4 pl-2 py-0 cursor-pointer">
-                    <TreeView.BranchIndicator class="shrink-0 w-3 fill-current transition-transform duration-200 data-[state=open]:rotate-180">
-                        <IconChevronDown class="w-3" />
-                    </TreeView.BranchIndicator>
-                    {@render nodeBody(node)}
-                </TreeView.BranchControl>
-                <TreeView.BranchContent class="ml-1 my-2">
-                    {#each node.children as child, childIndex (child.id)}
-                        {@render treeNode(child, [...indexPath, childIndex])}
-                    {/each}
-                </TreeView.BranchContent>
-            </TreeView.Branch>
-        {:else}
-            <TreeView.Item class="flex items-center gap-4 pl-2 py-0 my-1">
+{#snippet treeNode(node: EvalNode)}
+    {#if node.children && node.children.length > 0}
+        <Collapsible.Root open={tree.expanded.includes(node.id)} class="my-1">
+            <Collapsible.Trigger
+                class="group w-full flex items-center gap-4 pl-2 py-0 cursor-pointer text-left"
+            >
+                <IconChevronDown
+                    class="shrink-0 w-3 fill-current transition-transform duration-200 group-data-[state=open]:rotate-180"
+                />
                 {@render nodeBody(node)}
-            </TreeView.Item>
-        {/if}
-    </TreeView.NodeProvider>
+            </Collapsible.Trigger>
+            <Collapsible.Content class="ml-1 my-2">
+                {#each node.children as child (child.id)}
+                    {@render treeNode(child)}
+                {/each}
+            </Collapsible.Content>
+        </Collapsible.Root>
+    {:else}
+        <!-- Leaves are informational, so they are not focus targets. -->
+        <div class="flex items-center gap-4 pl-2 py-0 my-1">
+            {@render nodeBody(node)}
+        </div>
+    {/if}
 {/snippet}
 
 <!-- TODO: This will need a massive overhaul to handle colours and goto highlighting -->
 <Card header="Evaluations">
-    {#key collection}
-        <TreeView {collection} defaultExpandedValue={tree.expanded}>
-            <TreeView.Tree class="w-full">
-                {#each collection.rootNode.children ?? [] as node, index (node.id)}
-                    {@render treeNode(node, [index])}
-                {/each}
-            </TreeView.Tree>
-        </TreeView>
-    {/key}
+    <div class="w-full">
+        {#each tree.root.children ?? [] as node (node.id)}
+            {@render treeNode(node)}
+        {/each}
+    </div>
 </Card>

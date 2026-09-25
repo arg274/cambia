@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Pagination } from '@skeletonlabs/skeleton-svelte';
+	import { Pagination } from 'bits-ui';
 	import IconArrowLeft from '~icons/carbon/arrow-left';
 	import IconArrowRight from '~icons/carbon/arrow-right';
 
@@ -19,27 +19,26 @@
 </script>
 
 <!--
-	Mirrors Skeleton v2's Paginator, which showed a pair of arrows either side of
-	an "x-y of n" readout rather than a button per page. Skeleton's Pagination is
-	one-based; the app tracks pages from zero.
+	Arrows either side of an "x of n" readout. Bits' pagination is one-based;
+	the app tracks pages from zero.
 -->
-<Pagination
+<Pagination.Root
 	{count}
-	pageSize={1}
+	perPage={1}
 	page={page + 1}
-	onPageChange={(details) => {
-		page = details.page - 1;
+	onPageChange={(next) => {
+		page = next - 1;
 		onPageChange?.(page);
 	}}
 	class="inline-flex flex-row items-center overflow-hidden isolate rounded-(--radius-base) preset-filled"
 >
-	<Pagination.PrevTrigger class={buttonClass} aria-label="Previous page">
+	<Pagination.PrevButton class={buttonClass} aria-label="Previous page">
 		<IconArrowLeft class="w-3.5 h-3.5" />
-	</Pagination.PrevTrigger>
-	<button type="button" class="{buttonClass} pointer-events-none">
+	</Pagination.PrevButton>
+	<span class="{buttonClass} pointer-events-none">
 		{page + 1}&nbsp;<span class="opacity-50">of {count}</span>
-	</button>
-	<Pagination.NextTrigger class={buttonClass} aria-label="Next page">
+	</span>
+	<Pagination.NextButton class={buttonClass} aria-label="Next page">
 		<IconArrowRight class="w-3.5 h-3.5" />
-	</Pagination.NextTrigger>
-</Pagination>
+	</Pagination.NextButton>
+</Pagination.Root>

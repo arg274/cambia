@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Tooltip } from '@skeletonlabs/skeleton-svelte';
+    import { Tooltip } from 'bits-ui';
     import IconHelp from '~icons/carbon/help';
     import classNames from 'classnames';
 
@@ -25,18 +25,21 @@
         <div class="flex items-center justify-between mb-4">
             <h3 class="text-spaced-mini" id={toHeaderId(header)}>{header}</h3>
             {#if tooltip}
-                <Tooltip openDelay={100} closeDelay={100} interactive positioning={{ placement: 'top-start' }}>
-                    <Tooltip.Trigger class="p-1">
-                        <IconHelp class="pointer-events-none" />
-                    </Tooltip.Trigger>
-                    <Tooltip.Positioner>
+                <Tooltip.Provider>
+                    <Tooltip.Root delayDuration={100} disableCloseOnTriggerClick>
+                        <Tooltip.Trigger class="p-1">
+                            <IconHelp class="pointer-events-none" />
+                        </Tooltip.Trigger>
                         <Tooltip.Content
+                            side="top"
+                            align="start"
+                            sideOffset={4}
                             class="text-sm rounded-xl p-4 bg-surface-300/10 backdrop-blur-xl z-max shadow-xl"
                         >
                             {@render tooltip?.()}
                         </Tooltip.Content>
-                    </Tooltip.Positioner>
-                </Tooltip>
+                    </Tooltip.Root>
+                </Tooltip.Provider>
             {/if}
         </div>
     {/if}

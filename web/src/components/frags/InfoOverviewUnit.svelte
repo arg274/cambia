@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Quartet } from "$lib/types/Quartet";
 	import { getInfoOverviewPopoverText } from "$lib/utils";
-    import { Tooltip } from '@skeletonlabs/skeleton-svelte';
+    import { Tooltip } from 'bits-ui';
 
     interface Props {
         gradeMap: Map<string, string>[];
@@ -83,17 +83,17 @@
     }
 </script>
 
-<Tooltip openDelay={100} closeDelay={100} positioning={{ placement: 'top' }}>
-    <Tooltip.Trigger
-        class="relative flex-auto flex place-content-center {getColorWrapperDiv(index, gradeKey)} h-{getHeight(actualValue)} *:pointer-events-none"
-    >
-        {#if !hideLabel}
-            <div class="hidden sm:block text-xs absolute -bottom-4 {getColorWrapperText(index, gradeKey)}">{miniName}</div>
-        {/if}
-    </Tooltip.Trigger>
-    <Tooltip.Positioner>
-        <Tooltip.Content class="card p-2 preset-tonal-surface backdrop-blur-xl shadow-xl z-50">
+<Tooltip.Provider>
+    <Tooltip.Root delayDuration={100}>
+        <Tooltip.Trigger
+            class="relative flex-auto flex place-content-center {getColorWrapperDiv(index, gradeKey)} h-{getHeight(actualValue)} *:pointer-events-none"
+        >
+            {#if !hideLabel}
+                <div class="hidden sm:block text-xs absolute -bottom-4 {getColorWrapperText(index, gradeKey)}">{miniName}</div>
+            {/if}
+        </Tooltip.Trigger>
+        <Tooltip.Content side="top" sideOffset={4} class="card p-2 preset-tonal-surface backdrop-blur-xl shadow-xl z-50">
             <p class="text-xs">{getInfoOverviewPopoverText(miniName)}</p>
         </Tooltip.Content>
-    </Tooltip.Positioner>
-</Tooltip>
+    </Tooltip.Root>
+</Tooltip.Provider>

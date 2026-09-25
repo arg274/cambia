@@ -1,7 +1,7 @@
 <script lang="ts">
     import { untrack } from 'svelte';
 
-	import { Accordion } from "@skeletonlabs/skeleton-svelte";
+	import { Accordion } from "bits-ui";
     import Paginator from "./frags/Paginator.svelte";
     import IconSplitScreen from '~icons/carbon/split-screen';
     import IconIncompleteCancel from '~icons/carbon/incomplete-cancel';
@@ -132,17 +132,19 @@
         {#if Object.keys(tracks[pageIndex].errors).length > 0}
             <hr class="my-4 !border-t-4 !border-dashed" />
             <div class="flex items-center"><IconWarningAlt /><span class="ml-1 dark:font-light text-sm">Track Errors</span></div>
-            <Accordion multiple collapsible class="mt-2 space-y-0">
+            <Accordion.Root type="multiple" class="mt-2 space-y-0">
                 {#each Object.keys(tracks[pageIndex].errors) as errorType (errorType)}
                     <Accordion.Item value={errorType}>
-                        <Accordion.ItemTrigger class="w-full flex items-center gap-2 px-2 py-1">
+                        <Accordion.Header>
+                            <Accordion.Trigger class="w-full flex items-center gap-2 px-2 py-1">
                             <IconCheckmarkFilledError />
                             <div class="grow flex justify-between items-center">
                                 <span class="first-letter:capitalize text-sm">{errorType}</span>
                                 <span class="chip preset-tonal-error rounded-full">{tracks[pageIndex].errors[errorType].count}</span>
                             </div>
-                        </Accordion.ItemTrigger>
-                        <Accordion.ItemContent class="px-2 py-1">
+                            </Accordion.Trigger>
+                        </Accordion.Header>
+                        <Accordion.Content class="px-2 py-1">
                             {#if tracks[pageIndex].errors[errorType].ranges.length > 0}
                                 {#each tracks[pageIndex].errors[errorType].ranges as errorRange}
                                     <div class="flex justify-between items-center">
@@ -162,10 +164,10 @@
                             {:else}
                                 <span class="text-xs">Position data not available/applicable.</span>
                             {/if}
-                        </Accordion.ItemContent>
+                        </Accordion.Content>
                     </Accordion.Item>
                 {/each}
-            </Accordion>
+            </Accordion.Root>
         {/if}
     </div>
 {/if}

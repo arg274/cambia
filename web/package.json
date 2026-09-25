@@ -16,9 +16,8 @@
 	"devDependencies": {
 		"@humanspeak/svelte-headless-table": "^6.2.0",
 		"@iconify/json": "^2.2.177",
+		"@internationalized/date": "^3.12.4",
 		"@playwright/test": "^1.41.1",
-		"@skeletonlabs/skeleton": "^5.0.1",
-		"@skeletonlabs/skeleton-svelte": "^5.0.1",
 		"@sveltejs/adapter-auto": "^3.3.1",
 		"@sveltejs/adapter-static": "^3.0.10",
 		"@sveltejs/kit": "^2.70.3",
@@ -32,6 +31,7 @@
 		"@typescript-eslint/parser": "^8.69.0",
 		"animejs": "^3.2.2",
 		"bigint-conversion": "^2.4.3",
+		"bits-ui": "^2.19.3",
 		"class-transformer": "^0.5.1",
 		"classnames": "^2.5.1",
 		"colorjs.io": "^0.7.1",

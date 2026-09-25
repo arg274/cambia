@@ -3,18 +3,73 @@
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
 
-@import '@skeletonlabs/skeleton';
 @import './cambia-theme.css';
 
-/* Skeleton's Svelte components ship their own classes; Tailwind 4 needs to be
-   pointed at any source outside this project that it should scan. */
-@source '../node_modules/@skeletonlabs/skeleton-svelte/dist';
+/*
+	Base layer, previously supplied by Skeleton's globals.css.
+
+	`color-scheme` is the important one: every `light-dark()` pairing in
+	cambia-theme.css resolves against it, so the dark variant must set it.
+*/
+@layer base {
+	:root {
+		color-scheme: light;
+
+		scrollbar-width: thin;
+		scrollbar-color: light-dark(var(--color-surface-300), var(--color-surface-700)) transparent;
+		-webkit-tap-highlight-color: color-mix(in oklab, var(--color-surface-50-950) 30%, transparent);
+	}
+
+	:root:where(.dark, .dark *) {
+		color-scheme: dark;
+	}
+
+	html {
+		background-color: light-dark(var(--color-surface-50), var(--color-surface-950));
+	}
+
+	body {
+		font-family: var(--font-sans);
+		color: light-dark(#000000, #ffffff);
+	}
+
+}
+
+/*
+	The last three Skeleton utilities the app used, reproduced verbatim so the
+	package itself can go.
+*/
+@utility preset-filled {
+	background-color: var(--color-surface-950-50);
+	color: var(--color-surface-50-950);
+}
+
+@utility card {
+	border-radius: var(--radius-container);
+}
+
+@utility placeholder {
+	background-color: var(--color-surface-200-800);
+	border-radius: var(--radius-base);
+	min-height: --spacing(4);
+}
 
 /* Tailwind 4 defaults to the `prefers-color-scheme` dark variant; this app
    drives dark mode with a `.dark` class on <html>. */
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
+	--animate-indeterminate: indeterminate 1.4s ease-in-out infinite;
+
+	@keyframes indeterminate {
+		0% {
+			transform: translateX(-100%);
+		}
+		100% {
+			transform: translateX(350%);
+		}
+	}
+
 	--animate-blob: blob 7s infinite;
 
 	@keyframes blob {
@@ -46,15 +101,19 @@
 	explicit py-1 or h-6 on the same element still wins, as it did in v2.
 */
 @utility btn-icon {
-	/* v5 resolves this to 30px; v2 was a fixed 43px square. The copy buttons
-	   sitting beside the mono hash fields also set those rows' heights. */
+	/* Sized as v2 did: a fixed 43px square. The copy buttons sitting beside the
+	   mono hash fields also set those rows' heights. */
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
 	width: 43px;
 	height: 43px;
 	padding: 0;
+	border-radius: var(--radius-base);
+	white-space: nowrap;
+	text-decoration-line: none;
 
-	/* v5 pins child icons to --btn-size, which overrides the icon-* classes and
-	   the 1.2em the icons ship with. Size them from their own font-size again,
-	   so icon-lg/icon-sm control them as they did under v2. */
+	/* Icons size from their own font-size, so icon-lg/icon-sm drive them. */
 	& > svg {
 		width: 1.2em;
 		height: 1.2em;
@@ -62,11 +121,22 @@
 }
 
 @utility chip {
-	/* v2: 0.75rem text with 0.375rem/0.75rem padding. */
+	/* v2 metrics: 0.75rem text with 0.375rem/0.75rem padding. The layout
+	   properties matter as much as the sizing -- without nowrap the disc-id
+	   chips wrap their trailing icon onto a second line. */
+	display: inline-flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	gap: --spacing(2);
+	white-space: nowrap;
+	text-align: center;
+	text-decoration-line: none;
 	font-size: 0.75rem;
 	line-height: 1rem;
 	padding-block: 0.375rem;
 	padding-inline: 0.75rem;
+	border-radius: var(--radius-base);
 }
 
 /*

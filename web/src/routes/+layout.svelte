@@ -1,11 +1,9 @@
 <script lang='ts'>
 	import '../app.css';
 
-	import { AppBar, Toast } from '@skeletonlabs/skeleton-svelte';
 	// Skeleton v5 dropped the lightswitch utilities; this repo already carries a
 	// copy of the v2 implementation, so the toggle keeps behaving as before.
 	import { modeCurrent, setModeUserPrefers, setModeCurrent } from '$lib/lightswitch';
-	import { toaster } from '$lib/toaster';
 
 	import CambiaLogo from '../components/icons/CambiaLogo.svelte';
 	import IconHelp from '~icons/carbon/help';
@@ -90,14 +88,6 @@
 	});
 </script>
 
-<Toast.Group {toaster}>
-	{#snippet children(toast)}
-		<Toast {toast} class="card preset-filled-surface-100-900 shadow-xl p-3 text-sm min-w-56">
-			<Toast.Title>{toast.title}</Toast.Title>
-		</Toast>
-	{/snippet}
-</Toast.Group>
-
 {#if loading}
 	<LoadModal />
 {/if}
@@ -105,9 +95,9 @@
 <!-- Skeleton v5 removed AppShell; this is the same three-region layout by hand. -->
 <div id="page" class="w-full h-full overflow-y-auto overflow-x-hidden scroll-smooth" style="scrollbar-gutter: stable;">
 	<div class="sticky top-0 z-50 backdrop-blur-xl">
-		<AppBar class="bg-primary-400/10 px-4 py-1">
-			<AppBar.Toolbar class="flex items-center justify-between">
-				<AppBar.Lead>
+		<header class="bg-primary-400/10 px-4 py-1">
+			<div class="flex items-center justify-between">
+				<div>
 					<a href="{removeRoute(page.url.pathname, page.route.id)}/">
 						<div class="flex gap-x-2 items-center">
 							<span>cambia</span>
@@ -115,27 +105,27 @@
 							<span><strong>LogTools</strong></span>
 						</div>
 					</a>
-				</AppBar.Lead>
-				<AppBar.Trail>
+				</div>
+				<div>
 					<div class="flex gap-x-0">
 						<a type="button" class="btn-icon hover:preset-tonal" href="{removeRoute(page.url.pathname, page.route.id)}/help"><IconHelp class="icon-lg" /></a>
 						<button type="button" class="btn-icon hover:preset-tonal" onclick={onToggleHandler}><IconWindowBlackSaturation class="icon-lg" /></button>
 					</div>
-				</AppBar.Trail>
-			</AppBar.Toolbar>
-		</AppBar>
+				</div>
+			</div>
+		</header>
 	</div>
 	<DropScreen bind:files={$fileListStore} onchange={() => {inputChanged(page.route.id)}} >
 		{@render children?.()}
 	</DropScreen>
-	<AppBar class="mt-10 rounded-tr-xl bg-surface-100-900 px-4 py-1">
-		<AppBar.Toolbar class="flex items-center justify-between">
-			<AppBar.Lead>
+	<footer class="mt-10 rounded-tr-xl bg-surface-100-900 px-4 py-1">
+		<div class="flex items-center justify-between">
+			<div>
 				<CambiaLogo class="w-5 stroke-surface-300 dark:stroke-surface-400 stroke-1" />
-			</AppBar.Lead>
-			<AppBar.Trail>
+			</div>
+			<div>
 				<a href="https://github.com/arg274/cambia" class="btn-icon hover:preset-tonal" target="_blank"><IconGithub class="icon-lg" /></a>
-			</AppBar.Trail>
-		</AppBar.Toolbar>
-	</AppBar>
+			</div>
+		</div>
+	</footer>
 </div>

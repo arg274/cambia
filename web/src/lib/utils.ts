@@ -5,7 +5,6 @@ import type { CambiaError } from './types/CambiaError';
 import { Packr } from 'msgpackr';
 import type { EvaluationUnitScope } from './types/EvaluationUnitScope';
 import type { Quartet } from './types/Quartet';
-import { toaster } from './toaster';
 
 const packr = new Packr({ useRecords: false });
 
@@ -26,12 +25,11 @@ export function toCardId(header: string): string {
 }
 
 /**
- * Copies text and reports the outcome. Replaces Skeleton v2's `use:clipboard`
- * action, which v5 dropped.
+ * Copies text, reporting success so the caller can show it in place.
  *
- * Prefers `clipboard.write` with a ClipboardItem, exactly as the v2 action did.
- * A bare `writeText` call matches the ClickFix scam pattern and gets blocked by
- * uBlock Origin and similar content blockers.
+ * Prefers `clipboard.write` with a ClipboardItem: a bare `writeText` call
+ * matches the ClickFix scam pattern and gets blocked by uBlock Origin and
+ * similar content blockers.
  */
 export async function copyToClipboard(value: string): Promise<boolean> {
 	try {
@@ -44,20 +42,8 @@ export async function copyToClipboard(value: string): Promise<boolean> {
 		}
 		return true;
 	} catch {
-		// Success is shown on the button itself; only failure needs announcing.
-		toaster.create({
-			title: 'Could not copy to clipboard',
-			type: 'error'
-		});
 		return false;
 	}
-}
-
-export function showError(err: CambiaError) {
-	toaster.create({
-		title: err.message,
-		type: 'error'
-	});
 }
 
 export function getCssColor(cssVar: string): Color {
