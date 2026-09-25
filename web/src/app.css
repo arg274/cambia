@@ -169,78 +169,84 @@
 
 /*
 	v2 rendered `variant-soft-*` as the palette's 400 shade at 20% alpha with a
-	700/200 text colour. v5's `preset-tonal-*` is a solid 50/950 pairing, which
-	reads far brighter, so chips and badges lost their tint. Keep v2 treatment.
+	700 text colour, and 500/200 in dark. Declared with @utility so Tailwind
+	derives the variants the app uses, notably `hover:preset-tonal`.
 */
-@layer utilities {
-	.preset-tonal {
-		background-color: color-mix(in srgb, var(--color-surface-400) 20%, transparent);
-		color: var(--color-surface-700);
-	}
-	.preset-tonal:where(.dark, .dark *) {
+@utility preset-tonal {
+	background-color: color-mix(in srgb, var(--color-surface-400) 20%, transparent);
+	color: var(--color-surface-700);
+
+	@variant dark {
 		background-color: color-mix(in srgb, var(--color-surface-500) 20%, transparent);
 		color: var(--color-surface-200);
 	}
+}
 
-	.preset-tonal-primary {
-		background-color: color-mix(in srgb, var(--color-primary-400) 20%, transparent);
-		color: var(--color-primary-700);
-	}
-	.preset-tonal-primary:where(.dark, .dark *) {
+@utility preset-tonal-primary {
+	background-color: color-mix(in srgb, var(--color-primary-400) 20%, transparent);
+	color: var(--color-primary-700);
+
+	@variant dark {
 		background-color: color-mix(in srgb, var(--color-primary-500) 20%, transparent);
 		color: var(--color-primary-200);
 	}
+}
 
-	.preset-tonal-secondary {
-		background-color: color-mix(in srgb, var(--color-secondary-400) 20%, transparent);
-		color: var(--color-secondary-700);
-	}
-	.preset-tonal-secondary:where(.dark, .dark *) {
+@utility preset-tonal-secondary {
+	background-color: color-mix(in srgb, var(--color-secondary-400) 20%, transparent);
+	color: var(--color-secondary-700);
+
+	@variant dark {
 		background-color: color-mix(in srgb, var(--color-secondary-500) 20%, transparent);
 		color: var(--color-secondary-200);
 	}
+}
 
-	.preset-tonal-tertiary {
-		background-color: color-mix(in srgb, var(--color-tertiary-400) 20%, transparent);
-		color: var(--color-tertiary-700);
-	}
-	.preset-tonal-tertiary:where(.dark, .dark *) {
+@utility preset-tonal-tertiary {
+	background-color: color-mix(in srgb, var(--color-tertiary-400) 20%, transparent);
+	color: var(--color-tertiary-700);
+
+	@variant dark {
 		background-color: color-mix(in srgb, var(--color-tertiary-500) 20%, transparent);
 		color: var(--color-tertiary-200);
 	}
+}
 
-	.preset-tonal-success {
-		background-color: color-mix(in srgb, var(--color-success-400) 20%, transparent);
-		color: var(--color-success-700);
-	}
-	.preset-tonal-success:where(.dark, .dark *) {
+@utility preset-tonal-success {
+	background-color: color-mix(in srgb, var(--color-success-400) 20%, transparent);
+	color: var(--color-success-700);
+
+	@variant dark {
 		background-color: color-mix(in srgb, var(--color-success-500) 20%, transparent);
 		color: var(--color-success-200);
 	}
+}
 
-	.preset-tonal-warning {
-		background-color: color-mix(in srgb, var(--color-warning-400) 20%, transparent);
-		color: var(--color-warning-700);
-	}
-	.preset-tonal-warning:where(.dark, .dark *) {
+@utility preset-tonal-warning {
+	background-color: color-mix(in srgb, var(--color-warning-400) 20%, transparent);
+	color: var(--color-warning-700);
+
+	@variant dark {
 		background-color: color-mix(in srgb, var(--color-warning-500) 20%, transparent);
 		color: var(--color-warning-200);
 	}
+}
 
-	.preset-tonal-error {
-		background-color: color-mix(in srgb, var(--color-error-400) 20%, transparent);
-		color: var(--color-error-700);
-	}
-	.preset-tonal-error:where(.dark, .dark *) {
+@utility preset-tonal-error {
+	background-color: color-mix(in srgb, var(--color-error-400) 20%, transparent);
+	color: var(--color-error-700);
+
+	@variant dark {
 		background-color: color-mix(in srgb, var(--color-error-500) 20%, transparent);
 		color: var(--color-error-200);
 	}
+}
 
-	.preset-tonal-surface {
-		background-color: color-mix(in srgb, var(--color-surface-400) 20%, transparent);
-		color: var(--color-surface-700);
-	}
-	.preset-tonal-surface:where(.dark, .dark *) {
+@utility preset-tonal-surface {
+	background-color: color-mix(in srgb, var(--color-surface-400) 20%, transparent);
+	color: var(--color-surface-700);
+
+	@variant dark {
 		background-color: color-mix(in srgb, var(--color-surface-500) 20%, transparent);
 		color: var(--color-surface-200);
 	}
