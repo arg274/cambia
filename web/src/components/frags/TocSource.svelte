@@ -29,7 +29,7 @@
         <span class="ml-1.5 dark:font-light text-sm">{header}</span>
     </div>
     <div class="flex items-center place-items-center justify-between">
-        <div class="font-mono grow bg-surface-50-950 px-2 py-1 truncate">{discid}</div>
+        <div class="font-mono grow bg-surface-50-900 px-2 py-1 truncate">{discid}</div>
         <div class="flex">
             <CopyButton value={discid} />
             <a type="button" class="btn-icon hover:preset-tonal {url ? "visible" : "invisible"}" href={url} target="_blank"><IconArrowUpRight /></a>

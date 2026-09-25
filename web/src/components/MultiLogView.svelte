@@ -74,7 +74,7 @@
         {#each $pageRows as row (row.id)}
             <Subscribe rowAttrs={row.attrs()}>
                 {#snippet children({ rowAttrs }: { rowAttrs: Record<string, unknown> })}
-                    <tr class="bg-surface-100-900" {...rowAttrs}>
+                    <tr class="bg-surface-100-800" {...rowAttrs}>
                         {#each row.cells as cell (cell.id)}
                             <Subscribe attrs={cell.attrs()}>
                                 {#snippet children({ attrs }: { attrs: Record<string, unknown> })}

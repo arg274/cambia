@@ -118,7 +118,7 @@
 	<DropScreen bind:files={$fileListStore} onchange={() => {inputChanged(page.route.id)}} >
 		{@render children?.()}
 	</DropScreen>
-	<footer class="mt-10 rounded-tr-xl bg-surface-100-900 px-4 py-1">
+	<footer class="mt-10 rounded-tr-xl bg-surface-100-800 px-4 py-1">
 		<div class="flex items-center justify-between">
 			<div>
 				<CambiaLogo class="w-5 stroke-surface-300 dark:stroke-surface-400 stroke-1" />

@@ -170,4 +170,10 @@
 	--color-surface-800-200: light-dark(var(--color-surface-800), var(--color-surface-200));
 	--color-surface-700-300: light-dark(var(--color-surface-700), var(--color-surface-300));
 	--color-surface-600-400: light-dark(var(--color-surface-600), var(--color-surface-400));
+
+	/* Asymmetric pairs carried over from the v2 token set. */
+	--color-surface-50-900: light-dark(var(--color-surface-50), var(--color-surface-900));
+	--color-surface-100-800: light-dark(var(--color-surface-100), var(--color-surface-800));
+	--color-surface-200-700: light-dark(var(--color-surface-200), var(--color-surface-700));
+	--color-surface-900-50: light-dark(var(--color-surface-900), var(--color-surface-50));
 }

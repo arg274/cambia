@@ -25,6 +25,6 @@
                 <span class="ml-2 preset-tonal-primary rounded-md text-xs px-1.5 py-0.5 font-semibold">{offset}</span>
             {/if}
         </div>
-        <div class="font-mono grow bg-surface-50-950 px-2 py-1 truncate">{sign}</div>
+        <div class="font-mono grow bg-surface-50-900 px-2 py-1 truncate">{sign}</div>
     </div>
 {/if}
