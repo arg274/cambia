@@ -3,6 +3,8 @@ import type { ResponseEntry } from './types/ResponseEntry';
 import type { CambiaResponse } from './types/CambiaResponse';
 import type { CambiaError } from './types/CambiaError';
 import { getRipInfoMpMulti } from './api/CambiaApi';
+import { goto } from '$app/navigation';
+import { removeRoute } from './utils';
 
 export const processedCount = writable(0);
 export const responseStore = writable(new Array<ResponseEntry>());
@@ -14,6 +16,8 @@ export const badCount = writable(0);
 export const unknownCount = writable(0);
 export const errorStore = writable<CambiaError | null>(null);
 export const fetchController = writable<AbortController>(new AbortController());
+/** True only while an upload is in flight, so a stale file list cannot drive routing. */
+export const processing = writable(false);
 
 export function initialiseResponseStore(files: FileList | undefined) {
     hashIndexLookup.clear();
@@ -31,8 +35,16 @@ export function inputChanged(from: string | null) {
 	oldController.abort();
 	fetchController.set(newController);
 
-	initialiseResponseStore(get(fileListStore));
-	getRipInfoMpMulti(from, get(fileListStore), newController.signal);
+	const files = get(fileListStore);
+	initialiseResponseStore(files);
+	processing.set(!!files && files.length > 0);
+	getRipInfoMpMulti(from, files, newController.signal);
+
+	// Routing follows the act of choosing files. Deciding it from the file list
+	// instead meant the list outliving a navigation sent you back to /logs.
+	if (files && files.length > 1 && location.pathname !== '/logs') {
+		goto(`${removeRoute(location.pathname, from)}/logs`);
+	}
 }
 
 export function updateUnknown() {

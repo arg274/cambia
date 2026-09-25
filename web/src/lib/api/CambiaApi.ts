@@ -1,7 +1,7 @@
 import type { CambiaResponse } from "$lib/types/CambiaResponse";
 import { Unpackr } from 'msgpackr';
 import * as bigintConversion from 'bigint-conversion';
-import { errorStore, hashIndexLookup, processedCount, responseStore, updateStat, updateUnknown } from "$lib/LogStore";
+import { errorStore, hashIndexLookup, processedCount, processing, responseStore, updateStat, updateUnknown } from "$lib/LogStore";
 import { dev } from "$app/environment";
 import { XXH64 } from 'xxh3-ts';
 import { clientError, hexify, isCambiaError, isCambiaResponse, removeRoute } from "$lib/utils";
@@ -108,6 +108,9 @@ export async function getRipInfoMpMulti(from: string | null, files: FileList | u
             id: [],
             message: "Connection to the API failed."
         };
+        // Nothing will reach the completion path, so release the in-flight flag
+        // or the loading overlay would sit on top of the error page.
+        processing.set(false);
         errorStore.set(error);
         goto(`${removeRoute(location.pathname, page.route.id)}/error`);
     }

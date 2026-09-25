@@ -13,8 +13,9 @@
 	import type { AfterNavigate } from '@sveltejs/kit';
 	import { afterNavigate, goto } from '$app/navigation';
 	import DropScreen from '../components/frags/DropScreen.svelte';
-	import { errorStore, fileListStore, hashIndexLookup, inputChanged, processedCount, responseStore} from '$lib/LogStore';
+	import { errorStore, fileListStore, hashIndexLookup, inputChanged, processedCount, processing, responseStore} from '$lib/LogStore';
 	import { onMount } from 'svelte';
+	import { get } from 'svelte/store';
 	import { page } from '$app/state';
 
 	import type { CambiaError } from '$lib/types/CambiaError';
@@ -27,9 +28,10 @@
 
 	let { children }: Props = $props();
 
-	// v2 drove this through the modal store; LoadModal is itself a full-screen
-	// overlay, so a plain flag is enough.
-	let loading = $state(false);
+	// LoadModal is itself a full-screen overlay, so a flag is enough. It tracks
+	// an upload actually being in flight rather than the file list, which
+	// otherwise left the overlay up whenever a stale single file was around.
+	const loading = $derived($processing && $fileListStore?.length === 1);
 
 	function onToggleHandler(): void {
 		$modeCurrent = !$modeCurrent;
@@ -44,25 +46,23 @@
 	});
 
 	onMount(() => {
-		processedCount.subscribe(p => {
-			if ($fileListStore?.length == 1 && p == 0) {
-				loading = true;
-			} else if ($fileListStore?.length == 1 && p == 1) {
-				loading = false;
-				switch ($responseStore[0].status) {
-					case "processed":
-						goto(`${removeRoute(location.pathname, page.route.id)}/log?id=${hashIndexLookup.keys().next().value}`);
-						break;
-					case "errored":
-						errorStore.set($responseStore[0].content as CambiaError);
-						goto(`${removeRoute(location.pathname, page.route.id)}/error`)
-						break;
-					default:
-						console.log("Error");
-						break;
-				}
-			} else if ($fileListStore && $fileListStore.length > 1) {
-				if (location.pathname !== '/logs') goto(`${removeRoute(location.pathname, page.route.id)}/logs`);
+		const unsubscribe = processedCount.subscribe(p => {
+			// Only meaningful while an upload is running; subscribing replays the
+			// current value, and the store survives client-side navigation.
+			if (!get(processing) || $fileListStore?.length !== 1 || p !== 1) return;
+
+			processing.set(false);
+			switch ($responseStore[0].status) {
+				case "processed":
+					goto(`${removeRoute(location.pathname, page.route.id)}/log?id=${hashIndexLookup.keys().next().value}`);
+					break;
+				case "errored":
+					errorStore.set($responseStore[0].content as CambiaError);
+					goto(`${removeRoute(location.pathname, page.route.id)}/error`)
+					break;
+				default:
+					console.log("Error");
+					break;
 			}
 		});
 
@@ -85,6 +85,8 @@
 				inputChanged(page.route.id);
 			}
 		});
+
+		return unsubscribe;
 	});
 </script>
 
