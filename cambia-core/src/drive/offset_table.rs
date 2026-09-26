@@ -232,1696 +232,28 @@ pub static VENDOR_MAP: Map<&'static str, &'static [(&'static str, &'static Optio
     r#"YHO"# => &VND_YHO,
 };
 
-pub static VND_MOSER: [(&'static str, &'static Option<i16>); 4] = [
-    (r#"MOSERBAERDH20A3S"#, &Some(6_i16)),
-    (r#"MOSERBAERDH20A4P"#, &Some(6_i16)),
-    (r#"MOSERBAERDH22A8P"#, &Some(6_i16)),
-    (r#"MOSERBAERDH22A8S"#, &Some(6_i16))
-];
-
-pub static VND_TDK: [(&'static str, &'static Option<i16>); 31] = [
-    (r#"TDKCDRW121032"#, &Some(99_i16)),
-    (r#"TDKCDRW121032A"#, &Some(97_i16)),
-    (r#"TDKCDRW161040"#, &Some(99_i16)),
-    (r#"TDKCDRW161040X"#, &Some(688_i16)),
-    (r#"TDKCDRW161040XA"#, &Some(688_i16)),
-    (r#"TDKCDRW241040B"#, &Some(12_i16)),
-    (r#"TDKCDRW241040UEX"#, &Some(688_i16)),
-    (r#"TDKCDRW241040X"#, &Some(688_i16)),
-    (r#"TDKCDRW321040B"#, &Some(12_i16)),
-    (r#"TDKCDRW321040X"#, &Some(688_i16)),
-    (r#"TDKCDRW401240B"#, &Some(12_i16)),
-    (r#"TDKCDRW401248B"#, &Some(12_i16)),
-    (r#"TDKCDRW401248UEX"#, &Some(688_i16)),
-    (r#"TDKCDRW4800B"#, &Some(6_i16)),
-    (r#"TDKCDRW4800D"#, &Some(6_i16)),
-    (r#"TDKCDRW481648UED"#, &Some(12_i16)),
-    (r#"TDKCDRW482448BC"#, &Some(6_i16)),
-    (r#"TDKCDRW5200B"#, &Some(6_i16)),
-    (r#"TDKCDRW5200D"#, &Some(6_i16)),
-    (r#"TDKCDRW5201B"#, &Some(6_i16)),
-    (r#"TDKCDRW5210UEB"#, &Some(6_i16)),
-    (r#"TDKCDRW522432UED"#, &Some(6_i16)),
-    (r#"TDKCDRW522448UED"#, &Some(6_i16)),
-    (r#"TDKCDRW8432"#, &Some(355_i16)),
-    (r#"TDKDVDRW0404N"#, &Some(48_i16)),
-    (r#"TDKDVDRW1280B"#, &Some(12_i16)),
-    (r#"TDKDVDRW1616N"#, &Some(48_i16)),
-    (r#"TDKDVDRW420N"#, &Some(48_i16)),
-    (r#"TDKDVDRW840G"#, &Some(30_i16)),
-    (r#"TDKDVDRW880N"#, &Some(48_i16)),
-    (r#"TDKDVDRW882N"#, &Some(48_i16))
-];
-
-pub static VND_HLDS: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"HLDSINCEXTERNALDVDWRI"#, &Some(6_i16))
-];
-
-pub static VND_CENDYNE_: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"CENDYNE_481648AX"#, &Some(733_i16))
-];
-
-pub static VND_VIRSCSI: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"VIRSCSIDVDCDROM"#, &Some(98_i16))
-];
-
-pub static VND_40X12X48: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"40X12X48CDRW"#, &Some(97_i16))
-];
-
-pub static VND_IOMEGA: [(&'static str, &'static Option<i16>); 31] = [
-    (r#"IOMEGACDDVD482416E23C"#, &Some(6_i16)),
-    (r#"IOMEGACDDVD522416EC3C"#, &Some(6_i16)),
-    (r#"IOMEGACDDVD523216E23B"#, &Some(6_i16)),
-    (r#"IOMEGACDRW19200INTA"#, &Some(98_i16)),
-    (r#"IOMEGACDRW19202EXT2B"#, &Some(12_i16)),
-    (r#"IOMEGACDRW23042EXT3B"#, &Some(12_i16)),
-    (r#"IOMEGACDRW23042EXT3C"#, &Some(12_i16)),
-    (r#"IOMEGACDRW2304FEXTB"#, &Some(12_i16)),
-    (r#"IOMEGACDRW38402EXT2B"#, &Some(6_i16)),
-    (r#"IOMEGACDRW55292EXT3B"#, &Some(6_i16)),
-    (r#"IOMEGACDRW55292EXT3C"#, &Some(6_i16)),
-    (r#"IOMEGACDRW55296INTC"#, &Some(6_i16)),
-    (r#"IOMEGACDRW6402EXTB"#, &Some(12_i16)),
-    (r#"IOMEGACDRW64892EXT3B"#, &Some(6_i16)),
-    (r#"IOMEGACDRW64892EXT3C"#, &Some(6_i16)),
-    (r#"IOMEGACDRW86522EXT3B"#, &Some(6_i16)),
-    (r#"IOMEGACDRW86522EXT3C"#, &Some(6_i16)),
-    (r#"IOMEGACDRW9602EXT3B"#, &Some(12_i16)),
-    (r#"IOMEGACDRW9602EXTB"#, &Some(12_i16)),
-    (r#"IOMEGADVDRW12448E2DB"#, &Some(12_i16)),
-    (r#"IOMEGADVDRW4216INDA"#, &Some(48_i16)),
-    (r#"IOMEGADVDRW4216INPA"#, &Some(48_i16)),
-    (r#"IOMEGADVDRW4224E2QD"#, &Some(667_i16)),
-    (r#"IOMEGADVDRW4224INQD"#, &Some(667_i16)),
-    (r#"IOMEGADVDRW8440E2DB"#, &Some(12_i16)),
-    (r#"IOMEGASLIMLINEDVD"#, &Some(6_i16)),
-    (r#"IOMEGASUPERDVD"#, &Some(6_i16)),
-    (r#"IOMEGAZIPCD1024INTA"#, &Some(-436_i16)),
-    (r#"IOMEGAZIPCD3840INTA"#, &Some(99_i16)),
-    (r#"IOMEGAZIPCD650USB"#, &Some(-436_i16)),
-    (r#"IOMEGAZIPCDDVDROM"#, &Some(708_i16))
-];
-
-pub static VND_LGHL05P: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"LGHL05PLGHL05PMT8575"#, &Some(6_i16))
-];
-
-pub static VND_RWJKZYR: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"RWJKZYRPQB016NS1"#, &Some(48_i16))
-];
-
-pub static VND_SATA: [(&'static str, &'static Option<i16>); 54] = [
-    (r#"SATAASUSBC12B1S"#, &Some(702_i16)),
-    (r#"SATAASUSBR04B2T"#, &Some(696_i16)),
-    (r#"SATAASUSDRW1814"#, &Some(6_i16)),
-    (r#"SATAASUSDRW2014"#, &Some(6_i16)),
-    (r#"SATAASUSDRW20B1"#, &Some(6_i16)),
-    (r#"SATAASUSDRW24B1"#, &Some(6_i16)),
-    (r#"SATAASUSDRW24B3"#, &Some(6_i16)),
-    (r#"SATAASUSDVDE818"#, &Some(6_i16)),
-    (r#"SATAATAPIDVDAD"#, &Some(6_i16)),
-    (r#"SATAATAPIDVDDD"#, &Some(6_i16)),
-    (r#"SATAATAPIIHAS120"#, &Some(6_i16)),
-    (r#"SATAATAPIIHAS322"#, &Some(6_i16)),
-    (r#"SATAATAPIIHAS424"#, &Some(6_i16)),
-    (r#"SATAATAPIIHBS112"#, &Some(6_i16)),
-    (r#"SATAATAPIIHDS118"#, &Some(6_i16)),
-    (r#"SATAATAPIIHOS104"#, &Some(696_i16)),
-    (r#"SATABDREGGWH20L"#, &Some(667_i16)),
-    (r#"SATABENQDVDDDD"#, &Some(618_i16)),
-    (r#"SATACDDVDWSHS183L"#, &Some(6_i16)),
-    (r#"SATADVDRAMGH20NS15"#, &Some(667_i16)),
-    (r#"SATADVDRPX755A"#, &Some(30_i16)),
-    (r#"SATADVDRPX891SAF"#, &Some(6_i16)),
-    (r#"SATADVDRW18X18X12X"#, &Some(6_i16)),
-    (r#"SATADVDRW8X8X5X"#, &Some(6_i16)),
-    (r#"SATADVDRWAWG170S"#, &Some(48_i16)),
-    (r#"SATADVDRWSATA20X"#, &Some(6_i16)),
-    (r#"SATALGELECTRONICSBDDVDRW"#, &Some(667_i16)),
-    (r#"SATALGELECTRONICSBDREB"#, &Some(667_i16)),
-    (r#"SATALGELECTRONICSBDREG"#, &Some(667_i16)),
-    (r#"SATALGELECTRONICSBDREW"#, &Some(667_i16)),
-    (r#"SATALGELECTRONICSDVDRAM"#, &Some(102_i16)),
-    (r#"SATALGELECTRONICSDVDRAMG"#, &Some(667_i16)),
-    (r#"SATALITEONCOMBOSH"#, &Some(6_i16)),
-    (r#"SATALITEONDVDRWLH"#, &Some(6_i16)),
-    (r#"SATALITEONDVDSOHD"#, &Some(6_i16)),
-    (r#"SATAOPTIARCBDROMB"#, &Some(79_i16)),
-    (r#"SATAOPTIARCDVDRW"#, &Some(48_i16)),
-    (r#"SATAOPTIARCDVDRWA"#, &Some(48_i16)),
-    (r#"SATAPIONEERBDROM"#, &Some(667_i16)),
-    (r#"SATAPIONEERBDRW"#, &Some(667_i16)),
-    (r#"SATAPIONEERBDRWBD"#, &Some(667_i16)),
-    (r#"SATAPIONEERDVR213N"#, &Some(6_i16)),
-    (r#"SATAPLDSDVDRW"#, &Some(6_i16)),
-    (r#"SATAPLEXTORPXL910S"#, &Some(6_i16)),
-    (r#"SATASONYBDROMB"#, &Some(79_i16)),
-    (r#"SATASONYCDRWC"#, &Some(6_i16)),
-    (r#"SATASONYDVDROM"#, &Some(12_i16)),
-    (r#"SATASONYDVDRWA"#, &Some(48_i16)),
-    (r#"SATASONYDVDRWD"#, &Some(12_i16)),
-    (r#"SATATSSTCORPCDDVDW"#, &Some(6_i16)),
-    (r#"SATATSSTCORPCDDVDWS"#, &Some(6_i16)),
-    (r#"SATATSSTCORPCDDVDWT"#, &Some(6_i16)),
-    (r#"SATATSSTCORPDVDROM"#, &Some(6_i16)),
-    (r#"SATATSSTCORPDVDWBDS"#, &Some(6_i16))
-];
-
-pub static VND_POLAROID: [(&'static str, &'static Option<i16>); 5] = [
-    (r#"POLAROIDBURNMAX40"#, &Some(12_i16)),
-    (r#"POLAROIDBURNMAX40EX"#, &Some(12_i16)),
-    (r#"POLAROIDBURNMAX48"#, &Some(12_i16)),
-    (r#"POLAROIDBURNMAX52"#, &Some(6_i16)),
-    (r#"POLAROIDBURNMAX52EX"#, &Some(6_i16))
-];
-
-pub static VND_SONY: [(&'static str, &'static Option<i16>); 161] = [
-    (r#"SONYBDROMBDUX10S"#, &Some(79_i16)),
-    (r#"SONYBDRWBDXS500U"#, &Some(48_i16)),
-    (r#"SONYBDRWBDXS600U"#, &Some(48_i16)),
-    (r#"SONYBDRWBWU100A"#, &Some(102_i16)),
-    (r#"SONYBDRWBWU200S"#, &Some(102_i16)),
-    (r#"SONYBDRWBWU300S"#, &Some(102_i16)),
-    (r#"SONYBDRWBWU500S"#, &Some(6_i16)),
-    (r#"SONYCDROMCDU311"#, &Some(374_i16)),
-    (r#"SONYCDROMCDU4821"#, &Some(12_i16)),
-    (r#"SONYCDROMCDU5211"#, &Some(600_i16)),
-    (r#"SONYCDROMCDU5212"#, &Some(12_i16)),
-    (r#"SONYCDROMCDU5215"#, &Some(12_i16)),
-    (r#"SONYCDROMCDU5221"#, &Some(12_i16)),
-    (r#"SONYCDROMCDU5222"#, &Some(12_i16)),
-    (r#"SONYCDROMCDU5225"#, &Some(6_i16)),
-    (r#"SONYCDROMCDU5231"#, &Some(691_i16)),
-    (r#"SONYCDROMCDU5232"#, &Some(6_i16)),
-    (r#"SONYCDROMCDU5261"#, &Some(691_i16)),
-    (r#"SONYCDROMCDU611"#, &Some(699_i16)),
-    (r#"SONYCDROMCDU701"#, &Some(564_i16)),
-    (r#"SONYCDROMCDU70125"#, &Some(564_i16)),
-    (r#"SONYCDROMCDU711"#, &Some(99_i16)),
-    (r#"SONYCDRWCRX0811"#, &Some(688_i16)),
-    (r#"SONYCDRWCRX100E"#, &Some(1160_i16)),
-    (r#"SONYCDRWCRX10U"#, &Some(572_i16)),
-    (r#"SONYCDRWCRX120E"#, &Some(1160_i16)),
-    (r#"SONYCDRWCRX140E"#, &Some(572_i16)),
-    (r#"SONYCDRWCRX140S"#, &Some(572_i16)),
-    (r#"SONYCDRWCRX145E"#, &Some(572_i16)),
-    (r#"SONYCDRWCRX145S"#, &Some(572_i16)),
-    (r#"SONYCDRWCRX160E"#, &Some(572_i16)),
-    (r#"SONYCDRWCRX160S"#, &Some(572_i16)),
-    (r#"SONYCDRWCRX1611"#, &Some(690_i16)),
-    (r#"SONYCDRWCRX168B"#, &Some(6_i16)),
-    (r#"SONYCDRWCRX175A"#, &Some(120_i16)),
-    (r#"SONYCDRWCRX175A1"#, &Some(12_i16)),
-    (r#"SONYCDRWCRX175E"#, &Some(0_i16)),
-    (r#"SONYCDRWCRX175E"#, &Some(120_i16)),
-    (r#"SONYCDRWCRX175E2"#, &Some(97_i16)),
-    (r#"SONYCDRWCRX185E1"#, &Some(12_i16)),
-    (r#"SONYCDRWCRX185E3"#, &Some(12_i16)),
-    (r#"SONYCDRWCRX195E1"#, &Some(12_i16)),
-    (r#"SONYCDRWCRX210E1"#, &Some(6_i16)),
-    (r#"SONYCDRWCRX215E1"#, &Some(6_i16)),
-    (r#"SONYCDRWCRX215E5"#, &Some(733_i16)),
-    (r#"SONYCDRWCRX216E"#, &Some(6_i16)),
-    (r#"SONYCDRWCRX217E"#, &Some(6_i16)),
-    (r#"SONYCDRWCRX220E1"#, &Some(6_i16)),
-    (r#"SONYCDRWCRX225E"#, &Some(6_i16)),
-    (r#"SONYCDRWCRX230E"#, &Some(6_i16)),
-    (r#"SONYCDRWCRX230ED"#, &Some(6_i16)),
-    (r#"SONYCDRWCRX230EE"#, &Some(6_i16)),
-    (r#"SONYCDRWCRX300E"#, &Some(6_i16)),
-    (r#"SONYCDRWCRX320E"#, &Some(6_i16)),
-    (r#"SONYCDRWCRX320EE"#, &Some(6_i16)),
-    (r#"SONYCDRWCRX700E"#, &Some(572_i16)),
-    (r#"SONYCDRWCRX810E"#, &Some(120_i16)),
-    (r#"SONYCDRWCRX820E"#, &Some(120_i16)),
-    (r#"SONYCDRWCRX830E"#, &Some(6_i16)),
-    (r#"SONYCDRWCRX835E"#, &Some(6_i16)),
-    (r#"SONYCDRWCRX85A"#, &Some(120_i16)),
-    (r#"SONYCDRWCRXP90MU"#, &Some(120_i16)),
-    (r#"SONYCDRWDVDCRX310EE"#, &Some(6_i16)),
-    (r#"SONYCDRWDVDCRX310S"#, &Some(6_i16)),
-    (r#"SONYCDRWDVDCRX330E"#, &Some(6_i16)),
-    (r#"SONYCDRWDVDCRX830E"#, &Some(6_i16)),
-    (r#"SONYCDRWDVDCRX835E"#, &Some(6_i16)),
-    (r#"SONYCDRWDVDCRX850E"#, &Some(6_i16)),
-    (r#"SONYCDRWDVDCRX880A"#, &Some(6_i16)),
-    (r#"SONYCDRWDVDCRX960A"#, &Some(6_i16)),
-    (r#"SONYCDRWMPDAP20U"#, &Some(120_i16)),
-    (r#"SONYCDU4811"#, &Some(-1164_i16)),
-    (r#"SONYCDU5211"#, &Some(600_i16)),
-    (r#"SONYDVDROMDDU1211"#, &Some(594_i16)),
-    (r#"SONYDVDROMDDU1611"#, &Some(594_i16)),
-    (r#"SONYDVDROMDDU1612"#, &Some(12_i16)),
-    (r#"SONYDVDROMDDU1613"#, &Some(12_i16)),
-    (r#"SONYDVDROMDDU1615"#, &Some(6_i16)),
-    (r#"SONYDVDROMDDU1615S"#, &Some(6_i16)),
-    (r#"SONYDVDROMDDU1622"#, &Some(12_i16)),
-    (r#"SONYDVDROMDDU1632"#, &Some(6_i16)),
-    (r#"SONYDVDROMDDU1642"#, &Some(6_i16)),
-    (r#"SONYDVDROMDDU1678A"#, &Some(6_i16)),
-    (r#"SONYDVDROMDDU1681S"#, &Some(6_i16)),
-    (r#"SONYDVDROMDDU220E"#, &Some(564_i16)),
-    (r#"SONYDVDROMDDU810A"#, &Some(6_i16)),
-    (r#"SONYDVDRWAD7200A"#, &Some(48_i16)),
-    (r#"SONYDVDRWAD7200S"#, &Some(48_i16)),
-    (r#"SONYDVDRWAD7220S"#, &Some(6_i16)),
-    (r#"SONYDVDRWAD7240S"#, &Some(48_i16)),
-    (r#"SONYDVDRWAD7260S"#, &Some(48_i16)),
-    (r#"SONYDVDRWAD7280S"#, &Some(48_i16)),
-    (r#"SONYDVDRWAD7290H"#, &Some(6_i16)),
-    (r#"SONYDVDRWAWG170A"#, &Some(48_i16)),
-    (r#"SONYDVDRWAWG170S"#, &Some(48_i16)),
-    (r#"SONYDVDRWAWG540A"#, &Some(48_i16)),
-    (r#"SONYDVDRWAWG630A"#, &Some(48_i16)),
-    (r#"SONYDVDRWAWG910A"#, &Some(48_i16)),
-    (r#"SONYDVDRWAWQ160A"#, &Some(6_i16)),
-    (r#"SONYDVDRWAWQ160S"#, &Some(6_i16)),
-    (r#"SONYDVDRWAWQ170A"#, &Some(48_i16)),
-    (r#"SONYDVDRWAWQ540A"#, &Some(48_i16)),
-    (r#"SONYDVDRWDRU120A"#, &Some(120_i16)),
-    (r#"SONYDVDRWDRU180A"#, &Some(6_i16)),
-    (r#"SONYDVDRWDRU190A"#, &Some(6_i16)),
-    (r#"SONYDVDRWDRU190S"#, &Some(6_i16)),
-    (r#"SONYDVDRWDRU500A"#, &Some(120_i16)),
-    (r#"SONYDVDRWDRU510A"#, &Some(120_i16)),
-    (r#"SONYDVDRWDRU530A"#, &Some(689_i16)),
-    (r#"SONYDVDRWDRU540A"#, &Some(691_i16)),
-    (r#"SONYDVDRWDRU700A"#, &Some(12_i16)),
-    (r#"SONYDVDRWDRU710A"#, &Some(12_i16)),
-    (r#"SONYDVDRWDRU720A"#, &Some(12_i16)),
-    (r#"SONYDVDRWDRU800A"#, &Some(12_i16)),
-    (r#"SONYDVDRWDRU810A"#, &Some(618_i16)),
-    (r#"SONYDVDRWDRU820A"#, &Some(102_i16)),
-    (r#"SONYDVDRWDRU830A"#, &Some(6_i16)),
-    (r#"SONYDVDRWDRU835A"#, &Some(6_i16)),
-    (r#"SONYDVDRWDRU840A"#, &Some(6_i16)),
-    (r#"SONYDVDRWDRU842A"#, &Some(48_i16)),
-    (r#"SONYDVDRWDRU845S"#, &Some(6_i16)),
-    (r#"SONYDVDRWDRU860A"#, &Some(6_i16)),
-    (r#"SONYDVDRWDRU860S"#, &Some(6_i16)),
-    (r#"SONYDVDRWDRU865S"#, &Some(6_i16)),
-    (r#"SONYDVDRWDRU870S"#, &Some(48_i16)),
-    (r#"SONYDVDRWDRU875S"#, &Some(48_i16)),
-    (r#"SONYDVDRWDRU880S"#, &Some(48_i16)),
-    (r#"SONYDVDRWDRUV200A"#, &Some(48_i16)),
-    (r#"SONYDVDRWDRUV200S"#, &Some(48_i16)),
-    (r#"SONYDVDRWDRUV202A"#, &Some(48_i16)),
-    (r#"SONYDVDRWDRUV204A"#, &Some(48_i16)),
-    (r#"SONYDVDRWDRXS70U"#, &None),
-    (r#"SONYDVDRWDRXS90U"#, &Some(48_i16)),
-    (r#"SONYDVDRWDWD150A"#, &Some(48_i16)),
-    (r#"SONYDVDRWDWD18A"#, &Some(12_i16)),
-    (r#"SONYDVDRWDWD22A"#, &Some(12_i16)),
-    (r#"SONYDVDRWDWD23A"#, &Some(12_i16)),
-    (r#"SONYDVDRWDWD26A"#, &Some(12_i16)),
-    (r#"SONYDVDRWDWD56A"#, &Some(12_i16)),
-    (r#"SONYDVDRWDWG120A"#, &Some(6_i16)),
-    (r#"SONYDVDRWDWG121A"#, &Some(6_i16)),
-    (r#"SONYDVDRWDWG520A"#, &Some(594_i16)),
-    (r#"SONYDVDRWDWG521A"#, &Some(594_i16)),
-    (r#"SONYDVDRWDWP50A"#, &Some(120_i16)),
-    (r#"SONYDVDRWDWQ120A"#, &Some(6_i16)),
-    (r#"SONYDVDRWDWQ28A"#, &Some(12_i16)),
-    (r#"SONYDVDRWDWQ30A"#, &Some(6_i16)),
-    (r#"SONYDVDRWDWQ31A"#, &Some(6_i16)),
-    (r#"SONYDVDRWDWQ520A"#, &Some(594_i16)),
-    (r#"SONYDVDRWDWQ58A"#, &Some(6_i16)),
-    (r#"SONYDVDRWDWQ78A"#, &Some(6_i16)),
-    (r#"SONYDVDRWDWR56A"#, &Some(12_i16)),
-    (r#"SONYDVDRWDWU12A"#, &Some(120_i16)),
-    (r#"SONYDVDRWDWU14A"#, &Some(120_i16)),
-    (r#"SONYDVDRWDWU18A"#, &Some(12_i16)),
-    (r#"SONYDVDRWDWU50A"#, &Some(120_i16)),
-    (r#"SONYDVDRWDWU54A"#, &Some(120_i16)),
-    (r#"SONYDVDRWDWU55A"#, &Some(120_i16)),
-    (r#"SONYKEK410AAA_A"#, &Some(96_i16)),
-    (r#"SONYKEK410AAA_C"#, &Some(96_i16)),
-    (r#"SONYLUCIDPORTUSB300"#, &Some(48_i16))
-];
-
-pub static VND_PANASONICBDCMB: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"PANASONICBDCMBU"#, &Some(103_i16))
-];
-
-pub static VND_LACIE: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"LACIECDBP241040A"#, &Some(688_i16))
-];
-
-pub static VND_MIDA: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"MIDA40XB"#, &Some(-1164_i16))
-];
-
-pub static VND_NEC: [(&'static str, &'static Option<i16>); 64] = [
-    (r#"NECCB2100A"#, &Some(48_i16)),
-    (r#"NECCDROMCD3002A"#, &Some(600_i16)),
-    (r#"NECCDROMCD3002C"#, &Some(6_i16)),
-    (r#"NECCDROMDRIVE282"#, &Some(680_i16)),
-    (r#"NECCDROMDRIVE28C"#, &Some(974_i16)),
-    (r#"NECCDROMDRIVE28D"#, &Some(974_i16)),
-    (r#"NECCDROMDRIVE28G"#, &Some(680_i16)),
-    (r#"NECCDROMDRIVE291"#, &Some(680_i16)),
-    (r#"NECCDROMDRIVE465"#, &Some(92_i16)),
-    (r#"NECCDROMDRIVE466"#, &Some(680_i16)),
-    (r#"NECCDRWDVDCB1100A"#, &Some(6_i16)),
-    (r#"NECCDRWDVDCB1100B"#, &Some(6_i16)),
-    (r#"NECCDRWNR9100A"#, &Some(685_i16)),
-    (r#"NECCDRWNR9200A"#, &Some(685_i16)),
-    (r#"NECCDRWNR9300A"#, &Some(685_i16)),
-    (r#"NECCDRWNR9400A"#, &Some(145_i16)),
-    (r#"NECCDRWNR9500A"#, &Some(145_i16)),
-    (r#"NECCDRWNR9500B"#, &Some(145_i16)),
-    (r#"NECDV5500A"#, &Some(116_i16)),
-    (r#"NECDV5700A"#, &Some(116_i16)),
-    (r#"NECDV5700B"#, &Some(116_i16)),
-    (r#"NECDV5800A"#, &Some(116_i16)),
-    (r#"NECDV5800C"#, &Some(12_i16)),
-    (r#"NECDV5800E"#, &Some(6_i16)),
-    (r#"NECDVDROMDV5700A"#, &Some(116_i16)),
-    (r#"NECDVDRWND1000A"#, &Some(48_i16)),
-    (r#"NECDVDRWND1100A"#, &Some(48_i16)),
-    (r#"NECDVDRWND2100AD"#, &Some(48_i16)),
-    (r#"NECDVDRWND2510A"#, &Some(48_i16)),
-    (r#"NECDVDRWND3100AD"#, &Some(48_i16)),
-    (r#"NECDVDRWND3450A"#, &Some(48_i16)),
-    (r#"NECDVDRWND3530A"#, &Some(48_i16)),
-    (r#"NECDVDRWND3650A"#, &Some(48_i16)),
-    (r#"NECDVDRWND5100A"#, &Some(48_i16)),
-    (r#"NECDVDRWND6100A"#, &Some(48_i16)),
-    (r#"NECDVDRWND6450A"#, &Some(48_i16)),
-    (r#"NECDVDRWND6500A"#, &Some(48_i16)),
-    (r#"NECDVDRWND6650A"#, &Some(48_i16)),
-    (r#"NECDVD_RWND1300A"#, &Some(48_i16)),
-    (r#"NECDVD_RWND2500A"#, &Some(48_i16)),
-    (r#"NECDVD_RWND2510A"#, &Some(48_i16)),
-    (r#"NECDVD_RWND3500AG"#, &Some(48_i16)),
-    (r#"NECDVD_RWND3520A"#, &Some(48_i16)),
-    (r#"NECDVD_RWND3520AW"#, &Some(48_i16)),
-    (r#"NECDVD_RWND3530A"#, &Some(48_i16)),
-    (r#"NECDVD_RWND3540A"#, &Some(48_i16)),
-    (r#"NECDVD_RWND3550A"#, &Some(48_i16)),
-    (r#"NECDVD_RWND3551A"#, &Some(48_i16)),
-    (r#"NECDVD_RWND3570A"#, &Some(48_i16)),
-    (r#"NECDVD_RWND4550A"#, &Some(48_i16)),
-    (r#"NECDVD_RWND4551A"#, &Some(48_i16)),
-    (r#"NECDVD_RWND4570A"#, &Some(48_i16)),
-    (r#"NECDVD_RWND4571A"#, &Some(48_i16)),
-    (r#"NECDVD_RWND5500A"#, &Some(48_i16)),
-    (r#"NECDVD_RWND6750A"#, &Some(48_i16)),
-    (r#"NECDVD_RWND7550A"#, &Some(48_i16)),
-    (r#"NECDVD_RWND7551A"#, &Some(48_i16)),
-    (r#"NECDVD_RWND7551B"#, &Some(48_i16)),
-    (r#"NECDVD_RWNDXXX"#, &Some(0_i16)),
-    (r#"NECNR7500A"#, &Some(685_i16)),
-    (r#"NECNR7700A"#, &Some(685_i16)),
-    (r#"NECNR7800A"#, &Some(685_i16)),
-    (r#"NECNR7800B"#, &Some(685_i16)),
-    (r#"NECNR7900A"#, &Some(685_i16))
-];
-
-pub static VND_DELTA: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"DELTAOIPSD2400ABM"#, &Some(12_i16))
-];
-
-pub static VND_COMBO52X16C: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"COMBO52X16C"#, &Some(6_i16))
-];
-
-pub static VND_KISS: [(&'static str, &'static Option<i16>); 3] = [
-    (r#"KISSDVDROMDR1712"#, &Some(-472_i16)),
-    (r#"KISSDVDROMDR1802"#, &Some(691_i16)),
-    (r#"KISSDVDROMDR2012C"#, &Some(6_i16))
-];
-
-pub static VND_MJIZIL: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"MJIZILCDQJ4DYB4"#, &Some(0_i16))
-];
-
-pub static VND_BTC: [(&'static str, &'static Option<i16>); 8] = [
-    (r#"BTCBCE1610IM"#, &Some(12_i16)),
-    (r#"BTCBCE2410IM"#, &Some(12_i16)),
-    (r#"BTCBCE3212IM"#, &Some(12_i16)),
-    (r#"BTCBCE4012IM"#, &Some(12_i16)),
-    (r#"BTCBCE4816IM"#, &Some(12_i16)),
-    (r#"BTCBCO4016IM"#, &Some(6_i16)),
-    (r#"BTCBDV316E"#, &Some(0_i16)),
-    (r#"BTCCDROMF523E"#, &Some(12_i16))
-];
-
-pub static VND_ARCHOS: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"ARCHOSMINICDRWXS8432"#, &Some(-436_i16))
-];
-
-pub static VND_ATA: [(&'static str, &'static Option<i16>); 12] = [
-    (r#"ATAASUSBW12B1S"#, &Some(6_i16)),
-    (r#"ATAASUSBW16D1H"#, &Some(6_i16)),
-    (r#"ATAATAPIIHAS124"#, &Some(6_i16)),
-    (r#"ATAATAPIIHBS312"#, &Some(6_i16)),
-    (r#"ATADRW24D5MT"#, &Some(6_i16)),
-    (r#"ATALGELECTRONICSBDRE"#, &Some(6_i16)),
-    (r#"ATALGELECTRONICSDVDRAM"#, &Some(6_i16)),
-    (r#"ATALGELECTRONICSDVDRAM"#, &Some(102_i16)),
-    (r#"ATAPIONEERBDRW"#, &Some(667_i16)),
-    (r#"ATAPIONEERBDRWB"#, &Some(667_i16)),
-    (r#"ATAPIONEERDVDRW"#, &Some(6_i16)),
-    (r#"ATAPLEXTORBDRPX"#, &Some(6_i16))
-];
-
-pub static VND_FUJITSU: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"FUJITSUDVD"#, &Some(48_i16))
-];
-
-pub static VND_MSI: [(&'static str, &'static Option<i16>); 12] = [
-    (r#"MSICDRW52X32X52X"#, &Some(738_i16)),
-    (r#"MSICDRWCR52"#, &Some(6_i16)),
-    (r#"MSICDRWMS8332"#, &Some(733_i16)),
-    (r#"MSICDRWMS8340S"#, &Some(688_i16)),
-    (r#"MSICDRWMS8348"#, &Some(733_i16)),
-    (r#"MSIDSE8AS"#, &Some(6_i16)),
-    (r#"MSIDVDROM16X"#, &Some(738_i16)),
-    (r#"MSIDVDROMDH18DS"#, &Some(6_i16)),
-    (r#"MSISLIM"#, &Some(6_i16)),
-    (r#"MSIWINDDRIVE"#, &Some(6_i16)),
-    (r#"MSIWINDDRIVEUO881"#, &Some(6_i16)),
-    (r#"MSIWINDDRIVEUO882"#, &Some(6_i16))
-];
-
-pub static VND_PAPW: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"PAPWFSPQ3W9E"#, &Some(0_i16))
-];
-
-pub static VND_DRIDE1648: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"DRIDE1648"#, &Some(594_i16))
-];
-
-pub static VND_FREECOM: [(&'static str, &'static Option<i16>); 3] = [
-    (r#"FREECOMCDRW52J"#, &Some(6_i16)),
-    (r#"FREECOMDVDRW"#, &Some(6_i16)),
-    (r#"FREECOMDVDRW8J9"#, &Some(12_i16))
-];
-
-pub static VND_FREECOM_: [(&'static str, &'static Option<i16>); 32] = [
-    (r#"FREECOM_BDCOMBO12H"#, &Some(6_i16)),
-    (r#"FREECOM_BDCOMBO8H"#, &Some(6_i16)),
-    (r#"FREECOM_COMBO48K"#, &Some(6_i16)),
-    (r#"FREECOM_DVDRW16B6"#, &Some(48_i16)),
-    (r#"FREECOM_DVDRW16B7"#, &Some(48_i16)),
-    (r#"FREECOM_DVDRW16B9"#, &Some(48_i16)),
-    (r#"FREECOM_DVDRW16H4"#, &Some(48_i16)),
-    (r#"FREECOM_DVDRW16H8"#, &Some(6_i16)),
-    (r#"FREECOM_DVDRW16H9"#, &Some(12_i16)),
-    (r#"FREECOM_DVDRW16J6"#, &Some(6_i16)),
-    (r#"FREECOM_DVDRW16J7"#, &Some(6_i16)),
-    (r#"FREECOM_DVDRW16J8"#, &Some(6_i16)),
-    (r#"FREECOM_DVDRW16J9"#, &Some(6_i16)),
-    (r#"FREECOM_DVDRW16N8"#, &Some(6_i16)),
-    (r#"FREECOM_DVDRW16N9"#, &Some(704_i16)),
-    (r#"FREECOM_DVDRW18H9"#, &Some(6_i16)),
-    (r#"FREECOM_DVDRW18J8"#, &Some(6_i16)),
-    (r#"FREECOM_DVDRW18J9"#, &Some(6_i16)),
-    (r#"FREECOM_DVDRW20J5"#, &Some(6_i16)),
-    (r#"FREECOM_DVDRW20J6"#, &Some(6_i16)),
-    (r#"FREECOM_DVDRW20J7"#, &Some(6_i16)),
-    (r#"FREECOM_DVDRW20J8"#, &Some(6_i16)),
-    (r#"FREECOM_DVDRW20J9"#, &Some(6_i16)),
-    (r#"FREECOM_DVDRW22H9"#, &Some(697_i16)),
-    (r#"FREECOM_DVDRW22J8"#, &Some(6_i16)),
-    (r#"FREECOM_DVDRW22J9"#, &Some(6_i16)),
-    (r#"FREECOM_DVDRW22JS8"#, &Some(6_i16)),
-    (r#"FREECOM_DVDRW24H8"#, &Some(6_i16)),
-    (r#"FREECOM_DVDRW4B"#, &Some(48_i16)),
-    (r#"FREECOM_DVDRW8B9"#, &Some(48_i16)),
-    (r#"FREECOM_DVDRW8J"#, &Some(12_i16)),
-    (r#"FREECOM_DVDRW8J1"#, &Some(12_i16))
-];
-
-pub static VND_OPTIARC: [(&'static str, &'static Option<i16>); 152] = [
-    (r#"OPTIARCBDDRVBC5600S"#, &Some(48_i16)),
-    (r#"OPTIARCBDROMBC5100S"#, &Some(667_i16)),
-    (r#"OPTIARCBDROMBC5500A"#, &Some(48_i16)),
-    (r#"OPTIARCBDROMBC5500H"#, &Some(48_i16)),
-    (r#"OPTIARCBDROMBC5500S"#, &Some(48_i16)),
-    (r#"OPTIARCBDROMBC5500S4"#, &Some(48_i16)),
-    (r#"OPTIARCBDROMBC5530H"#, &Some(48_i16)),
-    (r#"OPTIARCBDROMBC5540H"#, &Some(48_i16)),
-    (r#"OPTIARCBDROMBC5550H"#, &Some(48_i16)),
-    (r#"OPTIARCBDROMBC5600S"#, &Some(48_i16)),
-    (r#"OPTIARCBDROMBC5640H"#, &Some(48_i16)),
-    (r#"OPTIARCBDROMBC5650H"#, &Some(48_i16)),
-    (r#"OPTIARCBDROMBR5100S"#, &Some(79_i16)),
-    (r#"OPTIARCBDRWBD"#, &Some(48_i16)),
-    (r#"OPTIARCBDRWBD5300S"#, &Some(6_i16)),
-    (r#"OPTIARCBDRWBD5730S"#, &Some(48_i16)),
-    (r#"OPTIARCBDRWBD5730S6"#, &Some(48_i16)),
-    (r#"OPTIARCBDRWBD5740H"#, &Some(48_i16)),
-    (r#"OPTIARCBDRWBD5740L"#, &Some(48_i16)),
-    (r#"OPTIARCBDRWBD5750H"#, &Some(48_i16)),
-    (r#"OPTIARCBDRWBD5750L"#, &Some(48_i16)),
-    (r#"OPTIARCBDRWBD5840H"#, &Some(48_i16)),
-    (r#"OPTIARCBDRWBD5850H"#, &Some(48_i16)),
-    (r#"OPTIARCBDRWBDM100A"#, &Some(102_i16)),
-    (r#"OPTIARCCDRWCRX870A"#, &Some(6_i16)),
-    (r#"OPTIARCCDRWCRX880A"#, &Some(6_i16)),
-    (r#"OPTIARCCDRWDVDCRX890A"#, &Some(6_i16)),
-    (r#"OPTIARCCDRWDVDCRX890S"#, &Some(6_i16)),
-    (r#"OPTIARCDVDROMDDU1671S"#, &Some(6_i16)),
-    (r#"OPTIARCDVDROMDDU1675A"#, &Some(6_i16)),
-    (r#"OPTIARCDVDROMDDU1675S"#, &Some(6_i16)),
-    (r#"OPTIARCDVDROMDDU1678A"#, &Some(6_i16)),
-    (r#"OPTIARCDVDROMDDU1681S"#, &Some(6_i16)),
-    (r#"OPTIARCDVDROMDDU7700H"#, &Some(48_i16)),
-    (r#"OPTIARCDVDROMDDU7710H"#, &Some(48_i16)),
-    (r#"OPTIARCDVDROMDDU7740H"#, &Some(48_i16)),
-    (r#"OPTIARCDVDROMDDU7930H"#, &Some(48_i16)),
-    (r#"OPTIARCDVDROMDDU820A"#, &Some(6_i16)),
-    (r#"OPTIARCDVDROMDDU820S"#, &Some(6_i16)),
-    (r#"OPTIARCDVDRWA"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD5170A"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD5170S"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD5200A"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD5200S"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD5240S"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD5260S"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD5280S"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD5290S"#, &Some(6_i16)),
-    (r#"OPTIARCDVDRWAD5530A"#, &Some(6_i16)),
-    (r#"OPTIARCDVDRWAD5540A"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD5540B"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD5560A"#, &Some(6_i16)),
-    (r#"OPTIARCDVDRWAD5590A"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD5630A"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD5670S"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD5670SC"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD5680H"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD5690H"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD5960S"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD5970H"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7170A"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7170S"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7173A"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7173S"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7190A"#, &Some(6_i16)),
-    (r#"OPTIARCDVDRWAD7190S"#, &Some(6_i16)),
-    (r#"OPTIARCDVDRWAD7191A"#, &Some(6_i16)),
-    (r#"OPTIARCDVDRWAD7191S"#, &Some(6_i16)),
-    (r#"OPTIARCDVDRWAD7200A"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7200S"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7201A"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7201S"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7201S5"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7201S6"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7203A"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7203S"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7220A"#, &Some(6_i16)),
-    (r#"OPTIARCDVDRWAD7220S"#, &Some(6_i16)),
-    (r#"OPTIARCDVDRWAD7221A"#, &Some(6_i16)),
-    (r#"OPTIARCDVDRWAD7221S"#, &Some(6_i16)),
-    (r#"OPTIARCDVDRWAD7230S"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7231S5"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7233S"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7240S"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7241S"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7243S"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7250H"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7260S"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7261S"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7263S"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7270H"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7280S"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7283S"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7290H"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7530A"#, &Some(6_i16)),
-    (r#"OPTIARCDVDRWAD7530B"#, &Some(6_i16)),
-    (r#"OPTIARCDVDRWAD7540A"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7543A"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7543B"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7543C"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7560A"#, &Some(6_i16)),
-    (r#"OPTIARCDVDRWAD7560S"#, &Some(6_i16)),
-    (r#"OPTIARCDVDRWAD7561A"#, &Some(6_i16)),
-    (r#"OPTIARCDVDRWAD7561S"#, &Some(6_i16)),
-    (r#"OPTIARCDVDRWAD7563A"#, &Some(6_i16)),
-    (r#"OPTIARCDVDRWAD7580A"#, &Some(6_i16)),
-    (r#"OPTIARCDVDRWAD7580S"#, &Some(6_i16)),
-    (r#"OPTIARCDVDRWAD7581A"#, &Some(6_i16)),
-    (r#"OPTIARCDVDRWAD7581S"#, &Some(6_i16)),
-    (r#"OPTIARCDVDRWAD7583S"#, &Some(6_i16)),
-    (r#"OPTIARCDVDRWAD7585H"#, &Some(6_i16)),
-    (r#"OPTIARCDVDRWAD7590A"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7590B"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7590S"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7590T"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7591S"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7593A"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7593B"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7630A"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7633A"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7640A"#, &Some(6_i16)),
-    (r#"OPTIARCDVDRWAD7640S"#, &Some(6_i16)),
-    (r#"OPTIARCDVDRWAD7643S"#, &Some(6_i16)),
-    (r#"OPTIARCDVDRWAD7670S"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7690H"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7693H"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7700H"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7700S"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7700T"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7703S"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7710H"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7710I"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7713H"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7717H"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7730U"#, &Some(6_i16)),
-    (r#"OPTIARCDVDRWAD7740H"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7740I"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7747H"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7760H"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7760I"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7800H"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7803H"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7910A"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7910S"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7913A"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7930H"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7940H"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWAD7980H"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWBDBC5540H"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWBDBC5550H"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWBDBC5600S"#, &Some(48_i16)),
-    (r#"OPTIARCDVDRWND3570A"#, &Some(48_i16))
-];
-
-pub static VND_QSI: [(&'static str, &'static Option<i16>); 19] = [
-    (r#"QSICDROMSCR242"#, &Some(-1164_i16)),
-    (r#"QSICDRWDVDSBW241"#, &Some(733_i16)),
-    (r#"QSICDRWDVDSBW242B"#, &Some(6_i16)),
-    (r#"QSICDRWDVDSBW242C"#, &Some(6_i16)),
-    (r#"QSICDRWDVDSBW243"#, &Some(6_i16)),
-    (r#"QSICDRWDVDSBW245"#, &Some(6_i16)),
-    (r#"QSICDRWDVDUBW241"#, &Some(6_i16)),
-    (r#"QSIDVDCDRWSBW081"#, &Some(733_i16)),
-    (r#"QSIDVDCDRWSBW161"#, &Some(733_i16)),
-    (r#"QSIDVDRAMSDW086"#, &Some(6_i16)),
-    (r#"QSIDVDROMSDR081"#, &Some(564_i16)),
-    (r#"QSIDVDROMSDR083"#, &Some(-582_i16)),
-    (r#"QSIDVDROMTDR085"#, &Some(-1164_i16)),
-    (r#"QSIDVDRWSDW041"#, &Some(1292_i16)),
-    (r#"QSIDVDRWSDW042"#, &Some(1292_i16)),
-    (r#"QSIDVDRWSDW082"#, &Some(1292_i16)),
-    (r#"QSIDVDRWSDW082K"#, &Some(1292_i16)),
-    (r#"QSIDVDRWSDW082S"#, &Some(1292_i16)),
-    (r#"QSIDVDRWSDW085"#, &Some(6_i16))
-];
-
-pub static VND_SATADVD: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"SATADVDDROM6316"#, &Some(6_i16))
-];
-
-pub static VND_PINE: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"PINECDROMPT56X"#, &Some(694_i16))
-];
-
-pub static VND_OWLTECH: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"OWLTECHOPTIARCDVDRWA"#, &Some(48_i16))
-];
-
-pub static VND_SANYO: [(&'static str, &'static Option<i16>); 2] = [
-    (r#"SANYOCDROMCRD1332P"#, &Some(682_i16)),
-    (r#"SANYOCRDS372B"#, &Some(694_i16))
-];
-
-pub static VND_THINKPAD: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"THINKPADULTRASLIMDVD"#, &Some(6_i16))
-];
-
-pub static VND_YHO: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"YHO634LQ3WTE"#, &Some(0_i16))
-];
-
-pub static VND_ESATA: [(&'static str, &'static Option<i16>); 2] = [
-    (r#"ESATACDDVDWSHS202N"#, &Some(6_i16)),
-    (r#"ESATADVDRAMGSAH55L"#, &Some(102_i16))
-];
-
-pub static VND_DVD: [(&'static str, &'static Option<i16>); 9] = [
-    (r#"DVD16X"#, &Some(6_i16)),
-    (r#"DVDDUALGOW0404A"#, &Some(12_i16)),
-    (r#"DVDDUALGOW1616B"#, &Some(12_i16)),
-    (r#"DVDROMCIBDV316E"#, &Some(12_i16)),
-    (r#"DVDROMDXDVDR100"#, &Some(12_i16)),
-    (r#"DVDRW"#, &Some(6_i16)),
-    (r#"DVDRWDVRMCC"#, &Some(48_i16)),
-    (r#"DVDRWTP2"#, &Some(6_i16)),
-    (r#"DVDWRITER1260V"#, &Some(6_i16))
-];
-
-pub static VND_GIGABYTE: [(&'static str, &'static Option<i16>); 12] = [
-    (r#"GIGABYTEGOB5232A"#, &Some(6_i16)),
-    (r#"GIGABYTEGOB5232C"#, &Some(6_i16)),
-    (r#"GIGABYTEGOD1600A"#, &Some(12_i16)),
-    (r#"GIGABYTEGOD1600C"#, &Some(12_i16)),
-    (r#"GIGABYTEGOR5232A"#, &Some(6_i16)),
-    (r#"GIGABYTEGOR5232E"#, &Some(6_i16)),
-    (r#"GIGABYTEGOW0808A"#, &Some(12_i16)),
-    (r#"GIGABYTEGOW1608A"#, &Some(6_i16)),
-    (r#"GIGABYTEGOW1623A"#, &Some(6_i16)),
-    (r#"GIGABYTEGOW20MA"#, &Some(6_i16)),
-    (r#"GIGABYTEGOW20MB"#, &Some(6_i16)),
-    (r#"GIGABYTEGOW20SC"#, &Some(6_i16))
-];
-
-pub static VND_TSSTCORP: [(&'static str, &'static Option<i16>); 293] = [
-    (r#"TSSTCORPAAES0PN21"#, &Some(6_i16)),
-    (r#"TSSTCORPBDDVDW"#, &Some(6_i16)),
-    (r#"TSSTCORPBDDVDWSE506AB"#, &Some(6_i16)),
-    (r#"TSSTCORPBDDVDWSE506BB"#, &Some(6_i16)),
-    (r#"TSSTCORPBDDVDWSE506CB"#, &Some(6_i16)),
-    (r#"TSSTCORPBDDVDWSN506AB"#, &Some(6_i16)),
-    (r#"TSSTCORPBDDVDWSN506BB"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDW"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWDB66"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSDR5372V"#, &Some(704_i16)),
-    (r#"TSSTCORPCDDVDWSE208AB"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSE208BW"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSE208DB"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSE208DR"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSE208FB"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSE208GB"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSE218BB"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSE218CB"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSE218CN"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSE218GF"#, &Some(667_i16)),
-    (r#"TSSTCORPCDDVDWSE218GN"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSE218GN"#, &Some(102_i16)),
-    (r#"TSSTCORPCDDVDWSE218GP"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSE218GX"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSEB18AB"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSES084B"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSES084C"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSES084D"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSES084F"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSES204N"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSES204S"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSES224Q"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSET084L"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSET084M"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSET084P"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSH216AB"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSH216BB"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSH216DB"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSH216FB"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSH222AB"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSH222AL"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSH222BB"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSH224BB"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSH224DB"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSH224FB"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSH224GB"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSHS162A"#, &Some(48_i16)),
-    (r#"TSSTCORPCDDVDWSHS162L"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSHS162S"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSHS182D"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSHS182F"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSHS182M"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSHS183A"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSHS183L"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSHS202G"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSHS202H"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSHS202J"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSHS202N"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSHS203B"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSHS203D"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSHS203N"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSHS203P"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSHS203S"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSHS222A"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSHS222L"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSHS223B"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSHS223C"#, &None),
-    (r#"TSSTCORPCDDVDWSHS223F"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSHS223L"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSHS223Q"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSHS243D"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSHS243N"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSHW162C"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSHW162D"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSHW162L"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSHW162Z"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSHW163A"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSN208AB"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSN208AF"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSN208BB"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSN208DN"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSN208FB"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSNS082D"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSNS082H"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSNS082M"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSNS082N"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSNS083A"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSNS083B"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSNS083C"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSNS083F"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSNS083N"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSNS083R"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSNT082A"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSNT082L"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSNT083A"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSNT083C"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSNW082B"#, &Some(704_i16)),
-    (r#"TSSTCORPCDDVDWSU208AB"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSU208BB"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSU208BU"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSU208CB"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSU208DB"#, &Some(48_i16)),
-    (r#"TSSTCORPCDDVDWSU208FB"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSU208GB"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSU208HB"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSU228CB"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSU228FB"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSU228GB"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSU228HB"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWSUB08AB"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWTSH542A"#, &Some(116_i16)),
-    (r#"TSSTCORPCDDVDWTSH552A"#, &Some(704_i16)),
-    (r#"TSSTCORPCDDVDWTSH552B"#, &Some(12_i16)),
-    (r#"TSSTCORPCDDVDWTSH552D"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWTSH552L"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWTSH552U"#, &Some(12_i16)),
-    (r#"TSSTCORPCDDVDWTSH652D"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWTSH652H"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWTSH652J"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWTSH652L"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWTSH652M"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWTSH652N"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWTSH653A"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWTSH653B"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWTSH653D"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWTSH653E"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWTSH653F"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWTSH653G"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWTSH653J"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWTSH653L"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWTSH653N"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWTSH653Q"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWTSH653R"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWTSH653Z"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWTSH662A"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWTSH663B"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWTSH663C"#, &Some(697_i16)),
-    (r#"TSSTCORPCDDVDWTSH663D"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWTSH663L"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWTSL532A"#, &Some(116_i16)),
-    (r#"TSSTCORPCDDVDWTSL532L"#, &Some(116_i16)),
-    (r#"TSSTCORPCDDVDWTSL532M"#, &Some(116_i16)),
-    (r#"TSSTCORPCDDVDWTSL532R"#, &Some(116_i16)),
-    (r#"TSSTCORPCDDVDWTSL532U"#, &Some(704_i16)),
-    (r#"TSSTCORPCDDVDWTSL632B"#, &Some(696_i16)),
-    (r#"TSSTCORPCDDVDWTSL632C"#, &Some(696_i16)),
-    (r#"TSSTCORPCDDVDWTSL632D"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWTSL632H"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWTSL632L"#, &Some(696_i16)),
-    (r#"TSSTCORPCDDVDWTSL632M"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWTSL632N"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWTSL632P"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWTSL633A"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWTSL633B"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWTSL633C"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWTSL633F"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWTSL633J"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWTSL633L"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWTSL633M"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWTSL633P"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWTSL633V"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWTSL633W"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWTSL633Y"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWTSP532D"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWTSS532A"#, &Some(704_i16)),
-    (r#"TSSTCORPCDDVDWTST632A"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWTST633A"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWTST633C"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWTST633L"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWTST633P"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWTSU633A"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWTSU633B"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWTSU633F"#, &Some(6_i16)),
-    (r#"TSSTCORPCDDVDWTSU633J"#, &Some(6_i16)),
-    (r#"TSSTCORPCDROMSHC522C"#, &Some(6_i16)),
-    (r#"TSSTCORPCDROMTSH192C"#, &Some(6_i16)),
-    (r#"TSSTCORPCDROMTSH193A"#, &Some(6_i16)),
-    (r#"TSSTCORPCDROMTSL162C"#, &Some(6_i16)),
-    (r#"TSSTCORPCDROMTSL162CN"#, &Some(6_i16)),
-    (r#"TSSTCORPCDRRWSHR522C"#, &Some(145_i16)),
-    (r#"TSSTCORPCDRRWTSH292A"#, &Some(145_i16)),
-    (r#"TSSTCORPCDRRWTSH292B"#, &Some(145_i16)),
-    (r#"TSSTCORPCDRRWTSH292C"#, &Some(145_i16)),
-    (r#"TSSTCORPCDRWDVDTSH492B"#, &Some(6_i16)),
-    (r#"TSSTCORPCDRWDVDTSH492C"#, &Some(6_i16)),
-    (r#"TSSTCORPCDRWDVDTSH493A"#, &Some(6_i16)),
-    (r#"TSSTCORPCDRWDVDTSH493B"#, &Some(6_i16)),
-    (r#"TSSTCORPCDRWDVDTSL462C"#, &Some(6_i16)),
-    (r#"TSSTCORPCDRWDVDTSL462D"#, &Some(6_i16)),
-    (r#"TSSTCORPCDRWDVDTSL463A"#, &Some(6_i16)),
-    (r#"TSSTCORPCDRWDVDTSU463A"#, &Some(102_i16)),
-    (r#"TSSTCORPCDRWTSH292B"#, &Some(145_i16)),
-    (r#"TSSTCORPCDRWTSH292C"#, &Some(145_i16)),
-    (r#"TSSTCORPCDWDVDSHM522C"#, &Some(6_i16)),
-    (r#"TSSTCORPCDWDVDSHM523A"#, &Some(6_i16)),
-    (r#"TSSTCORPCDWDVDSHM523B"#, &Some(6_i16)),
-    (r#"TSSTCORPCDWDVDSNM242C"#, &Some(6_i16)),
-    (r#"TSSTCORPCDWDVDSNM242D"#, &Some(6_i16)),
-    (r#"TSSTCORPCDWDVDTSH492A"#, &Some(6_i16)),
-    (r#"TSSTCORPCDWDVDTSH492AN"#, &Some(6_i16)),
-    (r#"TSSTCORPCDWDVDTSH492B"#, &Some(6_i16)),
-    (r#"TSSTCORPCDWDVDTSH492C"#, &Some(6_i16)),
-    (r#"TSSTCORPCDWDVDTSH492CN"#, &Some(6_i16)),
-    (r#"TSSTCORPCDWDVDTSH493A"#, &Some(6_i16)),
-    (r#"TSSTCORPCDWDVDTSH493B"#, &Some(6_i16)),
-    (r#"TSSTCORPCDWDVDTSL462A"#, &Some(6_i16)),
-    (r#"TSSTCORPCDWDVDTSL462C"#, &Some(6_i16)),
-    (r#"TSSTCORPCDWDVDTSL462D"#, &Some(6_i16)),
-    (r#"TSSTCORPCDWDVDTSU462A"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDR"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDROMSH116AB"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDROMSH116BB"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDROMSH116CB"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDROMSH118AB"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDROMSH118BB"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDROMSH118CB"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDROMSH118DB"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDROMSHD162C"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDROMSHD162D"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDROMSHD162E"#, &Some(102_i16)),
-    (r#"TSSTCORPDVDROMSHD163A"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDROMSHD163B"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDROMSHD163C"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDROMSN108AB"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDROMSN108BB"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDROMSN108DN"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDROMSN108FB"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDROMSU108BB"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDROMSU108CB"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDROMSU108FB"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDROMSU108GB"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDROMTS353C"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDROMTSH352A"#, &Some(12_i16)),
-    (r#"TSSTCORPDVDROMTSH352C"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDROMTSH352D"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDROMTSH353A"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDROMTSH353B"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDROMTSH353C"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDROMTSL332A"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDROMTSL333A"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDROMTSL333D"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDROMTSU333A"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDROMTSU333B"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDRRWTST632L"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDRWSH216AB"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDRWSH216BB"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDRWSH216CB"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDRWSH216DB"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDRWSH216FB"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDRWSN208"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDRWSN208BB"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDRWSN208DN"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDRWSN208FB"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDRWSU208"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDRWSU208BB"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDRWSU208CB"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDRWSU208FB"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDRWSU208GB"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDRWTSD633A"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDRWTSH553A"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDRWTSH653A"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDRWTSH653B"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDRWTSH653F"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDRWTSH653G"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDRWTSH653H"#, &Some(697_i16)),
-    (r#"TSSTCORPDVDRWTSH653J"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDRWTSH663"#, &Some(48_i16)),
-    (r#"TSSTCORPDVDRWTSL532B"#, &Some(704_i16)),
-    (r#"TSSTCORPDVDRWTSL63"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDRWTSL632D"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDRWTSL632H"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDRWTSL633A"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDRWTSL633B"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDRWTSL633C"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDRWTSL633J"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDRWTST63"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDRWTST633A"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDRWTST633C"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDRWTSU633A"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDRWTSU633C"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDRWTSU633F"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDRWTSU633J"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDWBD"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDWBDSE406AB"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDWBDSHB123A"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDWBDSHB123L"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDWBDSN406AB"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDWBDSNB063D"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDWBDTSLB23A"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDWBDTSLB23D"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDWBDTSLB23L"#, &Some(6_i16)),
-    (r#"TSSTCORPDVDWBDTSTB23L"#, &Some(6_i16)),
-    (r#"TSSTCORPSHD162C"#, &Some(0_i16))
-];
-
-pub static VND_KENWOOD: [(&'static str, &'static Option<i16>); 2] = [
-    (r#"KENWOODCDROMUCR415"#, &Some(12_i16)),
-    (r#"KENWOODCDROMUCR421"#, &Some(12_i16))
-];
-
-pub static VND_BPNKM52X16: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"BPNKM52X16"#, &Some(6_i16))
-];
-
-pub static VND_PIONEER: [(&'static str, &'static Option<i16>); 296] = [
-    (r#"PIONEER"#, &Some(6_i16)),
-    (r#"PIONEERBDEPR1JAME"#, &Some(667_i16)),
-    (r#"PIONEERBDROMBDC202"#, &Some(667_i16)),
-    (r#"PIONEERBDROMBDC203"#, &Some(667_i16)),
-    (r#"PIONEERBDROMBDC207"#, &Some(667_i16)),
-    (r#"PIONEERBDROMBDC207D"#, &Some(667_i16)),
-    (r#"PIONEERBDROMBDCTD01"#, &Some(667_i16)),
-    (r#"PIONEERBDROMBDCTD01RS"#, &Some(667_i16)),
-    (r#"PIONEERBDROMBDCTD02"#, &Some(667_i16)),
-    (r#"PIONEERBDROMBDCTD02RS"#, &Some(667_i16)),
-    (r#"PIONEERBDROMBDCTD03"#, &Some(667_i16)),
-    (r#"PIONEERBDROMBDCTD03RS"#, &Some(667_i16)),
-    (r#"PIONEERBDROMBDCTD03RT"#, &Some(667_i16)),
-    (r#"PIONEERBDROMBDCTD04"#, &Some(667_i16)),
-    (r#"PIONEERBDROMBDCTD05"#, &Some(667_i16)),
-    (r#"PIONEERBDROMBDCTD05RT"#, &Some(667_i16)),
-    (r#"PIONEERBDROMBDCTS02"#, &Some(667_i16)),
-    (r#"PIONEERBDROMBDCUD02"#, &Some(667_i16)),
-    (r#"PIONEERBDROMBDCUD02AS"#, &Some(667_i16)),
-    (r#"PIONEERBDROMBDCUD02D"#, &Some(667_i16)),
-    (r#"PIONEERBDROMBDCUD03AS"#, &Some(667_i16)),
-    (r#"PIONEERBDROMBDV201X"#, &Some(79_i16)),
-    (r#"PIONEERBDRPR1EPDVPP100"#, &Some(667_i16)),
-    (r#"PIONEERBDRTD05TDB"#, &Some(103_i16)),
-    (r#"PIONEERBDRUD04"#, &Some(6_i16)),
-    (r#"PIONEERBDRWBDR202"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDR203"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDR205"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDR205PQ"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDR206"#, &Some(0_i16)),
-    (r#"PIONEERBDRWBDR206"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDR206D"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDR206M"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDR207"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDR207D"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDR207M"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDR208"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDR208D"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDR208M"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDR209"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDR209D"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDR209M"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDR209MIO"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDR209MIR"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDR211M"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDR212BK"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDR212D"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDR212M"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDR212U"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDR212V"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDR213M"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDR213U"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRAD07"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRAD08"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRL06SH"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRL06SHA"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRL06SHB"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRL07SH"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRL08SH"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRL08SHB"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRPR1MA"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRS08"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRS09"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRS09JX"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRS11"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRS11JX"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRS12"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRS12JX"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRS12U"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRS13JX"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRS13U"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRTD01"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRTD01RS"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRTD03"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRTD03RS"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRTD03RT"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRTD04"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRTD04A"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRTD04D"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRTD05"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRTD05AS"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRTD05D"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRTD05RT"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRTS04"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRUD02"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRUD02AS"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRUD02D"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRUD03"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRUD03AS"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRUD03D"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRUD04"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRUD04D"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRUS01"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRWX1DM"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRX09"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRX12"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRX12U"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRX13"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRX13JX"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRX13U"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRX13X"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRXD04"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRXD05"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRXD06U"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRXD07"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRXD07U"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRXD08"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRXD08U"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRXS05"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRXS05WF"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRXS06"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRXS06JL"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRXS06JM"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRXS07"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRXS07JL"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRXS07JM"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRXS07U"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRXS08U"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRXU02"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRXU02JM"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRXU03"#, &Some(667_i16)),
-    (r#"PIONEERBDRWBDRXU03J"#, &Some(667_i16)),
-    (r#"PIONEERBDRXD04BU"#, &Some(667_i16)),
-    (r#"PIONEERBDRXD08TC"#, &Some(667_i16)),
-    (r#"PIONEERBDWPR1EPDVPP100"#, &Some(667_i16)),
-    (r#"PIONEERBDXPR1AME"#, &Some(667_i16)),
-    (r#"PIONEERCDROMDRA02S"#, &Some(1279_i16)),
-    (r#"PIONEERCDROMDRA04S"#, &Some(1303_i16)),
-    (r#"PIONEERCDROMDRA14S"#, &Some(1279_i16)),
-    (r#"PIONEERCDROMDRA24X"#, &Some(1127_i16)),
-    (r#"PIONEERCDROMDRU12X"#, &Some(691_i16)),
-    (r#"PIONEERCDROMDRU16S"#, &Some(1279_i16)),
-    (r#"PIONEERCDROMPCPPR24"#, &Some(1279_i16)),
-    (r#"PIONEERDVD116RD"#, &Some(102_i16)),
-    (r#"PIONEERDVDCDRWDCR111"#, &Some(690_i16)),
-    (r#"PIONEERDVDROMDVD103"#, &Some(691_i16)),
-    (r#"PIONEERDVDROMDVD103R"#, &Some(691_i16)),
-    (r#"PIONEERDVDROMDVD104"#, &Some(690_i16)),
-    (r#"PIONEERDVDROMDVD104F"#, &Some(690_i16)),
-    (r#"PIONEERDVDROMDVD105"#, &Some(690_i16)),
-    (r#"PIONEERDVDROMDVD105F"#, &Some(690_i16)),
-    (r#"PIONEERDVDROMDVD106"#, &Some(102_i16)),
-    (r#"PIONEERDVDROMDVD113"#, &Some(691_i16)),
-    (r#"PIONEERDVDROMDVD113R"#, &Some(691_i16)),
-    (r#"PIONEERDVDROMDVD114"#, &Some(690_i16)),
-    (r#"PIONEERDVDROMDVD115"#, &Some(690_i16)),
-    (r#"PIONEERDVDROMDVD115F"#, &Some(690_i16)),
-    (r#"PIONEERDVDROMDVD116"#, &Some(102_i16)),
-    (r#"PIONEERDVDROMDVD116R"#, &Some(102_i16)),
-    (r#"PIONEERDVDROMDVD117"#, &Some(102_i16)),
-    (r#"PIONEERDVDROMDVD117R"#, &Some(102_i16)),
-    (r#"PIONEERDVDROMDVD119"#, &Some(102_i16)),
-    (r#"PIONEERDVDROMDVD120"#, &Some(691_i16)),
-    (r#"PIONEERDVDROMDVD120S"#, &Some(691_i16)),
-    (r#"PIONEERDVDROMDVD121"#, &Some(102_i16)),
-    (r#"PIONEERDVDROMDVD121R"#, &Some(102_i16)),
-    (r#"PIONEERDVDROMDVD121S"#, &Some(102_i16)),
-    (r#"PIONEERDVDROMDVD122"#, &Some(738_i16)),
-    (r#"PIONEERDVDROMDVD122C"#, &Some(738_i16)),
-    (r#"PIONEERDVDROMDVD122M"#, &Some(738_i16)),
-    (r#"PIONEERDVDROMDVD122P"#, &Some(738_i16)),
-    (r#"PIONEERDVDROMDVD123P"#, &Some(6_i16)),
-    (r#"PIONEERDVDROMDVD126P"#, &Some(6_i16)),
-    (r#"PIONEERDVDROMDVD127P"#, &Some(6_i16)),
-    (r#"PIONEERDVDROMDVD128P"#, &Some(6_i16)),
-    (r#"PIONEERDVDROMDVD129P"#, &Some(6_i16)),
-    (r#"PIONEERDVDROMDVD130D"#, &Some(6_i16)),
-    (r#"PIONEERDVDROMDVD130P"#, &Some(6_i16)),
-    (r#"PIONEERDVDROMDVD227P"#, &Some(6_i16)),
-    (r#"PIONEERDVDROMDVD228P"#, &Some(6_i16)),
-    (r#"PIONEERDVDROMDVD230P"#, &Some(6_i16)),
-    (r#"PIONEERDVDROMDVD231"#, &Some(6_i16)),
-    (r#"PIONEERDVDROMDVD232"#, &Some(6_i16)),
-    (r#"PIONEERDVDROMDVD303"#, &Some(691_i16)),
-    (r#"PIONEERDVDROMDVD303F"#, &Some(691_i16)),
-    (r#"PIONEERDVDROMDVD303R"#, &Some(691_i16)),
-    (r#"PIONEERDVDROMDVD304"#, &Some(690_i16)),
-    (r#"PIONEERDVDROMDVD304F"#, &Some(690_i16)),
-    (r#"PIONEERDVDROMDVD305"#, &Some(690_i16)),
-    (r#"PIONEERDVDROMDVD500M"#, &Some(594_i16)),
-    (r#"PIONEERDVDROMDVDXD01"#, &Some(6_i16)),
-    (r#"PIONEERDVDRWD"#, &Some(6_i16)),
-    (r#"PIONEERDVDRWDRK17Y"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDRKD08HB"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDRTD08HB"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVR103"#, &Some(-54_i16)),
-    (r#"PIONEERDVDRWDVR104"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVR105"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVR106D"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVR106RD"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVR107D"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVR108"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVR109"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVR109RD"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVR110"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVR110D"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVR111"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVR111C"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVR111D"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVR111L"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVR112"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVR112D"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVR112L"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVR115"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVR115D"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVR115L"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVR116"#, &Some(96_i16)),
-    (r#"PIONEERDVDRWDVR116D"#, &Some(96_i16)),
-    (r#"PIONEERDVDRWDVR116L"#, &Some(96_i16)),
-    (r#"PIONEERDVDRWDVR117"#, &Some(96_i16)),
-    (r#"PIONEERDVDRWDVR117D"#, &Some(96_i16)),
-    (r#"PIONEERDVDRWDVR117F"#, &Some(96_i16)),
-    (r#"PIONEERDVDRWDVR117L"#, &Some(96_i16)),
-    (r#"PIONEERDVDRWDVR118L"#, &Some(6_i16)),
-    (r#"PIONEERDVDRWDVR212"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVR212D"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVR212L"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVR215"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVR215D"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVR215L"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVR216"#, &Some(96_i16)),
-    (r#"PIONEERDVDRWDVR216D"#, &Some(96_i16)),
-    (r#"PIONEERDVDRWDVR216L"#, &Some(96_i16)),
-    (r#"PIONEERDVDRWDVR216R"#, &Some(96_i16)),
-    (r#"PIONEERDVDRWDVR217"#, &Some(96_i16)),
-    (r#"PIONEERDVDRWDVR217D"#, &Some(96_i16)),
-    (r#"PIONEERDVDRWDVR217F"#, &Some(96_i16)),
-    (r#"PIONEERDVDRWDVR217L"#, &Some(96_i16)),
-    (r#"PIONEERDVDRWDVR218L"#, &Some(6_i16)),
-    (r#"PIONEERDVDRWDVR219L"#, &Some(6_i16)),
-    (r#"PIONEERDVDRWDVR219RS"#, &Some(6_i16)),
-    (r#"PIONEERDVDRWDVR220"#, &Some(6_i16)),
-    (r#"PIONEERDVDRWDVR220L"#, &Some(6_i16)),
-    (r#"PIONEERDVDRWDVR220RS"#, &Some(6_i16)),
-    (r#"PIONEERDVDRWDVR221"#, &Some(6_i16)),
-    (r#"PIONEERDVDRWDVR221"#, &Some(667_i16)),
-    (r#"PIONEERDVDRWDVR221L"#, &Some(6_i16)),
-    (r#"PIONEERDVDRWDVR221L"#, &Some(667_i16)),
-    (r#"PIONEERDVDRWDVRK04L"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVRK04RA"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVRK05"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVRK05RA"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVRK06"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVRK06A"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVRK06RS"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVRK11"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVRK12D"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVRK12RA"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVRK13A"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVRK13RA"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVRK14"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVRK14AS"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVRK14L"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVRK14RA"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVRK15"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVRK15RA"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVRK16"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVRK16A"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVRK16D"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVRK16M"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVRK16RA"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVRK16RS"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVRK16S"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVRK17"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVRK17A"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVRK17B"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVRK17LF"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVRK17RS"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVRKD08"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVRKD08A"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVRKD08L"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVRKD08RS"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVRS21"#, &Some(6_i16)),
-    (r#"PIONEERDVDRWDVRS21"#, &Some(667_i16)),
-    (r#"PIONEERDVDRWDVRTD08"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVRTD08A"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVRTD08L"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVRTD08RS"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVRTD09"#, &Some(96_i16)),
-    (r#"PIONEERDVDRWDVRTD09A"#, &Some(96_i16)),
-    (r#"PIONEERDVDRWDVRTD10RS"#, &Some(6_i16)),
-    (r#"PIONEERDVDRWDVRTD11RS"#, &Some(6_i16)),
-    (r#"PIONEERDVDRWDVRTS08"#, &Some(48_i16)),
-    (r#"PIONEERDVDRWDVRTS09"#, &Some(96_i16)),
-    (r#"PIONEERDVDRWDVRXD09"#, &Some(96_i16)),
-    (r#"PIONEERDVDRWDVRXD10"#, &Some(96_i16)),
-    (r#"PIONEERDVDRWDVRXT11"#, &Some(6_i16)),
-    (r#"PIONEERDVDRWDVRXU01"#, &Some(6_i16)),
-    (r#"PIONEERDVDRWDVRXU01C"#, &Some(48_i16)),
-    (r#"PIONEERDVDWRDVR221CHV"#, &Some(6_i16)),
-    (r#"PIONEERDVR112N"#, &Some(6_i16)),
-    (r#"PIONEERDVR113NP"#, &Some(6_i16)),
-    (r#"PIONEERDVR212N"#, &Some(6_i16)),
-    (r#"PIONEERDVR213N"#, &Some(6_i16)),
-    (r#"PIONEERDVR213NP"#, &Some(6_i16)),
-    (r#"PIONEERDVRS21WBKPLUS"#, &Some(6_i16))
-];
-
 pub static VND_16X: [(&'static str, &'static Option<i16>); 1] = [
     (r#"16XDVDROM"#, &Some(738_i16))
 ];
 
-pub static VND_HIGH: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"HIGHSPEEDCDROM"#, &Some(600_i16))
+pub static VND_16X12: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"16X12DVDDUAL"#, &Some(91_i16))
 ];
 
-pub static VND_CNTXCORP: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"CNTXCORPCDVDROM"#, &Some(6_i16))
+pub static VND_16X16: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"16X16DVDDUAL"#, &Some(91_i16))
 ];
 
-pub static VND_PLEXTOR: [(&'static str, &'static Option<i16>); 110] = [
-    (r#"PLEXTORBDDVDRPXB310SA"#, &Some(6_i16)),
-    (r#"PLEXTORBDDVDRPXB310U"#, &Some(6_i16)),
-    (r#"PLEXTORBDDVDRPXB320SA"#, &Some(6_i16)),
-    (r#"PLEXTORBDDVDRPXB330SA"#, &Some(702_i16)),
-    (r#"PLEXTORBDROMPXB120U"#, &Some(696_i16)),
-    (r#"PLEXTORBDRPXB900A"#, &Some(102_i16)),
-    (r#"PLEXTORBDRPXB920SA"#, &Some(667_i16)),
-    (r#"PLEXTORBDRPXB940SA"#, &Some(667_i16)),
-    (r#"PLEXTORBDRPXB950SA"#, &Some(6_i16)),
-    (r#"PLEXTORBDRPXB950UE"#, &Some(6_i16)),
-    (r#"PLEXTORBDRPXLB950SA"#, &Some(6_i16)),
-    (r#"PLEXTORBDRPXLB950UE"#, &Some(6_i16)),
-    (r#"PLEXTORCDROMPX12CS"#, &Some(681_i16)),
-    (r#"PLEXTORCDROMPX12TS"#, &Some(681_i16)),
-    (r#"PLEXTORCDROMPX20TS"#, &Some(681_i16)),
-    (r#"PLEXTORCDROMPX32CS"#, &Some(679_i16)),
-    (r#"PLEXTORCDROMPX32TS"#, &Some(679_i16)),
-    (r#"PLEXTORCDROMPX40TS"#, &Some(676_i16)),
-    (r#"PLEXTORCDROMPX40TSUW"#, &Some(676_i16)),
-    (r#"PLEXTORCDROMPX40TW"#, &Some(676_i16)),
-    (r#"PLEXTORCDROMPX4XCE"#, &Some(681_i16)),
-    (r#"PLEXTORCDROMPX54TA"#, &Some(12_i16)),
-    (r#"PLEXTORCDROMPX8XCS"#, &Some(681_i16)),
-    (r#"PLEXTORCDRPREMIUM"#, &Some(30_i16)),
-    (r#"PLEXTORCDRPREMIUM2"#, &Some(30_i16)),
-    (r#"PLEXTORCDRPREMIUMG"#, &Some(30_i16)),
-    (r#"PLEXTORCDRPX230A"#, &Some(738_i16)),
-    (r#"PLEXTORCDRPX230S"#, &Some(738_i16)),
-    (r#"PLEXTORCDRPX240A"#, &Some(6_i16)),
-    (r#"PLEXTORCDRPX320A"#, &Some(98_i16)),
-    (r#"PLEXTORCDRPXB950SA"#, &Some(6_i16)),
-    (r#"PLEXTORCDRPXR412C"#, &Some(355_i16)),
-    (r#"PLEXTORCDRPXR820T"#, &Some(355_i16)),
-    (r#"PLEXTORCDRPXS2410T"#, &Some(685_i16)),
-    (r#"PLEXTORCDRPXS88T"#, &Some(98_i16)),
-    (r#"PLEXTORCDRPXW1210A"#, &Some(99_i16)),
-    (r#"PLEXTORCDRPXW1210S"#, &Some(98_i16)),
-    (r#"PLEXTORCDRPXW124TS"#, &Some(943_i16)),
-    (r#"PLEXTORCDRPXW1610A"#, &Some(99_i16)),
-    (r#"PLEXTORCDRPXW2410A"#, &Some(98_i16)),
-    (r#"PLEXTORCDRPXW4012A"#, &Some(98_i16)),
-    (r#"PLEXTORCDRPXW4012S"#, &Some(98_i16)),
-    (r#"PLEXTORCDRPXW4220T"#, &Some(355_i16)),
-    (r#"PLEXTORCDRPXW4824A"#, &Some(98_i16)),
-    (r#"PLEXTORCDRPXW5224A"#, &Some(30_i16)),
-    (r#"PLEXTORCDRPXW8220T"#, &Some(355_i16)),
-    (r#"PLEXTORCDRPXW8432T"#, &Some(355_i16)),
-    (r#"PLEXTORDPX750A"#, &Some(0_i16)),
-    (r#"PLEXTORDVDROMPX106A"#, &Some(6_i16)),
-    (r#"PLEXTORDVDROMPX116A"#, &Some(691_i16)),
-    (r#"PLEXTORDVDROMPX116A2"#, &Some(102_i16)),
-    (r#"PLEXTORDVDROMPX116A3"#, &Some(691_i16)),
-    (r#"PLEXTORDVDROMPX130"#, &Some(738_i16)),
-    (r#"PLEXTORDVDROMPX130A"#, &Some(738_i16)),
-    (r#"PLEXTORDVDRPX504A"#, &Some(48_i16)),
-    (r#"PLEXTORDVDRPX608AL"#, &Some(48_i16)),
-    (r#"PLEXTORDVDRPX608CU"#, &Some(48_i16)),
-    (r#"PLEXTORDVDRPX610U"#, &Some(6_i16)),
-    (r#"PLEXTORDVDRPX612U"#, &Some(6_i16)),
-    (r#"PLEXTORDVDRPX650US"#, &Some(6_i16)),
-    (r#"PLEXTORDVDRPX704A"#, &Some(30_i16)),
-    (r#"PLEXTORDVDRPX708A"#, &Some(30_i16)),
-    (r#"PLEXTORDVDRPX708A2"#, &Some(30_i16)),
-    (r#"PLEXTORDVDRPX708R"#, &Some(30_i16)),
-    (r#"PLEXTORDVDRPX712A"#, &Some(30_i16)),
-    (r#"PLEXTORDVDRPX714A"#, &Some(30_i16)),
-    (r#"PLEXTORDVDRPX716A"#, &Some(30_i16)),
-    (r#"PLEXTORDVDRPX716AL"#, &Some(30_i16)),
-    (r#"PLEXTORDVDRPX740A"#, &Some(6_i16)),
-    (r#"PLEXTORDVDRPX740A"#, &Some(618_i16)),
-    (r#"PLEXTORDVDRPX750A"#, &Some(0_i16)),
-    (r#"PLEXTORDVDRPX750A"#, &Some(102_i16)),
-    (r#"PLEXTORDVDRPX751A"#, &Some(102_i16)),
-    (r#"PLEXTORDVDRPX755A"#, &Some(30_i16)),
-    (r#"PLEXTORDVDRPX760A"#, &Some(30_i16)),
-    (r#"PLEXTORDVDRPX800A"#, &Some(48_i16)),
-    (r#"PLEXTORDVDRPX806SA"#, &Some(6_i16)),
-    (r#"PLEXTORDVDRPX810SA"#, &Some(48_i16)),
-    (r#"PLEXTORDVDRPX810UF"#, &Some(667_i16)),
-    (r#"PLEXTORDVDRPX820A"#, &Some(48_i16)),
-    (r#"PLEXTORDVDRPX820SA"#, &Some(0_i16)),
-    (r#"PLEXTORDVDRPX820SA"#, &Some(48_i16)),
-    (r#"PLEXTORDVDRPX825A"#, &Some(48_i16)),
-    (r#"PLEXTORDVDRPX830SA"#, &Some(96_i16)),
-    (r#"PLEXTORDVDRPX840U"#, &Some(6_i16)),
-    (r#"PLEXTORDVDRPX850A"#, &Some(6_i16)),
-    (r#"PLEXTORDVDRPX850SA"#, &Some(6_i16)),
-    (r#"PLEXTORDVDRPX860A"#, &Some(96_i16)),
-    (r#"PLEXTORDVDRPX860SA"#, &Some(96_i16)),
-    (r#"PLEXTORDVDRPX870A"#, &Some(6_i16)),
-    (r#"PLEXTORDVDRPX880SA"#, &Some(6_i16)),
-    (r#"PLEXTORDVDRPX880U"#, &Some(6_i16)),
-    (r#"PLEXTORDVDRPX880UE"#, &Some(6_i16)),
-    (r#"PLEXTORDVDRPX890SA"#, &Some(6_i16)),
-    (r#"PLEXTORDVDRPX891SA"#, &Some(6_i16)),
-    (r#"PLEXTORDVDRPX891SAF"#, &Some(6_i16)),
-    (r#"PLEXTORDVDRPX891SAW"#, &Some(48_i16)),
-    (r#"PLEXTORDVDRPXB300SA"#, &Some(667_i16)),
-    (r#"PLEXTORDVDRPXL611U"#, &Some(6_i16)),
-    (r#"PLEXTORDVDRPXL871A"#, &Some(6_i16)),
-    (r#"PLEXTORDVDRPXL890SA"#, &Some(6_i16)),
-    (r#"PLEXTORDVDRPXL890UE"#, &Some(6_i16)),
-    (r#"PLEXTORDVDRPXQ840U"#, &Some(6_i16)),
-    (r#"PLEXTORDVDRWPX608U"#, &Some(48_i16)),
-    (r#"PLEXTORPX54TA"#, &Some(6_i16)),
-    (r#"PLEXTORPX716A"#, &Some(30_i16)),
-    (r#"PLEXTORPX891SAF"#, &Some(6_i16)),
-    (r#"PLEXTORPX891SAFPLUS"#, &Some(6_i16)),
-    (r#"PLEXTORPXL910S"#, &Some(6_i16)),
-    (r#"PLEXTORPXW4012A"#, &Some(0_i16))
-];
-
-pub static VND_RW201040: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"RW201040"#, &Some(97_i16))
-];
-
-pub static VND_IDECD: [(&'static str, &'static Option<i16>); 9] = [
-    (r#"IDECDCDRW7352"#, &Some(738_i16)),
-    (r#"IDECDCROM6048"#, &Some(691_i16)),
-    (r#"IDECDREWRITABLE2X2X6"#, &Some(1263_i16)),
-    (r#"IDECDRRW12X8X32"#, &Some(692_i16)),
-    (r#"IDECDRRW16X10A"#, &Some(733_i16)),
-    (r#"IDECDRRW16X12A"#, &Some(733_i16)),
-    (r#"IDECDRRW48XC"#, &Some(738_i16)),
-    (r#"IDECDRRW4X4X32"#, &Some(-436_i16)),
-    (r#"IDECDRRW8X4X32"#, &Some(-436_i16))
-];
-
-pub static VND_VAXDRV: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"VAXDRVCDDVDROM"#, &Some(0_i16))
-];
-
-pub static VND_HL: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"HLBP55EB40"#, &Some(103_i16))
-];
-
-pub static VND_TPOS: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"TPOSPDR1000DVDROM"#, &Some(6_i16))
-];
-
-pub static VND_KVG: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"KVGIJGL23G"#, &Some(0_i16))
-];
-
-pub static VND_PIKA: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"PIKAONERIP8000"#, &Some(12_i16))
-];
-
-pub static VND_JKRIN: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"JKRINHAZO9YRCX"#, &Some(103_i16))
-];
-
-pub static VND_DQ1724I: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"DQ1724IBWY124C"#, &Some(102_i16))
-];
-
-pub static VND_52XATAPI: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"52XATAPICDROM"#, &Some(108_i16))
-];
-
-pub static VND_COMBI: [(&'static str, &'static Option<i16>); 2] = [
-    (r#"COMBIRW16X10DVD"#, &Some(692_i16)),
-    (r#"COMBIRW32DVD"#, &Some(692_i16))
-];
-
-pub static VND_OEM: [(&'static str, &'static Option<i16>); 7] = [
-    (r#"OEMCDROM48SSB"#, &Some(12_i16)),
-    (r#"OEMCDROMCMD5211"#, &Some(691_i16)),
-    (r#"OEMCDROMF522B"#, &Some(12_i16)),
-    (r#"OEMCDROMF522E"#, &Some(12_i16)),
-    (r#"OEMCDROMF563E"#, &Some(12_i16)),
-    (r#"OEMCDROMF564E"#, &Some(12_i16)),
-    (r#"OEMCDROMF566E"#, &Some(691_i16))
-];
-
-pub static VND_TRAXDATA: [(&'static str, &'static Option<i16>); 2] = [
-    (r#"TRAXDATACDRW121032PLUS"#, &Some(688_i16)),
-    (r#"TRAXDATACDRW2224PLUS"#, &Some(740_i16))
-];
-
-pub static VND_MIN: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"MINYIUYZWY_TECH"#, &Some(6_i16))
-];
-
-pub static VND_RICOH: [(&'static str, &'static Option<i16>); 24] = [
-    (r#"RICOHCDRRWMP7040A"#, &Some(685_i16)),
-    (r#"RICOHCDRRWMP7060A"#, &Some(685_i16)),
-    (r#"RICOHCDRRWMP7060S"#, &Some(685_i16)),
-    (r#"RICOHCDRRWMP7063A"#, &Some(97_i16)),
-    (r#"RICOHCDRRWMP7080A"#, &Some(97_i16)),
-    (r#"RICOHCDRRWMP7083A"#, &Some(97_i16)),
-    (r#"RICOHCDRRWMP7120A"#, &Some(97_i16)),
-    (r#"RICOHCDRRWMP7125A"#, &Some(97_i16)),
-    (r#"RICOHCDRRWMP7163A"#, &Some(97_i16)),
-    (r#"RICOHCDRRWMP7200A"#, &Some(97_i16)),
-    (r#"RICOHCDRRWMP7240A"#, &Some(97_i16)),
-    (r#"RICOHCDRRWRW7040A"#, &Some(685_i16)),
-    (r#"RICOHCDRWMP7320A"#, &Some(97_i16)),
-    (r#"RICOHCDRWMP7400A"#, &Some(97_i16)),
-    (r#"RICOHDVDCDRWMP9060"#, &Some(708_i16)),
-    (r#"RICOHDVDCDRWMP9120"#, &Some(708_i16)),
-    (r#"RICOHDVDCDRWMP9200"#, &Some(708_i16)),
-    (r#"RICOHDVDRWMP5120"#, &Some(120_i16)),
-    (r#"RICOHDVDRWMP5125"#, &Some(120_i16)),
-    (r#"RICOHDVDRWMP5240"#, &Some(91_i16)),
-    (r#"RICOHDVDRWMP5240A"#, &Some(91_i16)),
-    (r#"RICOHDVDRWMP5316DAG"#, &Some(48_i16)),
-    (r#"RICOHMP6200S"#, &Some(87_i16)),
-    (r#"RICOHMP6201S"#, &Some(87_i16))
-];
-
-pub static VND_MTW: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"MTWQN8L27WH"#, &Some(103_i16))
+pub static VND_16X52X32X52COMBO: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"16X52X32X52COMBO"#, &Some(738_i16))
 ];
 
 pub static VND_16X8: [(&'static str, &'static Option<i16>); 1] = [
     (r#"16X8DVDDUAL"#, &Some(91_i16))
 ];
 
-pub static VND_40X: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"40XCDROM"#, &Some(12_i16))
-];
-
-pub static VND_ASMEDIA: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"ASMEDIAASM105X"#, &Some(6_i16))
-];
-
-pub static VND_ADDONICS: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"ADDONICSUSB31SATABRID"#, &Some(6_i16))
-];
-
-pub static VND_GENERIC_: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"GENERIC_DVDROM"#, &Some(0_i16))
-];
-
-pub static VND_CRW5232AS: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"CRW5232AS"#, &Some(-582_i16))
-];
-
-pub static VND_LENOVO: [(&'static str, &'static Option<i16>); 11] = [
-    (r#"LENOVO"#, &Some(1334_i16)),
-    (r#"LENOVOBURNERGP80N"#, &Some(103_i16)),
-    (r#"LENOVOGP70PRO"#, &Some(6_i16)),
-    (r#"LENOVOSLIM_USB_BURNER"#, &Some(6_i16)),
-    (r#"LENOVOULTRASLIMDVD"#, &Some(6_i16)),
-    (r#"LENOVOUSBDVDBURNER"#, &Some(6_i16)),
-    (r#"LENOVOUSBMULTIBURNER2"#, &Some(102_i16)),
-    (r#"LENOVOUSB_DVD_BURNER5"#, &Some(6_i16)),
-    (r#"LENOVOUSB_MULTIBURNER3"#, &Some(594_i16)),
-    (r#"LENOVOUSB_SATA_BURNER3"#, &Some(6_i16)),
-    (r#"LENOVOUSB_SATA_BURNER4"#, &Some(6_i16))
-];
-
-pub static VND_DVD16X: [(&'static str, &'static Option<i16>); 7] = [
-    (r#"DVD16XBDV316B"#, &Some(594_i16)),
-    (r#"DVD16XBDV316C"#, &Some(12_i16)),
-    (r#"DVD16XDVD1648BKH"#, &Some(12_i16)),
-    (r#"DVD16XDVDROMBDV316C"#, &Some(12_i16)),
-    (r#"DVD16XDVDROMBDV316E"#, &Some(12_i16)),
-    (r#"DVD16XDVDROMBDV316G"#, &Some(6_i16)),
-    (r#"DVD16XOEM316B"#, &Some(594_i16))
-];
-
-pub static VND_CDS520B: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"CDS520B"#, &Some(6_i16))
-];
-
-pub static VND_ATAPICD: [(&'static str, &'static Option<i16>); 3] = [
-    (r#"ATAPICDROMDRIVE48MAX"#, &Some(691_i16)),
-    (r#"ATAPICDROMDRIVE50MAX"#, &Some(12_i16)),
-    (r#"ATAPICDROMDRIVE56MAX"#, &Some(12_i16))
-];
-
-pub static VND_GFO: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"GFO2VS1EJW"#, &Some(12_i16))
-];
-
-pub static VND_IMATION: [(&'static str, &'static Option<i16>); 13] = [
-    (r#"IMATIONDVDRAMELITE"#, &Some(48_i16)),
-    (r#"IMATIONIMN650LEV7"#, &Some(6_i16)),
-    (r#"IMATIONIMW16DL84I"#, &Some(6_i16)),
-    (r#"IMATIONIMW18DL88RAME"#, &Some(6_i16)),
-    (r#"IMATIONIMW20DL88RAMI"#, &Some(6_i16)),
-    (r#"IMATIONIMW241040IAB"#, &Some(97_i16)),
-    (r#"IMATIONIMW242424DV8E"#, &Some(6_i16)),
-    (r#"IMATIONIMW4222DV8E"#, &Some(12_i16)),
-    (r#"IMATIONIMWDVRW16DL84E"#, &Some(6_i16)),
-    (r#"IMATIONIMWDVRW16DL84I"#, &Some(6_i16)),
-    (r#"IMATIONIMWDVRW16DLI"#, &Some(12_i16)),
-    (r#"IMATIONIMWDVRW16E"#, &Some(12_i16)),
-    (r#"IMATIONSLIMDVD"#, &Some(6_i16))
-];
-
-pub static VND_EXTERNAL: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"EXTERNALTOPLOADBDROM"#, &Some(696_i16))
-];
-
-pub static VND_BGRIBGP: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"BGRIBGPTQBWXIVS"#, &Some(48_i16))
-];
-
-pub static VND_EELEI: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"EELEICOMBO"#, &Some(6_i16))
-];
-
-pub static VND_SIIMTYPE: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"SIIMTYPEEBAU1087L"#, &Some(6_i16))
-];
-
-pub static VND_SUPERA: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"SUPERADSM6S165P"#, &Some(6_i16))
-];
-
-pub static VND_DM126D: [(&'static str, &'static Option<i16>); 2] = [
-    (r#"DM126DDVDROM010228"#, &Some(564_i16)),
-    (r#"DM126DDVDROM011127"#, &Some(564_i16))
+pub static VND_24X: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"24XSATADVDRW"#, &Some(6_i16))
 ];
 
 pub static VND_24X10X40: [(&'static str, &'static Option<i16>); 1] = [
@@ -1930,6 +262,87 @@ pub static VND_24X10X40: [(&'static str, &'static Option<i16>); 1] = [
 
 pub static VND_32X12X48: [(&'static str, &'static Option<i16>); 1] = [
     (r#"32X12X48CDRW"#, &Some(97_i16))
+];
+
+pub static VND_36X: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"36XCDROM"#, &Some(12_i16))
+];
+
+pub static VND_40X: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"40XCDROM"#, &Some(12_i16))
+];
+
+pub static VND_40X12X48: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"40X12X48CDRW"#, &Some(97_i16))
+];
+
+pub static VND_48X12X50: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"48X12X50CDRW"#, &Some(97_i16))
+];
+
+pub static VND_52X: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"52XCDROM"#, &Some(12_i16))
+];
+
+pub static VND_52X24X52: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"52X24X52CDRW"#, &Some(97_i16))
+];
+
+pub static VND_52X32COMBO: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"52X32COMBO"#, &Some(738_i16))
+];
+
+pub static VND_52X32X52: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"52X32X52CDRW"#, &Some(97_i16))
+];
+
+pub static VND_52X32XCOMBO: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"52X32XCOMBO"#, &Some(738_i16))
+];
+
+pub static VND_52XATAPI: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"52XATAPICDROM"#, &Some(108_i16))
+];
+
+pub static VND_54X: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"54XCDROM"#, &Some(12_i16))
+];
+
+pub static VND_56X: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"56XCDROM"#, &Some(12_i16))
+];
+
+pub static VND_900: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"90040XCDROMDRIVE"#, &Some(12_i16))
+];
+
+pub static VND_ACER: [(&'static str, &'static Option<i16>); 2] = [
+    (r#"ACERAXD002TYPEC30"#, &Some(6_i16)),
+    (r#"ACERDVDRWAXD001"#, &Some(6_i16))
+];
+
+pub static VND_ACTIMA: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"ACTIMACDRWCRW4012A"#, &Some(685_i16))
+];
+
+pub static VND_ADDONICS: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"ADDONICSUSB31SATABRID"#, &Some(6_i16))
+];
+
+pub static VND_ADJ: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"ADJDVDRAM14200001"#, &Some(667_i16))
+];
+
+pub static VND_AIGO: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"AIGOG100"#, &Some(667_i16))
+];
+
+pub static VND_ALERATEC: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"ALERATECDVDRW20A1H"#, &Some(6_i16))
+];
+
+pub static VND_ANQ: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"ANQC5ENKHER"#, &Some(116_i16))
 ];
 
 pub static VND_AOPEN: [(&'static str, &'static Option<i16>); 38] = [
@@ -1973,315 +386,218 @@ pub static VND_AOPEN: [(&'static str, &'static Option<i16>); 38] = [
     (r#"AOPENDVRW2412PRO"#, &Some(120_i16))
 ];
 
-pub static VND_OLYMPUS: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"OLYMPUSSDVD100"#, &Some(48_i16))
+pub static VND_ARCHOS: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"ARCHOSMINICDRWXS8432"#, &Some(-436_i16))
 ];
 
-pub static VND_TOSHIBA: [(&'static str, &'static Option<i16>); 87] = [
-    (r#"TOSHIBACDDVDWSDR5372"#, &Some(704_i16)),
-    (r#"TOSHIBACDDVDWSDR5372V"#, &Some(704_i16)),
-    (r#"TOSHIBACDDVDWSDR5472C"#, &Some(6_i16)),
-    (r#"TOSHIBACDDVDWSDR5472D"#, &Some(6_i16)),
-    (r#"TOSHIBACDDVDWSDR6472"#, &Some(116_i16)),
-    (r#"TOSHIBACDDVDWSDR6472U"#, &Some(704_i16)),
-    (r#"TOSHIBACDDVDWSDR6572M"#, &Some(116_i16)),
-    (r#"TOSHIBACDROMXM1702BC"#, &Some(686_i16)),
-    (r#"TOSHIBACDROMXM1802D"#, &Some(98_i16)),
-    (r#"TOSHIBACDROMXM1902B"#, &Some(94_i16)),
-    (r#"TOSHIBACDROMXM6202B"#, &Some(686_i16)),
-    (r#"TOSHIBACDROMXM6202BH"#, &Some(686_i16)),
-    (r#"TOSHIBACDROMXM6202S"#, &Some(686_i16)),
-    (r#"TOSHIBACDROMXM6302B"#, &Some(98_i16)),
-    (r#"TOSHIBACDROMXM6401TA"#, &Some(685_i16)),
-    (r#"TOSHIBACDROMXM6402B"#, &Some(94_i16)),
-    (r#"TOSHIBACDROMXM6502B"#, &Some(94_i16)),
-    (r#"TOSHIBACDROMXM6602B"#, &Some(94_i16)),
-    (r#"TOSHIBACDROMXM6702B"#, &Some(94_i16)),
-    (r#"TOSHIBACDROMXM7002B"#, &Some(94_i16)),
-    (r#"TOSHIBACDROMXM7002BC"#, &Some(94_i16)),
-    (r#"TOSHIBACDRRWSRC8102"#, &Some(-472_i16)),
-    (r#"TOSHIBACDRRWSRM8202C"#, &Some(145_i16)),
-    (r#"TOSHIBACDRWDVDSDR2102"#, &Some(708_i16)),
-    (r#"TOSHIBACDWDVDSDR1612"#, &Some(6_i16)),
-    (r#"TOSHIBACDWDVDSDR1712C"#, &Some(6_i16)),
-    (r#"TOSHIBACDWDVDSDR2612"#, &Some(6_i16)),
-    (r#"TOSHIBACDWDVDSDR2612C"#, &Some(6_i16)),
-    (r#"TOSHIBADFDROMSDC21"#, &Some(-472_i16)),
-    (r#"TOSHIBADVDHDSDH802A"#, &Some(697_i16)),
-    (r#"TOSHIBADVDHDWSDL902A"#, &Some(696_i16)),
-    (r#"TOSHIBADVDHDWSDL912A"#, &Some(696_i16)),
-    (r#"TOSHIBADVDHDX807616"#, &Some(697_i16)),
-    (r#"TOSHIBADVDROMSDC2102"#, &Some(116_i16)),
-    (r#"TOSHIBADVDROMSDC2202"#, &Some(116_i16)),
-    (r#"TOSHIBADVDROMSDC2302"#, &Some(-472_i16)),
-    (r#"TOSHIBADVDROMSDC2402"#, &Some(-472_i16)),
-    (r#"TOSHIBADVDROMSDC2502"#, &Some(-472_i16)),
-    (r#"TOSHIBADVDROMSDC2512"#, &Some(-472_i16)),
-    (r#"TOSHIBADVDROMSDC2612"#, &Some(-472_i16)),
-    (r#"TOSHIBADVDROMSDM1201"#, &Some(111_i16)),
-    (r#"TOSHIBADVDROMSDM1202"#, &Some(116_i16)),
-    (r#"TOSHIBADVDROMSDM1212"#, &Some(116_i16)),
-    (r#"TOSHIBADVDROMSDM1222"#, &Some(-472_i16)),
-    (r#"TOSHIBADVDROMSDM1302"#, &Some(-472_i16)),
-    (r#"TOSHIBADVDROMSDM1401"#, &Some(-472_i16)),
-    (r#"TOSHIBADVDROMSDM1402"#, &Some(-472_i16)),
-    (r#"TOSHIBADVDROMSDM1502"#, &Some(-472_i16)),
-    (r#"TOSHIBADVDROMSDM1612"#, &Some(-472_i16)),
-    (r#"TOSHIBADVDROMSDM1711"#, &Some(-472_i16)),
-    (r#"TOSHIBADVDROMSDM1712"#, &Some(-472_i16)),
-    (r#"TOSHIBADVDROMSDM1912"#, &Some(12_i16)),
-    (r#"TOSHIBADVDROMSDM2012C"#, &Some(6_i16)),
-    (r#"TOSHIBADVDROMSDR1002"#, &Some(708_i16)),
-    (r#"TOSHIBADVDROMSDR1102"#, &Some(708_i16)),
-    (r#"TOSHIBADVDROMSDR1202"#, &Some(-472_i16)),
-    (r#"TOSHIBADVDROMSDR1312"#, &Some(116_i16)),
-    (r#"TOSHIBADVDROMSDR2002"#, &Some(708_i16)),
-    (r#"TOSHIBADVDROMSDR2102"#, &Some(708_i16)),
-    (r#"TOSHIBADVDROMSDR2212"#, &Some(116_i16)),
-    (r#"TOSHIBADVDROMSDR2312"#, &Some(116_i16)),
-    (r#"TOSHIBADVDROMSDR2412"#, &Some(116_i16)),
-    (r#"TOSHIBADVDROMSDR2512"#, &Some(116_i16)),
-    (r#"TOSHIBADVDROMSDR2512N"#, &Some(116_i16)),
-    (r#"TOSHIBADVDROMSDR5002"#, &Some(116_i16)),
-    (r#"TOSHIBADVDROMSDR5112"#, &Some(116_i16)),
-    (r#"TOSHIBADVDROMSDR5112N"#, &Some(116_i16)),
-    (r#"TOSHIBADVDROMSDR6012"#, &Some(116_i16)),
-    (r#"TOSHIBADVDROMSDR6112"#, &Some(116_i16)),
-    (r#"TOSHIBADVDROMSDR6112F"#, &Some(116_i16)),
-    (r#"TOSHIBADVDROMSDR9012"#, &Some(116_i16)),
-    (r#"TOSHIBADVDWHDSDL802B"#, &Some(696_i16)),
-    (r#"TOSHIBADVDWHDTSL802A"#, &Some(696_i16)),
-    (r#"TOSHIBAODDDVDSDC2732"#, &Some(691_i16)),
-    (r#"TOSHIBAODDDVDSDM1802"#, &Some(691_i16)),
-    (r#"TOSHIBAODDDVDSDR1412"#, &Some(116_i16)),
-    (r#"TOSHIBAODDDVDSDR1412N"#, &Some(116_i16)),
-    (r#"TOSHIBAODDDVDSDR1412T"#, &Some(116_i16)),
-    (r#"TOSHIBAODDDVDSDR1512"#, &Some(116_i16)),
-    (r#"TOSHIBAODDDVDSDR5272"#, &Some(116_i16)),
-    (r#"TOSHIBAODDDVDSDR6252"#, &Some(116_i16)),
-    (r#"TOSHIBAODDDVDSDR6372"#, &Some(116_i16)),
-    (r#"TOSHIBAPA3761U506BB"#, &Some(103_i16)),
-    (r#"TOSHIBAPA3834L1BD2"#, &Some(103_i16)),
-    (r#"TOSHIBASUPERMULTIPA3761"#, &Some(6_i16)),
-    (r#"TOSHIBASUPERMULTIPA3834"#, &Some(96_i16)),
-    (r#"TOSHIBASUPERMULTIPA3845"#, &Some(103_i16))
+pub static VND_ARK: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"ARKCDDVDVD8A"#, &Some(48_i16))
 ];
 
-pub static VND_PANASONICBDMLT: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"PANASONICBDMLTU"#, &Some(103_i16))
+pub static VND_ARTEC: [(&'static str, &'static Option<i16>); 9] = [
+    (r#"ARTECBKM52X16"#, &Some(6_i16)),
+    (r#"ARTECWRAOA40"#, &Some(97_i16)),
+    (r#"ARTECWRAWA48"#, &Some(97_i16)),
+    (r#"ARTECWRR4048"#, &Some(97_i16)),
+    (r#"ARTECWRR4848"#, &Some(97_i16)),
+    (r#"ARTECWRR52X"#, &Some(97_i16)),
+    (r#"ARTECWRR52Z"#, &Some(97_i16)),
+    (r#"ARTECWSM52X"#, &Some(6_i16)),
+    (r#"ARTECWSMYG52"#, &Some(12_i16))
 ];
 
-pub static VND_COMBO: [(&'static str, &'static Option<i16>); 11] = [
-    (r#"COMBO5216IA"#, &Some(6_i16)),
-    (r#"COMBO52X32X52X"#, &Some(6_i16)),
-    (r#"COMBOBCO5232IM"#, &Some(6_i16)),
-    (r#"COMBOCOB2K5216"#, &Some(6_i16)),
-    (r#"COMBOCOB6V5216"#, &Some(6_i16)),
-    (r#"COMBOIDE2408SU"#, &Some(6_i16)),
-    (r#"COMBOIDE4016CO"#, &Some(6_i16)),
-    (r#"COMBOIDE4816CO"#, &Some(6_i16)),
-    (r#"COMBOIDE5216CO"#, &Some(6_i16)),
-    (r#"COMBOIDE5232CO"#, &Some(6_i16)),
-    (r#"COMBOUSB5232"#, &Some(6_i16))
+pub static VND_ASMEDIA: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"ASMEDIAASM105X"#, &Some(6_i16))
 ];
 
-pub static VND_HPE: [(&'static str, &'static Option<i16>); 2] = [
-    (r#"HPEDVDRWGP70N"#, &Some(6_i16)),
-    (r#"HPEDVDRWSU208HB"#, &Some(6_i16))
+pub static VND_ASUS: [(&'static str, &'static Option<i16>); 172] = [
+    (r#"ASUS"#, &Some(6_i16)),
+    (r#"ASUSBC06B1ST"#, &Some(6_i16)),
+    (r#"ASUSBC08B1LT"#, &Some(6_i16)),
+    (r#"ASUSBC08B1ST"#, &Some(6_i16)),
+    (r#"ASUSBC1205PT"#, &Some(667_i16)),
+    (r#"ASUSBC12B1LT"#, &Some(702_i16)),
+    (r#"ASUSBC12B1ST"#, &Some(702_i16)),
+    (r#"ASUSBC12B1STA"#, &Some(667_i16)),
+    (r#"ASUSBC12B1STB"#, &Some(6_i16)),
+    (r#"ASUSBC12D1S"#, &Some(667_i16)),
+    (r#"ASUSBC12D1ST"#, &Some(667_i16)),
+    (r#"ASUSBC12D2HT"#, &Some(6_i16)),
+    (r#"ASUSBDDVDRWCH29N"#, &Some(667_i16)),
+    (r#"ASUSBR04B2T"#, &Some(696_i16)),
+    (r#"ASUSBW12B1LT"#, &Some(6_i16)),
+    (r#"ASUSBW12B1ST"#, &Some(6_i16)),
+    (r#"ASUSBW12B1STA"#, &Some(6_i16)),
+    (r#"ASUSBW12D1SU"#, &Some(667_i16)),
+    (r#"ASUSBW14D1XT"#, &Some(6_i16)),
+    (r#"ASUSBW16D1HT"#, &Some(6_i16)),
+    (r#"ASUSCB5216A"#, &Some(6_i16)),
+    (r#"ASUSCDS400A"#, &Some(1194_i16)),
+    (r#"ASUSCDS450A"#, &Some(1194_i16)),
+    (r#"ASUSCDS480A5"#, &Some(1776_i16)),
+    (r#"ASUSCDS480AH"#, &Some(12_i16)),
+    (r#"ASUSCDS480B"#, &Some(6_i16)),
+    (r#"ASUSCDS500A"#, &Some(1194_i16)),
+    (r#"ASUSCDS520A"#, &Some(1194_i16)),
+    (r#"ASUSCDS520A4"#, &Some(12_i16)),
+    (r#"ASUSCDS520A5"#, &Some(1130_i16)),
+    (r#"ASUSCDS520B"#, &Some(6_i16)),
+    (r#"ASUSCDS520B2"#, &Some(6_i16)),
+    (r#"ASUSCRW1610A"#, &Some(12_i16)),
+    (r#"ASUSCRW2410A"#, &Some(12_i16)),
+    (r#"ASUSCRW3212A"#, &Some(12_i16)),
+    (r#"ASUSCRW4012A"#, &Some(12_i16)),
+    (r#"ASUSCRW4816A"#, &Some(12_i16)),
+    (r#"ASUSCRW4824A"#, &Some(6_i16)),
+    (r#"ASUSCRW4824AH"#, &Some(6_i16)),
+    (r#"ASUSCRW4832AS"#, &Some(6_i16)),
+    (r#"ASUSCRW4832AX"#, &Some(6_i16)),
+    (r#"ASUSCRW5224A"#, &Some(6_i16)),
+    (r#"ASUSCRW5232A1T"#, &Some(6_i16)),
+    (r#"ASUSCRW5232A3"#, &Some(6_i16)),
+    (r#"ASUSCRW5232A4"#, &Some(6_i16)),
+    (r#"ASUSCRW5232AS"#, &Some(6_i16)),
+    (r#"ASUSCRW5232AX"#, &Some(6_i16)),
+    (r#"ASUSDRW0402PD"#, &Some(48_i16)),
+    (r#"ASUSDRW0804P"#, &Some(48_i16)),
+    (r#"ASUSDRW1604P"#, &Some(48_i16)),
+    (r#"ASUSDRW1608P"#, &Some(48_i16)),
+    (r#"ASUSDRW1608P2"#, &Some(48_i16)),
+    (r#"ASUSDRW1608P2S"#, &Some(48_i16)),
+    (r#"ASUSDRW1608P3S"#, &Some(48_i16)),
+    (r#"ASUSDRW1612BL"#, &Some(6_i16)),
+    (r#"ASUSDRW1612BLT"#, &Some(6_i16)),
+    (r#"ASUSDRW1814BL"#, &Some(6_i16)),
+    (r#"ASUSDRW1814BLT"#, &Some(6_i16)),
+    (r#"ASUSDRW2014L1"#, &Some(6_i16)),
+    (r#"ASUSDRW2014L1T"#, &Some(6_i16)),
+    (r#"ASUSDRW2014N1T"#, &Some(6_i16)),
+    (r#"ASUSDRW2014S1"#, &Some(6_i16)),
+    (r#"ASUSDRW2014S1T"#, &Some(6_i16)),
+    (r#"ASUSDRW20B1LT"#, &Some(6_i16)),
+    (r#"ASUSDRW20B1S"#, &Some(6_i16)),
+    (r#"ASUSDRW20B1ST"#, &Some(6_i16)),
+    (r#"ASUSDRW22B1L"#, &Some(6_i16)),
+    (r#"ASUSDRW22B1LT"#, &Some(6_i16)),
+    (r#"ASUSDRW22B1S"#, &Some(6_i16)),
+    (r#"ASUSDRW22B1ST"#, &Some(6_i16)),
+    (r#"ASUSDRW22B2L"#, &Some(6_i16)),
+    (r#"ASUSDRW22B2LB"#, &Some(6_i16)),
+    (r#"ASUSDRW22B2S"#, &Some(6_i16)),
+    (r#"ASUSDRW22B2ST"#, &Some(6_i16)),
+    (r#"ASUSDRW22B3L"#, &Some(6_i16)),
+    (r#"ASUSDRW22B3S"#, &Some(6_i16)),
+    (r#"ASUSDRW22D1S"#, &Some(102_i16)),
+    (r#"ASUSDRW24B1LT"#, &Some(6_i16)),
+    (r#"ASUSDRW24B1ST"#, &Some(6_i16)),
+    (r#"ASUSDRW24B1STA"#, &Some(6_i16)),
+    (r#"ASUSDRW24B1STC"#, &Some(6_i16)),
+    (r#"ASUSDRW24B1STG"#, &Some(6_i16)),
+    (r#"ASUSDRW24B1STI"#, &Some(6_i16)),
+    (r#"ASUSDRW24B1STJ"#, &Some(6_i16)),
+    (r#"ASUSDRW24B3LT"#, &Some(6_i16)),
+    (r#"ASUSDRW24B3ST"#, &Some(6_i16)),
+    (r#"ASUSDRW24B3STC"#, &Some(6_i16)),
+    (r#"ASUSDRW24B3STI"#, &Some(6_i16)),
+    (r#"ASUSDRW24B3STJ"#, &Some(6_i16)),
+    (r#"ASUSDRW24B5ST"#, &Some(6_i16)),
+    (r#"ASUSDRW24D1ST"#, &Some(667_i16)),
+    (r#"ASUSDRW24D1STA"#, &Some(6_i16)),
+    (r#"ASUSDRW24D3ST"#, &Some(6_i16)),
+    (r#"ASUSDRW24D5MT"#, &Some(6_i16)),
+    (r#"ASUSDRW24F1"#, &Some(6_i16)),
+    (r#"ASUSDRW24F1MT"#, &Some(6_i16)),
+    (r#"ASUSDRW24F1MTB"#, &Some(6_i16)),
+    (r#"ASUSDRW24F1ST"#, &Some(6_i16)),
+    (r#"ASUSDRW24F1STA"#, &Some(6_i16)),
+    (r#"ASUSDRW24F1STB"#, &Some(6_i16)),
+    (r#"ASUSDRW24F1STC"#, &Some(6_i16)),
+    (r#"ASUSDRW24F1STD"#, &Some(6_i16)),
+    (r#"ASUSDVDE616A"#, &Some(6_i16)),
+    (r#"ASUSDVDE616A2"#, &Some(6_i16)),
+    (r#"ASUSDVDE616A3"#, &Some(6_i16)),
+    (r#"ASUSDVDE616A3T"#, &Some(6_i16)),
+    (r#"ASUSDVDE616P"#, &Some(102_i16)),
+    (r#"ASUSDVDE616P2"#, &Some(738_i16)),
+    (r#"ASUSDVDE616P3"#, &Some(738_i16)),
+    (r#"ASUSDVDE616P3H"#, &Some(738_i16)),
+    (r#"ASUSDVDE818A"#, &Some(6_i16)),
+    (r#"ASUSDVDE818A2"#, &Some(6_i16)),
+    (r#"ASUSDVDE818A2T"#, &Some(6_i16)),
+    (r#"ASUSDVDE818A3"#, &Some(6_i16)),
+    (r#"ASUSDVDE818A3T"#, &Some(6_i16)),
+    (r#"ASUSDVDE818A4"#, &Some(6_i16)),
+    (r#"ASUSDVDE818A4T"#, &Some(6_i16)),
+    (r#"ASUSDVDE818A6T"#, &Some(6_i16)),
+    (r#"ASUSDVDE818A7"#, &Some(6_i16)),
+    (r#"ASUSDVDE818A7T"#, &Some(6_i16)),
+    (r#"ASUSDVDE818A7TA"#, &Some(6_i16)),
+    (r#"ASUSDVDE818A9T"#, &Some(6_i16)),
+    (r#"ASUSDVDE818A9TB"#, &Some(6_i16)),
+    (r#"ASUSDVDE818AAT"#, &Some(6_i16)),
+    (r#"ASUSDVDE818AATA"#, &Some(6_i16)),
+    (r#"ASUSDVDE818AT"#, &Some(6_i16)),
+    (r#"ASUSDVDRAMGH75L"#, &Some(667_i16)),
+    (r#"ASUSDVDRAMGH75N"#, &Some(667_i16)),
+    (r#"ASUSDVDRAMGH92N"#, &Some(6_i16)),
+    (r#"ASUSDVDRAMGH95N"#, &Some(6_i16)),
+    (r#"ASUSDVDRAMGHB1N"#, &Some(6_i16)),
+    (r#"ASUSDVDRAMGHC1N"#, &Some(6_i16)),
+    (r#"ASUSDVDRAMGHD1N"#, &Some(6_i16)),
+    (r#"ASUSDVDRAMGHD2N"#, &Some(6_i16)),
+    (r#"ASUSDVDROMDH50N"#, &Some(6_i16)),
+    (r#"ASUSDVDROMDH60N"#, &Some(6_i16)),
+    (r#"ASUSDVDROMDH63N"#, &Some(6_i16)),
+    (r#"ASUSDVDROME608"#, &Some(116_i16)),
+    (r#"ASUSDVDROME612"#, &Some(594_i16)),
+    (r#"ASUSDVDROME616"#, &Some(594_i16)),
+    (r#"ASUSDVDROMSH118CB"#, &Some(6_i16)),
+    (r#"ASUSDVDRWDRW0402P"#, &Some(48_i16)),
+    (r#"ASUSDVDRWDRW24D3ST"#, &Some(6_i16)),
+    (r#"ASUSDVR24D5MT"#, &Some(6_i16)),
+    (r#"ASUSSBC04D1SU"#, &Some(667_i16)),
+    (r#"ASUSSBC06D1SU"#, &Some(102_i16)),
+    (r#"ASUSSBC06D2XU"#, &None),
+    (r#"ASUSSBR02E1SU"#, &Some(102_i16)),
+    (r#"ASUSSBW06C1SU"#, &Some(48_i16)),
+    (r#"ASUSSBW06C2XU"#, &Some(48_i16)),
+    (r#"ASUSSBW06D2XU"#, &None),
+    (r#"ASUSSBW06D5HU"#, &Some(667_i16)),
+    (r#"ASUSSBWS1"#, &Some(103_i16)),
+    (r#"ASUSSCB2408"#, &Some(-582_i16)),
+    (r#"ASUSSCB2424V"#, &Some(-582_i16)),
+    (r#"ASUSSDR08B1U"#, &Some(6_i16)),
+    (r#"ASUSSDR08B1UA"#, &Some(6_i16)),
+    (r#"ASUSSDRW0806TD"#, &Some(704_i16)),
+    (r#"ASUSSDRW08D1SU"#, &None),
+    (r#"ASUSSDRW08D2SU"#, &None),
+    (r#"ASUSSDRW08D3SU"#, &Some(6_i16)),
+    (r#"ASUSSDRW08D6SU"#, &Some(6_i16)),
+    (r#"ASUSSDRW08U1MT"#, &Some(6_i16)),
+    (r#"ASUSSDRW08U5SU"#, &Some(6_i16)),
+    (r#"ASUSSDRW08U7MU"#, &Some(6_i16)),
+    (r#"ASUSSDRW08U8MU"#, &Some(6_i16)),
+    (r#"ASUSSDRW08U9MU"#, &Some(6_i16)),
+    (r#"ASUSSDRW08V1MU"#, &Some(6_i16)),
+    (r#"ASUSSDRWS1"#, &Some(6_i16)),
+    (r#"ASUSSH224DB"#, &Some(6_i16)),
+    (r#"ASUSSH224FB"#, &Some(6_i16)),
+    (r#"ASUSVARIDRIVE"#, &Some(103_i16))
 ];
 
-pub static VND_JVC: [(&'static str, &'static Option<i16>); 3] = [
-    (r#"JVCDVDCUVD20"#, &Some(30_i16)),
-    (r#"JVCDVDCUVD3"#, &Some(102_i16)),
-    (r#"JVCDVDCUVD40"#, &Some(30_i16))
-];
-
-pub static VND_BDROM: [(&'static str, &'static Option<i16>); 2] = [
-    (r#"BDROM4X12X32X"#, &Some(6_i16)),
-    (r#"BDROMBP002"#, &Some(702_i16))
-];
-
-pub static VND_PHILIPS: [(&'static str, &'static Option<i16>); 124] = [
-    (r#"PHILIPS241240CDRW"#, &Some(733_i16)),
-    (r#"PHILIPS40XPCA402CD"#, &Some(686_i16)),
-    (r#"PHILIPS40XPCA403CD"#, &Some(1268_i16)),
-    (r#"PHILIPSBDREBDD1001"#, &Some(618_i16)),
-    (r#"PHILIPSCDD3600CDRRW"#, &Some(1263_i16)),
-    (r#"PHILIPSCDD3610CDRRW"#, &Some(1263_i16)),
-    (r#"PHILIPSCDD4801CDRRW"#, &Some(-436_i16)),
-    (r#"PHILIPSCDD5101"#, &Some(1364_i16)),
-    (r#"PHILIPSCDD5301"#, &Some(692_i16)),
-    (r#"PHILIPSCDD6911"#, &Some(733_i16)),
-    (r#"PHILIPSCDD7052"#, &Some(6_i16)),
-    (r#"PHILIPSCDROMPCCD048"#, &Some(-1164_i16)),
-    (r#"PHILIPSCDRW1610A"#, &Some(733_i16)),
-    (r#"PHILIPSCDRW2010"#, &Some(97_i16)),
-    (r#"PHILIPSCDRW2410A"#, &Some(733_i16)),
-    (r#"PHILIPSCDRW2412A"#, &Some(733_i16)),
-    (r#"PHILIPSCDRW4012P"#, &Some(688_i16)),
-    (r#"PHILIPSCDRW48A"#, &Some(733_i16)),
-    (r#"PHILIPSCDRW48P"#, &Some(688_i16)),
-    (r#"PHILIPSCDRW5224"#, &Some(6_i16)),
-    (r#"PHILIPSCDRWDVD2010"#, &Some(708_i16)),
-    (r#"PHILIPSCDRWDVD3210"#, &Some(692_i16)),
-    (r#"PHILIPSCDRWDVDCDD5263"#, &Some(594_i16)),
-    (r#"PHILIPSCDRWDVDSCB5265"#, &Some(6_i16)),
-    (r#"PHILIPSD52"#, &Some(30_i16)),
-    (r#"PHILIPSDROM5016"#, &Some(691_i16)),
-    (r#"PHILIPSDROM5016L"#, &Some(12_i16)),
-    (r#"PHILIPSDROM6216"#, &Some(738_i16)),
-    (r#"PHILIPSDROM6316"#, &Some(6_i16)),
-    (r#"PHILIPSDVD8301"#, &Some(1292_i16)),
-    (r#"PHILIPSDVD8421"#, &Some(1292_i16)),
-    (r#"PHILIPSDVD8631"#, &Some(618_i16)),
-    (r#"PHILIPSDVD8801"#, &Some(618_i16)),
-    (r#"PHILIPSDVD8851"#, &Some(618_i16)),
-    (r#"PHILIPSDVDR1628P1"#, &Some(618_i16)),
-    (r#"PHILIPSDVDR1640P"#, &Some(618_i16)),
-    (r#"PHILIPSDVDR1648P1"#, &Some(618_i16)),
-    (r#"PHILIPSDVDR1660P1"#, &Some(618_i16)),
-    (r#"PHILIPSDVDR1668L1"#, &Some(6_i16)),
-    (r#"PHILIPSDVDR1668P1"#, &Some(618_i16)),
-    (r#"PHILIPSDVDR16LS"#, &Some(618_i16)),
-    (r#"PHILIPSDVDR824DP"#, &Some(1292_i16)),
-    (r#"PHILIPSDVDR824P"#, &Some(1292_i16)),
-    (r#"PHILIPSDVDR885P"#, &Some(1292_i16)),
-    (r#"PHILIPSDVDRAMSDVD8821"#, &Some(6_i16)),
-    (r#"PHILIPSDVDRAMSDVD8821H"#, &Some(6_i16)),
-    (r#"PHILIPSDVDROMDROM6316"#, &Some(6_i16)),
-    (r#"PHILIPSDVDROMSDR089"#, &Some(6_i16)),
-    (r#"PHILIPSDVDRW1208"#, &Some(120_i16)),
-    (r#"PHILIPSDVDRW228"#, &Some(120_i16)),
-    (r#"PHILIPSDVDRW416"#, &Some(1292_i16)),
-    (r#"PHILIPSDVDRW416N"#, &Some(48_i16)),
-    (r#"PHILIPSDVDRWD01"#, &Some(120_i16)),
-    (r#"PHILIPSDVDRWD28"#, &Some(120_i16)),
-    (r#"PHILIPSDVDRWDVD8601"#, &Some(618_i16)),
-    (r#"PHILIPSDVDRWDVD8631"#, &Some(618_i16)),
-    (r#"PHILIPSDVDRWDVD8701"#, &Some(618_i16)),
-    (r#"PHILIPSDVDRWDVD8801"#, &Some(618_i16)),
-    (r#"PHILIPSDVDRWDVD8881"#, &Some(618_i16)),
-    (r#"PHILIPSDVDRWSDVD6004"#, &Some(91_i16)),
-    (r#"PHILIPSDVDRWSDVD8412"#, &Some(1292_i16)),
-    (r#"PHILIPSDVDRWSDVD8431"#, &Some(1292_i16)),
-    (r#"PHILIPSDVDRWSDVD8441"#, &Some(1292_i16)),
-    (r#"PHILIPSDVDRWSDVD8820"#, &Some(6_i16)),
-    (r#"PHILIPSED16DVDR"#, &Some(12_i16)),
-    (r#"PHILIPSED16DVDS"#, &Some(12_i16)),
-    (r#"PHILIPSJR24CDRW"#, &Some(733_i16)),
-    (r#"PHILIPSJR32RWDV"#, &Some(692_i16)),
-    (r#"PHILIPSJR4DVDRW"#, &Some(1292_i16)),
-    (r#"PHILIPSJR52CDRW"#, &Some(738_i16)),
-    (r#"PHILIPSPBDV1601P"#, &Some(618_i16)),
-    (r#"PHILIPSPBDV1640P"#, &Some(618_i16)),
-    (r#"PHILIPSPBDV1660P1"#, &Some(618_i16)),
-    (r#"PHILIPSPBDV16LSP1"#, &Some(618_i16)),
-    (r#"PHILIPSPBDV824DP"#, &Some(1292_i16)),
-    (r#"PHILIPSPBDV885P"#, &Some(1292_i16)),
-    (r#"PHILIPSPBRW5232L"#, &Some(6_i16)),
-    (r#"PHILIPSPBRW5232L3"#, &Some(6_i16)),
-    (r#"PHILIPSPCA532"#, &Some(116_i16)),
-    (r#"PHILIPSPCDV5016L2"#, &Some(6_i16)),
-    (r#"PHILIPSPCDV5016P1"#, &Some(738_i16)),
-    (r#"PHILIPSPCDV6116"#, &Some(691_i16)),
-    (r#"PHILIPSPCRW1208"#, &Some(692_i16)),
-    (r#"PHILIPSPCRW406"#, &Some(-436_i16)),
-    (r#"PHILIPSPCRW5232P"#, &Some(738_i16)),
-    (r#"PHILIPSPCRW804"#, &Some(-436_i16)),
-    (r#"PHILIPSSPD2201P"#, &Some(6_i16)),
-    (r#"PHILIPSSPD2202P"#, &Some(6_i16)),
-    (r#"PHILIPSSPD2214T"#, &Some(6_i16)),
-    (r#"PHILIPSSPD2400L1"#, &Some(6_i16)),
-    (r#"PHILIPSSPD2410L1"#, &Some(6_i16)),
-    (r#"PHILIPSSPD2411P"#, &Some(6_i16)),
-    (r#"PHILIPSSPD2412T"#, &Some(6_i16)),
-    (r#"PHILIPSSPD2413P"#, &Some(6_i16)),
-    (r#"PHILIPSSPD2414T"#, &Some(6_i16)),
-    (r#"PHILIPSSPD2415P"#, &Some(6_i16)),
-    (r#"PHILIPSSPD2417T"#, &Some(6_i16)),
-    (r#"PHILIPSSPD2512T"#, &Some(6_i16)),
-    (r#"PHILIPSSPD2513P"#, &Some(6_i16)),
-    (r#"PHILIPSSPD2514T"#, &Some(6_i16)),
-    (r#"PHILIPSSPD2517T"#, &Some(6_i16)),
-    (r#"PHILIPSSPD2519T"#, &Some(6_i16)),
-    (r#"PHILIPSSPD2850L"#, &Some(6_i16)),
-    (r#"PHILIPSSPD3000CC"#, &Some(6_i16)),
-    (r#"PHILIPSSPD3100L"#, &Some(6_i16)),
-    (r#"PHILIPSSPD3200L1"#, &Some(6_i16)),
-    (r#"PHILIPSSPD3300L"#, &Some(6_i16)),
-    (r#"PHILIPSSPD3400CC"#, &Some(6_i16)),
-    (r#"PHILIPSSPD3500CC"#, &Some(6_i16)),
-    (r#"PHILIPSSPD3600CC"#, &Some(6_i16)),
-    (r#"PHILIPSSPD4000CC"#, &Some(6_i16)),
-    (r#"PHILIPSSPD4000L1"#, &Some(6_i16)),
-    (r#"PHILIPSSPD4001CC"#, &Some(594_i16)),
-    (r#"PHILIPSSPD6000L1"#, &Some(6_i16)),
-    (r#"PHILIPSSPD6001L"#, &Some(6_i16)),
-    (r#"PHILIPSSPD6002T"#, &Some(6_i16)),
-    (r#"PHILIPSSPD6003P"#, &Some(6_i16)),
-    (r#"PHILIPSSPD6004P"#, &Some(6_i16)),
-    (r#"PHILIPSSPD6005T"#, &Some(6_i16)),
-    (r#"PHILIPSSPD6104P"#, &Some(6_i16)),
-    (r#"PHILIPSSPD6105T"#, &Some(6_i16)),
-    (r#"PHILIPSSPD7000P"#, &Some(618_i16)),
-    (r#"PHILIPSSPD8004P1"#, &Some(6_i16)),
-    (r#"PHILIPSVAD8043"#, &Some(618_i16))
-];
-
-pub static VND_COMPAQ: [(&'static str, &'static Option<i16>); 45] = [
-    (r#"COMPAQ8120B"#, &Some(594_i16)),
-    (r#"COMPAQCD224E"#, &Some(684_i16)),
-    (r#"COMPAQCDROMCDRU241"#, &Some(-24_i16)),
-    (r#"COMPAQCDROMCR587"#, &Some(103_i16)),
-    (r#"COMPAQCDROMCR588"#, &Some(103_i16)),
-    (r#"COMPAQCDROMCR589"#, &Some(102_i16)),
-    (r#"COMPAQCDROMCRD8402B"#, &Some(-24_i16)),
-    (r#"COMPAQCDROMCRD8484B"#, &Some(-491_i16)),
-    (r#"COMPAQCDROMCRN8241B"#, &Some(-24_i16)),
-    (r#"COMPAQCDROMCRN8245B"#, &Some(-491_i16)),
-    (r#"COMPAQCDROMLTN403"#, &Some(-1164_i16)),
-    (r#"COMPAQCDROMLTN485"#, &Some(-1164_i16)),
-    (r#"COMPAQCDROMLTN486S"#, &Some(600_i16)),
-    (r#"COMPAQCDROMSC148E"#, &Some(-491_i16)),
-    (r#"COMPAQCDROMSN124"#, &Some(564_i16)),
-    (r#"COMPAQCRD8322B"#, &Some(-24_i16)),
-    (r#"COMPAQCRD8400B"#, &Some(-24_i16)),
-    (r#"COMPAQCRD8401B"#, &Some(-24_i16)),
-    (r#"COMPAQCRD8402B"#, &Some(-24_i16)),
-    (r#"COMPAQCRD8481B"#, &Some(-24_i16)),
-    (r#"COMPAQDVDROMDRD8120B"#, &Some(594_i16)),
-    (r#"COMPAQDVDROMDV28EA01"#, &Some(690_i16)),
-    (r#"COMPAQDVDROMDV28EB"#, &Some(102_i16)),
-    (r#"COMPAQDVDROMDV5700B"#, &Some(116_i16)),
-    (r#"COMPAQDVDROMDVD113R"#, &Some(691_i16)),
-    (r#"COMPAQDVDROMDVD114"#, &Some(690_i16)),
-    (r#"COMPAQDVDROMDVD115"#, &Some(690_i16)),
-    (r#"COMPAQDVDROMDVD116"#, &Some(102_i16)),
-    (r#"COMPAQDVDROMDVD117"#, &Some(102_i16)),
-    (r#"COMPAQDVDROMGD2500"#, &Some(564_i16)),
-    (r#"COMPAQDVDROMGD8000"#, &Some(667_i16)),
-    (r#"COMPAQDVDROMGDR8081N"#, &Some(667_i16)),
-    (r#"COMPAQDVDROMGDR8160B"#, &Some(102_i16)),
-    (r#"COMPAQDVDROMLTD163"#, &Some(594_i16)),
-    (r#"COMPAQDVDROMSD612B"#, &Some(704_i16)),
-    (r#"COMPAQDVDROMSD616T"#, &Some(1182_i16)),
-    (r#"COMPAQDVDROMSDC2402"#, &Some(-472_i16)),
-    (r#"COMPAQDVDROMSDC2512"#, &Some(-472_i16)),
-    (r#"COMPAQDVDROMSDC2612"#, &Some(-472_i16)),
-    (r#"COMPAQDVDROMSDM1612"#, &Some(-472_i16)),
-    (r#"COMPAQDVDROMSR8583"#, &Some(691_i16)),
-    (r#"COMPAQDVDROMSR8587"#, &Some(103_i16)),
-    (r#"COMPAQSC140S"#, &Some(600_i16)),
-    (r#"COMPAQSC148F"#, &Some(600_i16)),
-    (r#"COMPAQXM6402B"#, &Some(94_i16))
-];
-
-pub static VND_LGHL04P: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"LGHL04PLGHL04PMT8575"#, &Some(6_i16))
-];
-
-pub static VND_52X32X52: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"52X32X52CDRW"#, &Some(97_i16))
+pub static VND_ATA: [(&'static str, &'static Option<i16>); 12] = [
+    (r#"ATAASUSBW12B1S"#, &Some(6_i16)),
+    (r#"ATAASUSBW16D1H"#, &Some(6_i16)),
+    (r#"ATAATAPIIHAS124"#, &Some(6_i16)),
+    (r#"ATAATAPIIHBS312"#, &Some(6_i16)),
+    (r#"ATADRW24D5MT"#, &Some(6_i16)),
+    (r#"ATALGELECTRONICSBDRE"#, &Some(6_i16)),
+    (r#"ATALGELECTRONICSDVDRAM"#, &Some(6_i16)),
+    (r#"ATALGELECTRONICSDVDRAM"#, &Some(102_i16)),
+    (r#"ATAPIONEERBDRW"#, &Some(667_i16)),
+    (r#"ATAPIONEERBDRWB"#, &Some(667_i16)),
+    (r#"ATAPIONEERDVDRW"#, &Some(6_i16)),
+    (r#"ATAPLEXTORBDRPX"#, &Some(6_i16))
 ];
 
 pub static VND_ATAPI: [(&'static str, &'static Option<i16>); 255] = [
@@ -2542,656 +858,169 @@ pub static VND_ATAPI: [(&'static str, &'static Option<i16>); 255] = [
     (r#"ATAPIIHOS104"#, &Some(696_i16))
 ];
 
-pub static VND_54X: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"54XCDROM"#, &Some(12_i16))
+pub static VND_ATAPICD: [(&'static str, &'static Option<i16>); 3] = [
+    (r#"ATAPICDROMDRIVE48MAX"#, &Some(691_i16)),
+    (r#"ATAPICDROMDRIVE50MAX"#, &Some(12_i16)),
+    (r#"ATAPICDROMDRIVE56MAX"#, &Some(12_i16))
 ];
 
-pub static VND_DRW1608P2S: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"DRW1608P2S"#, &Some(48_i16))
+pub static VND_BAFAHY: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"BAFAHY56ROHQBO5M"#, &Some(0_i16))
 ];
 
-pub static VND_QHKHAFA: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"QHKHAFAO1MZOTIZS16"#, &Some(733_i16))
+pub static VND_BCD: [(&'static str, &'static Option<i16>); 2] = [
+    (r#"BCD32XHCDROM"#, &Some(12_i16)),
+    (r#"BCD44XHCDROM"#, &Some(12_i16))
 ];
 
-pub static VND_RCZMPSR: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"RCZMPSRJ4XI3ODQJS9A"#, &Some(102_i16))
+pub static VND_BCD24XHM: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"BCD24XHMCDROM"#, &Some(-1164_i16))
 ];
 
-pub static VND_DAEWOO: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"DAEWOOCDRWRW5224"#, &Some(97_i16))
+pub static VND_BDC26SSA: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"BDC26SSA"#, &Some(6_i16))
 ];
 
-pub static VND_MICROTEK: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"MICROTEKDVDROMDRL160"#, &Some(594_i16))
+pub static VND_BDCOMBOT01: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"BDCOMBOT01"#, &Some(6_i16))
 ];
 
-pub static VND_56X: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"56XCDROM"#, &Some(12_i16))
+pub static VND_BDROM: [(&'static str, &'static Option<i16>); 2] = [
+    (r#"BDROM4X12X32X"#, &Some(6_i16)),
+    (r#"BDROMBP002"#, &Some(702_i16))
 ];
 
-pub static VND_IBM: [(&'static str, &'static Option<i16>); 15] = [
-    (r#"IBMCDRWDVDROM"#, &Some(102_i16)),
-    (r#"IBMCDRWDVDUJDB753"#, &Some(102_i16)),
-    (r#"IBMCDRWUSB2"#, &Some(685_i16)),
-    (r#"IBMDVRM00203"#, &Some(103_i16)),
-    (r#"IBMRMBO0020311"#, &Some(102_i16)),
-    (r#"IBMRMBO0020321"#, &Some(102_i16)),
-    (r#"IBMRMBO0140512"#, &Some(103_i16)),
-    (r#"IBMSATADEVICE81Y3657"#, &Some(103_i16)),
-    (r#"IBMSATADEVICE81Y3658"#, &Some(6_i16)),
-    (r#"IBMSATADEVICE81Y3659"#, &Some(6_i16)),
-    (r#"IBMSATADEVICE81Y3672"#, &Some(103_i16)),
-    (r#"IBMSATADEVICE81Y3677"#, &Some(102_i16)),
-    (r#"IBMSATADEVICE81Y3682"#, &Some(102_i16)),
-    (r#"IBMUSB2MULTIBURNER"#, &Some(102_i16)),
-    (r#"IBMUSBCDROM"#, &Some(678_i16))
+pub static VND_BDROM400: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"BDROM400"#, &Some(618_i16))
 ];
 
-pub static VND_16X12: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"16X12DVDDUAL"#, &Some(91_i16))
+pub static VND_BENQ: [(&'static str, &'static Option<i16>); 40] = [
+    (r#"BENQBDROMBR1000"#, &Some(6_i16)),
+    (r#"BENQCDROM652M"#, &Some(6_i16)),
+    (r#"BENQCDROM656M"#, &Some(6_i16)),
+    (r#"BENQCDRW5232X"#, &Some(738_i16)),
+    (r#"BENQCOMBOCB523B"#, &Some(-589_i16)),
+    (r#"BENQCOMBOCB523C"#, &Some(6_i16)),
+    (r#"BENQDVDDCDQ60"#, &Some(102_i16)),
+    (r#"BENQDVDDCDW1670"#, &Some(102_i16)),
+    (r#"BENQDVDDCDW1680"#, &Some(6_i16)),
+    (r#"BENQDVDDCDW1800"#, &Some(6_i16)),
+    (r#"BENQDVDDCDW1810"#, &Some(6_i16)),
+    (r#"BENQDVDDCDW2000"#, &Some(6_i16)),
+    (r#"BENQDVDDCDW200S"#, &Some(6_i16)),
+    (r#"BENQDVDDCDW2010"#, &Some(6_i16)),
+    (r#"BENQDVDDCDW205S"#, &Some(6_i16)),
+    (r#"BENQDVDDCDW2200"#, &Some(6_i16)),
+    (r#"BENQDVDDCDW220P"#, &Some(6_i16)),
+    (r#"BENQDVDDCDW220S"#, &Some(6_i16)),
+    (r#"BENQDVDDCDW22AP"#, &Some(6_i16)),
+    (r#"BENQDVDDCDW240S"#, &Some(6_i16)),
+    (r#"BENQDVDDCDW24AS"#, &Some(6_i16)),
+    (r#"BENQDVDDCEW200G"#, &Some(6_i16)),
+    (r#"BENQDVDDDDW1620"#, &Some(618_i16)),
+    (r#"BENQDVDDDDW1625"#, &Some(618_i16)),
+    (r#"BENQDVDDDDW1640"#, &Some(618_i16)),
+    (r#"BENQDVDDDEW162I"#, &Some(618_i16)),
+    (r#"BENQDVDDDEW164B"#, &Some(618_i16)),
+    (r#"BENQDVDDDEW167B"#, &Some(102_i16)),
+    (r#"BENQDVDDUALDW1610"#, &Some(618_i16)),
+    (r#"BENQDVDROM165N"#, &Some(6_i16)),
+    (r#"BENQDVDROM16X"#, &Some(738_i16)),
+    (r#"BENQDVDROMDD165G"#, &Some(6_i16)),
+    (r#"BENQDVDROMDD185G"#, &Some(6_i16)),
+    (r#"BENQDVDROMDD18SA"#, &Some(6_i16)),
+    (r#"BENQDVDROMDD18SA1"#, &Some(6_i16)),
+    (r#"BENQDVDROMDD18SA2"#, &Some(6_i16)),
+    (r#"BENQDVDROMJOYBEE610"#, &Some(691_i16)),
+    (r#"BENQSDVDLD2000"#, &Some(6_i16)),
+    (r#"BENQSDVDTW400S"#, &Some(6_i16)),
+    (r#"BENQSLIMDDSW200D"#, &Some(618_i16))
 ];
 
-pub static VND_ADJ: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"ADJDVDRAM14200001"#, &Some(667_i16))
+pub static VND_BERQZUR: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"BERQZURHIVC5UZ8HUV"#, &Some(0_i16))
 ];
 
-pub static VND_NU: [(&'static str, &'static Option<i16>); 4] = [
-    (r#"NUCDRWDVDDBW521"#, &Some(6_i16)),
-    (r#"NUDVDRWDDW081"#, &Some(1292_i16)),
-    (r#"NUDVDRWDDW082"#, &Some(1292_i16)),
-    (r#"NUDVDRWSDW042"#, &Some(1292_i16))
+pub static VND_BGRIBGP: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"BGRIBGPTQBWXIVS"#, &Some(48_i16))
 ];
 
-pub static VND_36X: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"36XCDROM"#, &Some(12_i16))
+pub static VND_BPNKM52X16: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"BPNKM52X16"#, &Some(6_i16))
 ];
 
-pub static VND_SAMSUNG: [(&'static str, &'static Option<i16>); 65] = [
-    (r#"SAMSUNGCDROMSC140"#, &Some(976_i16)),
-    (r#"SAMSUNGCDROMSC140B"#, &Some(682_i16)),
-    (r#"SAMSUNGCDROMSC140C"#, &Some(600_i16)),
-    (r#"SAMSUNGCDROMSC140F"#, &Some(976_i16)),
-    (r#"SAMSUNGCDROMSC148A"#, &Some(12_i16)),
-    (r#"SAMSUNGCDROMSC148B"#, &Some(682_i16)),
-    (r#"SAMSUNGCDROMSC148C"#, &Some(600_i16)),
-    (r#"SAMSUNGCDROMSC148S"#, &Some(975_i16)),
-    (r#"SAMSUNGCDROMSC148T"#, &Some(600_i16)),
-    (r#"SAMSUNGCDROMSC152A"#, &Some(691_i16)),
-    (r#"SAMSUNGCDROMSC152B"#, &Some(600_i16)),
-    (r#"SAMSUNGCDROMSC152C"#, &Some(600_i16)),
-    (r#"SAMSUNGCDROMSC152G"#, &Some(691_i16)),
-    (r#"SAMSUNGCDROMSC152L"#, &Some(600_i16)),
-    (r#"SAMSUNGCDROMSCR2430"#, &Some(-494_i16)),
-    (r#"SAMSUNGCDROMSCR3231"#, &Some(974_i16)),
-    (r#"SAMSUNGCDROMSCR3232"#, &Some(686_i16)),
-    (r#"SAMSUNGCDROMSH152A"#, &Some(12_i16)),
-    (r#"SAMSUNGCDROMSN124"#, &Some(564_i16)),
-    (r#"SAMSUNGCDRRWSW208B"#, &Some(86_i16)),
-    (r#"SAMSUNGCDRRWSW208F"#, &Some(86_i16)),
-    (r#"SAMSUNGCDRRWSW212B"#, &Some(733_i16)),
-    (r#"SAMSUNGCDRRWSW216B"#, &Some(97_i16)),
-    (r#"SAMSUNGCDRRWSW224B"#, &Some(12_i16)),
-    (r#"SAMSUNGCDRRWSW232B"#, &Some(97_i16)),
-    (r#"SAMSUNGCDRRWSW240B"#, &Some(97_i16)),
-    (r#"SAMSUNGCDRRWSW248B"#, &Some(733_i16)),
-    (r#"SAMSUNGCDRRWSW248F"#, &Some(97_i16)),
-    (r#"SAMSUNGCDRRWSW252B"#, &Some(97_i16)),
-    (r#"SAMSUNGCDRRWSW252F"#, &Some(145_i16)),
-    (r#"SAMSUNGCDRRWSW252S"#, &Some(6_i16)),
-    (r#"SAMSUNGCDRRWSW408B"#, &Some(97_i16)),
-    (r#"SAMSUNGCDRWDVDSM308B"#, &Some(120_i16)),
-    (r#"SAMSUNGCDRWDVDSM316B"#, &Some(120_i16)),
-    (r#"SAMSUNGCDRWDVDSM332B"#, &Some(120_i16)),
-    (r#"SAMSUNGCDRWDVDSM348B"#, &Some(6_i16)),
-    (r#"SAMSUNGCDRWDVDSM352B"#, &Some(6_i16)),
-    (r#"SAMSUNGCDRWDVDSM352F"#, &Some(6_i16)),
-    (r#"SAMSUNGCDRWDVDSM352N"#, &Some(6_i16)),
-    (r#"SAMSUNGCDRWDVDSM408B"#, &Some(120_i16)),
-    (r#"SAMSUNGCDRWDVDSN308B"#, &Some(120_i16)),
-    (r#"SAMSUNGCDRWDVDSN324B"#, &Some(120_i16)),
-    (r#"SAMSUNGCDRWDVDSN324F"#, &Some(6_i16)),
-    (r#"SAMSUNGCDRWDVDSN324S"#, &Some(6_i16)),
-    (r#"SAMSUNGCDRWDVDSU324B"#, &Some(6_i16)),
-    (r#"SAMSUNGCDRWDVDSU408B"#, &Some(120_i16)),
-    (r#"SAMSUNGCOMBOSM304B"#, &Some(120_i16)),
-    (r#"SAMSUNGDVDROMSD604"#, &Some(116_i16)),
-    (r#"SAMSUNGDVDROMSD606F"#, &Some(116_i16)),
-    (r#"SAMSUNGDVDROMSD608"#, &Some(704_i16)),
-    (r#"SAMSUNGDVDROMSD612"#, &Some(704_i16)),
-    (r#"SAMSUNGDVDROMSD612F"#, &Some(704_i16)),
-    (r#"SAMSUNGDVDROMSD612S"#, &Some(1182_i16)),
-    (r#"SAMSUNGDVDROMSD616"#, &Some(1292_i16)),
-    (r#"SAMSUNGDVDROMSD616E"#, &Some(12_i16)),
-    (r#"SAMSUNGDVDROMSD616F"#, &Some(1182_i16)),
-    (r#"SAMSUNGDVDROMSD616Q"#, &Some(12_i16)),
-    (r#"SAMSUNGDVDROMSD616T"#, &Some(1182_i16)),
-    (r#"SAMSUNGDVDROMSD816B"#, &Some(12_i16)),
-    (r#"SAMSUNGDVDRRWSHW08A"#, &Some(116_i16)),
-    (r#"SAMSUNGDVDRRWSRW04B"#, &Some(48_i16)),
-    (r#"SAMSUNGDVDRWSHS222A"#, &Some(6_i16)),
-    (r#"SAMSUNGDVDRWTSH662"#, &Some(6_i16)),
-    (r#"SAMSUNGDVDWBDSHB083A"#, &Some(6_i16)),
-    (r#"SAMSUNGDVDWBDSHB083L"#, &Some(6_i16))
+pub static VND_BTC: [(&'static str, &'static Option<i16>); 8] = [
+    (r#"BTCBCE1610IM"#, &Some(12_i16)),
+    (r#"BTCBCE2410IM"#, &Some(12_i16)),
+    (r#"BTCBCE3212IM"#, &Some(12_i16)),
+    (r#"BTCBCE4012IM"#, &Some(12_i16)),
+    (r#"BTCBCE4816IM"#, &Some(12_i16)),
+    (r#"BTCBCO4016IM"#, &Some(6_i16)),
+    (r#"BTCBDV316E"#, &Some(0_i16)),
+    (r#"BTCCDROMF523E"#, &Some(12_i16))
 ];
 
-pub static VND_YAMAHA: [(&'static str, &'static Option<i16>); 13] = [
-    (r#"YAMAHACRW2100E"#, &Some(733_i16)),
-    (r#"YAMAHACRW2100S"#, &Some(733_i16)),
-    (r#"YAMAHACRW2200E"#, &Some(733_i16)),
-    (r#"YAMAHACRW2200S"#, &Some(733_i16)),
-    (r#"YAMAHACRW3200E"#, &Some(733_i16)),
-    (r#"YAMAHACRW3200S"#, &Some(733_i16)),
-    (r#"YAMAHACRW70"#, &Some(733_i16)),
-    (r#"YAMAHACRW8424E"#, &Some(117_i16)),
-    (r#"YAMAHACRW8424S"#, &Some(117_i16)),
-    (r#"YAMAHACRW8824E"#, &Some(117_i16)),
-    (r#"YAMAHACRW8824S"#, &Some(117_i16)),
-    (r#"YAMAHACRWF1E"#, &Some(733_i16)),
-    (r#"YAMAHACRWF1S"#, &Some(733_i16))
+pub static VND_BUFFALO: [(&'static str, &'static Option<i16>); 2] = [
+    (r#"BUFFALOBUFFALOOPTICAL"#, &Some(6_i16)),
+    (r#"BUFFALOOPTICALDRIVE"#, &Some(6_i16))
 ];
 
-pub static VND_CQ5252PRO: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"CQ5252PRO"#, &Some(97_i16))
+pub static VND_CB5216A: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"CB5216A"#, &Some(6_i16))
 ];
 
-pub static VND_PANASONIC: [(&'static str, &'static Option<i16>); 385] = [
-    (r#"PANASONICBDCMBUJ110"#, &Some(102_i16)),
-    (r#"PANASONICBDCMBUJ120"#, &Some(102_i16)),
-    (r#"PANASONICBDCMBUJ130A"#, &Some(102_i16)),
-    (r#"PANASONICBDCMBUJ130AS"#, &Some(102_i16)),
-    (r#"PANASONICBDCMBUJ140AS"#, &Some(103_i16)),
-    (r#"PANASONICBDCMBUJ141AF"#, &Some(103_i16)),
-    (r#"PANASONICBDCMBUJ141AJ"#, &Some(103_i16)),
-    (r#"PANASONICBDCMBUJ141AL"#, &Some(103_i16)),
-    (r#"PANASONICBDCMBUJ141AS"#, &Some(103_i16)),
-    (r#"PANASONICBDCMBUJ141EF"#, &Some(103_i16)),
-    (r#"PANASONICBDCMBUJ141EL"#, &Some(103_i16)),
-    (r#"PANASONICBDCMBUJ141ES"#, &Some(103_i16)),
-    (r#"PANASONICBDCMBUJ152"#, &Some(103_i16)),
-    (r#"PANASONICBDCMBUJ160"#, &Some(103_i16)),
-    (r#"PANASONICBDCMBUJ160B"#, &Some(103_i16)),
-    (r#"PANASONICBDCMBUJ162"#, &Some(103_i16)),
-    (r#"PANASONICBDCMBUJ162ABW"#, &Some(103_i16)),
-    (r#"PANASONICBDCMBUJ165"#, &Some(103_i16)),
-    (r#"PANASONICBDCMBUJ167"#, &Some(103_i16)),
-    (r#"PANASONICBDCMBUJ167AM"#, &Some(103_i16)),
-    (r#"PANASONICBDCMBUJ172"#, &Some(103_i16)),
-    (r#"PANASONICBDCMBUJ172S"#, &Some(103_i16)),
-    (r#"PANASONICBDCMBUJ242AS"#, &Some(103_i16)),
-    (r#"PANASONICBDCMBUJ265"#, &Some(103_i16)),
-    (r#"PANASONICBDMLTLFMB121"#, &Some(102_i16)),
-    (r#"PANASONICBDMLTLFPB271"#, &Some(102_i16)),
-    (r#"PANASONICBDMLTLFPB371"#, &Some(102_i16)),
-    (r#"PANASONICBDMLTSW4583"#, &Some(102_i16)),
-    (r#"PANASONICBDMLTSW5582"#, &Some(102_i16)),
-    (r#"PANASONICBDMLTSW5583"#, &Some(102_i16)),
-    (r#"PANASONICBDMLTSW5584"#, &Some(102_i16)),
-    (r#"PANASONICBDMLTUJ210S"#, &Some(102_i16)),
-    (r#"PANASONICBDMLTUJ215S"#, &Some(102_i16)),
-    (r#"PANASONICBDMLTUJ220"#, &Some(102_i16)),
-    (r#"PANASONICBDMLTUJ220S"#, &Some(102_i16)),
-    (r#"PANASONICBDMLTUJ220V"#, &Some(102_i16)),
-    (r#"PANASONICBDMLTUJ225S"#, &Some(102_i16)),
-    (r#"PANASONICBDMLTUJ230AS"#, &Some(102_i16)),
-    (r#"PANASONICBDMLTUJ232A"#, &Some(102_i16)),
-    (r#"PANASONICBDMLTUJ232AS"#, &Some(102_i16)),
-    (r#"PANASONICBDMLTUJ235AS"#, &Some(102_i16)),
-    (r#"PANASONICBDMLTUJ240"#, &Some(103_i16)),
-    (r#"PANASONICBDMLTUJ240AF"#, &Some(103_i16)),
-    (r#"PANASONICBDMLTUJ240AFW"#, &Some(103_i16)),
-    (r#"PANASONICBDMLTUJ240AS"#, &Some(103_i16)),
-    (r#"PANASONICBDMLTUJ240EF"#, &Some(103_i16)),
-    (r#"PANASONICBDMLTUJ240ES"#, &Some(103_i16)),
-    (r#"PANASONICBDMLTUJ242"#, &Some(103_i16)),
-    (r#"PANASONICBDMLTUJ242AS"#, &Some(103_i16)),
-    (r#"PANASONICBDMLTUJ252"#, &Some(103_i16)),
-    (r#"PANASONICBDMLTUJ252E"#, &Some(103_i16)),
-    (r#"PANASONICBDMLTUJ260"#, &Some(103_i16)),
-    (r#"PANASONICBDMLTUJ260AF"#, &Some(103_i16)),
-    (r#"PANASONICBDMLTUJ260B"#, &Some(103_i16)),
-    (r#"PANASONICBDMLTUJ260E"#, &Some(103_i16)),
-    (r#"PANASONICBDMLTUJ260F"#, &Some(103_i16)),
-    (r#"PANASONICBDMLTUJ262"#, &Some(103_i16)),
-    (r#"PANASONICBDMLTUJ262ABW"#, &Some(103_i16)),
-    (r#"PANASONICBDMLTUJ262B"#, &Some(103_i16)),
-    (r#"PANASONICBDMLTUJ265"#, &Some(103_i16)),
-    (r#"PANASONICBDMLTUJ267"#, &Some(103_i16)),
-    (r#"PANASONICBDMLTUJ267AM"#, &Some(103_i16)),
-    (r#"PANASONICBDMLTUJ272"#, &Some(103_i16)),
-    (r#"PANASONICBDMLTUJ272Q"#, &Some(103_i16)),
-    (r#"PANASONICBDMLTUJ272S"#, &Some(103_i16)),
-    (r#"PANASONICBDMLTUJ273"#, &Some(103_i16)),
-    (r#"PANASONICBDMLTUJDE267"#, &Some(103_i16)),
-    (r#"PANASONICBDREUJ210"#, &Some(102_i16)),
-    (r#"PANASONICBDREUJ220"#, &Some(102_i16)),
-    (r#"PANASONICBDREUJ225S"#, &Some(102_i16)),
-    (r#"PANASONICBDREUJ232A"#, &Some(102_i16)),
-    (r#"PANASONICBDREUJ235A"#, &Some(102_i16)),
-    (r#"PANASONICBDREUJ240"#, &Some(103_i16)),
-    (r#"PANASONICBDREUJ240AF"#, &Some(103_i16)),
-    (r#"PANASONICBDREUJ242"#, &Some(103_i16)),
-    (r#"PANASONICBDREUJ252"#, &Some(103_i16)),
-    (r#"PANASONICBDREUJ260"#, &Some(103_i16)),
-    (r#"PANASONICBDREUJ260AF"#, &Some(103_i16)),
-    (r#"PANASONICBDREUJ262"#, &Some(103_i16)),
-    (r#"PANASONICBDREUJ272"#, &Some(103_i16)),
-    (r#"PANASONICCDRCW7502"#, &Some(122_i16)),
-    (r#"PANASONICCDRCW7503"#, &Some(103_i16)),
-    (r#"PANASONICCDRCW7582"#, &Some(122_i16)),
-    (r#"PANASONICCDROMCR175"#, &Some(102_i16)),
-    (r#"PANASONICCDROMCR176"#, &Some(99_i16)),
-    (r#"PANASONICCDROMCR177"#, &Some(99_i16)),
-    (r#"PANASONICCDROMCR584"#, &Some(122_i16)),
-    (r#"PANASONICCDROMCR585"#, &Some(103_i16)),
-    (r#"PANASONICCDROMCR587"#, &Some(103_i16)),
-    (r#"PANASONICCDROMCR588"#, &Some(103_i16)),
-    (r#"PANASONICCDROMCR589"#, &Some(103_i16)),
-    (r#"PANASONICCDROMCR593"#, &Some(99_i16)),
-    (r#"PANASONICCDROMCR594"#, &Some(99_i16)),
-    (r#"PANASONICCDRRW05"#, &Some(687_i16)),
-    (r#"PANASONICCDRWCW7585"#, &Some(99_i16)),
-    (r#"PANASONICCDRWCW7586"#, &Some(86_i16)),
-    (r#"PANASONICCDRWCW8121"#, &Some(103_i16)),
-    (r#"PANASONICCDRWCW8121B"#, &Some(103_i16)),
-    (r#"PANASONICCDRWCW8122"#, &Some(103_i16)),
-    (r#"PANASONICCDRWCW8123"#, &Some(102_i16)),
-    (r#"PANASONICCDRWCW8124"#, &Some(102_i16)),
-    (r#"PANASONICCDRWCW8221"#, &Some(102_i16)),
-    (r#"PANASONICCDRWCW8571"#, &Some(103_i16)),
-    (r#"PANASONICCDRWCW8572"#, &Some(103_i16)),
-    (r#"PANASONICCDRWDVDUJDA740"#, &Some(102_i16)),
-    (r#"PANASONICCDRWDVDUJDA760"#, &Some(102_i16)),
-    (r#"PANASONICDVDCDRWUJDA770"#, &Some(102_i16)),
-    (r#"PANASONICDVDCDRWUJDA775"#, &Some(102_i16)),
-    (r#"PANASONICDVDCDRWUJDA780"#, &Some(102_i16)),
-    (r#"PANASONICDVDCDRWUJDA782"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAM"#, &Some(138_i16)),
-    (r#"PANASONICDVDRAMLFD200"#, &Some(103_i16)),
-    (r#"PANASONICDVDRAMLFD210"#, &Some(103_i16)),
-    (r#"PANASONICDVDRAMLFD310"#, &Some(103_i16)),
-    (r#"PANASONICDVDRAMLFD311"#, &Some(103_i16)),
-    (r#"PANASONICDVDRAMLFD521"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMLFM721"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMLFM760"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMLFM821"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMLFM860"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMLFP567"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMLFP667"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMLFP767"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMLFP867"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMLFP967"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMLFP968"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMSW810"#, &Some(6_i16)),
-    (r#"PANASONICDVDRAMSW820"#, &Some(6_i16)),
-    (r#"PANASONICDVDRAMSW830"#, &Some(6_i16)),
-    (r#"PANASONICDVDRAMSW840"#, &Some(6_i16)),
-    (r#"PANASONICDVDRAMSW9571"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMSW9572"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMSW9573S"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMSW9574S"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMSW9576S"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMSW9581"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMSW9581N"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMSW9582"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMSW9583A"#, &Some(234_i16)),
-    (r#"PANASONICDVDRAMSW9583S"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMSW9584"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMSW9585"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMSW9585A"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMSW9585S"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMSW9586"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMSW9587A"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMSW9587S"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMSW9588"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMSW9590"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMSW9590A"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ810"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ811"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ812"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ813"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ815"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ815A"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ820S"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ822S"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ822SY"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ823S"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ825S"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ830S"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ830SA"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ830SX"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ830SY"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ831S"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ831SA"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ832"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ832S"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ833S"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ835S"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ840S"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ841S"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ842"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ842S"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ842Z"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ844"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ844S"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ845A"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ845S"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ846S"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ850"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ850S"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ850T"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ850Z"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ851S"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ852"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ852S"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ85JA"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ85JS"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ860"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ860H"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ860S"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ861H"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ861S"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ862"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ862A"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ862AC"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ862AS"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ862BJ"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ862ES"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ862PS"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ867AS"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ869AS"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ869PS"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ870A"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ870BJ"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ870PC"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ870QJ"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ875AS"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ875AT"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ875S"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ880A"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ880AS"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ880ES"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ890"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ890AS"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ890ES"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ892"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ892AS"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ892ES"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ8A0"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ8A0A"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ8A0AS"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ8A0ASW"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ8A0AT"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ8A0ES"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ8A2"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ8A2AS"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ8A2ASW"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ8A2ES"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ8A7AS"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ8B0"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ8B0AW"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ8B1AS"#, &Some(6_i16)),
-    (r#"PANASONICDVDRAMUJ8B2"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ8B2E"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ8B9"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMUJ8C0"#, &Some(103_i16)),
-    (r#"PANASONICDVDRAMUJ8C1"#, &Some(6_i16)),
-    (r#"PANASONICDVDRAMUJ8C2"#, &Some(103_i16)),
-    (r#"PANASONICDVDRAMUJ8C2Q"#, &Some(103_i16)),
-    (r#"PANASONICDVDRAMUJ8C2S"#, &Some(103_i16)),
-    (r#"PANASONICDVDRAMUJ8C5"#, &Some(6_i16)),
-    (r#"PANASONICDVDRAMUJ8C7"#, &Some(103_i16)),
-    (r#"PANASONICDVDRAMUJ8D1"#, &Some(6_i16)),
-    (r#"PANASONICDVDRAMUJ8D2Q"#, &Some(103_i16)),
-    (r#"PANASONICDVDRAMUJ8D3"#, &Some(103_i16)),
-    (r#"PANASONICDVDRAMUJ8DB"#, &Some(6_i16)),
-    (r#"PANASONICDVDRAMUJ8DBS"#, &Some(6_i16)),
-    (r#"PANASONICDVDRAMUJ8E0"#, &Some(103_i16)),
-    (r#"PANASONICDVDRAMUJ8E1"#, &Some(6_i16)),
-    (r#"PANASONICDVDRAMUJ8E2"#, &Some(103_i16)),
-    (r#"PANASONICDVDRAMUJ8E2Q"#, &Some(103_i16)),
-    (r#"PANASONICDVDRAMUJ8E2S"#, &Some(103_i16)),
-    (r#"PANASONICDVDRAMUJ8E3"#, &Some(103_i16)),
-    (r#"PANASONICDVDRAMUJ8FB"#, &Some(6_i16)),
-    (r#"PANASONICDVDRAMUJ8FBS"#, &Some(6_i16)),
-    (r#"PANASONICDVDRAMUJ8G2"#, &Some(103_i16)),
-    (r#"PANASONICDVDRAMUJ8G6"#, &Some(103_i16)),
-    (r#"PANASONICDVDRAMUJ8HC"#, &Some(6_i16)),
-    (r#"PANASONICDVDRAMUJ8HCA"#, &Some(6_i16)),
-    (r#"PANASONICDVDRAMUJDE8C7"#, &Some(103_i16)),
-    (r#"PANASONICDVDRAMUJE844S"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMVWBN11"#, &Some(102_i16)),
-    (r#"PANASONICDVDRAMVWBN12"#, &Some(102_i16)),
-    (r#"PANASONICDVDROMA765"#, &Some(102_i16)),
-    (r#"PANASONICDVDROMSR8174"#, &Some(691_i16)),
-    (r#"PANASONICDVDROMSR8175"#, &Some(691_i16)),
-    (r#"PANASONICDVDROMSR8176"#, &Some(103_i16)),
-    (r#"PANASONICDVDROMSR8177"#, &Some(103_i16)),
-    (r#"PANASONICDVDROMSR8178"#, &Some(103_i16)),
-    (r#"PANASONICDVDROMSR8186"#, &Some(691_i16)),
-    (r#"PANASONICDVDROMSR8583"#, &Some(691_i16)),
-    (r#"PANASONICDVDROMSR8584A"#, &Some(691_i16)),
-    (r#"PANASONICDVDROMSR8585"#, &Some(691_i16)),
-    (r#"PANASONICDVDROMSR8586"#, &Some(691_i16)),
-    (r#"PANASONICDVDROMSR8587"#, &Some(103_i16)),
-    (r#"PANASONICDVDROMSR8588"#, &Some(103_i16)),
-    (r#"PANASONICDVDROMSR8589"#, &Some(103_i16)),
-    (r#"PANASONICDVDROMSW410"#, &Some(6_i16)),
-    (r#"PANASONICDVDROMSW420"#, &Some(6_i16)),
-    (r#"PANASONICDVDROMSW440"#, &Some(6_i16)),
-    (r#"PANASONICDVDROMUJ869AZ"#, &Some(102_i16)),
-    (r#"PANASONICDVDROMUJ875"#, &Some(234_i16)),
-    (r#"PANASONICDVDROMUJ8A0AC"#, &Some(102_i16)),
-    (r#"PANASONICDVDROMUJ8A2"#, &Some(102_i16)),
-    (r#"PANASONICDVDROMUJ8B0AC"#, &Some(102_i16)),
-    (r#"PANASONICDVDROMUJ8C0"#, &Some(103_i16)),
-    (r#"PANASONICDVDROMUJ8C0AC"#, &Some(103_i16)),
-    (r#"PANASONICDVDROMUJ8C2"#, &Some(103_i16)),
-    (r#"PANASONICDVDROMUJ8E0"#, &Some(103_i16)),
-    (r#"PANASONICDVDROMUJ8E0B"#, &Some(103_i16)),
-    (r#"PANASONICDVDROMUJ8E2"#, &Some(103_i16)),
-    (r#"PANASONICDVDROMUJ8G2"#, &Some(103_i16)),
-    (r#"PANASONICDVDROMUJDA765"#, &Some(102_i16)),
-    (r#"PANASONICDVDROMUJDA770"#, &Some(102_i16)),
-    (r#"PANASONICDVDROMUJDA775"#, &Some(102_i16)),
-    (r#"PANASONICDVDROMUJDA782"#, &Some(102_i16)),
-    (r#"PANASONICDVDROMUJDE8C7"#, &Some(103_i16)),
-    (r#"PANASONICDVDRUJ825"#, &Some(102_i16)),
-    (r#"PANASONICDVDRUJ845E"#, &Some(102_i16)),
-    (r#"PANASONICDVDRUJ845F"#, &Some(102_i16)),
-    (r#"PANASONICDVDRUJ846"#, &Some(102_i16)),
-    (r#"PANASONICDVDRUJ857"#, &Some(102_i16)),
-    (r#"PANASONICDVDRUJ857D"#, &Some(102_i16)),
-    (r#"PANASONICDVDRUJ857E"#, &Some(102_i16)),
-    (r#"PANASONICDVDRUJ85J"#, &Some(102_i16)),
-    (r#"PANASONICDVDRUJ867"#, &Some(102_i16)),
-    (r#"PANASONICDVDRUJ867A"#, &Some(102_i16)),
-    (r#"PANASONICDVDRUJ868"#, &Some(102_i16)),
-    (r#"PANASONICDVDRUJ875"#, &Some(102_i16)),
-    (r#"PANASONICDVDRUJ898"#, &Some(102_i16)),
-    (r#"PANASONICDVDRUJ8A8"#, &Some(102_i16)),
-    (r#"PANASONICDVDRWBDUJ110"#, &Some(102_i16)),
-    (r#"PANASONICDVDRWBDUJ162"#, &Some(103_i16)),
-    (r#"PANASONICDVDRWBDUJ167"#, &Some(103_i16)),
-    (r#"PANASONICDVDRWBDUJ167AM"#, &Some(103_i16)),
-    (r#"PANASONICDVDRWBDUJ232AB"#, &Some(102_i16)),
-    (r#"PANASONICDVDRWSW820"#, &Some(6_i16)),
-    (r#"PANASONICDVDRWSW830"#, &Some(6_i16)),
-    (r#"PANASONICDVDRWUJ857G"#, &Some(102_i16)),
-    (r#"PANASONICDVDRWUJ862A"#, &Some(102_i16)),
-    (r#"PANASONICDVDRWUJ867S"#, &Some(102_i16)),
-    (r#"PANASONICDVDRWUJ875S"#, &Some(102_i16)),
-    (r#"PANASONICDVDRWUJ890"#, &Some(102_i16)),
-    (r#"PANASONICDVDRWUJ892"#, &Some(102_i16)),
-    (r#"PANASONICDVDRWUJ8A2"#, &Some(102_i16)),
-    (r#"PANASONICDVDRWUJ8A7"#, &Some(102_i16)),
-    (r#"PANASONICDVDRWUJ8A7AF"#, &Some(102_i16)),
-    (r#"PANASONICDVDRWUJ8B1"#, &Some(6_i16)),
-    (r#"PANASONICDVDRWUJ8B2"#, &Some(102_i16)),
-    (r#"PANASONICDVDRWUJ8C1"#, &Some(6_i16)),
-    (r#"PANASONICDVDRWUJ8C2"#, &Some(103_i16)),
-    (r#"PANASONICDVDRWUJ8C7"#, &Some(103_i16)),
-    (r#"PANASONICDVDRWUJ8D1"#, &Some(6_i16)),
-    (r#"PANASONICDVDRWUJ8DB"#, &Some(6_i16)),
-    (r#"PANASONICDVDRWUJ8E0"#, &Some(103_i16)),
-    (r#"PANASONICDVDRWUJ8E1"#, &Some(6_i16)),
-    (r#"PANASONICDVDRWUJ8E2"#, &Some(103_i16)),
-    (r#"PANASONICDVDRWUJ8FB"#, &Some(6_i16)),
-    (r#"PANASONICLKMKB12"#, &Some(102_i16)),
-    (r#"PANASONICSW9584D"#, &Some(102_i16)),
-    (r#"PANASONICUJ272S"#, &Some(103_i16)),
-    (r#"PANASONICUJ810"#, &Some(102_i16)),
-    (r#"PANASONICUJ812"#, &Some(102_i16)),
-    (r#"PANASONICUJ815A"#, &Some(102_i16)),
-    (r#"PANASONICUJ820D"#, &Some(102_i16)),
-    (r#"PANASONICUJ822D"#, &Some(102_i16)),
-    (r#"PANASONICUJ822DA"#, &Some(102_i16)),
-    (r#"PANASONICUJ831D"#, &Some(102_i16)),
-    (r#"PANASONICUJ831DA"#, &Some(102_i16)),
-    (r#"PANASONICUJ831DB"#, &Some(102_i16)),
-    (r#"PANASONICUJ832D"#, &Some(102_i16)),
-    (r#"PANASONICUJ840D"#, &Some(102_i16)),
-    (r#"PANASONICUJ841D"#, &Some(102_i16)),
-    (r#"PANASONICUJ841DB"#, &Some(102_i16)),
-    (r#"PANASONICUJ842D"#, &Some(102_i16)),
-    (r#"PANASONICUJ845D"#, &Some(102_i16)),
-    (r#"PANASONICUJ846D"#, &Some(102_i16)),
-    (r#"PANASONICUJ850D"#, &Some(102_i16)),
-    (r#"PANASONICUJDA310"#, &Some(686_i16)),
-    (r#"PANASONICUJDA330"#, &Some(685_i16)),
-    (r#"PANASONICUJDA360"#, &Some(685_i16)),
-    (r#"PANASONICUJDA710"#, &Some(690_i16)),
-    (r#"PANASONICUJDA720DVDCDRW"#, &Some(690_i16)),
-    (r#"PANASONICUJDA730DVDCDRW"#, &Some(690_i16)),
-    (r#"PANASONICUJDA740DVDCDRW"#, &Some(102_i16)),
-    (r#"PANASONICUJDA745DVDCDRW"#, &Some(102_i16)),
-    (r#"PANASONICUJDA750DVDCDRW"#, &Some(102_i16)),
-    (r#"PANASONICUJDA750FDVDCDRW"#, &Some(102_i16)),
-    (r#"PANASONICUJDA755DVDCDRW"#, &Some(102_i16)),
-    (r#"PANASONICUJDA755YDVDCDRW"#, &Some(102_i16)),
-    (r#"PANASONICUJDA755ZDVDCDRW"#, &Some(102_i16)),
-    (r#"PANASONICUJDA757DVDCDRW"#, &Some(102_i16)),
-    (r#"PANASONICUJDA760DVDCDRW"#, &Some(102_i16)),
-    (r#"PANASONICUJDA760EDVDCDRW"#, &Some(102_i16)),
-    (r#"PANASONICUJDA765ADVDCDRW"#, &Some(102_i16)),
-    (r#"PANASONICUJDA765DVDCDRW"#, &Some(102_i16)),
-    (r#"PANASONICUJDA769DVDCDRW"#, &Some(102_i16)),
-    (r#"PANASONICUJDA770DVDCDRW"#, &Some(102_i16)),
-    (r#"PANASONICUJDA775DVDCDRW"#, &Some(102_i16)),
-    (r#"PANASONICUJDA780DVDCDRW"#, &Some(102_i16)),
-    (r#"PANASONICUJDA782DVDCDRW"#, &Some(102_i16)),
-    (r#"PANASONICUJDD410"#, &Some(97_i16))
+pub static VND_CD956B: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"CD956B"#, &Some(12_i16))
 ];
 
-pub static VND_DAVILON: [(&'static str, &'static Option<i16>); 2] = [
-    (r#"DAVILONDVDROMLV1015"#, &Some(0_i16)),
-    (r#"DAVILONLV1015"#, &Some(0_i16))
+pub static VND_CDROM: [(&'static str, &'static Option<i16>); 10] = [
+    (r#"CDROM52XB0"#, &Some(12_i16)),
+    (r#"CDROMCCD52X6S"#, &Some(600_i16)),
+    (r#"CDROMCCD7T48"#, &Some(12_i16)),
+    (r#"CDROMDRIVEF5A"#, &Some(12_i16)),
+    (r#"CDROMDRIVEF5B"#, &Some(12_i16)),
+    (r#"CDROMDRIVEF5D"#, &Some(12_i16)),
+    (r#"CDROMDRIVEF5E"#, &Some(12_i16)),
+    (r#"CDROMDRIVEG6D"#, &Some(12_i16)),
+    (r#"CDROMF565E"#, &Some(12_i16)),
+    (r#"CDROMGOC5200E"#, &Some(12_i16))
 ];
 
-pub static VND_DVDRRW: [(&'static str, &'static Option<i16>); 2] = [
-    (r#"DVDRRWDX082D"#, &Some(1292_i16)),
-    (r#"DVDRRWDX162DA"#, &Some(618_i16))
+pub static VND_CDRRW: [(&'static str, &'static Option<i16>); 11] = [
+    (r#"CDRRW52X24X52X"#, &Some(97_i16)),
+    (r#"CDRRWCW079DCDRRW"#, &Some(12_i16)),
+    (r#"CDRRWCW088DCDRRW"#, &Some(733_i16)),
+    (r#"CDRRWCW089DCDRRW"#, &Some(12_i16)),
+    (r#"CDRRWCW099DCDRRW"#, &Some(6_i16)),
+    (r#"CDRRWRW7060S"#, &Some(685_i16)),
+    (r#"CDRRWRW7063A"#, &Some(97_i16)),
+    (r#"CDRRWRW7083A"#, &Some(97_i16)),
+    (r#"CDRRWRW7120A"#, &Some(97_i16)),
+    (r#"CDRRWRW7200A"#, &Some(97_i16)),
+    (r#"CDRRWRW8080A"#, &Some(685_i16))
 ];
 
-pub static VND_ACTIMA: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"ACTIMACDRWCRW4012A"#, &Some(685_i16))
+pub static VND_CDRW: [(&'static str, &'static Option<i16>); 16] = [
+    (r#"CDRW5232IA"#, &Some(6_i16)),
+    (r#"CDRW52X32L0"#, &Some(6_i16)),
+    (r#"CDRW52X32X"#, &Some(6_i16)),
+    (r#"CDRWCDR2440MB"#, &Some(12_i16)),
+    (r#"CDRWCDR5S40"#, &Some(12_i16)),
+    (r#"CDRWCDR5W40"#, &Some(12_i16)),
+    (r#"CDRWCDR5W48"#, &Some(12_i16)),
+    (r#"CDRWCDR6S48"#, &Some(6_i16)),
+    (r#"CDRWCDR6S52"#, &Some(6_i16)),
+    (r#"CDRWCDR7S52"#, &Some(6_i16)),
+    (r#"CDRWCDR8S52"#, &Some(6_i16)),
+    (r#"CDRWCDR9V52"#, &Some(6_i16)),
+    (r#"CDRWCXR3X40"#, &Some(6_i16)),
+    (r#"CDRWDXECDRW100"#, &Some(6_i16)),
+    (r#"CDRWGOR5232B"#, &Some(6_i16)),
+    (r#"CDRWUSB5232"#, &Some(6_i16))
 ];
 
-pub static VND_PLDS: [(&'static str, &'static Option<i16>); 75] = [
-    (r#"PLDSBDCOMBODC6E2SH"#, &Some(6_i16)),
-    (r#"PLDSBDCOMBODS6E2SH"#, &Some(6_i16)),
-    (r#"PLDSBDDH12B2SH"#, &Some(6_i16)),
-    (r#"PLDSBDREDH4B1S"#, &Some(618_i16)),
-    (r#"PLDSBDREDH8B2SH"#, &Some(6_i16)),
-    (r#"PLDSDG16D2S"#, &Some(6_i16)),
-    (r#"PLDSDVDADH20A3S"#, &Some(6_i16)),
-    (r#"PLDSDVDADH20A4P"#, &Some(6_i16)),
-    (r#"PLDSDVDADH20A6S"#, &Some(6_i16)),
-    (r#"PLDSDVDADH22A8P"#, &Some(6_i16)),
-    (r#"PLDSDVDADH22A9P"#, &Some(6_i16)),
-    (r#"PLDSDVDADH22AWP"#, &Some(6_i16)),
-    (r#"PLDSDVDADH24AAS"#, &Some(6_i16)),
-    (r#"PLDSDVDADH24ABS"#, &Some(6_i16)),
-    (r#"PLDSDVDADH24AYS"#, &Some(48_i16)),
-    (r#"PLDSDVDROMDA8DESH"#, &Some(6_i16)),
-    (r#"PLDSDVDROMDH16D2S"#, &Some(6_i16)),
-    (r#"PLDSDVDROMDH16D3S"#, &Some(6_i16)),
-    (r#"PLDSDVDROMDH16D5S"#, &Some(6_i16)),
-    (r#"PLDSDVDROMDH16D6S"#, &Some(6_i16)),
-    (r#"PLDSDVDROMDH16D6SH"#, &Some(6_i16)),
-    (r#"PLDSDVDROMDH16D7S"#, &Some(6_i16)),
-    (r#"PLDSDVDROMDH16D7SH"#, &Some(6_i16)),
-    (r#"PLDSDVDROMDH16D8S"#, &Some(6_i16)),
-    (r#"PLDSDVDROMDH16D8SH"#, &Some(6_i16)),
-    (r#"PLDSDVDROMDS8D3SH"#, &Some(6_i16)),
-    (r#"PLDSDVDROMDS8D4SH"#, &Some(6_i16)),
-    (r#"PLDSDVDROMDS8D9SH"#, &Some(6_i16)),
-    (r#"PLDSDVDROMDS8DBSH"#, &Some(6_i16)),
-    (r#"PLDSDVDROMDU8D5LH"#, &Some(6_i16)),
-    (r#"PLDSDVDROMDU8D6SH"#, &Some(6_i16)),
-    (r#"PLDSDVDRWBDDH12E3S"#, &Some(702_i16)),
-    (r#"PLDSDVDRWBDDH6E2S"#, &Some(6_i16)),
-    (r#"PLDSDVDRWBDDS4E1S"#, &Some(6_i16)),
-    (r#"PLDSDVDRWBDDS6E2SH"#, &Some(6_i16)),
-    (r#"PLDSDVDRWDA8A5SH"#, &Some(6_i16)),
-    (r#"PLDSDVDRWDA8A6SH"#, &Some(6_i16)),
-    (r#"PLDSDVDRWDA8AESH"#, &Some(6_i16)),
-    (r#"PLDSDVDRWDC8A2SH"#, &Some(6_i16)),
-    (r#"PLDSDVDRWDH16A6S"#, &Some(6_i16)),
-    (r#"PLDSDVDRWDH16AAS"#, &Some(6_i16)),
-    (r#"PLDSDVDRWDH16ABS"#, &Some(6_i16)),
-    (r#"PLDSDVDRWDH16ABSH"#, &Some(6_i16)),
-    (r#"PLDSDVDRWDH16ACS"#, &Some(6_i16)),
-    (r#"PLDSDVDRWDH16ACSH"#, &Some(6_i16)),
-    (r#"PLDSDVDRWDH16AES"#, &Some(6_i16)),
-    (r#"PLDSDVDRWDH16AESH"#, &Some(6_i16)),
-    (r#"PLDSDVDRWDH16AFSH"#, &Some(6_i16)),
-    (r#"PLDSDVDRWDH24AAS"#, &Some(6_i16)),
-    (r#"PLDSDVDRWDH24ABS"#, &Some(6_i16)),
-    (r#"PLDSDVDRWDH24ACS"#, &Some(6_i16)),
-    (r#"PLDSDVDRWDH24AWS"#, &Some(48_i16)),
-    (r#"PLDSDVDRWDL8A4SH"#, &Some(6_i16)),
-    (r#"PLDSDVDRWDL8ATS"#, &Some(6_i16)),
-    (r#"PLDSDVDRWDS"#, &Some(6_i16)),
-    (r#"PLDSDVDRWDS8A"#, &Some(6_i16)),
-    (r#"PLDSDVDRWDS8A3S"#, &Some(6_i16)),
-    (r#"PLDSDVDRWDS8A4S"#, &Some(6_i16)),
-    (r#"PLDSDVDRWDS8A5SH"#, &Some(6_i16)),
-    (r#"PLDSDVDRWDS8A8SH"#, &Some(6_i16)),
-    (r#"PLDSDVDRWDS8A9SH"#, &Some(6_i16)),
-    (r#"PLDSDVDRWDS8ABSH"#, &Some(6_i16)),
-    (r#"PLDSDVDRWDS8ACSH"#, &Some(6_i16)),
-    (r#"PLDSDVDRWDS8W2S"#, &Some(6_i16)),
-    (r#"PLDSDVDRWDU"#, &Some(6_i16)),
-    (r#"PLDSDVDRWDU8A2S"#, &Some(6_i16)),
-    (r#"PLDSDVDRWDU8A3S"#, &Some(6_i16)),
-    (r#"PLDSDVDRWDU8A4SH"#, &Some(6_i16)),
-    (r#"PLDSDVDRWDU8A5HH"#, &Some(6_i16)),
-    (r#"PLDSDVDRWDU8A5L"#, &Some(6_i16)),
-    (r#"PLDSDVDRWDU8A5LH"#, &Some(6_i16)),
-    (r#"PLDSDVDRWDU8A5SH"#, &Some(6_i16)),
-    (r#"PLDSDVDRWDU8A6SH"#, &Some(6_i16)),
-    (r#"PLDSDVDRWDU8AESH"#, &Some(6_i16)),
-    (r#"PLDSDVDRWDX20A6Q"#, &Some(6_i16))
-];
-
-pub static VND_DVDR: [(&'static str, &'static Option<i16>); 2] = [
-    (r#"DVDRPX891SA"#, &Some(6_i16)),
-    (r#"DVDRPXL890UE"#, &Some(6_i16))
-];
-
-pub static VND_IDEDVD: [(&'static str, &'static Option<i16>); 7] = [
-    (r#"IDEDVDDROM6216"#, &Some(738_i16)),
-    (r#"IDEDVDDVDRW6002"#, &Some(120_i16)),
-    (r#"IDEDVDDVDRW8631"#, &Some(618_i16)),
-    (r#"IDEDVDDVDRW8651"#, &Some(618_i16)),
-    (r#"IDEDVDDVDRW8801"#, &Some(618_i16)),
-    (r#"IDEDVDROM16X"#, &Some(691_i16)),
-    (r#"IDEDVDROM6116"#, &Some(691_i16))
-];
-
-pub static VND_CRW9624: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"CRW9624"#, &Some(685_i16))
+pub static VND_CDS520B: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"CDS520B"#, &Some(6_i16))
 ];
 
 pub static VND_CDWRITER: [(&'static str, &'static Option<i16>); 6] = [
@@ -3201,6 +1030,296 @@ pub static VND_CDWRITER: [(&'static str, &'static Option<i16>); 6] = [
     (r#"CDWRITERIDE4816"#, &Some(12_i16)),
     (r#"CDWRITERIDE5224"#, &Some(6_i16)),
     (r#"CDWRITERIDE5232"#, &Some(6_i16))
+];
+
+pub static VND_CENDYNE: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"CENDYNE522452AU"#, &Some(6_i16))
+];
+
+pub static VND_CENDYNE_: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"CENDYNE_481648AX"#, &Some(733_i16))
+];
+
+pub static VND_CFYTEDW: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"CFYTEDWSDYVCL6J8T"#, &Some(667_i16))
+];
+
+pub static VND_CNTXCORP: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"CNTXCORPCDVDROM"#, &Some(6_i16))
+];
+
+pub static VND_COMBI: [(&'static str, &'static Option<i16>); 2] = [
+    (r#"COMBIRW16X10DVD"#, &Some(692_i16)),
+    (r#"COMBIRW32DVD"#, &Some(692_i16))
+];
+
+pub static VND_COMBO: [(&'static str, &'static Option<i16>); 11] = [
+    (r#"COMBO5216IA"#, &Some(6_i16)),
+    (r#"COMBO52X32X52X"#, &Some(6_i16)),
+    (r#"COMBOBCO5232IM"#, &Some(6_i16)),
+    (r#"COMBOCOB2K5216"#, &Some(6_i16)),
+    (r#"COMBOCOB6V5216"#, &Some(6_i16)),
+    (r#"COMBOIDE2408SU"#, &Some(6_i16)),
+    (r#"COMBOIDE4016CO"#, &Some(6_i16)),
+    (r#"COMBOIDE4816CO"#, &Some(6_i16)),
+    (r#"COMBOIDE5216CO"#, &Some(6_i16)),
+    (r#"COMBOIDE5232CO"#, &Some(6_i16)),
+    (r#"COMBOUSB5232"#, &Some(6_i16))
+];
+
+pub static VND_COMBO52X16: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"COMBO52X16"#, &Some(6_i16))
+];
+
+pub static VND_COMBO52X16C: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"COMBO52X16C"#, &Some(6_i16))
+];
+
+pub static VND_COMPAL: [(&'static str, &'static Option<i16>); 3] = [
+    (r#"COMPALTSB24H1DVDCDRW"#, &Some(6_i16)),
+    (r#"COMPALTSB24H2DVDCDRW"#, &Some(6_i16)),
+    (r#"COMPALTSD80Y1DVDRW"#, &Some(691_i16))
+];
+
+pub static VND_COMPAQ: [(&'static str, &'static Option<i16>); 45] = [
+    (r#"COMPAQ8120B"#, &Some(594_i16)),
+    (r#"COMPAQCD224E"#, &Some(684_i16)),
+    (r#"COMPAQCDROMCDRU241"#, &Some(-24_i16)),
+    (r#"COMPAQCDROMCR587"#, &Some(103_i16)),
+    (r#"COMPAQCDROMCR588"#, &Some(103_i16)),
+    (r#"COMPAQCDROMCR589"#, &Some(102_i16)),
+    (r#"COMPAQCDROMCRD8402B"#, &Some(-24_i16)),
+    (r#"COMPAQCDROMCRD8484B"#, &Some(-491_i16)),
+    (r#"COMPAQCDROMCRN8241B"#, &Some(-24_i16)),
+    (r#"COMPAQCDROMCRN8245B"#, &Some(-491_i16)),
+    (r#"COMPAQCDROMLTN403"#, &Some(-1164_i16)),
+    (r#"COMPAQCDROMLTN485"#, &Some(-1164_i16)),
+    (r#"COMPAQCDROMLTN486S"#, &Some(600_i16)),
+    (r#"COMPAQCDROMSC148E"#, &Some(-491_i16)),
+    (r#"COMPAQCDROMSN124"#, &Some(564_i16)),
+    (r#"COMPAQCRD8322B"#, &Some(-24_i16)),
+    (r#"COMPAQCRD8400B"#, &Some(-24_i16)),
+    (r#"COMPAQCRD8401B"#, &Some(-24_i16)),
+    (r#"COMPAQCRD8402B"#, &Some(-24_i16)),
+    (r#"COMPAQCRD8481B"#, &Some(-24_i16)),
+    (r#"COMPAQDVDROMDRD8120B"#, &Some(594_i16)),
+    (r#"COMPAQDVDROMDV28EA01"#, &Some(690_i16)),
+    (r#"COMPAQDVDROMDV28EB"#, &Some(102_i16)),
+    (r#"COMPAQDVDROMDV5700B"#, &Some(116_i16)),
+    (r#"COMPAQDVDROMDVD113R"#, &Some(691_i16)),
+    (r#"COMPAQDVDROMDVD114"#, &Some(690_i16)),
+    (r#"COMPAQDVDROMDVD115"#, &Some(690_i16)),
+    (r#"COMPAQDVDROMDVD116"#, &Some(102_i16)),
+    (r#"COMPAQDVDROMDVD117"#, &Some(102_i16)),
+    (r#"COMPAQDVDROMGD2500"#, &Some(564_i16)),
+    (r#"COMPAQDVDROMGD8000"#, &Some(667_i16)),
+    (r#"COMPAQDVDROMGDR8081N"#, &Some(667_i16)),
+    (r#"COMPAQDVDROMGDR8160B"#, &Some(102_i16)),
+    (r#"COMPAQDVDROMLTD163"#, &Some(594_i16)),
+    (r#"COMPAQDVDROMSD612B"#, &Some(704_i16)),
+    (r#"COMPAQDVDROMSD616T"#, &Some(1182_i16)),
+    (r#"COMPAQDVDROMSDC2402"#, &Some(-472_i16)),
+    (r#"COMPAQDVDROMSDC2512"#, &Some(-472_i16)),
+    (r#"COMPAQDVDROMSDC2612"#, &Some(-472_i16)),
+    (r#"COMPAQDVDROMSDM1612"#, &Some(-472_i16)),
+    (r#"COMPAQDVDROMSR8583"#, &Some(691_i16)),
+    (r#"COMPAQDVDROMSR8587"#, &Some(103_i16)),
+    (r#"COMPAQSC140S"#, &Some(600_i16)),
+    (r#"COMPAQSC148F"#, &Some(600_i16)),
+    (r#"COMPAQXM6402B"#, &Some(94_i16))
+];
+
+pub static VND_CQ5252PRO: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"CQ5252PRO"#, &Some(97_i16))
+];
+
+pub static VND_CREATIVE: [(&'static str, &'static Option<i16>); 33] = [
+    (r#"CREATIVECD4020EST980828"#, &Some(679_i16)),
+    (r#"CREATIVECD4820ECS990211"#, &Some(679_i16)),
+    (r#"CREATIVECD4821EJJ990629"#, &Some(12_i16)),
+    (r#"CREATIVECD4834EFC101"#, &Some(12_i16)),
+    (r#"CREATIVECD4834EFC102"#, &Some(12_i16)),
+    (r#"CREATIVECD5220ESB991026"#, &Some(694_i16)),
+    (r#"CREATIVECD5220F0225"#, &Some(694_i16)),
+    (r#"CREATIVECD5220SB991119"#, &Some(694_i16)),
+    (r#"CREATIVECD5230E"#, &Some(12_i16)),
+    (r#"CREATIVECD5233E"#, &Some(12_i16)),
+    (r#"CREATIVECD5233ECF"#, &Some(696_i16)),
+    (r#"CREATIVECD5233EN"#, &Some(12_i16)),
+    (r#"CREATIVECD821ETW960527"#, &Some(961_i16)),
+    (r#"CREATIVECDRWRW121032E"#, &Some(99_i16)),
+    (r#"CREATIVECDRWRW1210E"#, &Some(688_i16)),
+    (r#"CREATIVECDRWRW1611E"#, &Some(12_i16)),
+    (r#"CREATIVECDRWRW2410E"#, &Some(12_i16)),
+    (r#"CREATIVECDRWRW4020E"#, &Some(12_i16)),
+    (r#"CREATIVECDRWRW6424E"#, &Some(685_i16)),
+    (r#"CREATIVECDRWRW8432E"#, &Some(355_i16)),
+    (r#"CREATIVECDRWRW8438E"#, &Some(86_i16)),
+    (r#"CREATIVEDVD1240E"#, &Some(691_i16)),
+    (r#"CREATIVEDVD5240E1"#, &Some(691_i16)),
+    (r#"CREATIVEDVD5241E"#, &Some(691_i16)),
+    (r#"CREATIVEDVD6630E"#, &Some(691_i16)),
+    (r#"CREATIVEDVD8400E"#, &Some(691_i16)),
+    (r#"CREATIVEDVDRAMRAM1216S"#, &Some(-495_i16)),
+    (r#"CREATIVEDVDROMDVD1241E"#, &Some(594_i16)),
+    (r#"CREATIVEDVDROMDVD1242E"#, &Some(704_i16)),
+    (r#"CREATIVEDVDROMDVD1610E"#, &Some(594_i16)),
+    (r#"CREATIVEDVDROMDVD6240E"#, &Some(564_i16)),
+    (r#"CREATIVEDVDRWDR1620E"#, &Some(12_i16)),
+    (r#"CREATIVEIRCD5222EB"#, &Some(12_i16))
+];
+
+pub static VND_CRW5224A: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"CRW5224A"#, &Some(6_i16))
+];
+
+pub static VND_CRW5232AS: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"CRW5232AS"#, &Some(-582_i16))
+];
+
+pub static VND_CRW9624: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"CRW9624"#, &Some(685_i16))
+];
+
+pub static VND_CYBERDRV: [(&'static str, &'static Option<i16>); 9] = [
+    (r#"CYBERDRVCB511DCOMBO"#, &Some(6_i16)),
+    (r#"CYBERDRVCW018DCDRRW"#, &Some(86_i16)),
+    (r#"CYBERDRVCW038DCDRRW"#, &Some(733_i16)),
+    (r#"CYBERDRVCW058DCDRRW"#, &Some(733_i16)),
+    (r#"CYBERDRVCW068DCDRRW"#, &Some(733_i16)),
+    (r#"CYBERDRVCW078DCDRRW"#, &Some(733_i16)),
+    (r#"CYBERDRVCW088DCDRRW"#, &Some(733_i16)),
+    (r#"CYBERDRVCW089DCDRRW"#, &Some(6_i16)),
+    (r#"CYBERDRVCW099DCDRRW"#, &Some(6_i16))
+];
+
+pub static VND_DAEWOO: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"DAEWOOCDRWRW5224"#, &Some(97_i16))
+];
+
+pub static VND_DAVILON: [(&'static str, &'static Option<i16>); 2] = [
+    (r#"DAVILONDVDROMLV1015"#, &Some(0_i16)),
+    (r#"DAVILONLV1015"#, &Some(0_i16))
+];
+
+pub static VND_DELL: [(&'static str, &'static Option<i16>); 3] = [
+    (r#"DELLDVDRWDW316"#, &Some(6_i16)),
+    (r#"DELLDVDRWDW514"#, &Some(103_i16)),
+    (r#"DELLDW316"#, &Some(6_i16))
+];
+
+pub static VND_DELTA: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"DELTAOIPSD2400ABM"#, &Some(12_i16))
+];
+
+pub static VND_DESAY: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"DESAYDESAY_7620_01"#, &Some(695_i16))
+];
+
+pub static VND_DEXPRESO: [(&'static str, &'static Option<i16>); 2] = [
+    (r#"DEXPRESODVDRW"#, &Some(6_i16)),
+    (r#"DEXPRESODVDRWD20A1P"#, &Some(6_i16))
+];
+
+pub static VND_DIGISTOR: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"DIGISTORDV28SA"#, &Some(48_i16))
+];
+
+pub static VND_DISCSOFT: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"DISCSOFTVIRTUALWRITABLE"#, &Some(6_i16))
+];
+
+pub static VND_DM126D: [(&'static str, &'static Option<i16>); 2] = [
+    (r#"DM126DDVDROM010228"#, &Some(564_i16)),
+    (r#"DM126DDVDROM011127"#, &Some(564_i16))
+];
+
+pub static VND_DM166D: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"DM166DDVDROM"#, &Some(564_i16))
+];
+
+pub static VND_DQ1724I: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"DQ1724IBWY124C"#, &Some(102_i16))
+];
+
+pub static VND_DRIDE1648: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"DRIDE1648"#, &Some(594_i16))
+];
+
+pub static VND_DRW1608P: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"DRW1608P"#, &Some(48_i16))
+];
+
+pub static VND_DRW1608P2: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"DRW1608P2"#, &Some(48_i16))
+];
+
+pub static VND_DRW1608P2S: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"DRW1608P2S"#, &Some(48_i16))
+];
+
+pub static VND_DRW24B1ST: [(&'static str, &'static Option<i16>); 2] = [
+    (r#"DRW24B1STA"#, &Some(6_i16)),
+    (r#"DRW24B1STC"#, &Some(6_i16))
+];
+
+pub static VND_DVD: [(&'static str, &'static Option<i16>); 9] = [
+    (r#"DVD16X"#, &Some(6_i16)),
+    (r#"DVDDUALGOW0404A"#, &Some(12_i16)),
+    (r#"DVDDUALGOW1616B"#, &Some(12_i16)),
+    (r#"DVDROMCIBDV316E"#, &Some(12_i16)),
+    (r#"DVDROMDXDVDR100"#, &Some(12_i16)),
+    (r#"DVDRW"#, &Some(6_i16)),
+    (r#"DVDRWDVRMCC"#, &Some(48_i16)),
+    (r#"DVDRWTP2"#, &Some(6_i16)),
+    (r#"DVDWRITER1260V"#, &Some(6_i16))
+];
+
+pub static VND_DVD16X: [(&'static str, &'static Option<i16>); 7] = [
+    (r#"DVD16XBDV316B"#, &Some(594_i16)),
+    (r#"DVD16XBDV316C"#, &Some(12_i16)),
+    (r#"DVD16XDVD1648BKH"#, &Some(12_i16)),
+    (r#"DVD16XDVDROMBDV316C"#, &Some(12_i16)),
+    (r#"DVD16XDVDROMBDV316E"#, &Some(12_i16)),
+    (r#"DVD16XDVDROMBDV316G"#, &Some(6_i16)),
+    (r#"DVD16XOEM316B"#, &Some(594_i16))
+];
+
+pub static VND_DVDCDRW: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"DVDCDRWRW9120"#, &Some(690_i16))
+];
+
+pub static VND_DVDE616A: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"DVDE616A"#, &Some(6_i16))
+];
+
+pub static VND_DVDE616P2: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"DVDE616P2"#, &Some(738_i16))
+];
+
+pub static VND_DVDR: [(&'static str, &'static Option<i16>); 2] = [
+    (r#"DVDRPX891SA"#, &Some(6_i16)),
+    (r#"DVDRPXL890UE"#, &Some(6_i16))
+];
+
+pub static VND_DVDROM: [(&'static str, &'static Option<i16>); 12] = [
+    (r#"DVDROM10X"#, &Some(564_i16)),
+    (r#"DVDROM16X"#, &Some(691_i16)),
+    (r#"DVDROM8X"#, &Some(564_i16)),
+    (r#"DVDROMDVD16X3H"#, &Some(594_i16)),
+    (r#"DVDROMDVD16X6S"#, &Some(12_i16)),
+    (r#"DVDROMDVD1S16P"#, &Some(6_i16)),
+    (r#"DVDROMDVD7T16"#, &Some(12_i16)),
+    (r#"DVDROMGOD1600B"#, &Some(12_i16)),
+    (r#"DVDROMGOD1600D"#, &Some(12_i16)),
+    (r#"DVDROMLTD16X5H"#, &Some(12_i16)),
+    (r#"DVDROMPATA16X48X"#, &Some(6_i16)),
+    (r#"DVDROMSATA18X"#, &Some(6_i16))
+];
+
+pub static VND_DVDRRW: [(&'static str, &'static Option<i16>); 2] = [
+    (r#"DVDRRWDX082D"#, &Some(1292_i16)),
+    (r#"DVDRRWDX162DA"#, &Some(618_i16))
 ];
 
 pub static VND_DVDRW: [(&'static str, &'static Option<i16>); 43] = [
@@ -3249,52 +1368,55 @@ pub static VND_DVDRW: [(&'static str, &'static Option<i16>); 43] = [
     (r#"DVDRWUSBH16X"#, &Some(6_i16))
 ];
 
-pub static VND_BDCOMBOT01: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"BDCOMBOT01"#, &Some(6_i16))
+pub static VND_DVSKOREA: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"DVSKOREADVSLDRDRL200"#, &Some(102_i16))
 ];
 
-pub static VND_PBDS: [(&'static str, &'static Option<i16>); 10] = [
-    (r#"PBDSCDROMDH48N1P"#, &Some(6_i16)),
-    (r#"PBDSCDROMDH48N1S"#, &Some(6_i16)),
-    (r#"PBDSCDRWDVDDH48C2S"#, &Some(6_i16)),
-    (r#"PBDSDH16A1P"#, &Some(6_i16)),
-    (r#"PBDSDH16D1P"#, &Some(6_i16)),
-    (r#"PBDSDH16D1S"#, &Some(6_i16)),
-    (r#"PBDSDS8A1P"#, &Some(594_i16)),
-    (r#"PBDSDVDRWDH16W1S"#, &Some(6_i16)),
-    (r#"PBDSDVDRWDS8W1P"#, &Some(594_i16)),
-    (r#"PBDSVAD603864930C"#, &Some(6_i16))
+pub static VND_DYNABOOK: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"DYNABOOKPS0048UA1DVD"#, &Some(6_i16))
 ];
 
-pub static VND_DESAY: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"DESAYDESAY_7620_01"#, &Some(695_i16))
+pub static VND_EELEI: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"EELEICOMBO"#, &Some(6_i16))
 ];
 
-pub static VND_DELL: [(&'static str, &'static Option<i16>); 3] = [
-    (r#"DELLDVDRWDW316"#, &Some(6_i16)),
-    (r#"DELLDVDRWDW514"#, &Some(103_i16)),
-    (r#"DELLDW316"#, &Some(6_i16))
+pub static VND_EIDE: [(&'static str, &'static Option<i16>); 23] = [
+    (r#"EIDECD950EAKU"#, &Some(680_i16)),
+    (r#"EIDECD950ETKU"#, &Some(12_i16)),
+    (r#"EIDECD952EAKV"#, &Some(691_i16)),
+    (r#"EIDECD952ETKU"#, &Some(12_i16)),
+    (r#"EIDECD956EAKV"#, &Some(691_i16)),
+    (r#"EIDECDROM24XAKOX"#, &Some(679_i16)),
+    (r#"EIDECDROM32XAKU"#, &Some(1268_i16)),
+    (r#"EIDECDROM36XAKU"#, &Some(1268_i16)),
+    (r#"EIDECDROM36XAKW"#, &Some(1268_i16)),
+    (r#"EIDECDROM40XAKH"#, &Some(106_i16)),
+    (r#"EIDECDROM40XAKU"#, &Some(1268_i16)),
+    (r#"EIDECDROM48XAKH"#, &Some(106_i16)),
+    (r#"EIDECDROM48XTKU"#, &Some(12_i16)),
+    (r#"EIDECDROM50X"#, &Some(682_i16)),
+    (r#"EIDECDROM50XL"#, &Some(108_i16)),
+    (r#"EIDECDROM52XAKH"#, &Some(106_i16)),
+    (r#"EIDECDROM52XL"#, &Some(682_i16)),
+    (r#"EIDECDROM56X"#, &Some(682_i16)),
+    (r#"EIDECDROM56XAKH"#, &Some(106_i16)),
+    (r#"EIDECDROM56XL"#, &Some(682_i16)),
+    (r#"EIDECDROMCR856E"#, &Some(12_i16)),
+    (r#"EIDECDROMMAX54X"#, &Some(12_i16)),
+    (r#"EIDEDVDROMDVD8210"#, &Some(594_i16))
 ];
 
-pub static VND_YAMAKAWA: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"YAMAKAWADVRY08"#, &Some(48_i16))
+pub static VND_EPO: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"EPOCR844S"#, &Some(12_i16))
 ];
 
-pub static VND_CDROM: [(&'static str, &'static Option<i16>); 10] = [
-    (r#"CDROM52XB0"#, &Some(12_i16)),
-    (r#"CDROMCCD52X6S"#, &Some(600_i16)),
-    (r#"CDROMCCD7T48"#, &Some(12_i16)),
-    (r#"CDROMDRIVEF5A"#, &Some(12_i16)),
-    (r#"CDROMDRIVEF5B"#, &Some(12_i16)),
-    (r#"CDROMDRIVEF5D"#, &Some(12_i16)),
-    (r#"CDROMDRIVEF5E"#, &Some(12_i16)),
-    (r#"CDROMDRIVEG6D"#, &Some(12_i16)),
-    (r#"CDROMF565E"#, &Some(12_i16)),
-    (r#"CDROMGOC5200E"#, &Some(12_i16))
+pub static VND_ESATA: [(&'static str, &'static Option<i16>); 2] = [
+    (r#"ESATACDDVDWSHS202N"#, &Some(6_i16)),
+    (r#"ESATADVDRAMGSAH55L"#, &Some(102_i16))
 ];
 
-pub static VND_16X52X32X52COMBO: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"16X52X32X52COMBO"#, &Some(738_i16))
+pub static VND_EXTERNAL: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"EXTERNALTOPLOADBDROM"#, &Some(696_i16))
 ];
 
 pub static VND_EZDISK: [(&'static str, &'static Option<i16>); 2] = [
@@ -3302,56 +1424,102 @@ pub static VND_EZDISK: [(&'static str, &'static Option<i16>); 2] = [
     (r#"EZDISKEZ360DVDBURNER"#, &Some(102_i16))
 ];
 
-pub static VND_BCD: [(&'static str, &'static Option<i16>); 2] = [
-    (r#"BCD32XHCDROM"#, &Some(12_i16)),
-    (r#"BCD44XHCDROM"#, &Some(12_i16))
+pub static VND_FREECOM: [(&'static str, &'static Option<i16>); 3] = [
+    (r#"FREECOMCDRW52J"#, &Some(6_i16)),
+    (r#"FREECOMDVDRW"#, &Some(6_i16)),
+    (r#"FREECOMDVDRW8J9"#, &Some(12_i16))
 ];
 
-pub static VND_NAKAMICH: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"NAKAMICHDRAGON05"#, &Some(30_i16))
+pub static VND_FREECOM_: [(&'static str, &'static Option<i16>); 32] = [
+    (r#"FREECOM_BDCOMBO12H"#, &Some(6_i16)),
+    (r#"FREECOM_BDCOMBO8H"#, &Some(6_i16)),
+    (r#"FREECOM_COMBO48K"#, &Some(6_i16)),
+    (r#"FREECOM_DVDRW16B6"#, &Some(48_i16)),
+    (r#"FREECOM_DVDRW16B7"#, &Some(48_i16)),
+    (r#"FREECOM_DVDRW16B9"#, &Some(48_i16)),
+    (r#"FREECOM_DVDRW16H4"#, &Some(48_i16)),
+    (r#"FREECOM_DVDRW16H8"#, &Some(6_i16)),
+    (r#"FREECOM_DVDRW16H9"#, &Some(12_i16)),
+    (r#"FREECOM_DVDRW16J6"#, &Some(6_i16)),
+    (r#"FREECOM_DVDRW16J7"#, &Some(6_i16)),
+    (r#"FREECOM_DVDRW16J8"#, &Some(6_i16)),
+    (r#"FREECOM_DVDRW16J9"#, &Some(6_i16)),
+    (r#"FREECOM_DVDRW16N8"#, &Some(6_i16)),
+    (r#"FREECOM_DVDRW16N9"#, &Some(704_i16)),
+    (r#"FREECOM_DVDRW18H9"#, &Some(6_i16)),
+    (r#"FREECOM_DVDRW18J8"#, &Some(6_i16)),
+    (r#"FREECOM_DVDRW18J9"#, &Some(6_i16)),
+    (r#"FREECOM_DVDRW20J5"#, &Some(6_i16)),
+    (r#"FREECOM_DVDRW20J6"#, &Some(6_i16)),
+    (r#"FREECOM_DVDRW20J7"#, &Some(6_i16)),
+    (r#"FREECOM_DVDRW20J8"#, &Some(6_i16)),
+    (r#"FREECOM_DVDRW20J9"#, &Some(6_i16)),
+    (r#"FREECOM_DVDRW22H9"#, &Some(697_i16)),
+    (r#"FREECOM_DVDRW22J8"#, &Some(6_i16)),
+    (r#"FREECOM_DVDRW22J9"#, &Some(6_i16)),
+    (r#"FREECOM_DVDRW22JS8"#, &Some(6_i16)),
+    (r#"FREECOM_DVDRW24H8"#, &Some(6_i16)),
+    (r#"FREECOM_DVDRW4B"#, &Some(48_i16)),
+    (r#"FREECOM_DVDRW8B9"#, &Some(48_i16)),
+    (r#"FREECOM_DVDRW8J"#, &Some(12_i16)),
+    (r#"FREECOM_DVDRW8J1"#, &Some(12_i16))
 ];
 
-pub static VND_DM166D: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"DM166DDVDROM"#, &Some(564_i16))
+pub static VND_FUJITSU: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"FUJITSUDVD"#, &Some(48_i16))
 ];
 
-pub static VND_PLEXTOB: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"PLEXTOBDVDRPX750A"#, &Some(102_i16))
+pub static VND_GENERIC: [(&'static str, &'static Option<i16>); 27] = [
+    (r#"GENERICCDRCB02"#, &Some(690_i16)),
+    (r#"GENERICCDRCB03"#, &Some(102_i16)),
+    (r#"GENERICCDRCB04"#, &Some(102_i16)),
+    (r#"GENERICCDRCB05"#, &Some(102_i16)),
+    (r#"GENERICCDRCB06"#, &Some(102_i16)),
+    (r#"GENERICCDRRW09"#, &Some(685_i16)),
+    (r#"GENERICCDRRW10"#, &Some(685_i16)),
+    (r#"GENERICCRDBP1300P"#, &Some(688_i16)),
+    (r#"GENERICCRDBP1400P"#, &Some(688_i16)),
+    (r#"GENERICCRDBP1500P"#, &Some(688_i16)),
+    (r#"GENERICCRDBP1600P"#, &Some(688_i16)),
+    (r#"GENERICCRDBP1700P"#, &Some(688_i16)),
+    (r#"GENERICCRDBP3"#, &Some(688_i16)),
+    (r#"GENERICCRDBP4"#, &Some(688_i16)),
+    (r#"GENERICCRDBP5"#, &Some(688_i16)),
+    (r#"GENERICDSW2080"#, &Some(691_i16)),
+    (r#"GENERICDVDRAMMLT04"#, &Some(102_i16)),
+    (r#"GENERICDVDRAMMLT05"#, &Some(102_i16)),
+    (r#"GENERICDVDRAMMLT07"#, &Some(102_i16)),
+    (r#"GENERICDVDRW12XMAX"#, &Some(691_i16)),
+    (r#"GENERICDVDRW16XMAX"#, &Some(691_i16)),
+    (r#"GENERICDVDRW4XMAX"#, &Some(688_i16)),
+    (r#"GENERICDVDRW8XMAX"#, &Some(689_i16)),
+    (r#"GENERICFREECOM16B"#, &Some(685_i16)),
+    (r#"GENERICFREECOM24B"#, &Some(685_i16)),
+    (r#"GENERICFREECOM32A"#, &Some(688_i16)),
+    (r#"GENERICFREECOM40B1"#, &Some(685_i16))
 ];
 
-pub static VND_UGREEN: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"UGREENUGREENSTORAGED"#, &Some(667_i16))
+pub static VND_GENERIC_: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"GENERIC_DVDROM"#, &Some(0_i16))
 ];
 
-pub static VND_CDRW: [(&'static str, &'static Option<i16>); 16] = [
-    (r#"CDRW5232IA"#, &Some(6_i16)),
-    (r#"CDRW52X32L0"#, &Some(6_i16)),
-    (r#"CDRW52X32X"#, &Some(6_i16)),
-    (r#"CDRWCDR2440MB"#, &Some(12_i16)),
-    (r#"CDRWCDR5S40"#, &Some(12_i16)),
-    (r#"CDRWCDR5W40"#, &Some(12_i16)),
-    (r#"CDRWCDR5W48"#, &Some(12_i16)),
-    (r#"CDRWCDR6S48"#, &Some(6_i16)),
-    (r#"CDRWCDR6S52"#, &Some(6_i16)),
-    (r#"CDRWCDR7S52"#, &Some(6_i16)),
-    (r#"CDRWCDR8S52"#, &Some(6_i16)),
-    (r#"CDRWCDR9V52"#, &Some(6_i16)),
-    (r#"CDRWCXR3X40"#, &Some(6_i16)),
-    (r#"CDRWDXECDRW100"#, &Some(6_i16)),
-    (r#"CDRWGOR5232B"#, &Some(6_i16)),
-    (r#"CDRWUSB5232"#, &Some(6_i16))
+pub static VND_GFO: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"GFO2VS1EJW"#, &Some(12_i16))
 ];
 
-pub static VND_OTUL: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"OTUL0H6RCLQ7G5MJ"#, &Some(6_i16))
-];
-
-pub static VND_PUDEHU: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"PUDEHU3S1EJG56RG9M"#, &Some(103_i16))
-];
-
-pub static VND_THINK: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"THINKPLUSULTRASLIMDVD"#, &Some(6_i16))
+pub static VND_GIGABYTE: [(&'static str, &'static Option<i16>); 12] = [
+    (r#"GIGABYTEGOB5232A"#, &Some(6_i16)),
+    (r#"GIGABYTEGOB5232C"#, &Some(6_i16)),
+    (r#"GIGABYTEGOD1600A"#, &Some(12_i16)),
+    (r#"GIGABYTEGOD1600C"#, &Some(12_i16)),
+    (r#"GIGABYTEGOR5232A"#, &Some(6_i16)),
+    (r#"GIGABYTEGOR5232E"#, &Some(6_i16)),
+    (r#"GIGABYTEGOW0808A"#, &Some(12_i16)),
+    (r#"GIGABYTEGOW1608A"#, &Some(6_i16)),
+    (r#"GIGABYTEGOW1623A"#, &Some(6_i16)),
+    (r#"GIGABYTEGOW20MA"#, &Some(6_i16)),
+    (r#"GIGABYTEGOW20MB"#, &Some(6_i16)),
+    (r#"GIGABYTEGOW20SC"#, &Some(6_i16))
 ];
 
 pub static VND_GOLDSTAR: [(&'static str, &'static Option<i16>); 5] = [
@@ -3362,449 +1530,8 @@ pub static VND_GOLDSTAR: [(&'static str, &'static Option<i16>); 5] = [
     (r#"GOLDSTARCDRWCED8120B"#, &Some(685_i16))
 ];
 
-pub static VND_DVDROM: [(&'static str, &'static Option<i16>); 12] = [
-    (r#"DVDROM10X"#, &Some(564_i16)),
-    (r#"DVDROM16X"#, &Some(691_i16)),
-    (r#"DVDROM8X"#, &Some(564_i16)),
-    (r#"DVDROMDVD16X3H"#, &Some(594_i16)),
-    (r#"DVDROMDVD16X6S"#, &Some(12_i16)),
-    (r#"DVDROMDVD1S16P"#, &Some(6_i16)),
-    (r#"DVDROMDVD7T16"#, &Some(12_i16)),
-    (r#"DVDROMGOD1600B"#, &Some(12_i16)),
-    (r#"DVDROMGOD1600D"#, &Some(12_i16)),
-    (r#"DVDROMLTD16X5H"#, &Some(12_i16)),
-    (r#"DVDROMPATA16X48X"#, &Some(6_i16)),
-    (r#"DVDROMSATA18X"#, &Some(6_i16))
-];
-
-pub static VND_MAXELL: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"MAXELLMCDRW8432"#, &Some(688_i16))
-];
-
-pub static VND_MITSUMI: [(&'static str, &'static Option<i16>); 27] = [
-    (r#"MITSUMICDROMFX4820TB"#, &Some(680_i16)),
-    (r#"MITSUMICDROMFX4821TA"#, &Some(680_i16)),
-    (r#"MITSUMICDROMFX4824TB"#, &Some(694_i16)),
-    (r#"MITSUMICDROMFX4830TB"#, &Some(694_i16)),
-    (r#"MITSUMICDROMFX4831TA"#, &Some(694_i16)),
-    (r#"MITSUMICDROMFX48M"#, &Some(12_i16)),
-    (r#"MITSUMICDROMFX48W"#, &Some(694_i16)),
-    (r#"MITSUMICDROMFX54M"#, &Some(12_i16)),
-    (r#"MITSUMICDROMFX54W"#, &Some(694_i16)),
-    (r#"MITSUMICDROMSR243T"#, &Some(694_i16)),
-    (r#"MITSUMICDROMSR244W"#, &Some(694_i16)),
-    (r#"MITSUMICDROMSR244W1"#, &Some(694_i16)),
-    (r#"MITSUMICR4804TE"#, &Some(686_i16)),
-    (r#"MITSUMICR486ETE"#, &Some(6_i16)),
-    (r#"MITSUMICR487ETE"#, &Some(6_i16)),
-    (r#"MITSUMICR48X5TE"#, &Some(674_i16)),
-    (r#"MITSUMICR48X8TE"#, &Some(733_i16)),
-    (r#"MITSUMICR48X9TE"#, &Some(733_i16)),
-    (r#"MITSUMICR48XATE"#, &Some(733_i16)),
-    (r#"MITSUMICR48XCTE"#, &Some(733_i16)),
-    (r#"MITSUMICR48XETE"#, &Some(12_i16)),
-    (r#"MITSUMICR48XFTE"#, &Some(733_i16)),
-    (r#"MITSUMICR48XGTE"#, &Some(733_i16)),
-    (r#"MITSUMIDR6800TE"#, &Some(6_i16)),
-    (r#"MITSUMIDW7801TE"#, &Some(48_i16)),
-    (r#"MITSUMIDW7802TE"#, &Some(48_i16)),
-    (r#"MITSUMIDW7872TE"#, &Some(12_i16))
-];
-
-pub static VND_52X24X52: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"52X24X52CDRW"#, &Some(97_i16))
-];
-
-pub static VND_HLDPST: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"HLDPSTRWDRDGCCM10J"#, &Some(102_i16))
-];
-
-pub static VND_INCDRW: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"INCDRWDXCDRW"#, &Some(6_i16))
-];
-
-pub static VND_OPTORITE: [(&'static str, &'static Option<i16>); 13] = [
-    (r#"OPTORITECDRWCW4802"#, &Some(733_i16)),
-    (r#"OPTORITECDRWCW5201"#, &Some(688_i16)),
-    (r#"OPTORITECDRWCW5202"#, &Some(688_i16)),
-    (r#"OPTORITECDRWCW5205"#, &Some(688_i16)),
-    (r#"OPTORITECDRWCW5207"#, &Some(733_i16)),
-    (r#"OPTORITECOMBODC4801"#, &Some(738_i16)),
-    (r#"OPTORITEDVDRWDD0201"#, &Some(689_i16)),
-    (r#"OPTORITEDVDRWDD0203"#, &Some(688_i16)),
-    (r#"OPTORITEDVDRWDD0401"#, &Some(689_i16)),
-    (r#"OPTORITEDVDRWDD0405"#, &Some(689_i16)),
-    (r#"OPTORITEDVDRWDD1203"#, &Some(691_i16)),
-    (r#"OPTORITEDVDRWDD1205"#, &Some(691_i16)),
-    (r#"OPTORITEDVDRWDD1603"#, &Some(691_i16))
-];
-
-pub static VND_BDC26SSA: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"BDC26SSA"#, &Some(6_i16))
-];
-
-pub static VND_USB: [(&'static str, &'static Option<i16>); 5] = [
-    (r#"USB20DVDROM"#, &Some(6_i16)),
-    (r#"USB20DVDROMDR108"#, &Some(6_i16)),
-    (r#"USBCDROMSC924U"#, &Some(694_i16)),
-    (r#"USBCDRRW4X4X6"#, &Some(692_i16)),
-    (r#"USBCDRRW6X4X6"#, &Some(692_i16))
-];
-
-pub static VND_COMBO52X16: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"COMBO52X16"#, &Some(6_i16))
-];
-
-pub static VND_TS8XDVDS: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"TS8XDVDSTRANSCEND"#, &Some(6_i16))
-];
-
-pub static VND_SLIMTYPE: [(&'static str, &'static Option<i16>); 106] = [
-    (r#"SLIMTYPEBDE"#, &Some(6_i16)),
-    (r#"SLIMTYPEBDEDC6E2SH"#, &Some(6_i16)),
-    (r#"SLIMTYPEBDEDL4ETS"#, &Some(6_i16)),
-    (r#"SLIMTYPEBDEDS4E1S"#, &Some(6_i16)),
-    (r#"SLIMTYPEBDEDS6E2SH"#, &Some(6_i16)),
-    (r#"SLIMTYPECOMBOLSC24081"#, &Some(6_i16)),
-    (r#"SLIMTYPECOMBOLSC24081M"#, &Some(6_i16)),
-    (r#"SLIMTYPECOMBOLSC24082K"#, &Some(6_i16)),
-    (r#"SLIMTYPECOMBOSOSC2483K"#, &Some(6_i16)),
-    (r#"SLIMTYPECOMBOSSC2485K"#, &Some(6_i16)),
-    (r#"SLIMTYPEDS8A5SH"#, &Some(6_i16)),
-    (r#"SLIMTYPEDVDA"#, &Some(6_i16)),
-    (r#"SLIMTYPEDVDADA8A5SH"#, &Some(6_i16)),
-    (r#"SLIMTYPEDVDADA8A5SHL"#, &Some(6_i16)),
-    (r#"SLIMTYPEDVDADA8A6SH"#, &Some(6_i16)),
-    (r#"SLIMTYPEDVDADA8AESH"#, &Some(6_i16)),
-    (r#"SLIMTYPEDVDADC8A2SH"#, &Some(6_i16)),
-    (r#"SLIMTYPEDVDADL8A3LH"#, &Some(6_i16)),
-    (r#"SLIMTYPEDVDADL8A3SH"#, &Some(6_i16)),
-    (r#"SLIMTYPEDVDADL8A4SH"#, &Some(6_i16)),
-    (r#"SLIMTYPEDVDADL8ATS"#, &Some(6_i16)),
-    (r#"SLIMTYPEDVDADL8ATSH"#, &Some(6_i16)),
-    (r#"SLIMTYPEDVDADP8A4SH"#, &Some(6_i16)),
-    (r#"SLIMTYPEDVDADS8A1H"#, &Some(0_i16)),
-    (r#"SLIMTYPEDVDADS8A1H"#, &Some(594_i16)),
-    (r#"SLIMTYPEDVDADS8A1P"#, &Some(594_i16)),
-    (r#"SLIMTYPEDVDADS8A2L"#, &Some(6_i16)),
-    (r#"SLIMTYPEDVDADS8A2LA"#, &Some(6_i16)),
-    (r#"SLIMTYPEDVDADS8A2S"#, &Some(6_i16)),
-    (r#"SLIMTYPEDVDADS8A2SA"#, &Some(6_i16)),
-    (r#"SLIMTYPEDVDADS8A3L"#, &Some(6_i16)),
-    (r#"SLIMTYPEDVDADS8A3S"#, &Some(6_i16)),
-    (r#"SLIMTYPEDVDADS8A4L"#, &Some(6_i16)),
-    (r#"SLIMTYPEDVDADS8A4S"#, &Some(6_i16)),
-    (r#"SLIMTYPEDVDADS8A4SH"#, &Some(6_i16)),
-    (r#"SLIMTYPEDVDADS8A5L"#, &Some(6_i16)),
-    (r#"SLIMTYPEDVDADS8A5NH"#, &Some(6_i16)),
-    (r#"SLIMTYPEDVDADS8A5S"#, &Some(6_i16)),
-    (r#"SLIMTYPEDVDADS8A5SH"#, &Some(6_i16)),
-    (r#"SLIMTYPEDVDADS8A8NH"#, &Some(6_i16)),
-    (r#"SLIMTYPEDVDADS8A8SH"#, &Some(6_i16)),
-    (r#"SLIMTYPEDVDADS8A9SH"#, &Some(6_i16)),
-    (r#"SLIMTYPEDVDADS8ABSH"#, &Some(6_i16)),
-    (r#"SLIMTYPEDVDADS8ACSH"#, &Some(6_i16)),
-    (r#"SLIMTYPEDVDADS8AESH"#, &Some(6_i16)),
-    (r#"SLIMTYPEDVDADS8AZH"#, &Some(594_i16)),
-    (r#"SLIMTYPEDVDADS8AZP"#, &Some(594_i16)),
-    (r#"SLIMTYPEDVDADS8D4SH"#, &Some(6_i16)),
-    (r#"SLIMTYPEDVDADS8D9SH"#, &Some(6_i16)),
-    (r#"SLIMTYPEDVDADU8A2S"#, &Some(6_i16)),
-    (r#"SLIMTYPEDVDADU8A3S"#, &Some(6_i16)),
-    (r#"SLIMTYPEDVDADU8A3SH"#, &Some(6_i16)),
-    (r#"SLIMTYPEDVDADU8A4SH"#, &Some(6_i16)),
-    (r#"SLIMTYPEDVDADU8A5SH"#, &Some(6_i16)),
-    (r#"SLIMTYPEDVDADU8A6SH"#, &Some(6_i16)),
-    (r#"SLIMTYPEDVDADU8AENH"#, &Some(6_i16)),
-    (r#"SLIMTYPEDVDADU8AESH"#, &Some(6_i16)),
-    (r#"SLIMTYPEDVDCDS24CZP"#, &Some(6_i16)),
-    (r#"SLIMTYPEDVDDDS8D3SH"#, &Some(6_i16)),
-    (r#"SLIMTYPEDVDDDS8RESH"#, &Some(36_i16)),
-    (r#"SLIMTYPEDVDRWSDW431S"#, &Some(12_i16)),
-    (r#"SLIMTYPEDVDRWSLW831S"#, &Some(6_i16)),
-    (r#"SLIMTYPEDVDRWSOSW833S"#, &Some(6_i16)),
-    (r#"SLIMTYPEDVDRWSOSW852S"#, &Some(12_i16)),
-    (r#"SLIMTYPEDVDRWSSM8515S"#, &Some(594_i16)),
-    (r#"SLIMTYPEDVDRWSSM85H5S"#, &Some(594_i16)),
-    (r#"SLIMTYPEDVDRWSSW8015S"#, &Some(594_i16)),
-    (r#"SLIMTYPEEB1"#, &Some(667_i16)),
-    (r#"SLIMTYPEEBAU1085"#, &Some(6_i16)),
-    (r#"SLIMTYPEEBAU1085L"#, &Some(6_i16)),
-    (r#"SLIMTYPEEBAU1086L"#, &Some(6_i16)),
-    (r#"SLIMTYPEEBAU1087L"#, &Some(6_i16)),
-    (r#"SLIMTYPEENAU1085"#, &Some(6_i16)),
-    (r#"SLIMTYPEENAU1088"#, &Some(6_i16)),
-    (r#"SLIMTYPEENAU5085"#, &Some(6_i16)),
-    (r#"SLIMTYPEENAU5088"#, &Some(6_i16)),
-    (r#"SLIMTYPEENAU6085"#, &Some(6_i16)),
-    (r#"SLIMTYPEENAU7085"#, &Some(6_i16)),
-    (r#"SLIMTYPEENAU7088"#, &Some(6_i16)),
-    (r#"SLIMTYPEENAU8085"#, &Some(6_i16)),
-    (r#"SLIMTYPEENAU8088"#, &Some(6_i16)),
-    (r#"SLIMTYPEES1"#, &Some(6_i16)),
-    (r#"SLIMTYPEES11"#, &Some(6_i16)),
-    (r#"SLIMTYPEESAU1082"#, &Some(6_i16)),
-    (r#"SLIMTYPEESAU1083"#, &Some(6_i16)),
-    (r#"SLIMTYPEESAU1084"#, &Some(6_i16)),
-    (r#"SLIMTYPEESAU1085"#, &Some(6_i16)),
-    (r#"SLIMTYPEESAU1088"#, &Some(6_i16)),
-    (r#"SLIMTYPEESAU2082"#, &Some(6_i16)),
-    (r#"SLIMTYPEESAU2083"#, &Some(6_i16)),
-    (r#"SLIMTYPEESAU2084"#, &Some(6_i16)),
-    (r#"SLIMTYPEESAU2085"#, &Some(6_i16)),
-    (r#"SLIMTYPEESEU2062"#, &Some(6_i16)),
-    (r#"SLIMTYPEESEU3062"#, &Some(6_i16)),
-    (r#"SLIMTYPEETAU1081"#, &Some(6_i16)),
-    (r#"SLIMTYPEETAU1082"#, &Some(6_i16)),
-    (r#"SLIMTYPEETAU1083"#, &Some(6_i16)),
-    (r#"SLIMTYPEETAU2081"#, &Some(6_i16)),
-    (r#"SLIMTYPEETAU2082"#, &Some(6_i16)),
-    (r#"SLIMTYPEETDU1081"#, &Some(6_i16)),
-    (r#"SLIMTYPEEUAU1085"#, &Some(6_i16)),
-    (r#"SLIMTYPEEUAU1085A"#, &Some(6_i16)),
-    (r#"SLIMTYPESEDVDBK18"#, &Some(6_i16)),
-    (r#"SLIMTYPESEDVDWH18"#, &Some(6_i16)),
-    (r#"SLIMTYPETOPLOADDVDROM"#, &Some(6_i16)),
-    (r#"SLIMTYPETOPLOADDVDRW"#, &Some(6_i16))
-];
-
-pub static VND_DISCSOFT: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"DISCSOFTVIRTUALWRITABLE"#, &Some(6_i16))
-];
-
-pub static VND_CREATIVE: [(&'static str, &'static Option<i16>); 33] = [
-    (r#"CREATIVECD4020EST980828"#, &Some(679_i16)),
-    (r#"CREATIVECD4820ECS990211"#, &Some(679_i16)),
-    (r#"CREATIVECD4821EJJ990629"#, &Some(12_i16)),
-    (r#"CREATIVECD4834EFC101"#, &Some(12_i16)),
-    (r#"CREATIVECD4834EFC102"#, &Some(12_i16)),
-    (r#"CREATIVECD5220ESB991026"#, &Some(694_i16)),
-    (r#"CREATIVECD5220F0225"#, &Some(694_i16)),
-    (r#"CREATIVECD5220SB991119"#, &Some(694_i16)),
-    (r#"CREATIVECD5230E"#, &Some(12_i16)),
-    (r#"CREATIVECD5233E"#, &Some(12_i16)),
-    (r#"CREATIVECD5233ECF"#, &Some(696_i16)),
-    (r#"CREATIVECD5233EN"#, &Some(12_i16)),
-    (r#"CREATIVECD821ETW960527"#, &Some(961_i16)),
-    (r#"CREATIVECDRWRW121032E"#, &Some(99_i16)),
-    (r#"CREATIVECDRWRW1210E"#, &Some(688_i16)),
-    (r#"CREATIVECDRWRW1611E"#, &Some(12_i16)),
-    (r#"CREATIVECDRWRW2410E"#, &Some(12_i16)),
-    (r#"CREATIVECDRWRW4020E"#, &Some(12_i16)),
-    (r#"CREATIVECDRWRW6424E"#, &Some(685_i16)),
-    (r#"CREATIVECDRWRW8432E"#, &Some(355_i16)),
-    (r#"CREATIVECDRWRW8438E"#, &Some(86_i16)),
-    (r#"CREATIVEDVD1240E"#, &Some(691_i16)),
-    (r#"CREATIVEDVD5240E1"#, &Some(691_i16)),
-    (r#"CREATIVEDVD5241E"#, &Some(691_i16)),
-    (r#"CREATIVEDVD6630E"#, &Some(691_i16)),
-    (r#"CREATIVEDVD8400E"#, &Some(691_i16)),
-    (r#"CREATIVEDVDRAMRAM1216S"#, &Some(-495_i16)),
-    (r#"CREATIVEDVDROMDVD1241E"#, &Some(594_i16)),
-    (r#"CREATIVEDVDROMDVD1242E"#, &Some(704_i16)),
-    (r#"CREATIVEDVDROMDVD1610E"#, &Some(594_i16)),
-    (r#"CREATIVEDVDROMDVD6240E"#, &Some(564_i16)),
-    (r#"CREATIVEDVDRWDR1620E"#, &Some(12_i16)),
-    (r#"CREATIVEIRCD5222EB"#, &Some(12_i16))
-];
-
-pub static VND_XD: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"XDEXTERNALBLURAY"#, &Some(667_i16))
-];
-
-pub static VND_CENDYNE: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"CENDYNE522452AU"#, &Some(6_i16))
-];
-
-pub static VND_ASUS: [(&'static str, &'static Option<i16>); 172] = [
-    (r#"ASUS"#, &Some(6_i16)),
-    (r#"ASUSBC06B1ST"#, &Some(6_i16)),
-    (r#"ASUSBC08B1LT"#, &Some(6_i16)),
-    (r#"ASUSBC08B1ST"#, &Some(6_i16)),
-    (r#"ASUSBC1205PT"#, &Some(667_i16)),
-    (r#"ASUSBC12B1LT"#, &Some(702_i16)),
-    (r#"ASUSBC12B1ST"#, &Some(702_i16)),
-    (r#"ASUSBC12B1STA"#, &Some(667_i16)),
-    (r#"ASUSBC12B1STB"#, &Some(6_i16)),
-    (r#"ASUSBC12D1S"#, &Some(667_i16)),
-    (r#"ASUSBC12D1ST"#, &Some(667_i16)),
-    (r#"ASUSBC12D2HT"#, &Some(6_i16)),
-    (r#"ASUSBDDVDRWCH29N"#, &Some(667_i16)),
-    (r#"ASUSBR04B2T"#, &Some(696_i16)),
-    (r#"ASUSBW12B1LT"#, &Some(6_i16)),
-    (r#"ASUSBW12B1ST"#, &Some(6_i16)),
-    (r#"ASUSBW12B1STA"#, &Some(6_i16)),
-    (r#"ASUSBW12D1SU"#, &Some(667_i16)),
-    (r#"ASUSBW14D1XT"#, &Some(6_i16)),
-    (r#"ASUSBW16D1HT"#, &Some(6_i16)),
-    (r#"ASUSCB5216A"#, &Some(6_i16)),
-    (r#"ASUSCDS400A"#, &Some(1194_i16)),
-    (r#"ASUSCDS450A"#, &Some(1194_i16)),
-    (r#"ASUSCDS480A5"#, &Some(1776_i16)),
-    (r#"ASUSCDS480AH"#, &Some(12_i16)),
-    (r#"ASUSCDS480B"#, &Some(6_i16)),
-    (r#"ASUSCDS500A"#, &Some(1194_i16)),
-    (r#"ASUSCDS520A"#, &Some(1194_i16)),
-    (r#"ASUSCDS520A4"#, &Some(12_i16)),
-    (r#"ASUSCDS520A5"#, &Some(1130_i16)),
-    (r#"ASUSCDS520B"#, &Some(6_i16)),
-    (r#"ASUSCDS520B2"#, &Some(6_i16)),
-    (r#"ASUSCRW1610A"#, &Some(12_i16)),
-    (r#"ASUSCRW2410A"#, &Some(12_i16)),
-    (r#"ASUSCRW3212A"#, &Some(12_i16)),
-    (r#"ASUSCRW4012A"#, &Some(12_i16)),
-    (r#"ASUSCRW4816A"#, &Some(12_i16)),
-    (r#"ASUSCRW4824A"#, &Some(6_i16)),
-    (r#"ASUSCRW4824AH"#, &Some(6_i16)),
-    (r#"ASUSCRW4832AS"#, &Some(6_i16)),
-    (r#"ASUSCRW4832AX"#, &Some(6_i16)),
-    (r#"ASUSCRW5224A"#, &Some(6_i16)),
-    (r#"ASUSCRW5232A1T"#, &Some(6_i16)),
-    (r#"ASUSCRW5232A3"#, &Some(6_i16)),
-    (r#"ASUSCRW5232A4"#, &Some(6_i16)),
-    (r#"ASUSCRW5232AS"#, &Some(6_i16)),
-    (r#"ASUSCRW5232AX"#, &Some(6_i16)),
-    (r#"ASUSDRW0402PD"#, &Some(48_i16)),
-    (r#"ASUSDRW0804P"#, &Some(48_i16)),
-    (r#"ASUSDRW1604P"#, &Some(48_i16)),
-    (r#"ASUSDRW1608P"#, &Some(48_i16)),
-    (r#"ASUSDRW1608P2"#, &Some(48_i16)),
-    (r#"ASUSDRW1608P2S"#, &Some(48_i16)),
-    (r#"ASUSDRW1608P3S"#, &Some(48_i16)),
-    (r#"ASUSDRW1612BL"#, &Some(6_i16)),
-    (r#"ASUSDRW1612BLT"#, &Some(6_i16)),
-    (r#"ASUSDRW1814BL"#, &Some(6_i16)),
-    (r#"ASUSDRW1814BLT"#, &Some(6_i16)),
-    (r#"ASUSDRW2014L1"#, &Some(6_i16)),
-    (r#"ASUSDRW2014L1T"#, &Some(6_i16)),
-    (r#"ASUSDRW2014N1T"#, &Some(6_i16)),
-    (r#"ASUSDRW2014S1"#, &Some(6_i16)),
-    (r#"ASUSDRW2014S1T"#, &Some(6_i16)),
-    (r#"ASUSDRW20B1LT"#, &Some(6_i16)),
-    (r#"ASUSDRW20B1S"#, &Some(6_i16)),
-    (r#"ASUSDRW20B1ST"#, &Some(6_i16)),
-    (r#"ASUSDRW22B1L"#, &Some(6_i16)),
-    (r#"ASUSDRW22B1LT"#, &Some(6_i16)),
-    (r#"ASUSDRW22B1S"#, &Some(6_i16)),
-    (r#"ASUSDRW22B1ST"#, &Some(6_i16)),
-    (r#"ASUSDRW22B2L"#, &Some(6_i16)),
-    (r#"ASUSDRW22B2LB"#, &Some(6_i16)),
-    (r#"ASUSDRW22B2S"#, &Some(6_i16)),
-    (r#"ASUSDRW22B2ST"#, &Some(6_i16)),
-    (r#"ASUSDRW22B3L"#, &Some(6_i16)),
-    (r#"ASUSDRW22B3S"#, &Some(6_i16)),
-    (r#"ASUSDRW22D1S"#, &Some(102_i16)),
-    (r#"ASUSDRW24B1LT"#, &Some(6_i16)),
-    (r#"ASUSDRW24B1ST"#, &Some(6_i16)),
-    (r#"ASUSDRW24B1STA"#, &Some(6_i16)),
-    (r#"ASUSDRW24B1STC"#, &Some(6_i16)),
-    (r#"ASUSDRW24B1STG"#, &Some(6_i16)),
-    (r#"ASUSDRW24B1STI"#, &Some(6_i16)),
-    (r#"ASUSDRW24B1STJ"#, &Some(6_i16)),
-    (r#"ASUSDRW24B3LT"#, &Some(6_i16)),
-    (r#"ASUSDRW24B3ST"#, &Some(6_i16)),
-    (r#"ASUSDRW24B3STC"#, &Some(6_i16)),
-    (r#"ASUSDRW24B3STI"#, &Some(6_i16)),
-    (r#"ASUSDRW24B3STJ"#, &Some(6_i16)),
-    (r#"ASUSDRW24B5ST"#, &Some(6_i16)),
-    (r#"ASUSDRW24D1ST"#, &Some(667_i16)),
-    (r#"ASUSDRW24D1STA"#, &Some(6_i16)),
-    (r#"ASUSDRW24D3ST"#, &Some(6_i16)),
-    (r#"ASUSDRW24D5MT"#, &Some(6_i16)),
-    (r#"ASUSDRW24F1"#, &Some(6_i16)),
-    (r#"ASUSDRW24F1MT"#, &Some(6_i16)),
-    (r#"ASUSDRW24F1MTB"#, &Some(6_i16)),
-    (r#"ASUSDRW24F1ST"#, &Some(6_i16)),
-    (r#"ASUSDRW24F1STA"#, &Some(6_i16)),
-    (r#"ASUSDRW24F1STB"#, &Some(6_i16)),
-    (r#"ASUSDRW24F1STC"#, &Some(6_i16)),
-    (r#"ASUSDRW24F1STD"#, &Some(6_i16)),
-    (r#"ASUSDVDE616A"#, &Some(6_i16)),
-    (r#"ASUSDVDE616A2"#, &Some(6_i16)),
-    (r#"ASUSDVDE616A3"#, &Some(6_i16)),
-    (r#"ASUSDVDE616A3T"#, &Some(6_i16)),
-    (r#"ASUSDVDE616P"#, &Some(102_i16)),
-    (r#"ASUSDVDE616P2"#, &Some(738_i16)),
-    (r#"ASUSDVDE616P3"#, &Some(738_i16)),
-    (r#"ASUSDVDE616P3H"#, &Some(738_i16)),
-    (r#"ASUSDVDE818A"#, &Some(6_i16)),
-    (r#"ASUSDVDE818A2"#, &Some(6_i16)),
-    (r#"ASUSDVDE818A2T"#, &Some(6_i16)),
-    (r#"ASUSDVDE818A3"#, &Some(6_i16)),
-    (r#"ASUSDVDE818A3T"#, &Some(6_i16)),
-    (r#"ASUSDVDE818A4"#, &Some(6_i16)),
-    (r#"ASUSDVDE818A4T"#, &Some(6_i16)),
-    (r#"ASUSDVDE818A6T"#, &Some(6_i16)),
-    (r#"ASUSDVDE818A7"#, &Some(6_i16)),
-    (r#"ASUSDVDE818A7T"#, &Some(6_i16)),
-    (r#"ASUSDVDE818A7TA"#, &Some(6_i16)),
-    (r#"ASUSDVDE818A9T"#, &Some(6_i16)),
-    (r#"ASUSDVDE818A9TB"#, &Some(6_i16)),
-    (r#"ASUSDVDE818AAT"#, &Some(6_i16)),
-    (r#"ASUSDVDE818AATA"#, &Some(6_i16)),
-    (r#"ASUSDVDE818AT"#, &Some(6_i16)),
-    (r#"ASUSDVDRAMGH75L"#, &Some(667_i16)),
-    (r#"ASUSDVDRAMGH75N"#, &Some(667_i16)),
-    (r#"ASUSDVDRAMGH92N"#, &Some(6_i16)),
-    (r#"ASUSDVDRAMGH95N"#, &Some(6_i16)),
-    (r#"ASUSDVDRAMGHB1N"#, &Some(6_i16)),
-    (r#"ASUSDVDRAMGHC1N"#, &Some(6_i16)),
-    (r#"ASUSDVDRAMGHD1N"#, &Some(6_i16)),
-    (r#"ASUSDVDRAMGHD2N"#, &Some(6_i16)),
-    (r#"ASUSDVDROMDH50N"#, &Some(6_i16)),
-    (r#"ASUSDVDROMDH60N"#, &Some(6_i16)),
-    (r#"ASUSDVDROMDH63N"#, &Some(6_i16)),
-    (r#"ASUSDVDROME608"#, &Some(116_i16)),
-    (r#"ASUSDVDROME612"#, &Some(594_i16)),
-    (r#"ASUSDVDROME616"#, &Some(594_i16)),
-    (r#"ASUSDVDROMSH118CB"#, &Some(6_i16)),
-    (r#"ASUSDVDRWDRW0402P"#, &Some(48_i16)),
-    (r#"ASUSDVDRWDRW24D3ST"#, &Some(6_i16)),
-    (r#"ASUSDVR24D5MT"#, &Some(6_i16)),
-    (r#"ASUSSBC04D1SU"#, &Some(667_i16)),
-    (r#"ASUSSBC06D1SU"#, &Some(102_i16)),
-    (r#"ASUSSBC06D2XU"#, &None),
-    (r#"ASUSSBR02E1SU"#, &Some(102_i16)),
-    (r#"ASUSSBW06C1SU"#, &Some(48_i16)),
-    (r#"ASUSSBW06C2XU"#, &Some(48_i16)),
-    (r#"ASUSSBW06D2XU"#, &None),
-    (r#"ASUSSBW06D5HU"#, &Some(667_i16)),
-    (r#"ASUSSBWS1"#, &Some(103_i16)),
-    (r#"ASUSSCB2408"#, &Some(-582_i16)),
-    (r#"ASUSSCB2424V"#, &Some(-582_i16)),
-    (r#"ASUSSDR08B1U"#, &Some(6_i16)),
-    (r#"ASUSSDR08B1UA"#, &Some(6_i16)),
-    (r#"ASUSSDRW0806TD"#, &Some(704_i16)),
-    (r#"ASUSSDRW08D1SU"#, &None),
-    (r#"ASUSSDRW08D2SU"#, &None),
-    (r#"ASUSSDRW08D3SU"#, &Some(6_i16)),
-    (r#"ASUSSDRW08D6SU"#, &Some(6_i16)),
-    (r#"ASUSSDRW08U1MT"#, &Some(6_i16)),
-    (r#"ASUSSDRW08U5SU"#, &Some(6_i16)),
-    (r#"ASUSSDRW08U7MU"#, &Some(6_i16)),
-    (r#"ASUSSDRW08U8MU"#, &Some(6_i16)),
-    (r#"ASUSSDRW08U9MU"#, &Some(6_i16)),
-    (r#"ASUSSDRW08V1MU"#, &Some(6_i16)),
-    (r#"ASUSSDRWS1"#, &Some(6_i16)),
-    (r#"ASUSSH224DB"#, &Some(6_i16)),
-    (r#"ASUSSH224FB"#, &Some(6_i16)),
-    (r#"ASUSVARIDRIVE"#, &Some(103_i16))
-];
-
-pub static VND_900: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"90040XCDROMDRIVE"#, &Some(12_i16))
-];
-
-pub static VND_CFYTEDW: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"CFYTEDWSDYVCL6J8T"#, &Some(667_i16))
-];
-
-pub static VND_DVSKOREA: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"DVSKOREADVSLDRDRL200"#, &Some(102_i16))
-];
-
-pub static VND_IHAS324: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"IHAS324C"#, &Some(6_i16))
+pub static VND_HIGH: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"HIGHSPEEDCDROM"#, &Some(600_i16))
 ];
 
 pub static VND_HITACHI: [(&'static str, &'static Option<i16>); 12] = [
@@ -3820,6 +1547,528 @@ pub static VND_HITACHI: [(&'static str, &'static Option<i16>); 12] = [
     (r#"HITACHIDVDROMGDS200"#, &Some(667_i16)),
     (r#"HITACHIDVDROMGDS250"#, &Some(667_i16)),
     (r#"HITACHIDVDROMGDSS20"#, &Some(667_i16))
+];
+
+pub static VND_HL: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"HLBP55EB40"#, &Some(103_i16))
+];
+
+pub static VND_HLDPST: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"HLDPSTRWDRDGCCM10J"#, &Some(102_i16))
+];
+
+pub static VND_HLDS: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"HLDSINCEXTERNALDVDWRI"#, &Some(6_i16))
+];
+
+pub static VND_HLDT: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"HLDTDVDRAMGT20L"#, &Some(667_i16))
+];
+
+pub static VND_HP: [(&'static str, &'static Option<i16>); 349] = [
+    (r#"HPBDBDH8B2LH"#, &Some(6_i16)),
+    (r#"HPBDBDH8B2SHB"#, &Some(6_i16)),
+    (r#"HPBDBDH8E2L"#, &Some(6_i16)),
+    (r#"HPBDCMBUJ141AF"#, &Some(103_i16)),
+    (r#"HPBDCMBUJ160"#, &Some(103_i16)),
+    (r#"HPBDCMBUJ162"#, &Some(103_i16)),
+    (r#"HPBDCMBUJ172"#, &Some(103_i16)),
+    (r#"HPBDCOMBO240D"#, &Some(6_i16)),
+    (r#"HPBDCOMBOBD530S"#, &Some(6_i16)),
+    (r#"HPBDDRVBD5741H5"#, &Some(48_i16)),
+    (r#"HPBDDRVBD5741H6"#, &Some(48_i16)),
+    (r#"HPBDDRVBD5841H5"#, &Some(48_i16)),
+    (r#"HPBDDRVBD5850H5"#, &Some(48_i16)),
+    (r#"HPBDDVDRWCA21N"#, &Some(102_i16)),
+    (r#"HPBDDVDRWCA30N"#, &Some(102_i16)),
+    (r#"HPBDDVDRWCA30P"#, &Some(102_i16)),
+    (r#"HPBDDVDRWCH10L"#, &Some(667_i16)),
+    (r#"HPBDDVDRWCH20L"#, &Some(667_i16)),
+    (r#"HPBDDVDRWCH28N"#, &Some(667_i16)),
+    (r#"HPBDDVDRWCH30L"#, &Some(6_i16)),
+    (r#"HPBDDVDRWCT10L"#, &Some(667_i16)),
+    (r#"HPBDDVDRWCT21L"#, &Some(102_i16)),
+    (r#"HPBDDVDRWCT30K"#, &Some(102_i16)),
+    (r#"HPBDDVDRWCT30L"#, &Some(102_i16)),
+    (r#"HPBDDVDRWCT40N"#, &Some(102_i16)),
+    (r#"HPBDDVDRWCT41N"#, &Some(102_i16)),
+    (r#"HPBDDVDRWCU10N"#, &Some(6_i16)),
+    (r#"HPBDDVDRWCU20N"#, &Some(6_i16)),
+    (r#"HPBDEDC6E2LHB"#, &Some(6_i16)),
+    (r#"HPBDEDC6E2SH"#, &Some(6_i16)),
+    (r#"HPBDEDH12E3LH"#, &Some(702_i16)),
+    (r#"HPBDEDH12E3SHB"#, &Some(702_i16)),
+    (r#"HPBDEDL4ETS"#, &Some(6_i16)),
+    (r#"HPBDEDS6E2LH"#, &Some(6_i16)),
+    (r#"HPBDEDS6E2SH"#, &Some(6_i16)),
+    (r#"HPBDMLTUJ240"#, &Some(103_i16)),
+    (r#"HPBDMLTUJ240AF"#, &Some(103_i16)),
+    (r#"HPBDMLTUJ260"#, &Some(103_i16)),
+    (r#"HPBDMLTUJ260AF"#, &Some(103_i16)),
+    (r#"HPBDMLTUJ262"#, &Some(103_i16)),
+    (r#"HPBDODH4O3S"#, &Some(696_i16)),
+    (r#"HPBDREBH20L"#, &Some(667_i16)),
+    (r#"HPBDREBH30L"#, &Some(667_i16)),
+    (r#"HPBDREBH38L"#, &Some(667_i16)),
+    (r#"HPBDREBH40L"#, &Some(6_i16)),
+    (r#"HPBDREBH40N"#, &Some(6_i16)),
+    (r#"HPBDREBT10N"#, &Some(667_i16)),
+    (r#"HPBDREBT11N"#, &Some(667_i16)),
+    (r#"HPBDREBT30N"#, &Some(667_i16)),
+    (r#"HPBDREBU10N"#, &Some(6_i16)),
+    (r#"HPBDREBU20N"#, &Some(6_i16)),
+    (r#"HPBDROMBC5500S"#, &Some(48_i16)),
+    (r#"HPBDROMBC5501H"#, &Some(48_i16)),
+    (r#"HPBDROMBC5501S"#, &Some(48_i16)),
+    (r#"HPBDROMBC5541H"#, &Some(48_i16)),
+    (r#"HPBDROMBC5550H"#, &Some(48_i16)),
+    (r#"HPBDROMBC5600S"#, &Some(48_i16)),
+    (r#"HPBDROMBDCTD03HA"#, &Some(667_i16)),
+    (r#"HPBDRWBD5730H"#, &Some(48_i16)),
+    (r#"HPBDRWBD5740H"#, &Some(48_i16)),
+    (r#"HPBDRWBD5750H"#, &Some(48_i16)),
+    (r#"HPBDRWBRTD01HA"#, &Some(667_i16)),
+    (r#"HPBDRWBU20N"#, &Some(6_i16)),
+    (r#"HPBDRWBU40N"#, &Some(6_i16)),
+    (r#"HPBDRWBU50N"#, &Some(6_i16)),
+    (r#"HPBDRWUJ272"#, &Some(103_i16)),
+    (r#"HPBDWRITERBD335E"#, &Some(6_i16)),
+    (r#"HPBDWRITERBD335I"#, &Some(6_i16)),
+    (r#"HPBDWRITERBD340I"#, &Some(6_i16)),
+    (r#"HPCDDVDWGP60NB50"#, &Some(6_i16)),
+    (r#"HPCDDVDWGP60NB60"#, &Some(6_i16)),
+    (r#"HPCDDVDWGP70N"#, &Some(6_i16)),
+    (r#"HPCDDVDWSH216AL"#, &Some(6_i16)),
+    (r#"HPCDDVDWSH216ALN"#, &Some(6_i16)),
+    (r#"HPCDDVDWSH216BB"#, &Some(6_i16)),
+    (r#"HPCDDVDWSH216DB"#, &Some(6_i16)),
+    (r#"HPCDDVDWSH216FB"#, &Some(6_i16)),
+    (r#"HPCDDVDWSN208BB"#, &Some(6_i16)),
+    (r#"HPCDDVDWSN208DB"#, &Some(6_i16)),
+    (r#"HPCDDVDWSN208FB"#, &Some(6_i16)),
+    (r#"HPCDDVDWSU208BB"#, &Some(6_i16)),
+    (r#"HPCDDVDWSU208CB"#, &Some(6_i16)),
+    (r#"HPCDDVDWSU208FB"#, &Some(6_i16)),
+    (r#"HPCDDVDWSU208GB"#, &Some(6_i16)),
+    (r#"HPCDDVDWTSH653R"#, &Some(6_i16)),
+    (r#"HPCDDVDWTSH653T"#, &Some(6_i16)),
+    (r#"HPCDDVDWTSH653TN"#, &Some(6_i16)),
+    (r#"HPCDDVDWTSL633J"#, &Some(6_i16)),
+    (r#"HPCDDVDWTSL633M"#, &Some(6_i16)),
+    (r#"HPCDDVDWTSL633N"#, &Some(6_i16)),
+    (r#"HPCDDVDWTSL633R"#, &Some(6_i16)),
+    (r#"HPCDDVDWTST633C"#, &Some(6_i16)),
+    (r#"HPCDDVDWTST633L"#, &Some(6_i16)),
+    (r#"HPCDDVDWTST633P"#, &Some(6_i16)),
+    (r#"HPCDDVDWTST633PN"#, &Some(6_i16)),
+    (r#"HPCDDVDWTSU633F"#, &Some(6_i16)),
+    (r#"HPCDDVDWTSU633J"#, &Some(6_i16)),
+    (r#"HPCDROMCD32X"#, &Some(679_i16)),
+    (r#"HPCDROMCD40X"#, &Some(676_i16)),
+    (r#"HPCDWRITER52R"#, &Some(6_i16)),
+    (r#"HPCDWRITER7100"#, &Some(675_i16)),
+    (r#"HPCDWRITER7200"#, &Some(1263_i16)),
+    (r#"HPCDWRITER7500"#, &Some(1160_i16)),
+    (r#"HPCDWRITER8000"#, &Some(686_i16)),
+    (r#"HPCDWRITER8100"#, &Some(1160_i16)),
+    (r#"HPCDWRITER8200"#, &Some(1160_i16)),
+    (r#"HPCDWRITER8200A"#, &Some(572_i16)),
+    (r#"HPCDWRITER8200F"#, &Some(674_i16)),
+    (r#"HPCDWRITER8290"#, &Some(686_i16)),
+    (r#"HPCDWRITER9100"#, &Some(572_i16)),
+    (r#"HPCDWRITER9100B"#, &Some(86_i16)),
+    (r#"HPCDWRITER9100C"#, &Some(-436_i16)),
+    (r#"HPCDWRITER9200"#, &Some(572_i16)),
+    (r#"HPCDWRITER9300"#, &Some(572_i16)),
+    (r#"HPCDWRITER9500"#, &Some(572_i16)),
+    (r#"HPCDWRITER9500B"#, &Some(685_i16)),
+    (r#"HPCDWRITER9600"#, &Some(572_i16)),
+    (r#"HPCDWRITER9700K"#, &Some(733_i16)),
+    (r#"HPCDWRITER9900J"#, &Some(708_i16)),
+    (r#"HPCDWRITERCD16B"#, &Some(12_i16)),
+    (r#"HPCDWRITERCD16E"#, &Some(12_i16)),
+    (r#"HPCDWRITERCD16F"#, &Some(733_i16)),
+    (r#"HPCDWRITERCD16N"#, &Some(685_i16)),
+    (r#"HPCDWRITERCD16R"#, &Some(12_i16)),
+    (r#"HPCDWRITERCD4F"#, &Some(674_i16)),
+    (r#"HPDV28SW"#, &Some(6_i16)),
+    (r#"HPDVDADC8A2LH"#, &Some(6_i16)),
+    (r#"HPDVDADC8A2SH"#, &Some(6_i16)),
+    (r#"HPDVDADH16AAL"#, &Some(6_i16)),
+    (r#"HPDVDADH16ABLH"#, &Some(6_i16)),
+    (r#"HPDVDADH16ABSH"#, &Some(6_i16)),
+    (r#"HPDVDADH16ACSH"#, &Some(6_i16)),
+    (r#"HPDVDADH16ACSHR"#, &Some(6_i16)),
+    (r#"HPDVDADH16AESH"#, &Some(6_i16)),
+    (r#"HPDVDADH16AFSH"#, &Some(6_i16)),
+    (r#"HPDVDADL8A4SH"#, &Some(6_i16)),
+    (r#"HPDVDADL8ATL"#, &Some(6_i16)),
+    (r#"HPDVDADS8A3L"#, &Some(6_i16)),
+    (r#"HPDVDADS8A4LH"#, &Some(6_i16)),
+    (r#"HPDVDADS8A5LH"#, &Some(6_i16)),
+    (r#"HPDVDADS8A5SH"#, &Some(6_i16)),
+    (r#"HPDVDADS8A8SH"#, &Some(6_i16)),
+    (r#"HPDVDADS8A9SH"#, &Some(6_i16)),
+    (r#"HPDVDADS8ABSH"#, &Some(6_i16)),
+    (r#"HPDVDADS8ACSH"#, &Some(6_i16)),
+    (r#"HPDVDADU8A4SH"#, &Some(6_i16)),
+    (r#"HPDVDADU8A5SH"#, &Some(6_i16)),
+    (r#"HPDVDDDH16D5S"#, &Some(6_i16)),
+    (r#"HPDVDDDH16D6SH"#, &Some(6_i16)),
+    (r#"HPDVDDDH16D7SH"#, &Some(6_i16)),
+    (r#"HPDVDDDH16D8SH"#, &Some(6_i16)),
+    (r#"HPDVDDDS8D2SH"#, &Some(6_i16)),
+    (r#"HPDVDDDS8D3SH"#, &Some(6_i16)),
+    (r#"HPDVDDDS8D9SH"#, &Some(6_i16)),
+    (r#"HPDVDDDS8DBSH"#, &Some(6_i16)),
+    (r#"HPDVDDDS8DCSH"#, &Some(6_i16)),
+    (r#"HPDVDDE8A3L"#, &Some(6_i16)),
+    (r#"HPDVDDE8A4L"#, &Some(6_i16)),
+    (r#"HPDVDRAM"#, &Some(102_i16)),
+    (r#"HPDVDRAMGA31N"#, &Some(103_i16)),
+    (r#"HPDVDRAMGH40L"#, &Some(667_i16)),
+    (r#"HPDVDRAMGH60L"#, &Some(667_i16)),
+    (r#"HPDVDRAMGH80N"#, &Some(667_i16)),
+    (r#"HPDVDRAMGH82N"#, &Some(667_i16)),
+    (r#"HPDVDRAMGHA3N"#, &Some(667_i16)),
+    (r#"HPDVDRAMGHB0N"#, &Some(6_i16)),
+    (r#"HPDVDRAMGHC0N"#, &Some(6_i16)),
+    (r#"HPDVDRAMGHD0N"#, &Some(6_i16)),
+    (r#"HPDVDRAMGS20N"#, &Some(667_i16)),
+    (r#"HPDVDRAMGS30N"#, &Some(667_i16)),
+    (r#"HPDVDRAMGSAU20N"#, &Some(667_i16)),
+    (r#"HPDVDRAMGT20L"#, &Some(667_i16)),
+    (r#"HPDVDRAMGT30L"#, &Some(103_i16)),
+    (r#"HPDVDRAMGT30N"#, &Some(103_i16)),
+    (r#"HPDVDRAMGT31L"#, &Some(103_i16)),
+    (r#"HPDVDRAMGT31N"#, &Some(103_i16)),
+    (r#"HPDVDRAMGT50N"#, &Some(103_i16)),
+    (r#"HPDVDRAMGT80N"#, &Some(102_i16)),
+    (r#"HPDVDRAMGTA0N"#, &Some(102_i16)),
+    (r#"HPDVDRAMGTB0N"#, &Some(102_i16)),
+    (r#"HPDVDRAMGTC0N"#, &Some(102_i16)),
+    (r#"HPDVDRAMGU10N"#, &Some(667_i16)),
+    (r#"HPDVDRAMGU40N"#, &Some(103_i16)),
+    (r#"HPDVDRAMGU60N"#, &Some(6_i16)),
+    (r#"HPDVDRAMGU70N"#, &Some(48_i16)),
+    (r#"HPDVDRAMGU90N"#, &Some(102_i16)),
+    (r#"HPDVDRAMGUB0N"#, &Some(102_i16)),
+    (r#"HPDVDRAMSW810"#, &Some(6_i16)),
+    (r#"HPDVDRAMSW810A"#, &Some(6_i16)),
+    (r#"HPDVDRAMSW820"#, &Some(6_i16)),
+    (r#"HPDVDRAMSW830"#, &Some(6_i16)),
+    (r#"HPDVDRAMUJ892"#, &Some(102_i16)),
+    (r#"HPDVDRAMUJ897"#, &Some(102_i16)),
+    (r#"HPDVDRAMUJ8A2"#, &Some(102_i16)),
+    (r#"HPDVDRAMUJ8A7"#, &Some(102_i16)),
+    (r#"HPDVDRAMUJ8B1"#, &Some(6_i16)),
+    (r#"HPDVDRAMUJ8B2"#, &Some(102_i16)),
+    (r#"HPDVDRAMUJ8C2"#, &Some(103_i16)),
+    (r#"HPDVDRAMUJ8D1"#, &Some(6_i16)),
+    (r#"HPDVDRAMUJ8DB"#, &Some(6_i16)),
+    (r#"HPDVDRAMUJ8E0"#, &Some(103_i16)),
+    (r#"HPDVDRAMUJ8E1"#, &Some(6_i16)),
+    (r#"HPDVDRAMUJ8E2"#, &Some(103_i16)),
+    (r#"HPDVDROM435R"#, &Some(6_i16)),
+    (r#"HPDVDROM455D"#, &Some(6_i16)),
+    (r#"HPDVDROM465D"#, &Some(6_i16)),
+    (r#"HPDVDROM465R"#, &Some(6_i16)),
+    (r#"HPDVDROMDH20N"#, &Some(6_i16)),
+    (r#"HPDVDROMDH40N"#, &Some(6_i16)),
+    (r#"HPDVDROMDH41N"#, &Some(6_i16)),
+    (r#"HPDVDROMDH51N"#, &Some(6_i16)),
+    (r#"HPDVDROMDT30N"#, &Some(103_i16)),
+    (r#"HPDVDROMDT31N"#, &Some(103_i16)),
+    (r#"HPDVDROMDT50N"#, &Some(103_i16)),
+    (r#"HPDVDROMDT80N"#, &Some(102_i16)),
+    (r#"HPDVDROMDTA0N"#, &Some(102_i16)),
+    (r#"HPDVDROMDTB0N"#, &Some(102_i16)),
+    (r#"HPDVDROMDTC0N"#, &Some(102_i16)),
+    (r#"HPDVDROMDU20N"#, &Some(667_i16)),
+    (r#"HPDVDROMRM475E"#, &Some(6_i16)),
+    (r#"HPDVDROMSH116AB"#, &Some(6_i16)),
+    (r#"HPDVDROMSH116BB"#, &Some(6_i16)),
+    (r#"HPDVDROMSH116CB"#, &Some(6_i16)),
+    (r#"HPDVDROMSN108BB"#, &Some(6_i16)),
+    (r#"HPDVDROMSN108DB"#, &Some(6_i16)),
+    (r#"HPDVDROMSN108FB"#, &Some(6_i16)),
+    (r#"HPDVDROMSU108GB"#, &Some(6_i16)),
+    (r#"HPDVDROMTSH353B"#, &Some(6_i16)),
+    (r#"HPDVDROMTSH353C"#, &Some(6_i16)),
+    (r#"HPDVDROMTSL333B"#, &Some(6_i16)),
+    (r#"HPDVDROMTSL333F"#, &Some(6_i16)),
+    (r#"HPDVDROMUJ8D1"#, &Some(6_i16)),
+    (r#"HPDVDRWAD7250H5"#, &Some(48_i16)),
+    (r#"HPDVDRWAD7251H5"#, &Some(48_i16)),
+    (r#"HPDVDRWAD7290H5"#, &Some(48_i16)),
+    (r#"HPDVDRWAD7290HR"#, &Some(48_i16)),
+    (r#"HPDVDRWAD7561S"#, &Some(6_i16)),
+    (r#"HPDVDRWAD7581S"#, &Some(6_i16)),
+    (r#"HPDVDRWAD7586H"#, &Some(6_i16)),
+    (r#"HPDVDRWAD7691H5"#, &Some(48_i16)),
+    (r#"HPDVDRWAD7691H6"#, &Some(48_i16)),
+    (r#"HPDVDRWAD7701H"#, &Some(48_i16)),
+    (r#"HPDVDRWAD7711H"#, &Some(48_i16)),
+    (r#"HPDVDRWAD7721H"#, &Some(48_i16)),
+    (r#"HPDVDRWAD7740H"#, &Some(48_i16)),
+    (r#"HPDVDRWAD7760H"#, &Some(48_i16)),
+    (r#"HPDVDRWAD7930H"#, &Some(48_i16)),
+    (r#"HPDVDRWDA8A6SH"#, &Some(6_i16)),
+    (r#"HPDVDRWDA8AESH"#, &Some(6_i16)),
+    (r#"HPDVDRWDU8A5SHL"#, &Some(6_i16)),
+    (r#"HPDVDRWDU8A6SH"#, &Some(6_i16)),
+    (r#"HPDVDRWDU8AESH"#, &Some(6_i16)),
+    (r#"HPDVDRWG"#, &Some(6_i16)),
+    (r#"HPDVDRWGUB0N"#, &Some(102_i16)),
+    (r#"HPDVDRWGUC0N"#, &Some(6_i16)),
+    (r#"HPDVDRWGUD0N"#, &Some(102_i16)),
+    (r#"HPDVDRWGUD1N"#, &Some(6_i16)),
+    (r#"HPDVDRWGUE1N"#, &Some(6_i16)),
+    (r#"HPDVDRWSU208FB"#, &Some(6_i16)),
+    (r#"HPDVDRWSU208GB"#, &Some(6_i16)),
+    (r#"HPDVDRWSU208HB"#, &Some(6_i16)),
+    (r#"HPDVDRWSU228HB"#, &Some(6_i16)),
+    (r#"HPDVDRWUJ8FBA"#, &Some(6_i16)),
+    (r#"HPDVDRWUJ8G2A"#, &Some(103_i16)),
+    (r#"HPDVDWBDSN406AB"#, &Some(6_i16)),
+    (r#"HPDVDWBDTSHB43L"#, &Some(6_i16)),
+    (r#"HPDVDWBDTSHB43LB"#, &Some(6_i16)),
+    (r#"HPDVDWBDTSLB23L"#, &Some(6_i16)),
+    (r#"HPDVDWBDTSLB23P"#, &Some(6_i16)),
+    (r#"HPDVDWBDTSTB23L"#, &Some(6_i16)),
+    (r#"HPDVDWRITER100J"#, &Some(120_i16)),
+    (r#"HPDVDWRITER1035R"#, &Some(6_i16)),
+    (r#"HPDVDWRITER1040D"#, &Some(6_i16)),
+    (r#"HPDVDWRITER1040R"#, &Some(6_i16)),
+    (r#"HPDVDWRITER1060D"#, &Some(6_i16)),
+    (r#"HPDVDWRITER1060R"#, &Some(6_i16)),
+    (r#"HPDVDWRITER1070D"#, &Some(6_i16)),
+    (r#"HPDVDWRITER1070R"#, &Some(6_i16)),
+    (r#"HPDVDWRITER1135R"#, &Some(6_i16)),
+    (r#"HPDVDWRITER1140D"#, &Some(6_i16)),
+    (r#"HPDVDWRITER1140I"#, &Some(6_i16)),
+    (r#"HPDVDWRITER1140R"#, &Some(6_i16)),
+    (r#"HPDVDWRITER1160D"#, &Some(6_i16)),
+    (r#"HPDVDWRITER1170D"#, &Some(6_i16)),
+    (r#"HPDVDWRITER1170R"#, &Some(6_i16)),
+    (r#"HPDVDWRITER1260D"#, &Some(6_i16)),
+    (r#"HPDVDWRITER1260R"#, &Some(48_i16)),
+    (r#"HPDVDWRITER1260T"#, &Some(6_i16)),
+    (r#"HPDVDWRITER1260V"#, &Some(6_i16)),
+    (r#"HPDVDWRITER1260X"#, &Some(6_i16)),
+    (r#"HPDVDWRITER1265D"#, &Some(48_i16)),
+    (r#"HPDVDWRITER1265T"#, &Some(6_i16)),
+    (r#"HPDVDWRITER1265V"#, &Some(6_i16)),
+    (r#"HPDVDWRITER1270D"#, &Some(6_i16)),
+    (r#"HPDVDWRITER1270E"#, &Some(6_i16)),
+    (r#"HPDVDWRITER1270R"#, &Some(48_i16)),
+    (r#"HPDVDWRITER1270T"#, &Some(6_i16)),
+    (r#"HPDVDWRITER200J"#, &Some(120_i16)),
+    (r#"HPDVDWRITER300C"#, &Some(1292_i16)),
+    (r#"HPDVDWRITER300N"#, &Some(48_i16)),
+    (r#"HPDVDWRITER400C"#, &Some(1292_i16)),
+    (r#"HPDVDWRITER420N"#, &Some(48_i16)),
+    (r#"HPDVDWRITER520N"#, &Some(48_i16)),
+    (r#"HPDVDWRITER530R"#, &Some(12_i16)),
+    (r#"HPDVDWRITER550R"#, &Some(6_i16)),
+    (r#"HPDVDWRITER550T"#, &Some(6_i16)),
+    (r#"HPDVDWRITER555R"#, &Some(6_i16)),
+    (r#"HPDVDWRITER555S"#, &Some(6_i16)),
+    (r#"HPDVDWRITER556S"#, &Some(6_i16)),
+    (r#"HPDVDWRITER557R"#, &Some(6_i16)),
+    (r#"HPDVDWRITER557S"#, &Some(6_i16)),
+    (r#"HPDVDWRITER560R"#, &Some(6_i16)),
+    (r#"HPDVDWRITER560T"#, &Some(6_i16)),
+    (r#"HPDVDWRITER565S"#, &Some(6_i16)),
+    (r#"HPDVDWRITER600R"#, &Some(6_i16)),
+    (r#"HPDVDWRITER600Y"#, &Some(6_i16)),
+    (r#"HPDVDWRITER630C"#, &Some(618_i16)),
+    (r#"HPDVDWRITER635D"#, &Some(12_i16)),
+    (r#"HPDVDWRITER640B"#, &Some(102_i16)),
+    (r#"HPDVDWRITER640C"#, &Some(618_i16)),
+    (r#"HPDVDWRITER640V"#, &Some(618_i16)),
+    (r#"HPDVDWRITER735D"#, &Some(6_i16)),
+    (r#"HPDVDWRITER740B"#, &Some(102_i16)),
+    (r#"HPDVDWRITER740E"#, &Some(102_i16)),
+    (r#"HPDVDWRITER740R"#, &Some(6_i16)),
+    (r#"HPDVDWRITER840B"#, &Some(102_i16)),
+    (r#"HPDVDWRITER840D"#, &Some(6_i16)),
+    (r#"HPDVDWRITER840E"#, &Some(102_i16)),
+    (r#"HPDVDWRITER840X"#, &Some(102_i16)),
+    (r#"HPDVDWRITER840Y"#, &Some(102_i16)),
+    (r#"HPDVDWRITER940D"#, &Some(6_i16)),
+    (r#"HPDVW28SVS"#, &Some(96_i16)),
+    (r#"HPDVW28SW"#, &Some(48_i16)),
+    (r#"HPDW224SV"#, &Some(102_i16)),
+    (r#"HPF2B56AA"#, &Some(102_i16)),
+    (r#"HPGP70N"#, &Some(6_i16)),
+    (r#"HPHLDSBDREBU40"#, &Some(6_i16)),
+    (r#"HPHLDSBDREBU40N"#, &Some(6_i16)),
+    (r#"HPHLDSBDREBU50N"#, &Some(6_i16)),
+    (r#"HPHLDSDVDROMDUD0N"#, &Some(102_i16)),
+    (r#"HPHLDSDVDROMDUD1N"#, &Some(6_i16)),
+    (r#"HPHLDSDVDRWGUD"#, &Some(6_i16)),
+    (r#"HPHLDSDVDRWGUD0N"#, &Some(102_i16)),
+    (r#"HPHLDSDVDRWGUD1N"#, &Some(6_i16)),
+    (r#"HPPHOTOSMARTDVD"#, &Some(667_i16)),
+    (r#"HPPLDSDVDROMDS8RESH"#, &Some(6_i16)),
+    (r#"HPPLDSDVDRWDU8A"#, &Some(6_i16)),
+    (r#"HPPLDSDVDRWDU8AESH"#, &Some(6_i16)),
+    (r#"HPTSSTDVDRWSU208HB"#, &Some(6_i16))
+];
+
+pub static VND_HPE: [(&'static str, &'static Option<i16>); 2] = [
+    (r#"HPEDVDRWGP70N"#, &Some(6_i16)),
+    (r#"HPEDVDRWSU208HB"#, &Some(6_i16))
+];
+
+pub static VND_IBM: [(&'static str, &'static Option<i16>); 15] = [
+    (r#"IBMCDRWDVDROM"#, &Some(102_i16)),
+    (r#"IBMCDRWDVDUJDB753"#, &Some(102_i16)),
+    (r#"IBMCDRWUSB2"#, &Some(685_i16)),
+    (r#"IBMDVRM00203"#, &Some(103_i16)),
+    (r#"IBMRMBO0020311"#, &Some(102_i16)),
+    (r#"IBMRMBO0020321"#, &Some(102_i16)),
+    (r#"IBMRMBO0140512"#, &Some(103_i16)),
+    (r#"IBMSATADEVICE81Y3657"#, &Some(103_i16)),
+    (r#"IBMSATADEVICE81Y3658"#, &Some(6_i16)),
+    (r#"IBMSATADEVICE81Y3659"#, &Some(6_i16)),
+    (r#"IBMSATADEVICE81Y3672"#, &Some(103_i16)),
+    (r#"IBMSATADEVICE81Y3677"#, &Some(102_i16)),
+    (r#"IBMSATADEVICE81Y3682"#, &Some(102_i16)),
+    (r#"IBMUSB2MULTIBURNER"#, &Some(102_i16)),
+    (r#"IBMUSBCDROM"#, &Some(678_i16))
+];
+
+pub static VND_IDECD: [(&'static str, &'static Option<i16>); 9] = [
+    (r#"IDECDCDRW7352"#, &Some(738_i16)),
+    (r#"IDECDCROM6048"#, &Some(691_i16)),
+    (r#"IDECDREWRITABLE2X2X6"#, &Some(1263_i16)),
+    (r#"IDECDRRW12X8X32"#, &Some(692_i16)),
+    (r#"IDECDRRW16X10A"#, &Some(733_i16)),
+    (r#"IDECDRRW16X12A"#, &Some(733_i16)),
+    (r#"IDECDRRW48XC"#, &Some(738_i16)),
+    (r#"IDECDRRW4X4X32"#, &Some(-436_i16)),
+    (r#"IDECDRRW8X4X32"#, &Some(-436_i16))
+];
+
+pub static VND_IDEDVD: [(&'static str, &'static Option<i16>); 7] = [
+    (r#"IDEDVDDROM6216"#, &Some(738_i16)),
+    (r#"IDEDVDDVDRW6002"#, &Some(120_i16)),
+    (r#"IDEDVDDVDRW8631"#, &Some(618_i16)),
+    (r#"IDEDVDDVDRW8651"#, &Some(618_i16)),
+    (r#"IDEDVDDVDRW8801"#, &Some(618_i16)),
+    (r#"IDEDVDROM16X"#, &Some(691_i16)),
+    (r#"IDEDVDROM6116"#, &Some(691_i16))
+];
+
+pub static VND_IHAS324: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"IHAS324C"#, &Some(6_i16))
+];
+
+pub static VND_IMATION: [(&'static str, &'static Option<i16>); 13] = [
+    (r#"IMATIONDVDRAMELITE"#, &Some(48_i16)),
+    (r#"IMATIONIMN650LEV7"#, &Some(6_i16)),
+    (r#"IMATIONIMW16DL84I"#, &Some(6_i16)),
+    (r#"IMATIONIMW18DL88RAME"#, &Some(6_i16)),
+    (r#"IMATIONIMW20DL88RAMI"#, &Some(6_i16)),
+    (r#"IMATIONIMW241040IAB"#, &Some(97_i16)),
+    (r#"IMATIONIMW242424DV8E"#, &Some(6_i16)),
+    (r#"IMATIONIMW4222DV8E"#, &Some(12_i16)),
+    (r#"IMATIONIMWDVRW16DL84E"#, &Some(6_i16)),
+    (r#"IMATIONIMWDVRW16DL84I"#, &Some(6_i16)),
+    (r#"IMATIONIMWDVRW16DLI"#, &Some(12_i16)),
+    (r#"IMATIONIMWDVRW16E"#, &Some(12_i16)),
+    (r#"IMATIONSLIMDVD"#, &Some(6_i16))
+];
+
+pub static VND_INCDRW: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"INCDRWDXCDRW"#, &Some(6_i16))
+];
+
+pub static VND_IOMEGA: [(&'static str, &'static Option<i16>); 31] = [
+    (r#"IOMEGACDDVD482416E23C"#, &Some(6_i16)),
+    (r#"IOMEGACDDVD522416EC3C"#, &Some(6_i16)),
+    (r#"IOMEGACDDVD523216E23B"#, &Some(6_i16)),
+    (r#"IOMEGACDRW19200INTA"#, &Some(98_i16)),
+    (r#"IOMEGACDRW19202EXT2B"#, &Some(12_i16)),
+    (r#"IOMEGACDRW23042EXT3B"#, &Some(12_i16)),
+    (r#"IOMEGACDRW23042EXT3C"#, &Some(12_i16)),
+    (r#"IOMEGACDRW2304FEXTB"#, &Some(12_i16)),
+    (r#"IOMEGACDRW38402EXT2B"#, &Some(6_i16)),
+    (r#"IOMEGACDRW55292EXT3B"#, &Some(6_i16)),
+    (r#"IOMEGACDRW55292EXT3C"#, &Some(6_i16)),
+    (r#"IOMEGACDRW55296INTC"#, &Some(6_i16)),
+    (r#"IOMEGACDRW6402EXTB"#, &Some(12_i16)),
+    (r#"IOMEGACDRW64892EXT3B"#, &Some(6_i16)),
+    (r#"IOMEGACDRW64892EXT3C"#, &Some(6_i16)),
+    (r#"IOMEGACDRW86522EXT3B"#, &Some(6_i16)),
+    (r#"IOMEGACDRW86522EXT3C"#, &Some(6_i16)),
+    (r#"IOMEGACDRW9602EXT3B"#, &Some(12_i16)),
+    (r#"IOMEGACDRW9602EXTB"#, &Some(12_i16)),
+    (r#"IOMEGADVDRW12448E2DB"#, &Some(12_i16)),
+    (r#"IOMEGADVDRW4216INDA"#, &Some(48_i16)),
+    (r#"IOMEGADVDRW4216INPA"#, &Some(48_i16)),
+    (r#"IOMEGADVDRW4224E2QD"#, &Some(667_i16)),
+    (r#"IOMEGADVDRW4224INQD"#, &Some(667_i16)),
+    (r#"IOMEGADVDRW8440E2DB"#, &Some(12_i16)),
+    (r#"IOMEGASLIMLINEDVD"#, &Some(6_i16)),
+    (r#"IOMEGASUPERDVD"#, &Some(6_i16)),
+    (r#"IOMEGAZIPCD1024INTA"#, &Some(-436_i16)),
+    (r#"IOMEGAZIPCD3840INTA"#, &Some(99_i16)),
+    (r#"IOMEGAZIPCD650USB"#, &Some(-436_i16)),
+    (r#"IOMEGAZIPCDDVDROM"#, &Some(708_i16))
+];
+
+pub static VND_JKRIN: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"JKRINHAZO9YRCX"#, &Some(103_i16))
+];
+
+pub static VND_JUMBO: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"JUMBOCDRWDVDDBW521A"#, &Some(6_i16))
+];
+
+pub static VND_JVC: [(&'static str, &'static Option<i16>); 3] = [
+    (r#"JVCDVDCUVD20"#, &Some(30_i16)),
+    (r#"JVCDVDCUVD3"#, &Some(102_i16)),
+    (r#"JVCDVDCUVD40"#, &Some(30_i16))
+];
+
+pub static VND_K390: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"K390ROSEWILLK390"#, &Some(6_i16))
+];
+
+pub static VND_KENWOOD: [(&'static str, &'static Option<i16>); 2] = [
+    (r#"KENWOODCDROMUCR415"#, &Some(12_i16)),
+    (r#"KENWOODCDROMUCR421"#, &Some(12_i16))
+];
+
+pub static VND_KISS: [(&'static str, &'static Option<i16>); 3] = [
+    (r#"KISSDVDROMDR1712"#, &Some(-472_i16)),
+    (r#"KISSDVDROMDR1802"#, &Some(691_i16)),
+    (r#"KISSDVDROMDR2012C"#, &Some(6_i16))
+];
+
+pub static VND_KVG: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"KVGIJGL23G"#, &Some(0_i16))
+];
+
+pub static VND_LACIE: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"LACIECDBP241040A"#, &Some(688_i16))
+];
+
+pub static VND_LENOVO: [(&'static str, &'static Option<i16>); 11] = [
+    (r#"LENOVO"#, &Some(1334_i16)),
+    (r#"LENOVOBURNERGP80N"#, &Some(103_i16)),
+    (r#"LENOVOGP70PRO"#, &Some(6_i16)),
+    (r#"LENOVOSLIM_USB_BURNER"#, &Some(6_i16)),
+    (r#"LENOVOULTRASLIMDVD"#, &Some(6_i16)),
+    (r#"LENOVOUSBDVDBURNER"#, &Some(6_i16)),
+    (r#"LENOVOUSBMULTIBURNER2"#, &Some(102_i16)),
+    (r#"LENOVOUSB_DVD_BURNER5"#, &Some(6_i16)),
+    (r#"LENOVOUSB_MULTIBURNER3"#, &Some(594_i16)),
+    (r#"LENOVOUSB_SATA_BURNER3"#, &Some(6_i16)),
+    (r#"LENOVOUSB_SATA_BURNER4"#, &Some(6_i16))
 ];
 
 pub static VND_LG: [(&'static str, &'static Option<i16>); 692] = [
@@ -4517,8 +2766,140 @@ pub static VND_LG: [(&'static str, &'static Option<i16>); 692] = [
     (r#"LGOEMCDROMCRD8521B"#, &Some(12_i16))
 ];
 
-pub static VND_OPRIARC: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"OPRIARCDVDRWAD7173A"#, &Some(48_i16))
+pub static VND_LGHL04P: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"LGHL04PLGHL04PMT8575"#, &Some(6_i16))
+];
+
+pub static VND_LGHL05P: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"LGHL05PLGHL05PMT8575"#, &Some(6_i16))
+];
+
+pub static VND_LITEON: [(&'static str, &'static Option<i16>); 125] = [
+    (r#"LITEONBDBLH2B1S"#, &Some(618_i16)),
+    (r#"LITEONBDODH4O1S"#, &Some(6_i16)),
+    (r#"LITEONCDNLH52N1P"#, &Some(6_i16)),
+    (r#"LITEONCDRLH52R1P"#, &Some(6_i16)),
+    (r#"LITEONCDROMLTN323"#, &Some(-1164_i16)),
+    (r#"LITEONCDROMLTN403"#, &Some(-1164_i16)),
+    (r#"LITEONCDROMLTN403L"#, &Some(-1164_i16)),
+    (r#"LITEONCDROMLTN483"#, &Some(-1164_i16)),
+    (r#"LITEONCDROMLTN483L"#, &Some(-1164_i16)),
+    (r#"LITEONCDROMLTN485S"#, &Some(-1164_i16)),
+    (r#"LITEONCDROMLTN486S"#, &Some(600_i16)),
+    (r#"LITEONCDROMLTN487T"#, &Some(12_i16)),
+    (r#"LITEONCDROMLTN4891S"#, &Some(6_i16)),
+    (r#"LITEONCDROMLTN489S"#, &Some(12_i16)),
+    (r#"LITEONCDROMLTN48S1S"#, &Some(6_i16)),
+    (r#"LITEONCDROMLTN525"#, &Some(-1164_i16)),
+    (r#"LITEONCDROMLTN526"#, &Some(600_i16)),
+    (r#"LITEONCDROMLTN526D"#, &Some(600_i16)),
+    (r#"LITEONCDROMLTN526S"#, &Some(600_i16)),
+    (r#"LITEONCDROMLTN527T"#, &Some(12_i16)),
+    (r#"LITEONCDROMLTN5291S"#, &Some(6_i16)),
+    (r#"LITEONCDROMLTN529S"#, &Some(12_i16)),
+    (r#"LITEONCDROMLTN529SV"#, &Some(12_i16)),
+    (r#"LITEONCDROMLTN52S1S"#, &Some(6_i16)),
+    (r#"LITEONCDRWSOHR4838S"#, &Some(6_i16)),
+    (r#"LITEONCDRWSOHR4839S"#, &Some(6_i16)),
+    (r#"LITEONCDRWSOHR4839V"#, &Some(6_i16)),
+    (r#"LITEONCDRWSOHR5238S"#, &Some(6_i16)),
+    (r#"LITEONCDRWSOHR5239S"#, &Some(6_i16)),
+    (r#"LITEONCDRWSOHR5239V"#, &Some(6_i16)),
+    (r#"LITEONCOMBOLTC48161H"#, &Some(6_i16)),
+    (r#"LITEONCOMBOSHC48S7K"#, &Some(6_i16)),
+    (r#"LITEONCOMBOSHC52S7K"#, &Some(6_i16)),
+    (r#"LITEONCOMBOSOHC4832K"#, &Some(6_i16)),
+    (r#"LITEONCOMBOSOHC4836K"#, &Some(6_i16)),
+    (r#"LITEONCOMBOSOHC4836V"#, &Some(6_i16)),
+    (r#"LITEONCOMBOSOHC5232K"#, &Some(6_i16)),
+    (r#"LITEONCOMBOSOHC5235K"#, &Some(6_i16)),
+    (r#"LITEONCOMBOSOHC5236K"#, &Some(6_i16)),
+    (r#"LITEONCOMBOSOHC5236V"#, &Some(6_i16)),
+    (r#"LITEONDDU605U"#, &Some(667_i16)),
+    (r#"LITEONDH16AFSHPREMM1"#, &Some(6_i16)),
+    (r#"LITEONDH16AFSHPREMM2"#, &Some(6_i16)),
+    (r#"LITEONDVDADH20A4H"#, &Some(6_i16)),
+    (r#"LITEONDVDCLH52C1P"#, &Some(6_i16)),
+    (r#"LITEONDVDDLH16D1P"#, &Some(6_i16)),
+    (r#"LITEONDVDROMLTD122"#, &Some(594_i16)),
+    (r#"LITEONDVDROMLTD163"#, &Some(594_i16)),
+    (r#"LITEONDVDROMLTD163D"#, &Some(594_i16)),
+    (r#"LITEONDVDROMLTD165H"#, &Some(12_i16)),
+    (r#"LITEONDVDROMLTD165P"#, &Some(12_i16)),
+    (r#"LITEONDVDROMLTD166S"#, &Some(12_i16)),
+    (r#"LITEONDVDROMXJHD166"#, &Some(12_i16)),
+    (r#"LITEONDVDRWDDW813S"#, &Some(12_i16)),
+    (r#"LITEONDVDRWLDW400D"#, &Some(120_i16)),
+    (r#"LITEONDVDRWLDW401S"#, &Some(12_i16)),
+    (r#"LITEONDVDRWLDW411S"#, &Some(12_i16)),
+    (r#"LITEONDVDRWLDW451S"#, &Some(12_i16)),
+    (r#"LITEONDVDRWLDW811S"#, &Some(12_i16)),
+    (r#"LITEONDVDRWLDW851S"#, &Some(12_i16)),
+    (r#"LITEONDVDRWLH16A1S"#, &Some(6_i16)),
+    (r#"LITEONDVDRWLH16W1P"#, &Some(6_i16)),
+    (r#"LITEONDVDRWLH18A1H"#, &Some(6_i16)),
+    (r#"LITEONDVDRWLH18A1P"#, &Some(6_i16)),
+    (r#"LITEONDVDRWLH20A1H"#, &Some(6_i16)),
+    (r#"LITEONDVDRWLH20A1L"#, &Some(6_i16)),
+    (r#"LITEONDVDRWLH20A1P"#, &Some(6_i16)),
+    (r#"LITEONDVDRWLH20A1S"#, &Some(6_i16)),
+    (r#"LITEONDVDRWSH16A7S"#, &Some(6_i16)),
+    (r#"LITEONDVDRWSHM165H6S"#, &Some(6_i16)),
+    (r#"LITEONDVDRWSHM165P6S"#, &Some(6_i16)),
+    (r#"LITEONDVDRWSHM165S6S"#, &Some(6_i16)),
+    (r#"LITEONDVDRWSHW160H6S"#, &Some(6_i16)),
+    (r#"LITEONDVDRWSHW160P6S"#, &Some(6_i16)),
+    (r#"LITEONDVDRWSHW1635S"#, &Some(6_i16)),
+    (r#"LITEONDVDRWSHW16H5S"#, &Some(6_i16)),
+    (r#"LITEONDVDRWSOHW1213S"#, &Some(12_i16)),
+    (r#"LITEONDVDRWSOHW1613S"#, &Some(12_i16)),
+    (r#"LITEONDVDRWSOHW1633S"#, &Some(12_i16)),
+    (r#"LITEONDVDRWSOHW1653S"#, &Some(12_i16)),
+    (r#"LITEONDVDRWSOHW1673S"#, &Some(12_i16)),
+    (r#"LITEONDVDRWSOHW1693S"#, &Some(12_i16)),
+    (r#"LITEONDVDRWSOHW802S"#, &Some(12_i16)),
+    (r#"LITEONDVDRWSOHW812S"#, &Some(12_i16)),
+    (r#"LITEONDVDRWSOHW822S"#, &Some(12_i16)),
+    (r#"LITEONDVDRWSOHW832S"#, &Some(12_i16)),
+    (r#"LITEONDVDSHD16P1S"#, &Some(6_i16)),
+    (r#"LITEONDVDSHD16S1S"#, &Some(6_i16)),
+    (r#"LITEONDVDSOHD167T"#, &Some(12_i16)),
+    (r#"LITEONDVDSOHD16P1S"#, &Some(6_i16)),
+    (r#"LITEONDVDSOHD16P9S"#, &Some(6_i16)),
+    (r#"LITEONDVDSOHD16P9SV"#, &Some(6_i16)),
+    (r#"LITEONLTN483S48XMAX"#, &Some(-1164_i16)),
+    (r#"LITEONLTN48648XMAX"#, &Some(600_i16)),
+    (r#"LITEONLTN486S48XMAX"#, &Some(600_i16)),
+    (r#"LITEONLTR0841"#, &Some(688_i16)),
+    (r#"LITEONLTR12101B"#, &Some(688_i16)),
+    (r#"LITEONLTR12102B"#, &Some(12_i16)),
+    (r#"LITEONLTR12102C"#, &Some(12_i16)),
+    (r#"LITEONLTR16101B"#, &Some(690_i16)),
+    (r#"LITEONLTR16102B"#, &Some(12_i16)),
+    (r#"LITEONLTR24102B"#, &Some(12_i16)),
+    (r#"LITEONLTR24102M"#, &Some(12_i16)),
+    (r#"LITEONLTR24103S"#, &Some(12_i16)),
+    (r#"LITEONLTR32123S"#, &Some(12_i16)),
+    (r#"LITEONLTR32125W"#, &Some(12_i16)),
+    (r#"LITEONLTR40125S"#, &Some(12_i16)),
+    (r#"LITEONLTR40125W"#, &Some(12_i16)),
+    (r#"LITEONLTR48125S"#, &Some(12_i16)),
+    (r#"LITEONLTR48125W"#, &Some(12_i16)),
+    (r#"LITEONLTR48126S"#, &Some(6_i16)),
+    (r#"LITEONLTR48246K"#, &Some(6_i16)),
+    (r#"LITEONLTR48246S"#, &Some(6_i16)),
+    (r#"LITEONLTR48247S"#, &Some(6_i16)),
+    (r#"LITEONLTR48327S"#, &Some(6_i16)),
+    (r#"LITEONLTR52246S"#, &Some(6_i16)),
+    (r#"LITEONLTR52327S"#, &Some(6_i16)),
+    (r#"LITEONLXR24101A"#, &Some(12_i16)),
+    (r#"LITEONLXR40122"#, &Some(12_i16)),
+    (r#"LITEONLXR40243"#, &Some(6_i16)),
+    (r#"LITEONSOHW1673SU"#, &Some(6_i16)),
+    (r#"LITEONXJHD163"#, &Some(594_i16)),
+    (r#"LITEONXJHD163D"#, &Some(594_i16)),
+    (r#"LITEONXJHD165H"#, &Some(12_i16)),
+    (r#"LITEONXJHD166S"#, &Some(12_i16))
 ];
 
 pub static VND_LOGITEC: [(&'static str, &'static Option<i16>); 6] = [
@@ -4530,120 +2911,23 @@ pub static VND_LOGITEC: [(&'static str, &'static Option<i16>); 6] = [
     (r#"LOGITECLDVP8U2L"#, &Some(6_i16))
 ];
 
-pub static VND_DRW24B1ST: [(&'static str, &'static Option<i16>); 2] = [
-    (r#"DRW24B1STA"#, &Some(6_i16)),
-    (r#"DRW24B1STC"#, &Some(6_i16))
+pub static VND_MAD: [(&'static str, &'static Option<i16>); 12] = [
+    (r#"MADDOG56XCDROM"#, &Some(691_i16)),
+    (r#"MADDOGCDDVDWTSH653B"#, &Some(6_i16)),
+    (r#"MADDOGLSDVDRWTSH652M"#, &Some(6_i16)),
+    (r#"MADDOGMD16X2DVD98X"#, &Some(48_i16)),
+    (r#"MADDOGMD16X3DVD98X"#, &Some(48_i16)),
+    (r#"MADDOGMD16X3DVD98XB"#, &Some(48_i16)),
+    (r#"MADDOGMD16XDVD9"#, &Some(48_i16)),
+    (r#"MADDOGMD16XDVD9A2"#, &Some(48_i16)),
+    (r#"MADDOGMD16XDVD9A4"#, &Some(48_i16)),
+    (r#"MADDOGTFDVDRWTSH652D"#, &Some(6_i16)),
+    (r#"MADDOGTFDVDRWTSH652G"#, &Some(6_i16)),
+    (r#"MADDOGTFDVDRWTSH652N"#, &Some(6_i16))
 ];
 
-pub static VND_ACER: [(&'static str, &'static Option<i16>); 2] = [
-    (r#"ACERAXD002TYPEC30"#, &Some(6_i16)),
-    (r#"ACERDVDRWAXD001"#, &Some(6_i16))
-];
-
-pub static VND_DRW1608P2: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"DRW1608P2"#, &Some(48_i16))
-];
-
-pub static VND_SHARK: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"SHARK52XCDROM"#, &Some(12_i16))
-];
-
-pub static VND_CD956B: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"CD956B"#, &Some(12_i16))
-];
-
-pub static VND_DYNABOOK: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"DYNABOOKPS0048UA1DVD"#, &Some(6_i16))
-];
-
-pub static VND_52X32COMBO: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"52X32COMBO"#, &Some(738_i16))
-];
-
-pub static VND_DRW1608P: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"DRW1608P"#, &Some(48_i16))
-];
-
-pub static VND_EPO: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"EPOCR844S"#, &Some(12_i16))
-];
-
-pub static VND_52X32XCOMBO: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"52X32XCOMBO"#, &Some(738_i16))
-];
-
-pub static VND_DVDCDRW: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"DVDCDRWRW9120"#, &Some(690_i16))
-];
-
-pub static VND_VOM12E48X: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"VOM12E48X"#, &Some(12_i16))
-];
-
-pub static VND_HLDT: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"HLDTDVDRAMGT20L"#, &Some(667_i16))
-];
-
-pub static VND_16X16: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"16X16DVDDUAL"#, &Some(91_i16))
-];
-
-pub static VND_EIDE: [(&'static str, &'static Option<i16>); 23] = [
-    (r#"EIDECD950EAKU"#, &Some(680_i16)),
-    (r#"EIDECD950ETKU"#, &Some(12_i16)),
-    (r#"EIDECD952EAKV"#, &Some(691_i16)),
-    (r#"EIDECD952ETKU"#, &Some(12_i16)),
-    (r#"EIDECD956EAKV"#, &Some(691_i16)),
-    (r#"EIDECDROM24XAKOX"#, &Some(679_i16)),
-    (r#"EIDECDROM32XAKU"#, &Some(1268_i16)),
-    (r#"EIDECDROM36XAKU"#, &Some(1268_i16)),
-    (r#"EIDECDROM36XAKW"#, &Some(1268_i16)),
-    (r#"EIDECDROM40XAKH"#, &Some(106_i16)),
-    (r#"EIDECDROM40XAKU"#, &Some(1268_i16)),
-    (r#"EIDECDROM48XAKH"#, &Some(106_i16)),
-    (r#"EIDECDROM48XTKU"#, &Some(12_i16)),
-    (r#"EIDECDROM50X"#, &Some(682_i16)),
-    (r#"EIDECDROM50XL"#, &Some(108_i16)),
-    (r#"EIDECDROM52XAKH"#, &Some(106_i16)),
-    (r#"EIDECDROM52XL"#, &Some(682_i16)),
-    (r#"EIDECDROM56X"#, &Some(682_i16)),
-    (r#"EIDECDROM56XAKH"#, &Some(106_i16)),
-    (r#"EIDECDROM56XL"#, &Some(682_i16)),
-    (r#"EIDECDROMCR856E"#, &Some(12_i16)),
-    (r#"EIDECDROMMAX54X"#, &Some(12_i16)),
-    (r#"EIDEDVDROMDVD8210"#, &Some(594_i16))
-];
-
-pub static VND_PIODATA: [(&'static str, &'static Option<i16>); 2] = [
-    (r#"PIODATADVDRWDVR108DX"#, &Some(48_i16)),
-    (r#"PIODATADVDRWDVR221D"#, &Some(6_i16))
-];
-
-pub static VND_CDRRW: [(&'static str, &'static Option<i16>); 11] = [
-    (r#"CDRRW52X24X52X"#, &Some(97_i16)),
-    (r#"CDRRWCW079DCDRRW"#, &Some(12_i16)),
-    (r#"CDRRWCW088DCDRRW"#, &Some(733_i16)),
-    (r#"CDRRWCW089DCDRRW"#, &Some(12_i16)),
-    (r#"CDRRWCW099DCDRRW"#, &Some(6_i16)),
-    (r#"CDRRWRW7060S"#, &Some(685_i16)),
-    (r#"CDRRWRW7063A"#, &Some(97_i16)),
-    (r#"CDRRWRW7083A"#, &Some(97_i16)),
-    (r#"CDRRWRW7120A"#, &Some(97_i16)),
-    (r#"CDRRWRW7200A"#, &Some(97_i16)),
-    (r#"CDRRWRW8080A"#, &Some(685_i16))
-];
-
-pub static VND_NECVMWAR: [(&'static str, &'static Option<i16>); 2] = [
-    (r#"NECVMWARVMWARESATACD02"#, &Some(6_i16)),
-    (r#"NECVMWARVMWARESATACD05"#, &Some(6_i16))
-];
-
-pub static VND_PC: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"PCMARTDVDROMSA22518X"#, &Some(6_i16))
-];
-
-pub static VND_DVDE616P2: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"DVDE616P2"#, &Some(738_i16))
+pub static VND_MAXELL: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"MAXELLMCDRW8432"#, &Some(688_i16))
 ];
 
 pub static VND_MEMOREX: [(&'static str, &'static Option<i16>); 57] = [
@@ -4706,63 +2990,1982 @@ pub static VND_MEMOREX: [(&'static str, &'static Option<i16>); 57] = [
     (r#"MEMOREXTWELVEMAXX1032"#, &Some(688_i16))
 ];
 
-pub static VND_RIDATA: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"RIDATADVDRWRDRIVE"#, &Some(120_i16))
-];
-
-pub static VND_AIGO: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"AIGOG100"#, &Some(667_i16))
-];
-
 pub static VND_MEMUP: [(&'static str, &'static Option<i16>); 3] = [
     (r#"MEMUPDRW1108IM"#, &Some(12_i16)),
     (r#"MEMUPDVDROMBDV316C"#, &Some(12_i16)),
     (r#"MEMUPIDE1008"#, &Some(12_i16))
 ];
 
-pub static VND_WZEZY: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"WZEZYWHQ7CHA"#, &Some(6_i16))
+pub static VND_MICROTEK: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"MICROTEKDVDROMDRL160"#, &Some(594_i16))
 ];
 
-pub static VND_48X12X50: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"48X12X50CDRW"#, &Some(97_i16))
+pub static VND_MIDA: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"MIDA40XB"#, &Some(-1164_i16))
 ];
 
-pub static VND_MAD: [(&'static str, &'static Option<i16>); 12] = [
-    (r#"MADDOG56XCDROM"#, &Some(691_i16)),
-    (r#"MADDOGCDDVDWTSH653B"#, &Some(6_i16)),
-    (r#"MADDOGLSDVDRWTSH652M"#, &Some(6_i16)),
-    (r#"MADDOGMD16X2DVD98X"#, &Some(48_i16)),
-    (r#"MADDOGMD16X3DVD98X"#, &Some(48_i16)),
-    (r#"MADDOGMD16X3DVD98XB"#, &Some(48_i16)),
-    (r#"MADDOGMD16XDVD9"#, &Some(48_i16)),
-    (r#"MADDOGMD16XDVD9A2"#, &Some(48_i16)),
-    (r#"MADDOGMD16XDVD9A4"#, &Some(48_i16)),
-    (r#"MADDOGTFDVDRWTSH652D"#, &Some(6_i16)),
-    (r#"MADDOGTFDVDRWTSH652G"#, &Some(6_i16)),
-    (r#"MADDOGTFDVDRWTSH652N"#, &Some(6_i16))
+pub static VND_MIN: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"MINYIUYZWY_TECH"#, &Some(6_i16))
 ];
 
-pub static VND_24X: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"24XSATADVDRW"#, &Some(6_i16))
+pub static VND_MITSUMI: [(&'static str, &'static Option<i16>); 27] = [
+    (r#"MITSUMICDROMFX4820TB"#, &Some(680_i16)),
+    (r#"MITSUMICDROMFX4821TA"#, &Some(680_i16)),
+    (r#"MITSUMICDROMFX4824TB"#, &Some(694_i16)),
+    (r#"MITSUMICDROMFX4830TB"#, &Some(694_i16)),
+    (r#"MITSUMICDROMFX4831TA"#, &Some(694_i16)),
+    (r#"MITSUMICDROMFX48M"#, &Some(12_i16)),
+    (r#"MITSUMICDROMFX48W"#, &Some(694_i16)),
+    (r#"MITSUMICDROMFX54M"#, &Some(12_i16)),
+    (r#"MITSUMICDROMFX54W"#, &Some(694_i16)),
+    (r#"MITSUMICDROMSR243T"#, &Some(694_i16)),
+    (r#"MITSUMICDROMSR244W"#, &Some(694_i16)),
+    (r#"MITSUMICDROMSR244W1"#, &Some(694_i16)),
+    (r#"MITSUMICR4804TE"#, &Some(686_i16)),
+    (r#"MITSUMICR486ETE"#, &Some(6_i16)),
+    (r#"MITSUMICR487ETE"#, &Some(6_i16)),
+    (r#"MITSUMICR48X5TE"#, &Some(674_i16)),
+    (r#"MITSUMICR48X8TE"#, &Some(733_i16)),
+    (r#"MITSUMICR48X9TE"#, &Some(733_i16)),
+    (r#"MITSUMICR48XATE"#, &Some(733_i16)),
+    (r#"MITSUMICR48XCTE"#, &Some(733_i16)),
+    (r#"MITSUMICR48XETE"#, &Some(12_i16)),
+    (r#"MITSUMICR48XFTE"#, &Some(733_i16)),
+    (r#"MITSUMICR48XGTE"#, &Some(733_i16)),
+    (r#"MITSUMIDR6800TE"#, &Some(6_i16)),
+    (r#"MITSUMIDW7801TE"#, &Some(48_i16)),
+    (r#"MITSUMIDW7802TE"#, &Some(48_i16)),
+    (r#"MITSUMIDW7872TE"#, &Some(12_i16))
 ];
 
-pub static VND_VERBATIM: [(&'static str, &'static Option<i16>); 6] = [
-    (r#"VERBATIM321240AL"#, &Some(12_i16)),
-    (r#"VERBATIM522452AL"#, &Some(6_i16)),
-    (r#"VERBATIM66718"#, &Some(103_i16)),
-    (r#"VERBATIM66768"#, &Some(103_i16)),
-    (r#"VERBATIM66807"#, &Some(102_i16)),
-    (r#"VERBATIMDVDRW"#, &Some(6_i16))
+pub static VND_MJIZIL: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"MJIZILCDQJ4DYB4"#, &Some(0_i16))
 ];
 
-pub static VND_BAFAHY: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"BAFAHY56ROHQBO5M"#, &Some(0_i16))
+pub static VND_MOSER: [(&'static str, &'static Option<i16>); 4] = [
+    (r#"MOSERBAERDH20A3S"#, &Some(6_i16)),
+    (r#"MOSERBAERDH20A4P"#, &Some(6_i16)),
+    (r#"MOSERBAERDH22A8P"#, &Some(6_i16)),
+    (r#"MOSERBAERDH22A8S"#, &Some(6_i16))
 ];
 
-pub static VND_TECLAST: [(&'static str, &'static Option<i16>); 2] = [
-    (r#"TECLASTDHB16H"#, &Some(6_i16)),
-    (r#"TECLASTDHB16X2"#, &Some(6_i16))
+pub static VND_MSI: [(&'static str, &'static Option<i16>); 12] = [
+    (r#"MSICDRW52X32X52X"#, &Some(738_i16)),
+    (r#"MSICDRWCR52"#, &Some(6_i16)),
+    (r#"MSICDRWMS8332"#, &Some(733_i16)),
+    (r#"MSICDRWMS8340S"#, &Some(688_i16)),
+    (r#"MSICDRWMS8348"#, &Some(733_i16)),
+    (r#"MSIDSE8AS"#, &Some(6_i16)),
+    (r#"MSIDVDROM16X"#, &Some(738_i16)),
+    (r#"MSIDVDROMDH18DS"#, &Some(6_i16)),
+    (r#"MSISLIM"#, &Some(6_i16)),
+    (r#"MSIWINDDRIVE"#, &Some(6_i16)),
+    (r#"MSIWINDDRIVEUO881"#, &Some(6_i16)),
+    (r#"MSIWINDDRIVEUO882"#, &Some(6_i16))
+];
+
+pub static VND_MTHSTEC: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"MTHSTECDVDRWXD536"#, &Some(48_i16))
+];
+
+pub static VND_MTW: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"MTWQN8L27WH"#, &Some(103_i16))
+];
+
+pub static VND_NAKAMICH: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"NAKAMICHDRAGON05"#, &Some(30_i16))
+];
+
+pub static VND_NEC: [(&'static str, &'static Option<i16>); 64] = [
+    (r#"NECCB2100A"#, &Some(48_i16)),
+    (r#"NECCDROMCD3002A"#, &Some(600_i16)),
+    (r#"NECCDROMCD3002C"#, &Some(6_i16)),
+    (r#"NECCDROMDRIVE282"#, &Some(680_i16)),
+    (r#"NECCDROMDRIVE28C"#, &Some(974_i16)),
+    (r#"NECCDROMDRIVE28D"#, &Some(974_i16)),
+    (r#"NECCDROMDRIVE28G"#, &Some(680_i16)),
+    (r#"NECCDROMDRIVE291"#, &Some(680_i16)),
+    (r#"NECCDROMDRIVE465"#, &Some(92_i16)),
+    (r#"NECCDROMDRIVE466"#, &Some(680_i16)),
+    (r#"NECCDRWDVDCB1100A"#, &Some(6_i16)),
+    (r#"NECCDRWDVDCB1100B"#, &Some(6_i16)),
+    (r#"NECCDRWNR9100A"#, &Some(685_i16)),
+    (r#"NECCDRWNR9200A"#, &Some(685_i16)),
+    (r#"NECCDRWNR9300A"#, &Some(685_i16)),
+    (r#"NECCDRWNR9400A"#, &Some(145_i16)),
+    (r#"NECCDRWNR9500A"#, &Some(145_i16)),
+    (r#"NECCDRWNR9500B"#, &Some(145_i16)),
+    (r#"NECDV5500A"#, &Some(116_i16)),
+    (r#"NECDV5700A"#, &Some(116_i16)),
+    (r#"NECDV5700B"#, &Some(116_i16)),
+    (r#"NECDV5800A"#, &Some(116_i16)),
+    (r#"NECDV5800C"#, &Some(12_i16)),
+    (r#"NECDV5800E"#, &Some(6_i16)),
+    (r#"NECDVDROMDV5700A"#, &Some(116_i16)),
+    (r#"NECDVDRWND1000A"#, &Some(48_i16)),
+    (r#"NECDVDRWND1100A"#, &Some(48_i16)),
+    (r#"NECDVDRWND2100AD"#, &Some(48_i16)),
+    (r#"NECDVDRWND2510A"#, &Some(48_i16)),
+    (r#"NECDVDRWND3100AD"#, &Some(48_i16)),
+    (r#"NECDVDRWND3450A"#, &Some(48_i16)),
+    (r#"NECDVDRWND3530A"#, &Some(48_i16)),
+    (r#"NECDVDRWND3650A"#, &Some(48_i16)),
+    (r#"NECDVDRWND5100A"#, &Some(48_i16)),
+    (r#"NECDVDRWND6100A"#, &Some(48_i16)),
+    (r#"NECDVDRWND6450A"#, &Some(48_i16)),
+    (r#"NECDVDRWND6500A"#, &Some(48_i16)),
+    (r#"NECDVDRWND6650A"#, &Some(48_i16)),
+    (r#"NECDVD_RWND1300A"#, &Some(48_i16)),
+    (r#"NECDVD_RWND2500A"#, &Some(48_i16)),
+    (r#"NECDVD_RWND2510A"#, &Some(48_i16)),
+    (r#"NECDVD_RWND3500AG"#, &Some(48_i16)),
+    (r#"NECDVD_RWND3520A"#, &Some(48_i16)),
+    (r#"NECDVD_RWND3520AW"#, &Some(48_i16)),
+    (r#"NECDVD_RWND3530A"#, &Some(48_i16)),
+    (r#"NECDVD_RWND3540A"#, &Some(48_i16)),
+    (r#"NECDVD_RWND3550A"#, &Some(48_i16)),
+    (r#"NECDVD_RWND3551A"#, &Some(48_i16)),
+    (r#"NECDVD_RWND3570A"#, &Some(48_i16)),
+    (r#"NECDVD_RWND4550A"#, &Some(48_i16)),
+    (r#"NECDVD_RWND4551A"#, &Some(48_i16)),
+    (r#"NECDVD_RWND4570A"#, &Some(48_i16)),
+    (r#"NECDVD_RWND4571A"#, &Some(48_i16)),
+    (r#"NECDVD_RWND5500A"#, &Some(48_i16)),
+    (r#"NECDVD_RWND6750A"#, &Some(48_i16)),
+    (r#"NECDVD_RWND7550A"#, &Some(48_i16)),
+    (r#"NECDVD_RWND7551A"#, &Some(48_i16)),
+    (r#"NECDVD_RWND7551B"#, &Some(48_i16)),
+    (r#"NECDVD_RWNDXXX"#, &Some(0_i16)),
+    (r#"NECNR7500A"#, &Some(685_i16)),
+    (r#"NECNR7700A"#, &Some(685_i16)),
+    (r#"NECNR7800A"#, &Some(685_i16)),
+    (r#"NECNR7800B"#, &Some(685_i16)),
+    (r#"NECNR7900A"#, &Some(685_i16))
+];
+
+pub static VND_NECVMWAR: [(&'static str, &'static Option<i16>); 2] = [
+    (r#"NECVMWARVMWARESATACD02"#, &Some(6_i16)),
+    (r#"NECVMWARVMWARESATACD05"#, &Some(6_i16))
+];
+
+pub static VND_NU: [(&'static str, &'static Option<i16>); 4] = [
+    (r#"NUCDRWDVDDBW521"#, &Some(6_i16)),
+    (r#"NUDVDRWDDW081"#, &Some(1292_i16)),
+    (r#"NUDVDRWDDW082"#, &Some(1292_i16)),
+    (r#"NUDVDRWSDW042"#, &Some(1292_i16))
+];
+
+pub static VND_OEM: [(&'static str, &'static Option<i16>); 7] = [
+    (r#"OEMCDROM48SSB"#, &Some(12_i16)),
+    (r#"OEMCDROMCMD5211"#, &Some(691_i16)),
+    (r#"OEMCDROMF522B"#, &Some(12_i16)),
+    (r#"OEMCDROMF522E"#, &Some(12_i16)),
+    (r#"OEMCDROMF563E"#, &Some(12_i16)),
+    (r#"OEMCDROMF564E"#, &Some(12_i16)),
+    (r#"OEMCDROMF566E"#, &Some(691_i16))
+];
+
+pub static VND_OIPD42T: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"OIPD42TOPCK101ST1"#, &Some(30_i16))
+];
+
+pub static VND_OLYMPUS: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"OLYMPUSSDVD100"#, &Some(48_i16))
+];
+
+pub static VND_OPRIARC: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"OPRIARCDVDRWAD7173A"#, &Some(48_i16))
+];
+
+pub static VND_OPTIARC: [(&'static str, &'static Option<i16>); 152] = [
+    (r#"OPTIARCBDDRVBC5600S"#, &Some(48_i16)),
+    (r#"OPTIARCBDROMBC5100S"#, &Some(667_i16)),
+    (r#"OPTIARCBDROMBC5500A"#, &Some(48_i16)),
+    (r#"OPTIARCBDROMBC5500H"#, &Some(48_i16)),
+    (r#"OPTIARCBDROMBC5500S"#, &Some(48_i16)),
+    (r#"OPTIARCBDROMBC5500S4"#, &Some(48_i16)),
+    (r#"OPTIARCBDROMBC5530H"#, &Some(48_i16)),
+    (r#"OPTIARCBDROMBC5540H"#, &Some(48_i16)),
+    (r#"OPTIARCBDROMBC5550H"#, &Some(48_i16)),
+    (r#"OPTIARCBDROMBC5600S"#, &Some(48_i16)),
+    (r#"OPTIARCBDROMBC5640H"#, &Some(48_i16)),
+    (r#"OPTIARCBDROMBC5650H"#, &Some(48_i16)),
+    (r#"OPTIARCBDROMBR5100S"#, &Some(79_i16)),
+    (r#"OPTIARCBDRWBD"#, &Some(48_i16)),
+    (r#"OPTIARCBDRWBD5300S"#, &Some(6_i16)),
+    (r#"OPTIARCBDRWBD5730S"#, &Some(48_i16)),
+    (r#"OPTIARCBDRWBD5730S6"#, &Some(48_i16)),
+    (r#"OPTIARCBDRWBD5740H"#, &Some(48_i16)),
+    (r#"OPTIARCBDRWBD5740L"#, &Some(48_i16)),
+    (r#"OPTIARCBDRWBD5750H"#, &Some(48_i16)),
+    (r#"OPTIARCBDRWBD5750L"#, &Some(48_i16)),
+    (r#"OPTIARCBDRWBD5840H"#, &Some(48_i16)),
+    (r#"OPTIARCBDRWBD5850H"#, &Some(48_i16)),
+    (r#"OPTIARCBDRWBDM100A"#, &Some(102_i16)),
+    (r#"OPTIARCCDRWCRX870A"#, &Some(6_i16)),
+    (r#"OPTIARCCDRWCRX880A"#, &Some(6_i16)),
+    (r#"OPTIARCCDRWDVDCRX890A"#, &Some(6_i16)),
+    (r#"OPTIARCCDRWDVDCRX890S"#, &Some(6_i16)),
+    (r#"OPTIARCDVDROMDDU1671S"#, &Some(6_i16)),
+    (r#"OPTIARCDVDROMDDU1675A"#, &Some(6_i16)),
+    (r#"OPTIARCDVDROMDDU1675S"#, &Some(6_i16)),
+    (r#"OPTIARCDVDROMDDU1678A"#, &Some(6_i16)),
+    (r#"OPTIARCDVDROMDDU1681S"#, &Some(6_i16)),
+    (r#"OPTIARCDVDROMDDU7700H"#, &Some(48_i16)),
+    (r#"OPTIARCDVDROMDDU7710H"#, &Some(48_i16)),
+    (r#"OPTIARCDVDROMDDU7740H"#, &Some(48_i16)),
+    (r#"OPTIARCDVDROMDDU7930H"#, &Some(48_i16)),
+    (r#"OPTIARCDVDROMDDU820A"#, &Some(6_i16)),
+    (r#"OPTIARCDVDROMDDU820S"#, &Some(6_i16)),
+    (r#"OPTIARCDVDRWA"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD5170A"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD5170S"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD5200A"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD5200S"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD5240S"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD5260S"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD5280S"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD5290S"#, &Some(6_i16)),
+    (r#"OPTIARCDVDRWAD5530A"#, &Some(6_i16)),
+    (r#"OPTIARCDVDRWAD5540A"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD5540B"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD5560A"#, &Some(6_i16)),
+    (r#"OPTIARCDVDRWAD5590A"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD5630A"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD5670S"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD5670SC"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD5680H"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD5690H"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD5960S"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD5970H"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7170A"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7170S"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7173A"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7173S"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7190A"#, &Some(6_i16)),
+    (r#"OPTIARCDVDRWAD7190S"#, &Some(6_i16)),
+    (r#"OPTIARCDVDRWAD7191A"#, &Some(6_i16)),
+    (r#"OPTIARCDVDRWAD7191S"#, &Some(6_i16)),
+    (r#"OPTIARCDVDRWAD7200A"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7200S"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7201A"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7201S"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7201S5"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7201S6"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7203A"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7203S"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7220A"#, &Some(6_i16)),
+    (r#"OPTIARCDVDRWAD7220S"#, &Some(6_i16)),
+    (r#"OPTIARCDVDRWAD7221A"#, &Some(6_i16)),
+    (r#"OPTIARCDVDRWAD7221S"#, &Some(6_i16)),
+    (r#"OPTIARCDVDRWAD7230S"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7231S5"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7233S"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7240S"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7241S"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7243S"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7250H"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7260S"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7261S"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7263S"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7270H"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7280S"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7283S"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7290H"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7530A"#, &Some(6_i16)),
+    (r#"OPTIARCDVDRWAD7530B"#, &Some(6_i16)),
+    (r#"OPTIARCDVDRWAD7540A"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7543A"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7543B"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7543C"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7560A"#, &Some(6_i16)),
+    (r#"OPTIARCDVDRWAD7560S"#, &Some(6_i16)),
+    (r#"OPTIARCDVDRWAD7561A"#, &Some(6_i16)),
+    (r#"OPTIARCDVDRWAD7561S"#, &Some(6_i16)),
+    (r#"OPTIARCDVDRWAD7563A"#, &Some(6_i16)),
+    (r#"OPTIARCDVDRWAD7580A"#, &Some(6_i16)),
+    (r#"OPTIARCDVDRWAD7580S"#, &Some(6_i16)),
+    (r#"OPTIARCDVDRWAD7581A"#, &Some(6_i16)),
+    (r#"OPTIARCDVDRWAD7581S"#, &Some(6_i16)),
+    (r#"OPTIARCDVDRWAD7583S"#, &Some(6_i16)),
+    (r#"OPTIARCDVDRWAD7585H"#, &Some(6_i16)),
+    (r#"OPTIARCDVDRWAD7590A"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7590B"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7590S"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7590T"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7591S"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7593A"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7593B"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7630A"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7633A"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7640A"#, &Some(6_i16)),
+    (r#"OPTIARCDVDRWAD7640S"#, &Some(6_i16)),
+    (r#"OPTIARCDVDRWAD7643S"#, &Some(6_i16)),
+    (r#"OPTIARCDVDRWAD7670S"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7690H"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7693H"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7700H"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7700S"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7700T"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7703S"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7710H"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7710I"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7713H"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7717H"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7730U"#, &Some(6_i16)),
+    (r#"OPTIARCDVDRWAD7740H"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7740I"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7747H"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7760H"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7760I"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7800H"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7803H"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7910A"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7910S"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7913A"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7930H"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7940H"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWAD7980H"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWBDBC5540H"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWBDBC5550H"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWBDBC5600S"#, &Some(48_i16)),
+    (r#"OPTIARCDVDRWND3570A"#, &Some(48_i16))
+];
+
+pub static VND_OPTORITE: [(&'static str, &'static Option<i16>); 13] = [
+    (r#"OPTORITECDRWCW4802"#, &Some(733_i16)),
+    (r#"OPTORITECDRWCW5201"#, &Some(688_i16)),
+    (r#"OPTORITECDRWCW5202"#, &Some(688_i16)),
+    (r#"OPTORITECDRWCW5205"#, &Some(688_i16)),
+    (r#"OPTORITECDRWCW5207"#, &Some(733_i16)),
+    (r#"OPTORITECOMBODC4801"#, &Some(738_i16)),
+    (r#"OPTORITEDVDRWDD0201"#, &Some(689_i16)),
+    (r#"OPTORITEDVDRWDD0203"#, &Some(688_i16)),
+    (r#"OPTORITEDVDRWDD0401"#, &Some(689_i16)),
+    (r#"OPTORITEDVDRWDD0405"#, &Some(689_i16)),
+    (r#"OPTORITEDVDRWDD1203"#, &Some(691_i16)),
+    (r#"OPTORITEDVDRWDD1205"#, &Some(691_i16)),
+    (r#"OPTORITEDVDRWDD1603"#, &Some(691_i16))
+];
+
+pub static VND_OTUL: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"OTUL0H6RCLQ7G5MJ"#, &Some(6_i16))
+];
+
+pub static VND_OWLTECH: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"OWLTECHOPTIARCDVDRWA"#, &Some(48_i16))
+];
+
+pub static VND_PANASONIC: [(&'static str, &'static Option<i16>); 385] = [
+    (r#"PANASONICBDCMBUJ110"#, &Some(102_i16)),
+    (r#"PANASONICBDCMBUJ120"#, &Some(102_i16)),
+    (r#"PANASONICBDCMBUJ130A"#, &Some(102_i16)),
+    (r#"PANASONICBDCMBUJ130AS"#, &Some(102_i16)),
+    (r#"PANASONICBDCMBUJ140AS"#, &Some(103_i16)),
+    (r#"PANASONICBDCMBUJ141AF"#, &Some(103_i16)),
+    (r#"PANASONICBDCMBUJ141AJ"#, &Some(103_i16)),
+    (r#"PANASONICBDCMBUJ141AL"#, &Some(103_i16)),
+    (r#"PANASONICBDCMBUJ141AS"#, &Some(103_i16)),
+    (r#"PANASONICBDCMBUJ141EF"#, &Some(103_i16)),
+    (r#"PANASONICBDCMBUJ141EL"#, &Some(103_i16)),
+    (r#"PANASONICBDCMBUJ141ES"#, &Some(103_i16)),
+    (r#"PANASONICBDCMBUJ152"#, &Some(103_i16)),
+    (r#"PANASONICBDCMBUJ160"#, &Some(103_i16)),
+    (r#"PANASONICBDCMBUJ160B"#, &Some(103_i16)),
+    (r#"PANASONICBDCMBUJ162"#, &Some(103_i16)),
+    (r#"PANASONICBDCMBUJ162ABW"#, &Some(103_i16)),
+    (r#"PANASONICBDCMBUJ165"#, &Some(103_i16)),
+    (r#"PANASONICBDCMBUJ167"#, &Some(103_i16)),
+    (r#"PANASONICBDCMBUJ167AM"#, &Some(103_i16)),
+    (r#"PANASONICBDCMBUJ172"#, &Some(103_i16)),
+    (r#"PANASONICBDCMBUJ172S"#, &Some(103_i16)),
+    (r#"PANASONICBDCMBUJ242AS"#, &Some(103_i16)),
+    (r#"PANASONICBDCMBUJ265"#, &Some(103_i16)),
+    (r#"PANASONICBDMLTLFMB121"#, &Some(102_i16)),
+    (r#"PANASONICBDMLTLFPB271"#, &Some(102_i16)),
+    (r#"PANASONICBDMLTLFPB371"#, &Some(102_i16)),
+    (r#"PANASONICBDMLTSW4583"#, &Some(102_i16)),
+    (r#"PANASONICBDMLTSW5582"#, &Some(102_i16)),
+    (r#"PANASONICBDMLTSW5583"#, &Some(102_i16)),
+    (r#"PANASONICBDMLTSW5584"#, &Some(102_i16)),
+    (r#"PANASONICBDMLTUJ210S"#, &Some(102_i16)),
+    (r#"PANASONICBDMLTUJ215S"#, &Some(102_i16)),
+    (r#"PANASONICBDMLTUJ220"#, &Some(102_i16)),
+    (r#"PANASONICBDMLTUJ220S"#, &Some(102_i16)),
+    (r#"PANASONICBDMLTUJ220V"#, &Some(102_i16)),
+    (r#"PANASONICBDMLTUJ225S"#, &Some(102_i16)),
+    (r#"PANASONICBDMLTUJ230AS"#, &Some(102_i16)),
+    (r#"PANASONICBDMLTUJ232A"#, &Some(102_i16)),
+    (r#"PANASONICBDMLTUJ232AS"#, &Some(102_i16)),
+    (r#"PANASONICBDMLTUJ235AS"#, &Some(102_i16)),
+    (r#"PANASONICBDMLTUJ240"#, &Some(103_i16)),
+    (r#"PANASONICBDMLTUJ240AF"#, &Some(103_i16)),
+    (r#"PANASONICBDMLTUJ240AFW"#, &Some(103_i16)),
+    (r#"PANASONICBDMLTUJ240AS"#, &Some(103_i16)),
+    (r#"PANASONICBDMLTUJ240EF"#, &Some(103_i16)),
+    (r#"PANASONICBDMLTUJ240ES"#, &Some(103_i16)),
+    (r#"PANASONICBDMLTUJ242"#, &Some(103_i16)),
+    (r#"PANASONICBDMLTUJ242AS"#, &Some(103_i16)),
+    (r#"PANASONICBDMLTUJ252"#, &Some(103_i16)),
+    (r#"PANASONICBDMLTUJ252E"#, &Some(103_i16)),
+    (r#"PANASONICBDMLTUJ260"#, &Some(103_i16)),
+    (r#"PANASONICBDMLTUJ260AF"#, &Some(103_i16)),
+    (r#"PANASONICBDMLTUJ260B"#, &Some(103_i16)),
+    (r#"PANASONICBDMLTUJ260E"#, &Some(103_i16)),
+    (r#"PANASONICBDMLTUJ260F"#, &Some(103_i16)),
+    (r#"PANASONICBDMLTUJ262"#, &Some(103_i16)),
+    (r#"PANASONICBDMLTUJ262ABW"#, &Some(103_i16)),
+    (r#"PANASONICBDMLTUJ262B"#, &Some(103_i16)),
+    (r#"PANASONICBDMLTUJ265"#, &Some(103_i16)),
+    (r#"PANASONICBDMLTUJ267"#, &Some(103_i16)),
+    (r#"PANASONICBDMLTUJ267AM"#, &Some(103_i16)),
+    (r#"PANASONICBDMLTUJ272"#, &Some(103_i16)),
+    (r#"PANASONICBDMLTUJ272Q"#, &Some(103_i16)),
+    (r#"PANASONICBDMLTUJ272S"#, &Some(103_i16)),
+    (r#"PANASONICBDMLTUJ273"#, &Some(103_i16)),
+    (r#"PANASONICBDMLTUJDE267"#, &Some(103_i16)),
+    (r#"PANASONICBDREUJ210"#, &Some(102_i16)),
+    (r#"PANASONICBDREUJ220"#, &Some(102_i16)),
+    (r#"PANASONICBDREUJ225S"#, &Some(102_i16)),
+    (r#"PANASONICBDREUJ232A"#, &Some(102_i16)),
+    (r#"PANASONICBDREUJ235A"#, &Some(102_i16)),
+    (r#"PANASONICBDREUJ240"#, &Some(103_i16)),
+    (r#"PANASONICBDREUJ240AF"#, &Some(103_i16)),
+    (r#"PANASONICBDREUJ242"#, &Some(103_i16)),
+    (r#"PANASONICBDREUJ252"#, &Some(103_i16)),
+    (r#"PANASONICBDREUJ260"#, &Some(103_i16)),
+    (r#"PANASONICBDREUJ260AF"#, &Some(103_i16)),
+    (r#"PANASONICBDREUJ262"#, &Some(103_i16)),
+    (r#"PANASONICBDREUJ272"#, &Some(103_i16)),
+    (r#"PANASONICCDRCW7502"#, &Some(122_i16)),
+    (r#"PANASONICCDRCW7503"#, &Some(103_i16)),
+    (r#"PANASONICCDRCW7582"#, &Some(122_i16)),
+    (r#"PANASONICCDROMCR175"#, &Some(102_i16)),
+    (r#"PANASONICCDROMCR176"#, &Some(99_i16)),
+    (r#"PANASONICCDROMCR177"#, &Some(99_i16)),
+    (r#"PANASONICCDROMCR584"#, &Some(122_i16)),
+    (r#"PANASONICCDROMCR585"#, &Some(103_i16)),
+    (r#"PANASONICCDROMCR587"#, &Some(103_i16)),
+    (r#"PANASONICCDROMCR588"#, &Some(103_i16)),
+    (r#"PANASONICCDROMCR589"#, &Some(103_i16)),
+    (r#"PANASONICCDROMCR593"#, &Some(99_i16)),
+    (r#"PANASONICCDROMCR594"#, &Some(99_i16)),
+    (r#"PANASONICCDRRW05"#, &Some(687_i16)),
+    (r#"PANASONICCDRWCW7585"#, &Some(99_i16)),
+    (r#"PANASONICCDRWCW7586"#, &Some(86_i16)),
+    (r#"PANASONICCDRWCW8121"#, &Some(103_i16)),
+    (r#"PANASONICCDRWCW8121B"#, &Some(103_i16)),
+    (r#"PANASONICCDRWCW8122"#, &Some(103_i16)),
+    (r#"PANASONICCDRWCW8123"#, &Some(102_i16)),
+    (r#"PANASONICCDRWCW8124"#, &Some(102_i16)),
+    (r#"PANASONICCDRWCW8221"#, &Some(102_i16)),
+    (r#"PANASONICCDRWCW8571"#, &Some(103_i16)),
+    (r#"PANASONICCDRWCW8572"#, &Some(103_i16)),
+    (r#"PANASONICCDRWDVDUJDA740"#, &Some(102_i16)),
+    (r#"PANASONICCDRWDVDUJDA760"#, &Some(102_i16)),
+    (r#"PANASONICDVDCDRWUJDA770"#, &Some(102_i16)),
+    (r#"PANASONICDVDCDRWUJDA775"#, &Some(102_i16)),
+    (r#"PANASONICDVDCDRWUJDA780"#, &Some(102_i16)),
+    (r#"PANASONICDVDCDRWUJDA782"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAM"#, &Some(138_i16)),
+    (r#"PANASONICDVDRAMLFD200"#, &Some(103_i16)),
+    (r#"PANASONICDVDRAMLFD210"#, &Some(103_i16)),
+    (r#"PANASONICDVDRAMLFD310"#, &Some(103_i16)),
+    (r#"PANASONICDVDRAMLFD311"#, &Some(103_i16)),
+    (r#"PANASONICDVDRAMLFD521"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMLFM721"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMLFM760"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMLFM821"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMLFM860"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMLFP567"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMLFP667"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMLFP767"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMLFP867"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMLFP967"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMLFP968"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMSW810"#, &Some(6_i16)),
+    (r#"PANASONICDVDRAMSW820"#, &Some(6_i16)),
+    (r#"PANASONICDVDRAMSW830"#, &Some(6_i16)),
+    (r#"PANASONICDVDRAMSW840"#, &Some(6_i16)),
+    (r#"PANASONICDVDRAMSW9571"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMSW9572"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMSW9573S"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMSW9574S"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMSW9576S"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMSW9581"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMSW9581N"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMSW9582"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMSW9583A"#, &Some(234_i16)),
+    (r#"PANASONICDVDRAMSW9583S"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMSW9584"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMSW9585"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMSW9585A"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMSW9585S"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMSW9586"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMSW9587A"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMSW9587S"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMSW9588"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMSW9590"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMSW9590A"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ810"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ811"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ812"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ813"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ815"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ815A"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ820S"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ822S"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ822SY"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ823S"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ825S"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ830S"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ830SA"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ830SX"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ830SY"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ831S"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ831SA"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ832"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ832S"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ833S"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ835S"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ840S"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ841S"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ842"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ842S"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ842Z"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ844"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ844S"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ845A"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ845S"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ846S"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ850"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ850S"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ850T"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ850Z"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ851S"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ852"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ852S"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ85JA"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ85JS"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ860"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ860H"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ860S"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ861H"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ861S"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ862"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ862A"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ862AC"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ862AS"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ862BJ"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ862ES"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ862PS"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ867AS"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ869AS"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ869PS"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ870A"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ870BJ"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ870PC"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ870QJ"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ875AS"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ875AT"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ875S"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ880A"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ880AS"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ880ES"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ890"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ890AS"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ890ES"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ892"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ892AS"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ892ES"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ8A0"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ8A0A"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ8A0AS"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ8A0ASW"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ8A0AT"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ8A0ES"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ8A2"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ8A2AS"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ8A2ASW"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ8A2ES"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ8A7AS"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ8B0"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ8B0AW"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ8B1AS"#, &Some(6_i16)),
+    (r#"PANASONICDVDRAMUJ8B2"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ8B2E"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ8B9"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMUJ8C0"#, &Some(103_i16)),
+    (r#"PANASONICDVDRAMUJ8C1"#, &Some(6_i16)),
+    (r#"PANASONICDVDRAMUJ8C2"#, &Some(103_i16)),
+    (r#"PANASONICDVDRAMUJ8C2Q"#, &Some(103_i16)),
+    (r#"PANASONICDVDRAMUJ8C2S"#, &Some(103_i16)),
+    (r#"PANASONICDVDRAMUJ8C5"#, &Some(6_i16)),
+    (r#"PANASONICDVDRAMUJ8C7"#, &Some(103_i16)),
+    (r#"PANASONICDVDRAMUJ8D1"#, &Some(6_i16)),
+    (r#"PANASONICDVDRAMUJ8D2Q"#, &Some(103_i16)),
+    (r#"PANASONICDVDRAMUJ8D3"#, &Some(103_i16)),
+    (r#"PANASONICDVDRAMUJ8DB"#, &Some(6_i16)),
+    (r#"PANASONICDVDRAMUJ8DBS"#, &Some(6_i16)),
+    (r#"PANASONICDVDRAMUJ8E0"#, &Some(103_i16)),
+    (r#"PANASONICDVDRAMUJ8E1"#, &Some(6_i16)),
+    (r#"PANASONICDVDRAMUJ8E2"#, &Some(103_i16)),
+    (r#"PANASONICDVDRAMUJ8E2Q"#, &Some(103_i16)),
+    (r#"PANASONICDVDRAMUJ8E2S"#, &Some(103_i16)),
+    (r#"PANASONICDVDRAMUJ8E3"#, &Some(103_i16)),
+    (r#"PANASONICDVDRAMUJ8FB"#, &Some(6_i16)),
+    (r#"PANASONICDVDRAMUJ8FBS"#, &Some(6_i16)),
+    (r#"PANASONICDVDRAMUJ8G2"#, &Some(103_i16)),
+    (r#"PANASONICDVDRAMUJ8G6"#, &Some(103_i16)),
+    (r#"PANASONICDVDRAMUJ8HC"#, &Some(6_i16)),
+    (r#"PANASONICDVDRAMUJ8HCA"#, &Some(6_i16)),
+    (r#"PANASONICDVDRAMUJDE8C7"#, &Some(103_i16)),
+    (r#"PANASONICDVDRAMUJE844S"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMVWBN11"#, &Some(102_i16)),
+    (r#"PANASONICDVDRAMVWBN12"#, &Some(102_i16)),
+    (r#"PANASONICDVDROMA765"#, &Some(102_i16)),
+    (r#"PANASONICDVDROMSR8174"#, &Some(691_i16)),
+    (r#"PANASONICDVDROMSR8175"#, &Some(691_i16)),
+    (r#"PANASONICDVDROMSR8176"#, &Some(103_i16)),
+    (r#"PANASONICDVDROMSR8177"#, &Some(103_i16)),
+    (r#"PANASONICDVDROMSR8178"#, &Some(103_i16)),
+    (r#"PANASONICDVDROMSR8186"#, &Some(691_i16)),
+    (r#"PANASONICDVDROMSR8583"#, &Some(691_i16)),
+    (r#"PANASONICDVDROMSR8584A"#, &Some(691_i16)),
+    (r#"PANASONICDVDROMSR8585"#, &Some(691_i16)),
+    (r#"PANASONICDVDROMSR8586"#, &Some(691_i16)),
+    (r#"PANASONICDVDROMSR8587"#, &Some(103_i16)),
+    (r#"PANASONICDVDROMSR8588"#, &Some(103_i16)),
+    (r#"PANASONICDVDROMSR8589"#, &Some(103_i16)),
+    (r#"PANASONICDVDROMSW410"#, &Some(6_i16)),
+    (r#"PANASONICDVDROMSW420"#, &Some(6_i16)),
+    (r#"PANASONICDVDROMSW440"#, &Some(6_i16)),
+    (r#"PANASONICDVDROMUJ869AZ"#, &Some(102_i16)),
+    (r#"PANASONICDVDROMUJ875"#, &Some(234_i16)),
+    (r#"PANASONICDVDROMUJ8A0AC"#, &Some(102_i16)),
+    (r#"PANASONICDVDROMUJ8A2"#, &Some(102_i16)),
+    (r#"PANASONICDVDROMUJ8B0AC"#, &Some(102_i16)),
+    (r#"PANASONICDVDROMUJ8C0"#, &Some(103_i16)),
+    (r#"PANASONICDVDROMUJ8C0AC"#, &Some(103_i16)),
+    (r#"PANASONICDVDROMUJ8C2"#, &Some(103_i16)),
+    (r#"PANASONICDVDROMUJ8E0"#, &Some(103_i16)),
+    (r#"PANASONICDVDROMUJ8E0B"#, &Some(103_i16)),
+    (r#"PANASONICDVDROMUJ8E2"#, &Some(103_i16)),
+    (r#"PANASONICDVDROMUJ8G2"#, &Some(103_i16)),
+    (r#"PANASONICDVDROMUJDA765"#, &Some(102_i16)),
+    (r#"PANASONICDVDROMUJDA770"#, &Some(102_i16)),
+    (r#"PANASONICDVDROMUJDA775"#, &Some(102_i16)),
+    (r#"PANASONICDVDROMUJDA782"#, &Some(102_i16)),
+    (r#"PANASONICDVDROMUJDE8C7"#, &Some(103_i16)),
+    (r#"PANASONICDVDRUJ825"#, &Some(102_i16)),
+    (r#"PANASONICDVDRUJ845E"#, &Some(102_i16)),
+    (r#"PANASONICDVDRUJ845F"#, &Some(102_i16)),
+    (r#"PANASONICDVDRUJ846"#, &Some(102_i16)),
+    (r#"PANASONICDVDRUJ857"#, &Some(102_i16)),
+    (r#"PANASONICDVDRUJ857D"#, &Some(102_i16)),
+    (r#"PANASONICDVDRUJ857E"#, &Some(102_i16)),
+    (r#"PANASONICDVDRUJ85J"#, &Some(102_i16)),
+    (r#"PANASONICDVDRUJ867"#, &Some(102_i16)),
+    (r#"PANASONICDVDRUJ867A"#, &Some(102_i16)),
+    (r#"PANASONICDVDRUJ868"#, &Some(102_i16)),
+    (r#"PANASONICDVDRUJ875"#, &Some(102_i16)),
+    (r#"PANASONICDVDRUJ898"#, &Some(102_i16)),
+    (r#"PANASONICDVDRUJ8A8"#, &Some(102_i16)),
+    (r#"PANASONICDVDRWBDUJ110"#, &Some(102_i16)),
+    (r#"PANASONICDVDRWBDUJ162"#, &Some(103_i16)),
+    (r#"PANASONICDVDRWBDUJ167"#, &Some(103_i16)),
+    (r#"PANASONICDVDRWBDUJ167AM"#, &Some(103_i16)),
+    (r#"PANASONICDVDRWBDUJ232AB"#, &Some(102_i16)),
+    (r#"PANASONICDVDRWSW820"#, &Some(6_i16)),
+    (r#"PANASONICDVDRWSW830"#, &Some(6_i16)),
+    (r#"PANASONICDVDRWUJ857G"#, &Some(102_i16)),
+    (r#"PANASONICDVDRWUJ862A"#, &Some(102_i16)),
+    (r#"PANASONICDVDRWUJ867S"#, &Some(102_i16)),
+    (r#"PANASONICDVDRWUJ875S"#, &Some(102_i16)),
+    (r#"PANASONICDVDRWUJ890"#, &Some(102_i16)),
+    (r#"PANASONICDVDRWUJ892"#, &Some(102_i16)),
+    (r#"PANASONICDVDRWUJ8A2"#, &Some(102_i16)),
+    (r#"PANASONICDVDRWUJ8A7"#, &Some(102_i16)),
+    (r#"PANASONICDVDRWUJ8A7AF"#, &Some(102_i16)),
+    (r#"PANASONICDVDRWUJ8B1"#, &Some(6_i16)),
+    (r#"PANASONICDVDRWUJ8B2"#, &Some(102_i16)),
+    (r#"PANASONICDVDRWUJ8C1"#, &Some(6_i16)),
+    (r#"PANASONICDVDRWUJ8C2"#, &Some(103_i16)),
+    (r#"PANASONICDVDRWUJ8C7"#, &Some(103_i16)),
+    (r#"PANASONICDVDRWUJ8D1"#, &Some(6_i16)),
+    (r#"PANASONICDVDRWUJ8DB"#, &Some(6_i16)),
+    (r#"PANASONICDVDRWUJ8E0"#, &Some(103_i16)),
+    (r#"PANASONICDVDRWUJ8E1"#, &Some(6_i16)),
+    (r#"PANASONICDVDRWUJ8E2"#, &Some(103_i16)),
+    (r#"PANASONICDVDRWUJ8FB"#, &Some(6_i16)),
+    (r#"PANASONICLKMKB12"#, &Some(102_i16)),
+    (r#"PANASONICSW9584D"#, &Some(102_i16)),
+    (r#"PANASONICUJ272S"#, &Some(103_i16)),
+    (r#"PANASONICUJ810"#, &Some(102_i16)),
+    (r#"PANASONICUJ812"#, &Some(102_i16)),
+    (r#"PANASONICUJ815A"#, &Some(102_i16)),
+    (r#"PANASONICUJ820D"#, &Some(102_i16)),
+    (r#"PANASONICUJ822D"#, &Some(102_i16)),
+    (r#"PANASONICUJ822DA"#, &Some(102_i16)),
+    (r#"PANASONICUJ831D"#, &Some(102_i16)),
+    (r#"PANASONICUJ831DA"#, &Some(102_i16)),
+    (r#"PANASONICUJ831DB"#, &Some(102_i16)),
+    (r#"PANASONICUJ832D"#, &Some(102_i16)),
+    (r#"PANASONICUJ840D"#, &Some(102_i16)),
+    (r#"PANASONICUJ841D"#, &Some(102_i16)),
+    (r#"PANASONICUJ841DB"#, &Some(102_i16)),
+    (r#"PANASONICUJ842D"#, &Some(102_i16)),
+    (r#"PANASONICUJ845D"#, &Some(102_i16)),
+    (r#"PANASONICUJ846D"#, &Some(102_i16)),
+    (r#"PANASONICUJ850D"#, &Some(102_i16)),
+    (r#"PANASONICUJDA310"#, &Some(686_i16)),
+    (r#"PANASONICUJDA330"#, &Some(685_i16)),
+    (r#"PANASONICUJDA360"#, &Some(685_i16)),
+    (r#"PANASONICUJDA710"#, &Some(690_i16)),
+    (r#"PANASONICUJDA720DVDCDRW"#, &Some(690_i16)),
+    (r#"PANASONICUJDA730DVDCDRW"#, &Some(690_i16)),
+    (r#"PANASONICUJDA740DVDCDRW"#, &Some(102_i16)),
+    (r#"PANASONICUJDA745DVDCDRW"#, &Some(102_i16)),
+    (r#"PANASONICUJDA750DVDCDRW"#, &Some(102_i16)),
+    (r#"PANASONICUJDA750FDVDCDRW"#, &Some(102_i16)),
+    (r#"PANASONICUJDA755DVDCDRW"#, &Some(102_i16)),
+    (r#"PANASONICUJDA755YDVDCDRW"#, &Some(102_i16)),
+    (r#"PANASONICUJDA755ZDVDCDRW"#, &Some(102_i16)),
+    (r#"PANASONICUJDA757DVDCDRW"#, &Some(102_i16)),
+    (r#"PANASONICUJDA760DVDCDRW"#, &Some(102_i16)),
+    (r#"PANASONICUJDA760EDVDCDRW"#, &Some(102_i16)),
+    (r#"PANASONICUJDA765ADVDCDRW"#, &Some(102_i16)),
+    (r#"PANASONICUJDA765DVDCDRW"#, &Some(102_i16)),
+    (r#"PANASONICUJDA769DVDCDRW"#, &Some(102_i16)),
+    (r#"PANASONICUJDA770DVDCDRW"#, &Some(102_i16)),
+    (r#"PANASONICUJDA775DVDCDRW"#, &Some(102_i16)),
+    (r#"PANASONICUJDA780DVDCDRW"#, &Some(102_i16)),
+    (r#"PANASONICUJDA782DVDCDRW"#, &Some(102_i16)),
+    (r#"PANASONICUJDD410"#, &Some(97_i16))
+];
+
+pub static VND_PANASONICBDCMB: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"PANASONICBDCMBU"#, &Some(103_i16))
+];
+
+pub static VND_PANASONICBDMLT: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"PANASONICBDMLTU"#, &Some(103_i16))
+];
+
+pub static VND_PAPW: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"PAPWFSPQ3W9E"#, &Some(0_i16))
+];
+
+pub static VND_PBDS: [(&'static str, &'static Option<i16>); 10] = [
+    (r#"PBDSCDROMDH48N1P"#, &Some(6_i16)),
+    (r#"PBDSCDROMDH48N1S"#, &Some(6_i16)),
+    (r#"PBDSCDRWDVDDH48C2S"#, &Some(6_i16)),
+    (r#"PBDSDH16A1P"#, &Some(6_i16)),
+    (r#"PBDSDH16D1P"#, &Some(6_i16)),
+    (r#"PBDSDH16D1S"#, &Some(6_i16)),
+    (r#"PBDSDS8A1P"#, &Some(594_i16)),
+    (r#"PBDSDVDRWDH16W1S"#, &Some(6_i16)),
+    (r#"PBDSDVDRWDS8W1P"#, &Some(594_i16)),
+    (r#"PBDSVAD603864930C"#, &Some(6_i16))
+];
+
+pub static VND_PC: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"PCMARTDVDROMSA22518X"#, &Some(6_i16))
+];
+
+pub static VND_PHILIPS: [(&'static str, &'static Option<i16>); 124] = [
+    (r#"PHILIPS241240CDRW"#, &Some(733_i16)),
+    (r#"PHILIPS40XPCA402CD"#, &Some(686_i16)),
+    (r#"PHILIPS40XPCA403CD"#, &Some(1268_i16)),
+    (r#"PHILIPSBDREBDD1001"#, &Some(618_i16)),
+    (r#"PHILIPSCDD3600CDRRW"#, &Some(1263_i16)),
+    (r#"PHILIPSCDD3610CDRRW"#, &Some(1263_i16)),
+    (r#"PHILIPSCDD4801CDRRW"#, &Some(-436_i16)),
+    (r#"PHILIPSCDD5101"#, &Some(1364_i16)),
+    (r#"PHILIPSCDD5301"#, &Some(692_i16)),
+    (r#"PHILIPSCDD6911"#, &Some(733_i16)),
+    (r#"PHILIPSCDD7052"#, &Some(6_i16)),
+    (r#"PHILIPSCDROMPCCD048"#, &Some(-1164_i16)),
+    (r#"PHILIPSCDRW1610A"#, &Some(733_i16)),
+    (r#"PHILIPSCDRW2010"#, &Some(97_i16)),
+    (r#"PHILIPSCDRW2410A"#, &Some(733_i16)),
+    (r#"PHILIPSCDRW2412A"#, &Some(733_i16)),
+    (r#"PHILIPSCDRW4012P"#, &Some(688_i16)),
+    (r#"PHILIPSCDRW48A"#, &Some(733_i16)),
+    (r#"PHILIPSCDRW48P"#, &Some(688_i16)),
+    (r#"PHILIPSCDRW5224"#, &Some(6_i16)),
+    (r#"PHILIPSCDRWDVD2010"#, &Some(708_i16)),
+    (r#"PHILIPSCDRWDVD3210"#, &Some(692_i16)),
+    (r#"PHILIPSCDRWDVDCDD5263"#, &Some(594_i16)),
+    (r#"PHILIPSCDRWDVDSCB5265"#, &Some(6_i16)),
+    (r#"PHILIPSD52"#, &Some(30_i16)),
+    (r#"PHILIPSDROM5016"#, &Some(691_i16)),
+    (r#"PHILIPSDROM5016L"#, &Some(12_i16)),
+    (r#"PHILIPSDROM6216"#, &Some(738_i16)),
+    (r#"PHILIPSDROM6316"#, &Some(6_i16)),
+    (r#"PHILIPSDVD8301"#, &Some(1292_i16)),
+    (r#"PHILIPSDVD8421"#, &Some(1292_i16)),
+    (r#"PHILIPSDVD8631"#, &Some(618_i16)),
+    (r#"PHILIPSDVD8801"#, &Some(618_i16)),
+    (r#"PHILIPSDVD8851"#, &Some(618_i16)),
+    (r#"PHILIPSDVDR1628P1"#, &Some(618_i16)),
+    (r#"PHILIPSDVDR1640P"#, &Some(618_i16)),
+    (r#"PHILIPSDVDR1648P1"#, &Some(618_i16)),
+    (r#"PHILIPSDVDR1660P1"#, &Some(618_i16)),
+    (r#"PHILIPSDVDR1668L1"#, &Some(6_i16)),
+    (r#"PHILIPSDVDR1668P1"#, &Some(618_i16)),
+    (r#"PHILIPSDVDR16LS"#, &Some(618_i16)),
+    (r#"PHILIPSDVDR824DP"#, &Some(1292_i16)),
+    (r#"PHILIPSDVDR824P"#, &Some(1292_i16)),
+    (r#"PHILIPSDVDR885P"#, &Some(1292_i16)),
+    (r#"PHILIPSDVDRAMSDVD8821"#, &Some(6_i16)),
+    (r#"PHILIPSDVDRAMSDVD8821H"#, &Some(6_i16)),
+    (r#"PHILIPSDVDROMDROM6316"#, &Some(6_i16)),
+    (r#"PHILIPSDVDROMSDR089"#, &Some(6_i16)),
+    (r#"PHILIPSDVDRW1208"#, &Some(120_i16)),
+    (r#"PHILIPSDVDRW228"#, &Some(120_i16)),
+    (r#"PHILIPSDVDRW416"#, &Some(1292_i16)),
+    (r#"PHILIPSDVDRW416N"#, &Some(48_i16)),
+    (r#"PHILIPSDVDRWD01"#, &Some(120_i16)),
+    (r#"PHILIPSDVDRWD28"#, &Some(120_i16)),
+    (r#"PHILIPSDVDRWDVD8601"#, &Some(618_i16)),
+    (r#"PHILIPSDVDRWDVD8631"#, &Some(618_i16)),
+    (r#"PHILIPSDVDRWDVD8701"#, &Some(618_i16)),
+    (r#"PHILIPSDVDRWDVD8801"#, &Some(618_i16)),
+    (r#"PHILIPSDVDRWDVD8881"#, &Some(618_i16)),
+    (r#"PHILIPSDVDRWSDVD6004"#, &Some(91_i16)),
+    (r#"PHILIPSDVDRWSDVD8412"#, &Some(1292_i16)),
+    (r#"PHILIPSDVDRWSDVD8431"#, &Some(1292_i16)),
+    (r#"PHILIPSDVDRWSDVD8441"#, &Some(1292_i16)),
+    (r#"PHILIPSDVDRWSDVD8820"#, &Some(6_i16)),
+    (r#"PHILIPSED16DVDR"#, &Some(12_i16)),
+    (r#"PHILIPSED16DVDS"#, &Some(12_i16)),
+    (r#"PHILIPSJR24CDRW"#, &Some(733_i16)),
+    (r#"PHILIPSJR32RWDV"#, &Some(692_i16)),
+    (r#"PHILIPSJR4DVDRW"#, &Some(1292_i16)),
+    (r#"PHILIPSJR52CDRW"#, &Some(738_i16)),
+    (r#"PHILIPSPBDV1601P"#, &Some(618_i16)),
+    (r#"PHILIPSPBDV1640P"#, &Some(618_i16)),
+    (r#"PHILIPSPBDV1660P1"#, &Some(618_i16)),
+    (r#"PHILIPSPBDV16LSP1"#, &Some(618_i16)),
+    (r#"PHILIPSPBDV824DP"#, &Some(1292_i16)),
+    (r#"PHILIPSPBDV885P"#, &Some(1292_i16)),
+    (r#"PHILIPSPBRW5232L"#, &Some(6_i16)),
+    (r#"PHILIPSPBRW5232L3"#, &Some(6_i16)),
+    (r#"PHILIPSPCA532"#, &Some(116_i16)),
+    (r#"PHILIPSPCDV5016L2"#, &Some(6_i16)),
+    (r#"PHILIPSPCDV5016P1"#, &Some(738_i16)),
+    (r#"PHILIPSPCDV6116"#, &Some(691_i16)),
+    (r#"PHILIPSPCRW1208"#, &Some(692_i16)),
+    (r#"PHILIPSPCRW406"#, &Some(-436_i16)),
+    (r#"PHILIPSPCRW5232P"#, &Some(738_i16)),
+    (r#"PHILIPSPCRW804"#, &Some(-436_i16)),
+    (r#"PHILIPSSPD2201P"#, &Some(6_i16)),
+    (r#"PHILIPSSPD2202P"#, &Some(6_i16)),
+    (r#"PHILIPSSPD2214T"#, &Some(6_i16)),
+    (r#"PHILIPSSPD2400L1"#, &Some(6_i16)),
+    (r#"PHILIPSSPD2410L1"#, &Some(6_i16)),
+    (r#"PHILIPSSPD2411P"#, &Some(6_i16)),
+    (r#"PHILIPSSPD2412T"#, &Some(6_i16)),
+    (r#"PHILIPSSPD2413P"#, &Some(6_i16)),
+    (r#"PHILIPSSPD2414T"#, &Some(6_i16)),
+    (r#"PHILIPSSPD2415P"#, &Some(6_i16)),
+    (r#"PHILIPSSPD2417T"#, &Some(6_i16)),
+    (r#"PHILIPSSPD2512T"#, &Some(6_i16)),
+    (r#"PHILIPSSPD2513P"#, &Some(6_i16)),
+    (r#"PHILIPSSPD2514T"#, &Some(6_i16)),
+    (r#"PHILIPSSPD2517T"#, &Some(6_i16)),
+    (r#"PHILIPSSPD2519T"#, &Some(6_i16)),
+    (r#"PHILIPSSPD2850L"#, &Some(6_i16)),
+    (r#"PHILIPSSPD3000CC"#, &Some(6_i16)),
+    (r#"PHILIPSSPD3100L"#, &Some(6_i16)),
+    (r#"PHILIPSSPD3200L1"#, &Some(6_i16)),
+    (r#"PHILIPSSPD3300L"#, &Some(6_i16)),
+    (r#"PHILIPSSPD3400CC"#, &Some(6_i16)),
+    (r#"PHILIPSSPD3500CC"#, &Some(6_i16)),
+    (r#"PHILIPSSPD3600CC"#, &Some(6_i16)),
+    (r#"PHILIPSSPD4000CC"#, &Some(6_i16)),
+    (r#"PHILIPSSPD4000L1"#, &Some(6_i16)),
+    (r#"PHILIPSSPD4001CC"#, &Some(594_i16)),
+    (r#"PHILIPSSPD6000L1"#, &Some(6_i16)),
+    (r#"PHILIPSSPD6001L"#, &Some(6_i16)),
+    (r#"PHILIPSSPD6002T"#, &Some(6_i16)),
+    (r#"PHILIPSSPD6003P"#, &Some(6_i16)),
+    (r#"PHILIPSSPD6004P"#, &Some(6_i16)),
+    (r#"PHILIPSSPD6005T"#, &Some(6_i16)),
+    (r#"PHILIPSSPD6104P"#, &Some(6_i16)),
+    (r#"PHILIPSSPD6105T"#, &Some(6_i16)),
+    (r#"PHILIPSSPD7000P"#, &Some(618_i16)),
+    (r#"PHILIPSSPD8004P1"#, &Some(6_i16)),
+    (r#"PHILIPSVAD8043"#, &Some(618_i16))
+];
+
+pub static VND_PIKA: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"PIKAONERIP8000"#, &Some(12_i16))
+];
+
+pub static VND_PINE: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"PINECDROMPT56X"#, &Some(694_i16))
+];
+
+pub static VND_PIODATA: [(&'static str, &'static Option<i16>); 2] = [
+    (r#"PIODATADVDRWDVR108DX"#, &Some(48_i16)),
+    (r#"PIODATADVDRWDVR221D"#, &Some(6_i16))
+];
+
+pub static VND_PIONEER: [(&'static str, &'static Option<i16>); 296] = [
+    (r#"PIONEER"#, &Some(6_i16)),
+    (r#"PIONEERBDEPR1JAME"#, &Some(667_i16)),
+    (r#"PIONEERBDROMBDC202"#, &Some(667_i16)),
+    (r#"PIONEERBDROMBDC203"#, &Some(667_i16)),
+    (r#"PIONEERBDROMBDC207"#, &Some(667_i16)),
+    (r#"PIONEERBDROMBDC207D"#, &Some(667_i16)),
+    (r#"PIONEERBDROMBDCTD01"#, &Some(667_i16)),
+    (r#"PIONEERBDROMBDCTD01RS"#, &Some(667_i16)),
+    (r#"PIONEERBDROMBDCTD02"#, &Some(667_i16)),
+    (r#"PIONEERBDROMBDCTD02RS"#, &Some(667_i16)),
+    (r#"PIONEERBDROMBDCTD03"#, &Some(667_i16)),
+    (r#"PIONEERBDROMBDCTD03RS"#, &Some(667_i16)),
+    (r#"PIONEERBDROMBDCTD03RT"#, &Some(667_i16)),
+    (r#"PIONEERBDROMBDCTD04"#, &Some(667_i16)),
+    (r#"PIONEERBDROMBDCTD05"#, &Some(667_i16)),
+    (r#"PIONEERBDROMBDCTD05RT"#, &Some(667_i16)),
+    (r#"PIONEERBDROMBDCTS02"#, &Some(667_i16)),
+    (r#"PIONEERBDROMBDCUD02"#, &Some(667_i16)),
+    (r#"PIONEERBDROMBDCUD02AS"#, &Some(667_i16)),
+    (r#"PIONEERBDROMBDCUD02D"#, &Some(667_i16)),
+    (r#"PIONEERBDROMBDCUD03AS"#, &Some(667_i16)),
+    (r#"PIONEERBDROMBDV201X"#, &Some(79_i16)),
+    (r#"PIONEERBDRPR1EPDVPP100"#, &Some(667_i16)),
+    (r#"PIONEERBDRTD05TDB"#, &Some(103_i16)),
+    (r#"PIONEERBDRUD04"#, &Some(6_i16)),
+    (r#"PIONEERBDRWBDR202"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDR203"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDR205"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDR205PQ"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDR206"#, &Some(0_i16)),
+    (r#"PIONEERBDRWBDR206"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDR206D"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDR206M"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDR207"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDR207D"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDR207M"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDR208"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDR208D"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDR208M"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDR209"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDR209D"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDR209M"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDR209MIO"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDR209MIR"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDR211M"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDR212BK"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDR212D"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDR212M"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDR212U"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDR212V"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDR213M"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDR213U"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRAD07"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRAD08"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRL06SH"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRL06SHA"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRL06SHB"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRL07SH"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRL08SH"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRL08SHB"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRPR1MA"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRS08"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRS09"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRS09JX"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRS11"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRS11JX"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRS12"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRS12JX"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRS12U"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRS13JX"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRS13U"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRTD01"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRTD01RS"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRTD03"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRTD03RS"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRTD03RT"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRTD04"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRTD04A"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRTD04D"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRTD05"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRTD05AS"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRTD05D"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRTD05RT"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRTS04"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRUD02"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRUD02AS"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRUD02D"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRUD03"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRUD03AS"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRUD03D"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRUD04"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRUD04D"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRUS01"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRWX1DM"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRX09"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRX12"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRX12U"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRX13"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRX13JX"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRX13U"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRX13X"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRXD04"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRXD05"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRXD06U"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRXD07"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRXD07U"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRXD08"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRXD08U"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRXS05"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRXS05WF"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRXS06"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRXS06JL"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRXS06JM"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRXS07"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRXS07JL"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRXS07JM"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRXS07U"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRXS08U"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRXU02"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRXU02JM"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRXU03"#, &Some(667_i16)),
+    (r#"PIONEERBDRWBDRXU03J"#, &Some(667_i16)),
+    (r#"PIONEERBDRXD04BU"#, &Some(667_i16)),
+    (r#"PIONEERBDRXD08TC"#, &Some(667_i16)),
+    (r#"PIONEERBDWPR1EPDVPP100"#, &Some(667_i16)),
+    (r#"PIONEERBDXPR1AME"#, &Some(667_i16)),
+    (r#"PIONEERCDROMDRA02S"#, &Some(1279_i16)),
+    (r#"PIONEERCDROMDRA04S"#, &Some(1303_i16)),
+    (r#"PIONEERCDROMDRA14S"#, &Some(1279_i16)),
+    (r#"PIONEERCDROMDRA24X"#, &Some(1127_i16)),
+    (r#"PIONEERCDROMDRU12X"#, &Some(691_i16)),
+    (r#"PIONEERCDROMDRU16S"#, &Some(1279_i16)),
+    (r#"PIONEERCDROMPCPPR24"#, &Some(1279_i16)),
+    (r#"PIONEERDVD116RD"#, &Some(102_i16)),
+    (r#"PIONEERDVDCDRWDCR111"#, &Some(690_i16)),
+    (r#"PIONEERDVDROMDVD103"#, &Some(691_i16)),
+    (r#"PIONEERDVDROMDVD103R"#, &Some(691_i16)),
+    (r#"PIONEERDVDROMDVD104"#, &Some(690_i16)),
+    (r#"PIONEERDVDROMDVD104F"#, &Some(690_i16)),
+    (r#"PIONEERDVDROMDVD105"#, &Some(690_i16)),
+    (r#"PIONEERDVDROMDVD105F"#, &Some(690_i16)),
+    (r#"PIONEERDVDROMDVD106"#, &Some(102_i16)),
+    (r#"PIONEERDVDROMDVD113"#, &Some(691_i16)),
+    (r#"PIONEERDVDROMDVD113R"#, &Some(691_i16)),
+    (r#"PIONEERDVDROMDVD114"#, &Some(690_i16)),
+    (r#"PIONEERDVDROMDVD115"#, &Some(690_i16)),
+    (r#"PIONEERDVDROMDVD115F"#, &Some(690_i16)),
+    (r#"PIONEERDVDROMDVD116"#, &Some(102_i16)),
+    (r#"PIONEERDVDROMDVD116R"#, &Some(102_i16)),
+    (r#"PIONEERDVDROMDVD117"#, &Some(102_i16)),
+    (r#"PIONEERDVDROMDVD117R"#, &Some(102_i16)),
+    (r#"PIONEERDVDROMDVD119"#, &Some(102_i16)),
+    (r#"PIONEERDVDROMDVD120"#, &Some(691_i16)),
+    (r#"PIONEERDVDROMDVD120S"#, &Some(691_i16)),
+    (r#"PIONEERDVDROMDVD121"#, &Some(102_i16)),
+    (r#"PIONEERDVDROMDVD121R"#, &Some(102_i16)),
+    (r#"PIONEERDVDROMDVD121S"#, &Some(102_i16)),
+    (r#"PIONEERDVDROMDVD122"#, &Some(738_i16)),
+    (r#"PIONEERDVDROMDVD122C"#, &Some(738_i16)),
+    (r#"PIONEERDVDROMDVD122M"#, &Some(738_i16)),
+    (r#"PIONEERDVDROMDVD122P"#, &Some(738_i16)),
+    (r#"PIONEERDVDROMDVD123P"#, &Some(6_i16)),
+    (r#"PIONEERDVDROMDVD126P"#, &Some(6_i16)),
+    (r#"PIONEERDVDROMDVD127P"#, &Some(6_i16)),
+    (r#"PIONEERDVDROMDVD128P"#, &Some(6_i16)),
+    (r#"PIONEERDVDROMDVD129P"#, &Some(6_i16)),
+    (r#"PIONEERDVDROMDVD130D"#, &Some(6_i16)),
+    (r#"PIONEERDVDROMDVD130P"#, &Some(6_i16)),
+    (r#"PIONEERDVDROMDVD227P"#, &Some(6_i16)),
+    (r#"PIONEERDVDROMDVD228P"#, &Some(6_i16)),
+    (r#"PIONEERDVDROMDVD230P"#, &Some(6_i16)),
+    (r#"PIONEERDVDROMDVD231"#, &Some(6_i16)),
+    (r#"PIONEERDVDROMDVD232"#, &Some(6_i16)),
+    (r#"PIONEERDVDROMDVD303"#, &Some(691_i16)),
+    (r#"PIONEERDVDROMDVD303F"#, &Some(691_i16)),
+    (r#"PIONEERDVDROMDVD303R"#, &Some(691_i16)),
+    (r#"PIONEERDVDROMDVD304"#, &Some(690_i16)),
+    (r#"PIONEERDVDROMDVD304F"#, &Some(690_i16)),
+    (r#"PIONEERDVDROMDVD305"#, &Some(690_i16)),
+    (r#"PIONEERDVDROMDVD500M"#, &Some(594_i16)),
+    (r#"PIONEERDVDROMDVDXD01"#, &Some(6_i16)),
+    (r#"PIONEERDVDRWD"#, &Some(6_i16)),
+    (r#"PIONEERDVDRWDRK17Y"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDRKD08HB"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDRTD08HB"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVR103"#, &Some(-54_i16)),
+    (r#"PIONEERDVDRWDVR104"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVR105"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVR106D"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVR106RD"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVR107D"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVR108"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVR109"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVR109RD"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVR110"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVR110D"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVR111"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVR111C"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVR111D"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVR111L"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVR112"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVR112D"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVR112L"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVR115"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVR115D"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVR115L"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVR116"#, &Some(96_i16)),
+    (r#"PIONEERDVDRWDVR116D"#, &Some(96_i16)),
+    (r#"PIONEERDVDRWDVR116L"#, &Some(96_i16)),
+    (r#"PIONEERDVDRWDVR117"#, &Some(96_i16)),
+    (r#"PIONEERDVDRWDVR117D"#, &Some(96_i16)),
+    (r#"PIONEERDVDRWDVR117F"#, &Some(96_i16)),
+    (r#"PIONEERDVDRWDVR117L"#, &Some(96_i16)),
+    (r#"PIONEERDVDRWDVR118L"#, &Some(6_i16)),
+    (r#"PIONEERDVDRWDVR212"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVR212D"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVR212L"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVR215"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVR215D"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVR215L"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVR216"#, &Some(96_i16)),
+    (r#"PIONEERDVDRWDVR216D"#, &Some(96_i16)),
+    (r#"PIONEERDVDRWDVR216L"#, &Some(96_i16)),
+    (r#"PIONEERDVDRWDVR216R"#, &Some(96_i16)),
+    (r#"PIONEERDVDRWDVR217"#, &Some(96_i16)),
+    (r#"PIONEERDVDRWDVR217D"#, &Some(96_i16)),
+    (r#"PIONEERDVDRWDVR217F"#, &Some(96_i16)),
+    (r#"PIONEERDVDRWDVR217L"#, &Some(96_i16)),
+    (r#"PIONEERDVDRWDVR218L"#, &Some(6_i16)),
+    (r#"PIONEERDVDRWDVR219L"#, &Some(6_i16)),
+    (r#"PIONEERDVDRWDVR219RS"#, &Some(6_i16)),
+    (r#"PIONEERDVDRWDVR220"#, &Some(6_i16)),
+    (r#"PIONEERDVDRWDVR220L"#, &Some(6_i16)),
+    (r#"PIONEERDVDRWDVR220RS"#, &Some(6_i16)),
+    (r#"PIONEERDVDRWDVR221"#, &Some(6_i16)),
+    (r#"PIONEERDVDRWDVR221"#, &Some(667_i16)),
+    (r#"PIONEERDVDRWDVR221L"#, &Some(6_i16)),
+    (r#"PIONEERDVDRWDVR221L"#, &Some(667_i16)),
+    (r#"PIONEERDVDRWDVRK04L"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVRK04RA"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVRK05"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVRK05RA"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVRK06"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVRK06A"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVRK06RS"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVRK11"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVRK12D"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVRK12RA"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVRK13A"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVRK13RA"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVRK14"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVRK14AS"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVRK14L"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVRK14RA"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVRK15"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVRK15RA"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVRK16"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVRK16A"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVRK16D"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVRK16M"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVRK16RA"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVRK16RS"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVRK16S"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVRK17"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVRK17A"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVRK17B"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVRK17LF"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVRK17RS"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVRKD08"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVRKD08A"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVRKD08L"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVRKD08RS"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVRS21"#, &Some(6_i16)),
+    (r#"PIONEERDVDRWDVRS21"#, &Some(667_i16)),
+    (r#"PIONEERDVDRWDVRTD08"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVRTD08A"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVRTD08L"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVRTD08RS"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVRTD09"#, &Some(96_i16)),
+    (r#"PIONEERDVDRWDVRTD09A"#, &Some(96_i16)),
+    (r#"PIONEERDVDRWDVRTD10RS"#, &Some(6_i16)),
+    (r#"PIONEERDVDRWDVRTD11RS"#, &Some(6_i16)),
+    (r#"PIONEERDVDRWDVRTS08"#, &Some(48_i16)),
+    (r#"PIONEERDVDRWDVRTS09"#, &Some(96_i16)),
+    (r#"PIONEERDVDRWDVRXD09"#, &Some(96_i16)),
+    (r#"PIONEERDVDRWDVRXD10"#, &Some(96_i16)),
+    (r#"PIONEERDVDRWDVRXT11"#, &Some(6_i16)),
+    (r#"PIONEERDVDRWDVRXU01"#, &Some(6_i16)),
+    (r#"PIONEERDVDRWDVRXU01C"#, &Some(48_i16)),
+    (r#"PIONEERDVDWRDVR221CHV"#, &Some(6_i16)),
+    (r#"PIONEERDVR112N"#, &Some(6_i16)),
+    (r#"PIONEERDVR113NP"#, &Some(6_i16)),
+    (r#"PIONEERDVR212N"#, &Some(6_i16)),
+    (r#"PIONEERDVR213N"#, &Some(6_i16)),
+    (r#"PIONEERDVR213NP"#, &Some(6_i16)),
+    (r#"PIONEERDVRS21WBKPLUS"#, &Some(6_i16))
+];
+
+pub static VND_PLDS: [(&'static str, &'static Option<i16>); 75] = [
+    (r#"PLDSBDCOMBODC6E2SH"#, &Some(6_i16)),
+    (r#"PLDSBDCOMBODS6E2SH"#, &Some(6_i16)),
+    (r#"PLDSBDDH12B2SH"#, &Some(6_i16)),
+    (r#"PLDSBDREDH4B1S"#, &Some(618_i16)),
+    (r#"PLDSBDREDH8B2SH"#, &Some(6_i16)),
+    (r#"PLDSDG16D2S"#, &Some(6_i16)),
+    (r#"PLDSDVDADH20A3S"#, &Some(6_i16)),
+    (r#"PLDSDVDADH20A4P"#, &Some(6_i16)),
+    (r#"PLDSDVDADH20A6S"#, &Some(6_i16)),
+    (r#"PLDSDVDADH22A8P"#, &Some(6_i16)),
+    (r#"PLDSDVDADH22A9P"#, &Some(6_i16)),
+    (r#"PLDSDVDADH22AWP"#, &Some(6_i16)),
+    (r#"PLDSDVDADH24AAS"#, &Some(6_i16)),
+    (r#"PLDSDVDADH24ABS"#, &Some(6_i16)),
+    (r#"PLDSDVDADH24AYS"#, &Some(48_i16)),
+    (r#"PLDSDVDROMDA8DESH"#, &Some(6_i16)),
+    (r#"PLDSDVDROMDH16D2S"#, &Some(6_i16)),
+    (r#"PLDSDVDROMDH16D3S"#, &Some(6_i16)),
+    (r#"PLDSDVDROMDH16D5S"#, &Some(6_i16)),
+    (r#"PLDSDVDROMDH16D6S"#, &Some(6_i16)),
+    (r#"PLDSDVDROMDH16D6SH"#, &Some(6_i16)),
+    (r#"PLDSDVDROMDH16D7S"#, &Some(6_i16)),
+    (r#"PLDSDVDROMDH16D7SH"#, &Some(6_i16)),
+    (r#"PLDSDVDROMDH16D8S"#, &Some(6_i16)),
+    (r#"PLDSDVDROMDH16D8SH"#, &Some(6_i16)),
+    (r#"PLDSDVDROMDS8D3SH"#, &Some(6_i16)),
+    (r#"PLDSDVDROMDS8D4SH"#, &Some(6_i16)),
+    (r#"PLDSDVDROMDS8D9SH"#, &Some(6_i16)),
+    (r#"PLDSDVDROMDS8DBSH"#, &Some(6_i16)),
+    (r#"PLDSDVDROMDU8D5LH"#, &Some(6_i16)),
+    (r#"PLDSDVDROMDU8D6SH"#, &Some(6_i16)),
+    (r#"PLDSDVDRWBDDH12E3S"#, &Some(702_i16)),
+    (r#"PLDSDVDRWBDDH6E2S"#, &Some(6_i16)),
+    (r#"PLDSDVDRWBDDS4E1S"#, &Some(6_i16)),
+    (r#"PLDSDVDRWBDDS6E2SH"#, &Some(6_i16)),
+    (r#"PLDSDVDRWDA8A5SH"#, &Some(6_i16)),
+    (r#"PLDSDVDRWDA8A6SH"#, &Some(6_i16)),
+    (r#"PLDSDVDRWDA8AESH"#, &Some(6_i16)),
+    (r#"PLDSDVDRWDC8A2SH"#, &Some(6_i16)),
+    (r#"PLDSDVDRWDH16A6S"#, &Some(6_i16)),
+    (r#"PLDSDVDRWDH16AAS"#, &Some(6_i16)),
+    (r#"PLDSDVDRWDH16ABS"#, &Some(6_i16)),
+    (r#"PLDSDVDRWDH16ABSH"#, &Some(6_i16)),
+    (r#"PLDSDVDRWDH16ACS"#, &Some(6_i16)),
+    (r#"PLDSDVDRWDH16ACSH"#, &Some(6_i16)),
+    (r#"PLDSDVDRWDH16AES"#, &Some(6_i16)),
+    (r#"PLDSDVDRWDH16AESH"#, &Some(6_i16)),
+    (r#"PLDSDVDRWDH16AFSH"#, &Some(6_i16)),
+    (r#"PLDSDVDRWDH24AAS"#, &Some(6_i16)),
+    (r#"PLDSDVDRWDH24ABS"#, &Some(6_i16)),
+    (r#"PLDSDVDRWDH24ACS"#, &Some(6_i16)),
+    (r#"PLDSDVDRWDH24AWS"#, &Some(48_i16)),
+    (r#"PLDSDVDRWDL8A4SH"#, &Some(6_i16)),
+    (r#"PLDSDVDRWDL8ATS"#, &Some(6_i16)),
+    (r#"PLDSDVDRWDS"#, &Some(6_i16)),
+    (r#"PLDSDVDRWDS8A"#, &Some(6_i16)),
+    (r#"PLDSDVDRWDS8A3S"#, &Some(6_i16)),
+    (r#"PLDSDVDRWDS8A4S"#, &Some(6_i16)),
+    (r#"PLDSDVDRWDS8A5SH"#, &Some(6_i16)),
+    (r#"PLDSDVDRWDS8A8SH"#, &Some(6_i16)),
+    (r#"PLDSDVDRWDS8A9SH"#, &Some(6_i16)),
+    (r#"PLDSDVDRWDS8ABSH"#, &Some(6_i16)),
+    (r#"PLDSDVDRWDS8ACSH"#, &Some(6_i16)),
+    (r#"PLDSDVDRWDS8W2S"#, &Some(6_i16)),
+    (r#"PLDSDVDRWDU"#, &Some(6_i16)),
+    (r#"PLDSDVDRWDU8A2S"#, &Some(6_i16)),
+    (r#"PLDSDVDRWDU8A3S"#, &Some(6_i16)),
+    (r#"PLDSDVDRWDU8A4SH"#, &Some(6_i16)),
+    (r#"PLDSDVDRWDU8A5HH"#, &Some(6_i16)),
+    (r#"PLDSDVDRWDU8A5L"#, &Some(6_i16)),
+    (r#"PLDSDVDRWDU8A5LH"#, &Some(6_i16)),
+    (r#"PLDSDVDRWDU8A5SH"#, &Some(6_i16)),
+    (r#"PLDSDVDRWDU8A6SH"#, &Some(6_i16)),
+    (r#"PLDSDVDRWDU8AESH"#, &Some(6_i16)),
+    (r#"PLDSDVDRWDX20A6Q"#, &Some(6_i16))
+];
+
+pub static VND_PLEXTOB: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"PLEXTOBDVDRPX750A"#, &Some(102_i16))
+];
+
+pub static VND_PLEXTOR: [(&'static str, &'static Option<i16>); 110] = [
+    (r#"PLEXTORBDDVDRPXB310SA"#, &Some(6_i16)),
+    (r#"PLEXTORBDDVDRPXB310U"#, &Some(6_i16)),
+    (r#"PLEXTORBDDVDRPXB320SA"#, &Some(6_i16)),
+    (r#"PLEXTORBDDVDRPXB330SA"#, &Some(702_i16)),
+    (r#"PLEXTORBDROMPXB120U"#, &Some(696_i16)),
+    (r#"PLEXTORBDRPXB900A"#, &Some(102_i16)),
+    (r#"PLEXTORBDRPXB920SA"#, &Some(667_i16)),
+    (r#"PLEXTORBDRPXB940SA"#, &Some(667_i16)),
+    (r#"PLEXTORBDRPXB950SA"#, &Some(6_i16)),
+    (r#"PLEXTORBDRPXB950UE"#, &Some(6_i16)),
+    (r#"PLEXTORBDRPXLB950SA"#, &Some(6_i16)),
+    (r#"PLEXTORBDRPXLB950UE"#, &Some(6_i16)),
+    (r#"PLEXTORCDROMPX12CS"#, &Some(681_i16)),
+    (r#"PLEXTORCDROMPX12TS"#, &Some(681_i16)),
+    (r#"PLEXTORCDROMPX20TS"#, &Some(681_i16)),
+    (r#"PLEXTORCDROMPX32CS"#, &Some(679_i16)),
+    (r#"PLEXTORCDROMPX32TS"#, &Some(679_i16)),
+    (r#"PLEXTORCDROMPX40TS"#, &Some(676_i16)),
+    (r#"PLEXTORCDROMPX40TSUW"#, &Some(676_i16)),
+    (r#"PLEXTORCDROMPX40TW"#, &Some(676_i16)),
+    (r#"PLEXTORCDROMPX4XCE"#, &Some(681_i16)),
+    (r#"PLEXTORCDROMPX54TA"#, &Some(12_i16)),
+    (r#"PLEXTORCDROMPX8XCS"#, &Some(681_i16)),
+    (r#"PLEXTORCDRPREMIUM"#, &Some(30_i16)),
+    (r#"PLEXTORCDRPREMIUM2"#, &Some(30_i16)),
+    (r#"PLEXTORCDRPREMIUMG"#, &Some(30_i16)),
+    (r#"PLEXTORCDRPX230A"#, &Some(738_i16)),
+    (r#"PLEXTORCDRPX230S"#, &Some(738_i16)),
+    (r#"PLEXTORCDRPX240A"#, &Some(6_i16)),
+    (r#"PLEXTORCDRPX320A"#, &Some(98_i16)),
+    (r#"PLEXTORCDRPXB950SA"#, &Some(6_i16)),
+    (r#"PLEXTORCDRPXR412C"#, &Some(355_i16)),
+    (r#"PLEXTORCDRPXR820T"#, &Some(355_i16)),
+    (r#"PLEXTORCDRPXS2410T"#, &Some(685_i16)),
+    (r#"PLEXTORCDRPXS88T"#, &Some(98_i16)),
+    (r#"PLEXTORCDRPXW1210A"#, &Some(99_i16)),
+    (r#"PLEXTORCDRPXW1210S"#, &Some(98_i16)),
+    (r#"PLEXTORCDRPXW124TS"#, &Some(943_i16)),
+    (r#"PLEXTORCDRPXW1610A"#, &Some(99_i16)),
+    (r#"PLEXTORCDRPXW2410A"#, &Some(98_i16)),
+    (r#"PLEXTORCDRPXW4012A"#, &Some(98_i16)),
+    (r#"PLEXTORCDRPXW4012S"#, &Some(98_i16)),
+    (r#"PLEXTORCDRPXW4220T"#, &Some(355_i16)),
+    (r#"PLEXTORCDRPXW4824A"#, &Some(98_i16)),
+    (r#"PLEXTORCDRPXW5224A"#, &Some(30_i16)),
+    (r#"PLEXTORCDRPXW8220T"#, &Some(355_i16)),
+    (r#"PLEXTORCDRPXW8432T"#, &Some(355_i16)),
+    (r#"PLEXTORDPX750A"#, &Some(0_i16)),
+    (r#"PLEXTORDVDROMPX106A"#, &Some(6_i16)),
+    (r#"PLEXTORDVDROMPX116A"#, &Some(691_i16)),
+    (r#"PLEXTORDVDROMPX116A2"#, &Some(102_i16)),
+    (r#"PLEXTORDVDROMPX116A3"#, &Some(691_i16)),
+    (r#"PLEXTORDVDROMPX130"#, &Some(738_i16)),
+    (r#"PLEXTORDVDROMPX130A"#, &Some(738_i16)),
+    (r#"PLEXTORDVDRPX504A"#, &Some(48_i16)),
+    (r#"PLEXTORDVDRPX608AL"#, &Some(48_i16)),
+    (r#"PLEXTORDVDRPX608CU"#, &Some(48_i16)),
+    (r#"PLEXTORDVDRPX610U"#, &Some(6_i16)),
+    (r#"PLEXTORDVDRPX612U"#, &Some(6_i16)),
+    (r#"PLEXTORDVDRPX650US"#, &Some(6_i16)),
+    (r#"PLEXTORDVDRPX704A"#, &Some(30_i16)),
+    (r#"PLEXTORDVDRPX708A"#, &Some(30_i16)),
+    (r#"PLEXTORDVDRPX708A2"#, &Some(30_i16)),
+    (r#"PLEXTORDVDRPX708R"#, &Some(30_i16)),
+    (r#"PLEXTORDVDRPX712A"#, &Some(30_i16)),
+    (r#"PLEXTORDVDRPX714A"#, &Some(30_i16)),
+    (r#"PLEXTORDVDRPX716A"#, &Some(30_i16)),
+    (r#"PLEXTORDVDRPX716AL"#, &Some(30_i16)),
+    (r#"PLEXTORDVDRPX740A"#, &Some(6_i16)),
+    (r#"PLEXTORDVDRPX740A"#, &Some(618_i16)),
+    (r#"PLEXTORDVDRPX750A"#, &Some(0_i16)),
+    (r#"PLEXTORDVDRPX750A"#, &Some(102_i16)),
+    (r#"PLEXTORDVDRPX751A"#, &Some(102_i16)),
+    (r#"PLEXTORDVDRPX755A"#, &Some(30_i16)),
+    (r#"PLEXTORDVDRPX760A"#, &Some(30_i16)),
+    (r#"PLEXTORDVDRPX800A"#, &Some(48_i16)),
+    (r#"PLEXTORDVDRPX806SA"#, &Some(6_i16)),
+    (r#"PLEXTORDVDRPX810SA"#, &Some(48_i16)),
+    (r#"PLEXTORDVDRPX810UF"#, &Some(667_i16)),
+    (r#"PLEXTORDVDRPX820A"#, &Some(48_i16)),
+    (r#"PLEXTORDVDRPX820SA"#, &Some(0_i16)),
+    (r#"PLEXTORDVDRPX820SA"#, &Some(48_i16)),
+    (r#"PLEXTORDVDRPX825A"#, &Some(48_i16)),
+    (r#"PLEXTORDVDRPX830SA"#, &Some(96_i16)),
+    (r#"PLEXTORDVDRPX840U"#, &Some(6_i16)),
+    (r#"PLEXTORDVDRPX850A"#, &Some(6_i16)),
+    (r#"PLEXTORDVDRPX850SA"#, &Some(6_i16)),
+    (r#"PLEXTORDVDRPX860A"#, &Some(96_i16)),
+    (r#"PLEXTORDVDRPX860SA"#, &Some(96_i16)),
+    (r#"PLEXTORDVDRPX870A"#, &Some(6_i16)),
+    (r#"PLEXTORDVDRPX880SA"#, &Some(6_i16)),
+    (r#"PLEXTORDVDRPX880U"#, &Some(6_i16)),
+    (r#"PLEXTORDVDRPX880UE"#, &Some(6_i16)),
+    (r#"PLEXTORDVDRPX890SA"#, &Some(6_i16)),
+    (r#"PLEXTORDVDRPX891SA"#, &Some(6_i16)),
+    (r#"PLEXTORDVDRPX891SAF"#, &Some(6_i16)),
+    (r#"PLEXTORDVDRPX891SAW"#, &Some(48_i16)),
+    (r#"PLEXTORDVDRPXB300SA"#, &Some(667_i16)),
+    (r#"PLEXTORDVDRPXL611U"#, &Some(6_i16)),
+    (r#"PLEXTORDVDRPXL871A"#, &Some(6_i16)),
+    (r#"PLEXTORDVDRPXL890SA"#, &Some(6_i16)),
+    (r#"PLEXTORDVDRPXL890UE"#, &Some(6_i16)),
+    (r#"PLEXTORDVDRPXQ840U"#, &Some(6_i16)),
+    (r#"PLEXTORDVDRWPX608U"#, &Some(48_i16)),
+    (r#"PLEXTORPX54TA"#, &Some(6_i16)),
+    (r#"PLEXTORPX716A"#, &Some(30_i16)),
+    (r#"PLEXTORPX891SAF"#, &Some(6_i16)),
+    (r#"PLEXTORPX891SAFPLUS"#, &Some(6_i16)),
+    (r#"PLEXTORPXL910S"#, &Some(6_i16)),
+    (r#"PLEXTORPXW4012A"#, &Some(0_i16))
+];
+
+pub static VND_POLAROID: [(&'static str, &'static Option<i16>); 5] = [
+    (r#"POLAROIDBURNMAX40"#, &Some(12_i16)),
+    (r#"POLAROIDBURNMAX40EX"#, &Some(12_i16)),
+    (r#"POLAROIDBURNMAX48"#, &Some(12_i16)),
+    (r#"POLAROIDBURNMAX52"#, &Some(6_i16)),
+    (r#"POLAROIDBURNMAX52EX"#, &Some(6_i16))
+];
+
+pub static VND_PUDEHU: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"PUDEHU3S1EJG56RG9M"#, &Some(103_i16))
+];
+
+pub static VND_QHKHAFA: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"QHKHAFAO1MZOTIZS16"#, &Some(733_i16))
+];
+
+pub static VND_QPS: [(&'static str, &'static Option<i16>); 8] = [
+    (r#"QPSCDRPXW1210A"#, &Some(99_i16)),
+    (r#"QPSCDRPXW124TS"#, &Some(943_i16)),
+    (r#"QPSCDRPXW2410A"#, &Some(98_i16)),
+    (r#"QPSCDRPXW8432T"#, &Some(355_i16)),
+    (r#"QPSCDW512EB"#, &Some(685_i16)),
+    (r#"QPSCDW516EB"#, &Some(685_i16)),
+    (r#"QPSCDW54E"#, &Some(685_i16)),
+    (r#"QPSCRDBP1500P"#, &Some(688_i16))
+];
+
+pub static VND_QSI: [(&'static str, &'static Option<i16>); 19] = [
+    (r#"QSICDROMSCR242"#, &Some(-1164_i16)),
+    (r#"QSICDRWDVDSBW241"#, &Some(733_i16)),
+    (r#"QSICDRWDVDSBW242B"#, &Some(6_i16)),
+    (r#"QSICDRWDVDSBW242C"#, &Some(6_i16)),
+    (r#"QSICDRWDVDSBW243"#, &Some(6_i16)),
+    (r#"QSICDRWDVDSBW245"#, &Some(6_i16)),
+    (r#"QSICDRWDVDUBW241"#, &Some(6_i16)),
+    (r#"QSIDVDCDRWSBW081"#, &Some(733_i16)),
+    (r#"QSIDVDCDRWSBW161"#, &Some(733_i16)),
+    (r#"QSIDVDRAMSDW086"#, &Some(6_i16)),
+    (r#"QSIDVDROMSDR081"#, &Some(564_i16)),
+    (r#"QSIDVDROMSDR083"#, &Some(-582_i16)),
+    (r#"QSIDVDROMTDR085"#, &Some(-1164_i16)),
+    (r#"QSIDVDRWSDW041"#, &Some(1292_i16)),
+    (r#"QSIDVDRWSDW042"#, &Some(1292_i16)),
+    (r#"QSIDVDRWSDW082"#, &Some(1292_i16)),
+    (r#"QSIDVDRWSDW082K"#, &Some(1292_i16)),
+    (r#"QSIDVDRWSDW082S"#, &Some(1292_i16)),
+    (r#"QSIDVDRWSDW085"#, &Some(6_i16))
+];
+
+pub static VND_RCZMPSR: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"RCZMPSRJ4XI3ODQJS9A"#, &Some(102_i16))
+];
+
+pub static VND_RICOH: [(&'static str, &'static Option<i16>); 24] = [
+    (r#"RICOHCDRRWMP7040A"#, &Some(685_i16)),
+    (r#"RICOHCDRRWMP7060A"#, &Some(685_i16)),
+    (r#"RICOHCDRRWMP7060S"#, &Some(685_i16)),
+    (r#"RICOHCDRRWMP7063A"#, &Some(97_i16)),
+    (r#"RICOHCDRRWMP7080A"#, &Some(97_i16)),
+    (r#"RICOHCDRRWMP7083A"#, &Some(97_i16)),
+    (r#"RICOHCDRRWMP7120A"#, &Some(97_i16)),
+    (r#"RICOHCDRRWMP7125A"#, &Some(97_i16)),
+    (r#"RICOHCDRRWMP7163A"#, &Some(97_i16)),
+    (r#"RICOHCDRRWMP7200A"#, &Some(97_i16)),
+    (r#"RICOHCDRRWMP7240A"#, &Some(97_i16)),
+    (r#"RICOHCDRRWRW7040A"#, &Some(685_i16)),
+    (r#"RICOHCDRWMP7320A"#, &Some(97_i16)),
+    (r#"RICOHCDRWMP7400A"#, &Some(97_i16)),
+    (r#"RICOHDVDCDRWMP9060"#, &Some(708_i16)),
+    (r#"RICOHDVDCDRWMP9120"#, &Some(708_i16)),
+    (r#"RICOHDVDCDRWMP9200"#, &Some(708_i16)),
+    (r#"RICOHDVDRWMP5120"#, &Some(120_i16)),
+    (r#"RICOHDVDRWMP5125"#, &Some(120_i16)),
+    (r#"RICOHDVDRWMP5240"#, &Some(91_i16)),
+    (r#"RICOHDVDRWMP5240A"#, &Some(91_i16)),
+    (r#"RICOHDVDRWMP5316DAG"#, &Some(48_i16)),
+    (r#"RICOHMP6200S"#, &Some(87_i16)),
+    (r#"RICOHMP6201S"#, &Some(87_i16))
+];
+
+pub static VND_RIDATA: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"RIDATADVDRWRDRIVE"#, &Some(120_i16))
+];
+
+pub static VND_RW201040: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"RW201040"#, &Some(97_i16))
+];
+
+pub static VND_RW241040: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"RW241040"#, &Some(97_i16))
+];
+
+pub static VND_RW8240A: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"RW8240A"#, &Some(685_i16))
+];
+
+pub static VND_RWJKZYR: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"RWJKZYRPQB016NS1"#, &Some(48_i16))
+];
+
+pub static VND_SAMSUNG: [(&'static str, &'static Option<i16>); 65] = [
+    (r#"SAMSUNGCDROMSC140"#, &Some(976_i16)),
+    (r#"SAMSUNGCDROMSC140B"#, &Some(682_i16)),
+    (r#"SAMSUNGCDROMSC140C"#, &Some(600_i16)),
+    (r#"SAMSUNGCDROMSC140F"#, &Some(976_i16)),
+    (r#"SAMSUNGCDROMSC148A"#, &Some(12_i16)),
+    (r#"SAMSUNGCDROMSC148B"#, &Some(682_i16)),
+    (r#"SAMSUNGCDROMSC148C"#, &Some(600_i16)),
+    (r#"SAMSUNGCDROMSC148S"#, &Some(975_i16)),
+    (r#"SAMSUNGCDROMSC148T"#, &Some(600_i16)),
+    (r#"SAMSUNGCDROMSC152A"#, &Some(691_i16)),
+    (r#"SAMSUNGCDROMSC152B"#, &Some(600_i16)),
+    (r#"SAMSUNGCDROMSC152C"#, &Some(600_i16)),
+    (r#"SAMSUNGCDROMSC152G"#, &Some(691_i16)),
+    (r#"SAMSUNGCDROMSC152L"#, &Some(600_i16)),
+    (r#"SAMSUNGCDROMSCR2430"#, &Some(-494_i16)),
+    (r#"SAMSUNGCDROMSCR3231"#, &Some(974_i16)),
+    (r#"SAMSUNGCDROMSCR3232"#, &Some(686_i16)),
+    (r#"SAMSUNGCDROMSH152A"#, &Some(12_i16)),
+    (r#"SAMSUNGCDROMSN124"#, &Some(564_i16)),
+    (r#"SAMSUNGCDRRWSW208B"#, &Some(86_i16)),
+    (r#"SAMSUNGCDRRWSW208F"#, &Some(86_i16)),
+    (r#"SAMSUNGCDRRWSW212B"#, &Some(733_i16)),
+    (r#"SAMSUNGCDRRWSW216B"#, &Some(97_i16)),
+    (r#"SAMSUNGCDRRWSW224B"#, &Some(12_i16)),
+    (r#"SAMSUNGCDRRWSW232B"#, &Some(97_i16)),
+    (r#"SAMSUNGCDRRWSW240B"#, &Some(97_i16)),
+    (r#"SAMSUNGCDRRWSW248B"#, &Some(733_i16)),
+    (r#"SAMSUNGCDRRWSW248F"#, &Some(97_i16)),
+    (r#"SAMSUNGCDRRWSW252B"#, &Some(97_i16)),
+    (r#"SAMSUNGCDRRWSW252F"#, &Some(145_i16)),
+    (r#"SAMSUNGCDRRWSW252S"#, &Some(6_i16)),
+    (r#"SAMSUNGCDRRWSW408B"#, &Some(97_i16)),
+    (r#"SAMSUNGCDRWDVDSM308B"#, &Some(120_i16)),
+    (r#"SAMSUNGCDRWDVDSM316B"#, &Some(120_i16)),
+    (r#"SAMSUNGCDRWDVDSM332B"#, &Some(120_i16)),
+    (r#"SAMSUNGCDRWDVDSM348B"#, &Some(6_i16)),
+    (r#"SAMSUNGCDRWDVDSM352B"#, &Some(6_i16)),
+    (r#"SAMSUNGCDRWDVDSM352F"#, &Some(6_i16)),
+    (r#"SAMSUNGCDRWDVDSM352N"#, &Some(6_i16)),
+    (r#"SAMSUNGCDRWDVDSM408B"#, &Some(120_i16)),
+    (r#"SAMSUNGCDRWDVDSN308B"#, &Some(120_i16)),
+    (r#"SAMSUNGCDRWDVDSN324B"#, &Some(120_i16)),
+    (r#"SAMSUNGCDRWDVDSN324F"#, &Some(6_i16)),
+    (r#"SAMSUNGCDRWDVDSN324S"#, &Some(6_i16)),
+    (r#"SAMSUNGCDRWDVDSU324B"#, &Some(6_i16)),
+    (r#"SAMSUNGCDRWDVDSU408B"#, &Some(120_i16)),
+    (r#"SAMSUNGCOMBOSM304B"#, &Some(120_i16)),
+    (r#"SAMSUNGDVDROMSD604"#, &Some(116_i16)),
+    (r#"SAMSUNGDVDROMSD606F"#, &Some(116_i16)),
+    (r#"SAMSUNGDVDROMSD608"#, &Some(704_i16)),
+    (r#"SAMSUNGDVDROMSD612"#, &Some(704_i16)),
+    (r#"SAMSUNGDVDROMSD612F"#, &Some(704_i16)),
+    (r#"SAMSUNGDVDROMSD612S"#, &Some(1182_i16)),
+    (r#"SAMSUNGDVDROMSD616"#, &Some(1292_i16)),
+    (r#"SAMSUNGDVDROMSD616E"#, &Some(12_i16)),
+    (r#"SAMSUNGDVDROMSD616F"#, &Some(1182_i16)),
+    (r#"SAMSUNGDVDROMSD616Q"#, &Some(12_i16)),
+    (r#"SAMSUNGDVDROMSD616T"#, &Some(1182_i16)),
+    (r#"SAMSUNGDVDROMSD816B"#, &Some(12_i16)),
+    (r#"SAMSUNGDVDRRWSHW08A"#, &Some(116_i16)),
+    (r#"SAMSUNGDVDRRWSRW04B"#, &Some(48_i16)),
+    (r#"SAMSUNGDVDRWSHS222A"#, &Some(6_i16)),
+    (r#"SAMSUNGDVDRWTSH662"#, &Some(6_i16)),
+    (r#"SAMSUNGDVDWBDSHB083A"#, &Some(6_i16)),
+    (r#"SAMSUNGDVDWBDSHB083L"#, &Some(6_i16))
+];
+
+pub static VND_SANYO: [(&'static str, &'static Option<i16>); 2] = [
+    (r#"SANYOCDROMCRD1332P"#, &Some(682_i16)),
+    (r#"SANYOCRDS372B"#, &Some(694_i16))
+];
+
+pub static VND_SATA: [(&'static str, &'static Option<i16>); 54] = [
+    (r#"SATAASUSBC12B1S"#, &Some(702_i16)),
+    (r#"SATAASUSBR04B2T"#, &Some(696_i16)),
+    (r#"SATAASUSDRW1814"#, &Some(6_i16)),
+    (r#"SATAASUSDRW2014"#, &Some(6_i16)),
+    (r#"SATAASUSDRW20B1"#, &Some(6_i16)),
+    (r#"SATAASUSDRW24B1"#, &Some(6_i16)),
+    (r#"SATAASUSDRW24B3"#, &Some(6_i16)),
+    (r#"SATAASUSDVDE818"#, &Some(6_i16)),
+    (r#"SATAATAPIDVDAD"#, &Some(6_i16)),
+    (r#"SATAATAPIDVDDD"#, &Some(6_i16)),
+    (r#"SATAATAPIIHAS120"#, &Some(6_i16)),
+    (r#"SATAATAPIIHAS322"#, &Some(6_i16)),
+    (r#"SATAATAPIIHAS424"#, &Some(6_i16)),
+    (r#"SATAATAPIIHBS112"#, &Some(6_i16)),
+    (r#"SATAATAPIIHDS118"#, &Some(6_i16)),
+    (r#"SATAATAPIIHOS104"#, &Some(696_i16)),
+    (r#"SATABDREGGWH20L"#, &Some(667_i16)),
+    (r#"SATABENQDVDDDD"#, &Some(618_i16)),
+    (r#"SATACDDVDWSHS183L"#, &Some(6_i16)),
+    (r#"SATADVDRAMGH20NS15"#, &Some(667_i16)),
+    (r#"SATADVDRPX755A"#, &Some(30_i16)),
+    (r#"SATADVDRPX891SAF"#, &Some(6_i16)),
+    (r#"SATADVDRW18X18X12X"#, &Some(6_i16)),
+    (r#"SATADVDRW8X8X5X"#, &Some(6_i16)),
+    (r#"SATADVDRWAWG170S"#, &Some(48_i16)),
+    (r#"SATADVDRWSATA20X"#, &Some(6_i16)),
+    (r#"SATALGELECTRONICSBDDVDRW"#, &Some(667_i16)),
+    (r#"SATALGELECTRONICSBDREB"#, &Some(667_i16)),
+    (r#"SATALGELECTRONICSBDREG"#, &Some(667_i16)),
+    (r#"SATALGELECTRONICSBDREW"#, &Some(667_i16)),
+    (r#"SATALGELECTRONICSDVDRAM"#, &Some(102_i16)),
+    (r#"SATALGELECTRONICSDVDRAMG"#, &Some(667_i16)),
+    (r#"SATALITEONCOMBOSH"#, &Some(6_i16)),
+    (r#"SATALITEONDVDRWLH"#, &Some(6_i16)),
+    (r#"SATALITEONDVDSOHD"#, &Some(6_i16)),
+    (r#"SATAOPTIARCBDROMB"#, &Some(79_i16)),
+    (r#"SATAOPTIARCDVDRW"#, &Some(48_i16)),
+    (r#"SATAOPTIARCDVDRWA"#, &Some(48_i16)),
+    (r#"SATAPIONEERBDROM"#, &Some(667_i16)),
+    (r#"SATAPIONEERBDRW"#, &Some(667_i16)),
+    (r#"SATAPIONEERBDRWBD"#, &Some(667_i16)),
+    (r#"SATAPIONEERDVR213N"#, &Some(6_i16)),
+    (r#"SATAPLDSDVDRW"#, &Some(6_i16)),
+    (r#"SATAPLEXTORPXL910S"#, &Some(6_i16)),
+    (r#"SATASONYBDROMB"#, &Some(79_i16)),
+    (r#"SATASONYCDRWC"#, &Some(6_i16)),
+    (r#"SATASONYDVDROM"#, &Some(12_i16)),
+    (r#"SATASONYDVDRWA"#, &Some(48_i16)),
+    (r#"SATASONYDVDRWD"#, &Some(12_i16)),
+    (r#"SATATSSTCORPCDDVDW"#, &Some(6_i16)),
+    (r#"SATATSSTCORPCDDVDWS"#, &Some(6_i16)),
+    (r#"SATATSSTCORPCDDVDWT"#, &Some(6_i16)),
+    (r#"SATATSSTCORPDVDROM"#, &Some(6_i16)),
+    (r#"SATATSSTCORPDVDWBDS"#, &Some(6_i16))
+];
+
+pub static VND_SATADVD: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"SATADVDDROM6316"#, &Some(6_i16))
+];
+
+pub static VND_SHARK: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"SHARK52XCDROM"#, &Some(12_i16))
+];
+
+pub static VND_SHARP: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"SHARPBDBRD50_AQ"#, &Some(667_i16))
+];
+
+pub static VND_SIIMTYPE: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"SIIMTYPEEBAU1087L"#, &Some(6_i16))
+];
+
+pub static VND_SLIMTYPE: [(&'static str, &'static Option<i16>); 106] = [
+    (r#"SLIMTYPEBDE"#, &Some(6_i16)),
+    (r#"SLIMTYPEBDEDC6E2SH"#, &Some(6_i16)),
+    (r#"SLIMTYPEBDEDL4ETS"#, &Some(6_i16)),
+    (r#"SLIMTYPEBDEDS4E1S"#, &Some(6_i16)),
+    (r#"SLIMTYPEBDEDS6E2SH"#, &Some(6_i16)),
+    (r#"SLIMTYPECOMBOLSC24081"#, &Some(6_i16)),
+    (r#"SLIMTYPECOMBOLSC24081M"#, &Some(6_i16)),
+    (r#"SLIMTYPECOMBOLSC24082K"#, &Some(6_i16)),
+    (r#"SLIMTYPECOMBOSOSC2483K"#, &Some(6_i16)),
+    (r#"SLIMTYPECOMBOSSC2485K"#, &Some(6_i16)),
+    (r#"SLIMTYPEDS8A5SH"#, &Some(6_i16)),
+    (r#"SLIMTYPEDVDA"#, &Some(6_i16)),
+    (r#"SLIMTYPEDVDADA8A5SH"#, &Some(6_i16)),
+    (r#"SLIMTYPEDVDADA8A5SHL"#, &Some(6_i16)),
+    (r#"SLIMTYPEDVDADA8A6SH"#, &Some(6_i16)),
+    (r#"SLIMTYPEDVDADA8AESH"#, &Some(6_i16)),
+    (r#"SLIMTYPEDVDADC8A2SH"#, &Some(6_i16)),
+    (r#"SLIMTYPEDVDADL8A3LH"#, &Some(6_i16)),
+    (r#"SLIMTYPEDVDADL8A3SH"#, &Some(6_i16)),
+    (r#"SLIMTYPEDVDADL8A4SH"#, &Some(6_i16)),
+    (r#"SLIMTYPEDVDADL8ATS"#, &Some(6_i16)),
+    (r#"SLIMTYPEDVDADL8ATSH"#, &Some(6_i16)),
+    (r#"SLIMTYPEDVDADP8A4SH"#, &Some(6_i16)),
+    (r#"SLIMTYPEDVDADS8A1H"#, &Some(0_i16)),
+    (r#"SLIMTYPEDVDADS8A1H"#, &Some(594_i16)),
+    (r#"SLIMTYPEDVDADS8A1P"#, &Some(594_i16)),
+    (r#"SLIMTYPEDVDADS8A2L"#, &Some(6_i16)),
+    (r#"SLIMTYPEDVDADS8A2LA"#, &Some(6_i16)),
+    (r#"SLIMTYPEDVDADS8A2S"#, &Some(6_i16)),
+    (r#"SLIMTYPEDVDADS8A2SA"#, &Some(6_i16)),
+    (r#"SLIMTYPEDVDADS8A3L"#, &Some(6_i16)),
+    (r#"SLIMTYPEDVDADS8A3S"#, &Some(6_i16)),
+    (r#"SLIMTYPEDVDADS8A4L"#, &Some(6_i16)),
+    (r#"SLIMTYPEDVDADS8A4S"#, &Some(6_i16)),
+    (r#"SLIMTYPEDVDADS8A4SH"#, &Some(6_i16)),
+    (r#"SLIMTYPEDVDADS8A5L"#, &Some(6_i16)),
+    (r#"SLIMTYPEDVDADS8A5NH"#, &Some(6_i16)),
+    (r#"SLIMTYPEDVDADS8A5S"#, &Some(6_i16)),
+    (r#"SLIMTYPEDVDADS8A5SH"#, &Some(6_i16)),
+    (r#"SLIMTYPEDVDADS8A8NH"#, &Some(6_i16)),
+    (r#"SLIMTYPEDVDADS8A8SH"#, &Some(6_i16)),
+    (r#"SLIMTYPEDVDADS8A9SH"#, &Some(6_i16)),
+    (r#"SLIMTYPEDVDADS8ABSH"#, &Some(6_i16)),
+    (r#"SLIMTYPEDVDADS8ACSH"#, &Some(6_i16)),
+    (r#"SLIMTYPEDVDADS8AESH"#, &Some(6_i16)),
+    (r#"SLIMTYPEDVDADS8AZH"#, &Some(594_i16)),
+    (r#"SLIMTYPEDVDADS8AZP"#, &Some(594_i16)),
+    (r#"SLIMTYPEDVDADS8D4SH"#, &Some(6_i16)),
+    (r#"SLIMTYPEDVDADS8D9SH"#, &Some(6_i16)),
+    (r#"SLIMTYPEDVDADU8A2S"#, &Some(6_i16)),
+    (r#"SLIMTYPEDVDADU8A3S"#, &Some(6_i16)),
+    (r#"SLIMTYPEDVDADU8A3SH"#, &Some(6_i16)),
+    (r#"SLIMTYPEDVDADU8A4SH"#, &Some(6_i16)),
+    (r#"SLIMTYPEDVDADU8A5SH"#, &Some(6_i16)),
+    (r#"SLIMTYPEDVDADU8A6SH"#, &Some(6_i16)),
+    (r#"SLIMTYPEDVDADU8AENH"#, &Some(6_i16)),
+    (r#"SLIMTYPEDVDADU8AESH"#, &Some(6_i16)),
+    (r#"SLIMTYPEDVDCDS24CZP"#, &Some(6_i16)),
+    (r#"SLIMTYPEDVDDDS8D3SH"#, &Some(6_i16)),
+    (r#"SLIMTYPEDVDDDS8RESH"#, &Some(36_i16)),
+    (r#"SLIMTYPEDVDRWSDW431S"#, &Some(12_i16)),
+    (r#"SLIMTYPEDVDRWSLW831S"#, &Some(6_i16)),
+    (r#"SLIMTYPEDVDRWSOSW833S"#, &Some(6_i16)),
+    (r#"SLIMTYPEDVDRWSOSW852S"#, &Some(12_i16)),
+    (r#"SLIMTYPEDVDRWSSM8515S"#, &Some(594_i16)),
+    (r#"SLIMTYPEDVDRWSSM85H5S"#, &Some(594_i16)),
+    (r#"SLIMTYPEDVDRWSSW8015S"#, &Some(594_i16)),
+    (r#"SLIMTYPEEB1"#, &Some(667_i16)),
+    (r#"SLIMTYPEEBAU1085"#, &Some(6_i16)),
+    (r#"SLIMTYPEEBAU1085L"#, &Some(6_i16)),
+    (r#"SLIMTYPEEBAU1086L"#, &Some(6_i16)),
+    (r#"SLIMTYPEEBAU1087L"#, &Some(6_i16)),
+    (r#"SLIMTYPEENAU1085"#, &Some(6_i16)),
+    (r#"SLIMTYPEENAU1088"#, &Some(6_i16)),
+    (r#"SLIMTYPEENAU5085"#, &Some(6_i16)),
+    (r#"SLIMTYPEENAU5088"#, &Some(6_i16)),
+    (r#"SLIMTYPEENAU6085"#, &Some(6_i16)),
+    (r#"SLIMTYPEENAU7085"#, &Some(6_i16)),
+    (r#"SLIMTYPEENAU7088"#, &Some(6_i16)),
+    (r#"SLIMTYPEENAU8085"#, &Some(6_i16)),
+    (r#"SLIMTYPEENAU8088"#, &Some(6_i16)),
+    (r#"SLIMTYPEES1"#, &Some(6_i16)),
+    (r#"SLIMTYPEES11"#, &Some(6_i16)),
+    (r#"SLIMTYPEESAU1082"#, &Some(6_i16)),
+    (r#"SLIMTYPEESAU1083"#, &Some(6_i16)),
+    (r#"SLIMTYPEESAU1084"#, &Some(6_i16)),
+    (r#"SLIMTYPEESAU1085"#, &Some(6_i16)),
+    (r#"SLIMTYPEESAU1088"#, &Some(6_i16)),
+    (r#"SLIMTYPEESAU2082"#, &Some(6_i16)),
+    (r#"SLIMTYPEESAU2083"#, &Some(6_i16)),
+    (r#"SLIMTYPEESAU2084"#, &Some(6_i16)),
+    (r#"SLIMTYPEESAU2085"#, &Some(6_i16)),
+    (r#"SLIMTYPEESEU2062"#, &Some(6_i16)),
+    (r#"SLIMTYPEESEU3062"#, &Some(6_i16)),
+    (r#"SLIMTYPEETAU1081"#, &Some(6_i16)),
+    (r#"SLIMTYPEETAU1082"#, &Some(6_i16)),
+    (r#"SLIMTYPEETAU1083"#, &Some(6_i16)),
+    (r#"SLIMTYPEETAU2081"#, &Some(6_i16)),
+    (r#"SLIMTYPEETAU2082"#, &Some(6_i16)),
+    (r#"SLIMTYPEETDU1081"#, &Some(6_i16)),
+    (r#"SLIMTYPEEUAU1085"#, &Some(6_i16)),
+    (r#"SLIMTYPEEUAU1085A"#, &Some(6_i16)),
+    (r#"SLIMTYPESEDVDBK18"#, &Some(6_i16)),
+    (r#"SLIMTYPESEDVDWH18"#, &Some(6_i16)),
+    (r#"SLIMTYPETOPLOADDVDROM"#, &Some(6_i16)),
+    (r#"SLIMTYPETOPLOADDVDRW"#, &Some(6_i16))
+];
+
+pub static VND_SONY: [(&'static str, &'static Option<i16>); 161] = [
+    (r#"SONYBDROMBDUX10S"#, &Some(79_i16)),
+    (r#"SONYBDRWBDXS500U"#, &Some(48_i16)),
+    (r#"SONYBDRWBDXS600U"#, &Some(48_i16)),
+    (r#"SONYBDRWBWU100A"#, &Some(102_i16)),
+    (r#"SONYBDRWBWU200S"#, &Some(102_i16)),
+    (r#"SONYBDRWBWU300S"#, &Some(102_i16)),
+    (r#"SONYBDRWBWU500S"#, &Some(6_i16)),
+    (r#"SONYCDROMCDU311"#, &Some(374_i16)),
+    (r#"SONYCDROMCDU4821"#, &Some(12_i16)),
+    (r#"SONYCDROMCDU5211"#, &Some(600_i16)),
+    (r#"SONYCDROMCDU5212"#, &Some(12_i16)),
+    (r#"SONYCDROMCDU5215"#, &Some(12_i16)),
+    (r#"SONYCDROMCDU5221"#, &Some(12_i16)),
+    (r#"SONYCDROMCDU5222"#, &Some(12_i16)),
+    (r#"SONYCDROMCDU5225"#, &Some(6_i16)),
+    (r#"SONYCDROMCDU5231"#, &Some(691_i16)),
+    (r#"SONYCDROMCDU5232"#, &Some(6_i16)),
+    (r#"SONYCDROMCDU5261"#, &Some(691_i16)),
+    (r#"SONYCDROMCDU611"#, &Some(699_i16)),
+    (r#"SONYCDROMCDU701"#, &Some(564_i16)),
+    (r#"SONYCDROMCDU70125"#, &Some(564_i16)),
+    (r#"SONYCDROMCDU711"#, &Some(99_i16)),
+    (r#"SONYCDRWCRX0811"#, &Some(688_i16)),
+    (r#"SONYCDRWCRX100E"#, &Some(1160_i16)),
+    (r#"SONYCDRWCRX10U"#, &Some(572_i16)),
+    (r#"SONYCDRWCRX120E"#, &Some(1160_i16)),
+    (r#"SONYCDRWCRX140E"#, &Some(572_i16)),
+    (r#"SONYCDRWCRX140S"#, &Some(572_i16)),
+    (r#"SONYCDRWCRX145E"#, &Some(572_i16)),
+    (r#"SONYCDRWCRX145S"#, &Some(572_i16)),
+    (r#"SONYCDRWCRX160E"#, &Some(572_i16)),
+    (r#"SONYCDRWCRX160S"#, &Some(572_i16)),
+    (r#"SONYCDRWCRX1611"#, &Some(690_i16)),
+    (r#"SONYCDRWCRX168B"#, &Some(6_i16)),
+    (r#"SONYCDRWCRX175A"#, &Some(120_i16)),
+    (r#"SONYCDRWCRX175A1"#, &Some(12_i16)),
+    (r#"SONYCDRWCRX175E"#, &Some(0_i16)),
+    (r#"SONYCDRWCRX175E"#, &Some(120_i16)),
+    (r#"SONYCDRWCRX175E2"#, &Some(97_i16)),
+    (r#"SONYCDRWCRX185E1"#, &Some(12_i16)),
+    (r#"SONYCDRWCRX185E3"#, &Some(12_i16)),
+    (r#"SONYCDRWCRX195E1"#, &Some(12_i16)),
+    (r#"SONYCDRWCRX210E1"#, &Some(6_i16)),
+    (r#"SONYCDRWCRX215E1"#, &Some(6_i16)),
+    (r#"SONYCDRWCRX215E5"#, &Some(733_i16)),
+    (r#"SONYCDRWCRX216E"#, &Some(6_i16)),
+    (r#"SONYCDRWCRX217E"#, &Some(6_i16)),
+    (r#"SONYCDRWCRX220E1"#, &Some(6_i16)),
+    (r#"SONYCDRWCRX225E"#, &Some(6_i16)),
+    (r#"SONYCDRWCRX230E"#, &Some(6_i16)),
+    (r#"SONYCDRWCRX230ED"#, &Some(6_i16)),
+    (r#"SONYCDRWCRX230EE"#, &Some(6_i16)),
+    (r#"SONYCDRWCRX300E"#, &Some(6_i16)),
+    (r#"SONYCDRWCRX320E"#, &Some(6_i16)),
+    (r#"SONYCDRWCRX320EE"#, &Some(6_i16)),
+    (r#"SONYCDRWCRX700E"#, &Some(572_i16)),
+    (r#"SONYCDRWCRX810E"#, &Some(120_i16)),
+    (r#"SONYCDRWCRX820E"#, &Some(120_i16)),
+    (r#"SONYCDRWCRX830E"#, &Some(6_i16)),
+    (r#"SONYCDRWCRX835E"#, &Some(6_i16)),
+    (r#"SONYCDRWCRX85A"#, &Some(120_i16)),
+    (r#"SONYCDRWCRXP90MU"#, &Some(120_i16)),
+    (r#"SONYCDRWDVDCRX310EE"#, &Some(6_i16)),
+    (r#"SONYCDRWDVDCRX310S"#, &Some(6_i16)),
+    (r#"SONYCDRWDVDCRX330E"#, &Some(6_i16)),
+    (r#"SONYCDRWDVDCRX830E"#, &Some(6_i16)),
+    (r#"SONYCDRWDVDCRX835E"#, &Some(6_i16)),
+    (r#"SONYCDRWDVDCRX850E"#, &Some(6_i16)),
+    (r#"SONYCDRWDVDCRX880A"#, &Some(6_i16)),
+    (r#"SONYCDRWDVDCRX960A"#, &Some(6_i16)),
+    (r#"SONYCDRWMPDAP20U"#, &Some(120_i16)),
+    (r#"SONYCDU4811"#, &Some(-1164_i16)),
+    (r#"SONYCDU5211"#, &Some(600_i16)),
+    (r#"SONYDVDROMDDU1211"#, &Some(594_i16)),
+    (r#"SONYDVDROMDDU1611"#, &Some(594_i16)),
+    (r#"SONYDVDROMDDU1612"#, &Some(12_i16)),
+    (r#"SONYDVDROMDDU1613"#, &Some(12_i16)),
+    (r#"SONYDVDROMDDU1615"#, &Some(6_i16)),
+    (r#"SONYDVDROMDDU1615S"#, &Some(6_i16)),
+    (r#"SONYDVDROMDDU1622"#, &Some(12_i16)),
+    (r#"SONYDVDROMDDU1632"#, &Some(6_i16)),
+    (r#"SONYDVDROMDDU1642"#, &Some(6_i16)),
+    (r#"SONYDVDROMDDU1678A"#, &Some(6_i16)),
+    (r#"SONYDVDROMDDU1681S"#, &Some(6_i16)),
+    (r#"SONYDVDROMDDU220E"#, &Some(564_i16)),
+    (r#"SONYDVDROMDDU810A"#, &Some(6_i16)),
+    (r#"SONYDVDRWAD7200A"#, &Some(48_i16)),
+    (r#"SONYDVDRWAD7200S"#, &Some(48_i16)),
+    (r#"SONYDVDRWAD7220S"#, &Some(6_i16)),
+    (r#"SONYDVDRWAD7240S"#, &Some(48_i16)),
+    (r#"SONYDVDRWAD7260S"#, &Some(48_i16)),
+    (r#"SONYDVDRWAD7280S"#, &Some(48_i16)),
+    (r#"SONYDVDRWAD7290H"#, &Some(6_i16)),
+    (r#"SONYDVDRWAWG170A"#, &Some(48_i16)),
+    (r#"SONYDVDRWAWG170S"#, &Some(48_i16)),
+    (r#"SONYDVDRWAWG540A"#, &Some(48_i16)),
+    (r#"SONYDVDRWAWG630A"#, &Some(48_i16)),
+    (r#"SONYDVDRWAWG910A"#, &Some(48_i16)),
+    (r#"SONYDVDRWAWQ160A"#, &Some(6_i16)),
+    (r#"SONYDVDRWAWQ160S"#, &Some(6_i16)),
+    (r#"SONYDVDRWAWQ170A"#, &Some(48_i16)),
+    (r#"SONYDVDRWAWQ540A"#, &Some(48_i16)),
+    (r#"SONYDVDRWDRU120A"#, &Some(120_i16)),
+    (r#"SONYDVDRWDRU180A"#, &Some(6_i16)),
+    (r#"SONYDVDRWDRU190A"#, &Some(6_i16)),
+    (r#"SONYDVDRWDRU190S"#, &Some(6_i16)),
+    (r#"SONYDVDRWDRU500A"#, &Some(120_i16)),
+    (r#"SONYDVDRWDRU510A"#, &Some(120_i16)),
+    (r#"SONYDVDRWDRU530A"#, &Some(689_i16)),
+    (r#"SONYDVDRWDRU540A"#, &Some(691_i16)),
+    (r#"SONYDVDRWDRU700A"#, &Some(12_i16)),
+    (r#"SONYDVDRWDRU710A"#, &Some(12_i16)),
+    (r#"SONYDVDRWDRU720A"#, &Some(12_i16)),
+    (r#"SONYDVDRWDRU800A"#, &Some(12_i16)),
+    (r#"SONYDVDRWDRU810A"#, &Some(618_i16)),
+    (r#"SONYDVDRWDRU820A"#, &Some(102_i16)),
+    (r#"SONYDVDRWDRU830A"#, &Some(6_i16)),
+    (r#"SONYDVDRWDRU835A"#, &Some(6_i16)),
+    (r#"SONYDVDRWDRU840A"#, &Some(6_i16)),
+    (r#"SONYDVDRWDRU842A"#, &Some(48_i16)),
+    (r#"SONYDVDRWDRU845S"#, &Some(6_i16)),
+    (r#"SONYDVDRWDRU860A"#, &Some(6_i16)),
+    (r#"SONYDVDRWDRU860S"#, &Some(6_i16)),
+    (r#"SONYDVDRWDRU865S"#, &Some(6_i16)),
+    (r#"SONYDVDRWDRU870S"#, &Some(48_i16)),
+    (r#"SONYDVDRWDRU875S"#, &Some(48_i16)),
+    (r#"SONYDVDRWDRU880S"#, &Some(48_i16)),
+    (r#"SONYDVDRWDRUV200A"#, &Some(48_i16)),
+    (r#"SONYDVDRWDRUV200S"#, &Some(48_i16)),
+    (r#"SONYDVDRWDRUV202A"#, &Some(48_i16)),
+    (r#"SONYDVDRWDRUV204A"#, &Some(48_i16)),
+    (r#"SONYDVDRWDRXS70U"#, &None),
+    (r#"SONYDVDRWDRXS90U"#, &Some(48_i16)),
+    (r#"SONYDVDRWDWD150A"#, &Some(48_i16)),
+    (r#"SONYDVDRWDWD18A"#, &Some(12_i16)),
+    (r#"SONYDVDRWDWD22A"#, &Some(12_i16)),
+    (r#"SONYDVDRWDWD23A"#, &Some(12_i16)),
+    (r#"SONYDVDRWDWD26A"#, &Some(12_i16)),
+    (r#"SONYDVDRWDWD56A"#, &Some(12_i16)),
+    (r#"SONYDVDRWDWG120A"#, &Some(6_i16)),
+    (r#"SONYDVDRWDWG121A"#, &Some(6_i16)),
+    (r#"SONYDVDRWDWG520A"#, &Some(594_i16)),
+    (r#"SONYDVDRWDWG521A"#, &Some(594_i16)),
+    (r#"SONYDVDRWDWP50A"#, &Some(120_i16)),
+    (r#"SONYDVDRWDWQ120A"#, &Some(6_i16)),
+    (r#"SONYDVDRWDWQ28A"#, &Some(12_i16)),
+    (r#"SONYDVDRWDWQ30A"#, &Some(6_i16)),
+    (r#"SONYDVDRWDWQ31A"#, &Some(6_i16)),
+    (r#"SONYDVDRWDWQ520A"#, &Some(594_i16)),
+    (r#"SONYDVDRWDWQ58A"#, &Some(6_i16)),
+    (r#"SONYDVDRWDWQ78A"#, &Some(6_i16)),
+    (r#"SONYDVDRWDWR56A"#, &Some(12_i16)),
+    (r#"SONYDVDRWDWU12A"#, &Some(120_i16)),
+    (r#"SONYDVDRWDWU14A"#, &Some(120_i16)),
+    (r#"SONYDVDRWDWU18A"#, &Some(12_i16)),
+    (r#"SONYDVDRWDWU50A"#, &Some(120_i16)),
+    (r#"SONYDVDRWDWU54A"#, &Some(120_i16)),
+    (r#"SONYDVDRWDWU55A"#, &Some(120_i16)),
+    (r#"SONYKEK410AAA_A"#, &Some(96_i16)),
+    (r#"SONYKEK410AAA_C"#, &Some(96_i16)),
+    (r#"SONYLUCIDPORTUSB300"#, &Some(48_i16))
+];
+
+pub static VND_STYEAST: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"STYEASTSD307DVDRW"#, &Some(102_i16))
+];
+
+pub static VND_SUPERA: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"SUPERADSM6S165P"#, &Some(6_i16))
+];
+
+pub static VND_TDK: [(&'static str, &'static Option<i16>); 31] = [
+    (r#"TDKCDRW121032"#, &Some(99_i16)),
+    (r#"TDKCDRW121032A"#, &Some(97_i16)),
+    (r#"TDKCDRW161040"#, &Some(99_i16)),
+    (r#"TDKCDRW161040X"#, &Some(688_i16)),
+    (r#"TDKCDRW161040XA"#, &Some(688_i16)),
+    (r#"TDKCDRW241040B"#, &Some(12_i16)),
+    (r#"TDKCDRW241040UEX"#, &Some(688_i16)),
+    (r#"TDKCDRW241040X"#, &Some(688_i16)),
+    (r#"TDKCDRW321040B"#, &Some(12_i16)),
+    (r#"TDKCDRW321040X"#, &Some(688_i16)),
+    (r#"TDKCDRW401240B"#, &Some(12_i16)),
+    (r#"TDKCDRW401248B"#, &Some(12_i16)),
+    (r#"TDKCDRW401248UEX"#, &Some(688_i16)),
+    (r#"TDKCDRW4800B"#, &Some(6_i16)),
+    (r#"TDKCDRW4800D"#, &Some(6_i16)),
+    (r#"TDKCDRW481648UED"#, &Some(12_i16)),
+    (r#"TDKCDRW482448BC"#, &Some(6_i16)),
+    (r#"TDKCDRW5200B"#, &Some(6_i16)),
+    (r#"TDKCDRW5200D"#, &Some(6_i16)),
+    (r#"TDKCDRW5201B"#, &Some(6_i16)),
+    (r#"TDKCDRW5210UEB"#, &Some(6_i16)),
+    (r#"TDKCDRW522432UED"#, &Some(6_i16)),
+    (r#"TDKCDRW522448UED"#, &Some(6_i16)),
+    (r#"TDKCDRW8432"#, &Some(355_i16)),
+    (r#"TDKDVDRW0404N"#, &Some(48_i16)),
+    (r#"TDKDVDRW1280B"#, &Some(12_i16)),
+    (r#"TDKDVDRW1616N"#, &Some(48_i16)),
+    (r#"TDKDVDRW420N"#, &Some(48_i16)),
+    (r#"TDKDVDRW840G"#, &Some(30_i16)),
+    (r#"TDKDVDRW880N"#, &Some(48_i16)),
+    (r#"TDKDVDRW882N"#, &Some(48_i16))
 ];
 
 pub static VND_TEAC: [(&'static str, &'static Option<i16>); 183] = [
@@ -4951,684 +5154,17 @@ pub static VND_TEAC: [(&'static str, &'static Option<i16>); 183] = [
     (r#"TEACPUDVR10"#, &Some(6_i16))
 ];
 
-pub static VND_OIPD42T: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"OIPD42TOPCK101ST1"#, &Some(30_i16))
+pub static VND_TECLAST: [(&'static str, &'static Option<i16>); 2] = [
+    (r#"TECLASTDHB16H"#, &Some(6_i16)),
+    (r#"TECLASTDHB16X2"#, &Some(6_i16))
 ];
 
-pub static VND_52X: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"52XCDROM"#, &Some(12_i16))
+pub static VND_THINK: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"THINKPLUSULTRASLIMDVD"#, &Some(6_i16))
 ];
 
-pub static VND_BDROM400: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"BDROM400"#, &Some(618_i16))
-];
-
-pub static VND_STYEAST: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"STYEASTSD307DVDRW"#, &Some(102_i16))
-];
-
-pub static VND_DVDE616A: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"DVDE616A"#, &Some(6_i16))
-];
-
-pub static VND_GENERIC: [(&'static str, &'static Option<i16>); 27] = [
-    (r#"GENERICCDRCB02"#, &Some(690_i16)),
-    (r#"GENERICCDRCB03"#, &Some(102_i16)),
-    (r#"GENERICCDRCB04"#, &Some(102_i16)),
-    (r#"GENERICCDRCB05"#, &Some(102_i16)),
-    (r#"GENERICCDRCB06"#, &Some(102_i16)),
-    (r#"GENERICCDRRW09"#, &Some(685_i16)),
-    (r#"GENERICCDRRW10"#, &Some(685_i16)),
-    (r#"GENERICCRDBP1300P"#, &Some(688_i16)),
-    (r#"GENERICCRDBP1400P"#, &Some(688_i16)),
-    (r#"GENERICCRDBP1500P"#, &Some(688_i16)),
-    (r#"GENERICCRDBP1600P"#, &Some(688_i16)),
-    (r#"GENERICCRDBP1700P"#, &Some(688_i16)),
-    (r#"GENERICCRDBP3"#, &Some(688_i16)),
-    (r#"GENERICCRDBP4"#, &Some(688_i16)),
-    (r#"GENERICCRDBP5"#, &Some(688_i16)),
-    (r#"GENERICDSW2080"#, &Some(691_i16)),
-    (r#"GENERICDVDRAMMLT04"#, &Some(102_i16)),
-    (r#"GENERICDVDRAMMLT05"#, &Some(102_i16)),
-    (r#"GENERICDVDRAMMLT07"#, &Some(102_i16)),
-    (r#"GENERICDVDRW12XMAX"#, &Some(691_i16)),
-    (r#"GENERICDVDRW16XMAX"#, &Some(691_i16)),
-    (r#"GENERICDVDRW4XMAX"#, &Some(688_i16)),
-    (r#"GENERICDVDRW8XMAX"#, &Some(689_i16)),
-    (r#"GENERICFREECOM16B"#, &Some(685_i16)),
-    (r#"GENERICFREECOM24B"#, &Some(685_i16)),
-    (r#"GENERICFREECOM32A"#, &Some(688_i16)),
-    (r#"GENERICFREECOM40B1"#, &Some(685_i16))
-];
-
-pub static VND_ARTEC: [(&'static str, &'static Option<i16>); 9] = [
-    (r#"ARTECBKM52X16"#, &Some(6_i16)),
-    (r#"ARTECWRAOA40"#, &Some(97_i16)),
-    (r#"ARTECWRAWA48"#, &Some(97_i16)),
-    (r#"ARTECWRR4048"#, &Some(97_i16)),
-    (r#"ARTECWRR4848"#, &Some(97_i16)),
-    (r#"ARTECWRR52X"#, &Some(97_i16)),
-    (r#"ARTECWRR52Z"#, &Some(97_i16)),
-    (r#"ARTECWSM52X"#, &Some(6_i16)),
-    (r#"ARTECWSMYG52"#, &Some(12_i16))
-];
-
-pub static VND_RW8240A: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"RW8240A"#, &Some(685_i16))
-];
-
-pub static VND_COMPAL: [(&'static str, &'static Option<i16>); 3] = [
-    (r#"COMPALTSB24H1DVDCDRW"#, &Some(6_i16)),
-    (r#"COMPALTSB24H2DVDCDRW"#, &Some(6_i16)),
-    (r#"COMPALTSD80Y1DVDRW"#, &Some(691_i16))
-];
-
-pub static VND_TS8XDVDR: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"TS8XDVDRTRANSCEND"#, &Some(6_i16))
-];
-
-pub static VND_WAITEC: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"WAITECSHUTTLE"#, &Some(-436_i16))
-];
-
-pub static VND_SHARP: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"SHARPBDBRD50_AQ"#, &Some(667_i16))
-];
-
-pub static VND_BUFFALO: [(&'static str, &'static Option<i16>); 2] = [
-    (r#"BUFFALOBUFFALOOPTICAL"#, &Some(6_i16)),
-    (r#"BUFFALOOPTICALDRIVE"#, &Some(6_i16))
-];
-
-pub static VND_ANQ: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"ANQC5ENKHER"#, &Some(116_i16))
-];
-
-pub static VND_LITEON: [(&'static str, &'static Option<i16>); 125] = [
-    (r#"LITEONBDBLH2B1S"#, &Some(618_i16)),
-    (r#"LITEONBDODH4O1S"#, &Some(6_i16)),
-    (r#"LITEONCDNLH52N1P"#, &Some(6_i16)),
-    (r#"LITEONCDRLH52R1P"#, &Some(6_i16)),
-    (r#"LITEONCDROMLTN323"#, &Some(-1164_i16)),
-    (r#"LITEONCDROMLTN403"#, &Some(-1164_i16)),
-    (r#"LITEONCDROMLTN403L"#, &Some(-1164_i16)),
-    (r#"LITEONCDROMLTN483"#, &Some(-1164_i16)),
-    (r#"LITEONCDROMLTN483L"#, &Some(-1164_i16)),
-    (r#"LITEONCDROMLTN485S"#, &Some(-1164_i16)),
-    (r#"LITEONCDROMLTN486S"#, &Some(600_i16)),
-    (r#"LITEONCDROMLTN487T"#, &Some(12_i16)),
-    (r#"LITEONCDROMLTN4891S"#, &Some(6_i16)),
-    (r#"LITEONCDROMLTN489S"#, &Some(12_i16)),
-    (r#"LITEONCDROMLTN48S1S"#, &Some(6_i16)),
-    (r#"LITEONCDROMLTN525"#, &Some(-1164_i16)),
-    (r#"LITEONCDROMLTN526"#, &Some(600_i16)),
-    (r#"LITEONCDROMLTN526D"#, &Some(600_i16)),
-    (r#"LITEONCDROMLTN526S"#, &Some(600_i16)),
-    (r#"LITEONCDROMLTN527T"#, &Some(12_i16)),
-    (r#"LITEONCDROMLTN5291S"#, &Some(6_i16)),
-    (r#"LITEONCDROMLTN529S"#, &Some(12_i16)),
-    (r#"LITEONCDROMLTN529SV"#, &Some(12_i16)),
-    (r#"LITEONCDROMLTN52S1S"#, &Some(6_i16)),
-    (r#"LITEONCDRWSOHR4838S"#, &Some(6_i16)),
-    (r#"LITEONCDRWSOHR4839S"#, &Some(6_i16)),
-    (r#"LITEONCDRWSOHR4839V"#, &Some(6_i16)),
-    (r#"LITEONCDRWSOHR5238S"#, &Some(6_i16)),
-    (r#"LITEONCDRWSOHR5239S"#, &Some(6_i16)),
-    (r#"LITEONCDRWSOHR5239V"#, &Some(6_i16)),
-    (r#"LITEONCOMBOLTC48161H"#, &Some(6_i16)),
-    (r#"LITEONCOMBOSHC48S7K"#, &Some(6_i16)),
-    (r#"LITEONCOMBOSHC52S7K"#, &Some(6_i16)),
-    (r#"LITEONCOMBOSOHC4832K"#, &Some(6_i16)),
-    (r#"LITEONCOMBOSOHC4836K"#, &Some(6_i16)),
-    (r#"LITEONCOMBOSOHC4836V"#, &Some(6_i16)),
-    (r#"LITEONCOMBOSOHC5232K"#, &Some(6_i16)),
-    (r#"LITEONCOMBOSOHC5235K"#, &Some(6_i16)),
-    (r#"LITEONCOMBOSOHC5236K"#, &Some(6_i16)),
-    (r#"LITEONCOMBOSOHC5236V"#, &Some(6_i16)),
-    (r#"LITEONDDU605U"#, &Some(667_i16)),
-    (r#"LITEONDH16AFSHPREMM1"#, &Some(6_i16)),
-    (r#"LITEONDH16AFSHPREMM2"#, &Some(6_i16)),
-    (r#"LITEONDVDADH20A4H"#, &Some(6_i16)),
-    (r#"LITEONDVDCLH52C1P"#, &Some(6_i16)),
-    (r#"LITEONDVDDLH16D1P"#, &Some(6_i16)),
-    (r#"LITEONDVDROMLTD122"#, &Some(594_i16)),
-    (r#"LITEONDVDROMLTD163"#, &Some(594_i16)),
-    (r#"LITEONDVDROMLTD163D"#, &Some(594_i16)),
-    (r#"LITEONDVDROMLTD165H"#, &Some(12_i16)),
-    (r#"LITEONDVDROMLTD165P"#, &Some(12_i16)),
-    (r#"LITEONDVDROMLTD166S"#, &Some(12_i16)),
-    (r#"LITEONDVDROMXJHD166"#, &Some(12_i16)),
-    (r#"LITEONDVDRWDDW813S"#, &Some(12_i16)),
-    (r#"LITEONDVDRWLDW400D"#, &Some(120_i16)),
-    (r#"LITEONDVDRWLDW401S"#, &Some(12_i16)),
-    (r#"LITEONDVDRWLDW411S"#, &Some(12_i16)),
-    (r#"LITEONDVDRWLDW451S"#, &Some(12_i16)),
-    (r#"LITEONDVDRWLDW811S"#, &Some(12_i16)),
-    (r#"LITEONDVDRWLDW851S"#, &Some(12_i16)),
-    (r#"LITEONDVDRWLH16A1S"#, &Some(6_i16)),
-    (r#"LITEONDVDRWLH16W1P"#, &Some(6_i16)),
-    (r#"LITEONDVDRWLH18A1H"#, &Some(6_i16)),
-    (r#"LITEONDVDRWLH18A1P"#, &Some(6_i16)),
-    (r#"LITEONDVDRWLH20A1H"#, &Some(6_i16)),
-    (r#"LITEONDVDRWLH20A1L"#, &Some(6_i16)),
-    (r#"LITEONDVDRWLH20A1P"#, &Some(6_i16)),
-    (r#"LITEONDVDRWLH20A1S"#, &Some(6_i16)),
-    (r#"LITEONDVDRWSH16A7S"#, &Some(6_i16)),
-    (r#"LITEONDVDRWSHM165H6S"#, &Some(6_i16)),
-    (r#"LITEONDVDRWSHM165P6S"#, &Some(6_i16)),
-    (r#"LITEONDVDRWSHM165S6S"#, &Some(6_i16)),
-    (r#"LITEONDVDRWSHW160H6S"#, &Some(6_i16)),
-    (r#"LITEONDVDRWSHW160P6S"#, &Some(6_i16)),
-    (r#"LITEONDVDRWSHW1635S"#, &Some(6_i16)),
-    (r#"LITEONDVDRWSHW16H5S"#, &Some(6_i16)),
-    (r#"LITEONDVDRWSOHW1213S"#, &Some(12_i16)),
-    (r#"LITEONDVDRWSOHW1613S"#, &Some(12_i16)),
-    (r#"LITEONDVDRWSOHW1633S"#, &Some(12_i16)),
-    (r#"LITEONDVDRWSOHW1653S"#, &Some(12_i16)),
-    (r#"LITEONDVDRWSOHW1673S"#, &Some(12_i16)),
-    (r#"LITEONDVDRWSOHW1693S"#, &Some(12_i16)),
-    (r#"LITEONDVDRWSOHW802S"#, &Some(12_i16)),
-    (r#"LITEONDVDRWSOHW812S"#, &Some(12_i16)),
-    (r#"LITEONDVDRWSOHW822S"#, &Some(12_i16)),
-    (r#"LITEONDVDRWSOHW832S"#, &Some(12_i16)),
-    (r#"LITEONDVDSHD16P1S"#, &Some(6_i16)),
-    (r#"LITEONDVDSHD16S1S"#, &Some(6_i16)),
-    (r#"LITEONDVDSOHD167T"#, &Some(12_i16)),
-    (r#"LITEONDVDSOHD16P1S"#, &Some(6_i16)),
-    (r#"LITEONDVDSOHD16P9S"#, &Some(6_i16)),
-    (r#"LITEONDVDSOHD16P9SV"#, &Some(6_i16)),
-    (r#"LITEONLTN483S48XMAX"#, &Some(-1164_i16)),
-    (r#"LITEONLTN48648XMAX"#, &Some(600_i16)),
-    (r#"LITEONLTN486S48XMAX"#, &Some(600_i16)),
-    (r#"LITEONLTR0841"#, &Some(688_i16)),
-    (r#"LITEONLTR12101B"#, &Some(688_i16)),
-    (r#"LITEONLTR12102B"#, &Some(12_i16)),
-    (r#"LITEONLTR12102C"#, &Some(12_i16)),
-    (r#"LITEONLTR16101B"#, &Some(690_i16)),
-    (r#"LITEONLTR16102B"#, &Some(12_i16)),
-    (r#"LITEONLTR24102B"#, &Some(12_i16)),
-    (r#"LITEONLTR24102M"#, &Some(12_i16)),
-    (r#"LITEONLTR24103S"#, &Some(12_i16)),
-    (r#"LITEONLTR32123S"#, &Some(12_i16)),
-    (r#"LITEONLTR32125W"#, &Some(12_i16)),
-    (r#"LITEONLTR40125S"#, &Some(12_i16)),
-    (r#"LITEONLTR40125W"#, &Some(12_i16)),
-    (r#"LITEONLTR48125S"#, &Some(12_i16)),
-    (r#"LITEONLTR48125W"#, &Some(12_i16)),
-    (r#"LITEONLTR48126S"#, &Some(6_i16)),
-    (r#"LITEONLTR48246K"#, &Some(6_i16)),
-    (r#"LITEONLTR48246S"#, &Some(6_i16)),
-    (r#"LITEONLTR48247S"#, &Some(6_i16)),
-    (r#"LITEONLTR48327S"#, &Some(6_i16)),
-    (r#"LITEONLTR52246S"#, &Some(6_i16)),
-    (r#"LITEONLTR52327S"#, &Some(6_i16)),
-    (r#"LITEONLXR24101A"#, &Some(12_i16)),
-    (r#"LITEONLXR40122"#, &Some(12_i16)),
-    (r#"LITEONLXR40243"#, &Some(6_i16)),
-    (r#"LITEONSOHW1673SU"#, &Some(6_i16)),
-    (r#"LITEONXJHD163"#, &Some(594_i16)),
-    (r#"LITEONXJHD163D"#, &Some(594_i16)),
-    (r#"LITEONXJHD165H"#, &Some(12_i16)),
-    (r#"LITEONXJHD166S"#, &Some(12_i16))
-];
-
-pub static VND_HP: [(&'static str, &'static Option<i16>); 349] = [
-    (r#"HPBDBDH8B2LH"#, &Some(6_i16)),
-    (r#"HPBDBDH8B2SHB"#, &Some(6_i16)),
-    (r#"HPBDBDH8E2L"#, &Some(6_i16)),
-    (r#"HPBDCMBUJ141AF"#, &Some(103_i16)),
-    (r#"HPBDCMBUJ160"#, &Some(103_i16)),
-    (r#"HPBDCMBUJ162"#, &Some(103_i16)),
-    (r#"HPBDCMBUJ172"#, &Some(103_i16)),
-    (r#"HPBDCOMBO240D"#, &Some(6_i16)),
-    (r#"HPBDCOMBOBD530S"#, &Some(6_i16)),
-    (r#"HPBDDRVBD5741H5"#, &Some(48_i16)),
-    (r#"HPBDDRVBD5741H6"#, &Some(48_i16)),
-    (r#"HPBDDRVBD5841H5"#, &Some(48_i16)),
-    (r#"HPBDDRVBD5850H5"#, &Some(48_i16)),
-    (r#"HPBDDVDRWCA21N"#, &Some(102_i16)),
-    (r#"HPBDDVDRWCA30N"#, &Some(102_i16)),
-    (r#"HPBDDVDRWCA30P"#, &Some(102_i16)),
-    (r#"HPBDDVDRWCH10L"#, &Some(667_i16)),
-    (r#"HPBDDVDRWCH20L"#, &Some(667_i16)),
-    (r#"HPBDDVDRWCH28N"#, &Some(667_i16)),
-    (r#"HPBDDVDRWCH30L"#, &Some(6_i16)),
-    (r#"HPBDDVDRWCT10L"#, &Some(667_i16)),
-    (r#"HPBDDVDRWCT21L"#, &Some(102_i16)),
-    (r#"HPBDDVDRWCT30K"#, &Some(102_i16)),
-    (r#"HPBDDVDRWCT30L"#, &Some(102_i16)),
-    (r#"HPBDDVDRWCT40N"#, &Some(102_i16)),
-    (r#"HPBDDVDRWCT41N"#, &Some(102_i16)),
-    (r#"HPBDDVDRWCU10N"#, &Some(6_i16)),
-    (r#"HPBDDVDRWCU20N"#, &Some(6_i16)),
-    (r#"HPBDEDC6E2LHB"#, &Some(6_i16)),
-    (r#"HPBDEDC6E2SH"#, &Some(6_i16)),
-    (r#"HPBDEDH12E3LH"#, &Some(702_i16)),
-    (r#"HPBDEDH12E3SHB"#, &Some(702_i16)),
-    (r#"HPBDEDL4ETS"#, &Some(6_i16)),
-    (r#"HPBDEDS6E2LH"#, &Some(6_i16)),
-    (r#"HPBDEDS6E2SH"#, &Some(6_i16)),
-    (r#"HPBDMLTUJ240"#, &Some(103_i16)),
-    (r#"HPBDMLTUJ240AF"#, &Some(103_i16)),
-    (r#"HPBDMLTUJ260"#, &Some(103_i16)),
-    (r#"HPBDMLTUJ260AF"#, &Some(103_i16)),
-    (r#"HPBDMLTUJ262"#, &Some(103_i16)),
-    (r#"HPBDODH4O3S"#, &Some(696_i16)),
-    (r#"HPBDREBH20L"#, &Some(667_i16)),
-    (r#"HPBDREBH30L"#, &Some(667_i16)),
-    (r#"HPBDREBH38L"#, &Some(667_i16)),
-    (r#"HPBDREBH40L"#, &Some(6_i16)),
-    (r#"HPBDREBH40N"#, &Some(6_i16)),
-    (r#"HPBDREBT10N"#, &Some(667_i16)),
-    (r#"HPBDREBT11N"#, &Some(667_i16)),
-    (r#"HPBDREBT30N"#, &Some(667_i16)),
-    (r#"HPBDREBU10N"#, &Some(6_i16)),
-    (r#"HPBDREBU20N"#, &Some(6_i16)),
-    (r#"HPBDROMBC5500S"#, &Some(48_i16)),
-    (r#"HPBDROMBC5501H"#, &Some(48_i16)),
-    (r#"HPBDROMBC5501S"#, &Some(48_i16)),
-    (r#"HPBDROMBC5541H"#, &Some(48_i16)),
-    (r#"HPBDROMBC5550H"#, &Some(48_i16)),
-    (r#"HPBDROMBC5600S"#, &Some(48_i16)),
-    (r#"HPBDROMBDCTD03HA"#, &Some(667_i16)),
-    (r#"HPBDRWBD5730H"#, &Some(48_i16)),
-    (r#"HPBDRWBD5740H"#, &Some(48_i16)),
-    (r#"HPBDRWBD5750H"#, &Some(48_i16)),
-    (r#"HPBDRWBRTD01HA"#, &Some(667_i16)),
-    (r#"HPBDRWBU20N"#, &Some(6_i16)),
-    (r#"HPBDRWBU40N"#, &Some(6_i16)),
-    (r#"HPBDRWBU50N"#, &Some(6_i16)),
-    (r#"HPBDRWUJ272"#, &Some(103_i16)),
-    (r#"HPBDWRITERBD335E"#, &Some(6_i16)),
-    (r#"HPBDWRITERBD335I"#, &Some(6_i16)),
-    (r#"HPBDWRITERBD340I"#, &Some(6_i16)),
-    (r#"HPCDDVDWGP60NB50"#, &Some(6_i16)),
-    (r#"HPCDDVDWGP60NB60"#, &Some(6_i16)),
-    (r#"HPCDDVDWGP70N"#, &Some(6_i16)),
-    (r#"HPCDDVDWSH216AL"#, &Some(6_i16)),
-    (r#"HPCDDVDWSH216ALN"#, &Some(6_i16)),
-    (r#"HPCDDVDWSH216BB"#, &Some(6_i16)),
-    (r#"HPCDDVDWSH216DB"#, &Some(6_i16)),
-    (r#"HPCDDVDWSH216FB"#, &Some(6_i16)),
-    (r#"HPCDDVDWSN208BB"#, &Some(6_i16)),
-    (r#"HPCDDVDWSN208DB"#, &Some(6_i16)),
-    (r#"HPCDDVDWSN208FB"#, &Some(6_i16)),
-    (r#"HPCDDVDWSU208BB"#, &Some(6_i16)),
-    (r#"HPCDDVDWSU208CB"#, &Some(6_i16)),
-    (r#"HPCDDVDWSU208FB"#, &Some(6_i16)),
-    (r#"HPCDDVDWSU208GB"#, &Some(6_i16)),
-    (r#"HPCDDVDWTSH653R"#, &Some(6_i16)),
-    (r#"HPCDDVDWTSH653T"#, &Some(6_i16)),
-    (r#"HPCDDVDWTSH653TN"#, &Some(6_i16)),
-    (r#"HPCDDVDWTSL633J"#, &Some(6_i16)),
-    (r#"HPCDDVDWTSL633M"#, &Some(6_i16)),
-    (r#"HPCDDVDWTSL633N"#, &Some(6_i16)),
-    (r#"HPCDDVDWTSL633R"#, &Some(6_i16)),
-    (r#"HPCDDVDWTST633C"#, &Some(6_i16)),
-    (r#"HPCDDVDWTST633L"#, &Some(6_i16)),
-    (r#"HPCDDVDWTST633P"#, &Some(6_i16)),
-    (r#"HPCDDVDWTST633PN"#, &Some(6_i16)),
-    (r#"HPCDDVDWTSU633F"#, &Some(6_i16)),
-    (r#"HPCDDVDWTSU633J"#, &Some(6_i16)),
-    (r#"HPCDROMCD32X"#, &Some(679_i16)),
-    (r#"HPCDROMCD40X"#, &Some(676_i16)),
-    (r#"HPCDWRITER52R"#, &Some(6_i16)),
-    (r#"HPCDWRITER7100"#, &Some(675_i16)),
-    (r#"HPCDWRITER7200"#, &Some(1263_i16)),
-    (r#"HPCDWRITER7500"#, &Some(1160_i16)),
-    (r#"HPCDWRITER8000"#, &Some(686_i16)),
-    (r#"HPCDWRITER8100"#, &Some(1160_i16)),
-    (r#"HPCDWRITER8200"#, &Some(1160_i16)),
-    (r#"HPCDWRITER8200A"#, &Some(572_i16)),
-    (r#"HPCDWRITER8200F"#, &Some(674_i16)),
-    (r#"HPCDWRITER8290"#, &Some(686_i16)),
-    (r#"HPCDWRITER9100"#, &Some(572_i16)),
-    (r#"HPCDWRITER9100B"#, &Some(86_i16)),
-    (r#"HPCDWRITER9100C"#, &Some(-436_i16)),
-    (r#"HPCDWRITER9200"#, &Some(572_i16)),
-    (r#"HPCDWRITER9300"#, &Some(572_i16)),
-    (r#"HPCDWRITER9500"#, &Some(572_i16)),
-    (r#"HPCDWRITER9500B"#, &Some(685_i16)),
-    (r#"HPCDWRITER9600"#, &Some(572_i16)),
-    (r#"HPCDWRITER9700K"#, &Some(733_i16)),
-    (r#"HPCDWRITER9900J"#, &Some(708_i16)),
-    (r#"HPCDWRITERCD16B"#, &Some(12_i16)),
-    (r#"HPCDWRITERCD16E"#, &Some(12_i16)),
-    (r#"HPCDWRITERCD16F"#, &Some(733_i16)),
-    (r#"HPCDWRITERCD16N"#, &Some(685_i16)),
-    (r#"HPCDWRITERCD16R"#, &Some(12_i16)),
-    (r#"HPCDWRITERCD4F"#, &Some(674_i16)),
-    (r#"HPDV28SW"#, &Some(6_i16)),
-    (r#"HPDVDADC8A2LH"#, &Some(6_i16)),
-    (r#"HPDVDADC8A2SH"#, &Some(6_i16)),
-    (r#"HPDVDADH16AAL"#, &Some(6_i16)),
-    (r#"HPDVDADH16ABLH"#, &Some(6_i16)),
-    (r#"HPDVDADH16ABSH"#, &Some(6_i16)),
-    (r#"HPDVDADH16ACSH"#, &Some(6_i16)),
-    (r#"HPDVDADH16ACSHR"#, &Some(6_i16)),
-    (r#"HPDVDADH16AESH"#, &Some(6_i16)),
-    (r#"HPDVDADH16AFSH"#, &Some(6_i16)),
-    (r#"HPDVDADL8A4SH"#, &Some(6_i16)),
-    (r#"HPDVDADL8ATL"#, &Some(6_i16)),
-    (r#"HPDVDADS8A3L"#, &Some(6_i16)),
-    (r#"HPDVDADS8A4LH"#, &Some(6_i16)),
-    (r#"HPDVDADS8A5LH"#, &Some(6_i16)),
-    (r#"HPDVDADS8A5SH"#, &Some(6_i16)),
-    (r#"HPDVDADS8A8SH"#, &Some(6_i16)),
-    (r#"HPDVDADS8A9SH"#, &Some(6_i16)),
-    (r#"HPDVDADS8ABSH"#, &Some(6_i16)),
-    (r#"HPDVDADS8ACSH"#, &Some(6_i16)),
-    (r#"HPDVDADU8A4SH"#, &Some(6_i16)),
-    (r#"HPDVDADU8A5SH"#, &Some(6_i16)),
-    (r#"HPDVDDDH16D5S"#, &Some(6_i16)),
-    (r#"HPDVDDDH16D6SH"#, &Some(6_i16)),
-    (r#"HPDVDDDH16D7SH"#, &Some(6_i16)),
-    (r#"HPDVDDDH16D8SH"#, &Some(6_i16)),
-    (r#"HPDVDDDS8D2SH"#, &Some(6_i16)),
-    (r#"HPDVDDDS8D3SH"#, &Some(6_i16)),
-    (r#"HPDVDDDS8D9SH"#, &Some(6_i16)),
-    (r#"HPDVDDDS8DBSH"#, &Some(6_i16)),
-    (r#"HPDVDDDS8DCSH"#, &Some(6_i16)),
-    (r#"HPDVDDE8A3L"#, &Some(6_i16)),
-    (r#"HPDVDDE8A4L"#, &Some(6_i16)),
-    (r#"HPDVDRAM"#, &Some(102_i16)),
-    (r#"HPDVDRAMGA31N"#, &Some(103_i16)),
-    (r#"HPDVDRAMGH40L"#, &Some(667_i16)),
-    (r#"HPDVDRAMGH60L"#, &Some(667_i16)),
-    (r#"HPDVDRAMGH80N"#, &Some(667_i16)),
-    (r#"HPDVDRAMGH82N"#, &Some(667_i16)),
-    (r#"HPDVDRAMGHA3N"#, &Some(667_i16)),
-    (r#"HPDVDRAMGHB0N"#, &Some(6_i16)),
-    (r#"HPDVDRAMGHC0N"#, &Some(6_i16)),
-    (r#"HPDVDRAMGHD0N"#, &Some(6_i16)),
-    (r#"HPDVDRAMGS20N"#, &Some(667_i16)),
-    (r#"HPDVDRAMGS30N"#, &Some(667_i16)),
-    (r#"HPDVDRAMGSAU20N"#, &Some(667_i16)),
-    (r#"HPDVDRAMGT20L"#, &Some(667_i16)),
-    (r#"HPDVDRAMGT30L"#, &Some(103_i16)),
-    (r#"HPDVDRAMGT30N"#, &Some(103_i16)),
-    (r#"HPDVDRAMGT31L"#, &Some(103_i16)),
-    (r#"HPDVDRAMGT31N"#, &Some(103_i16)),
-    (r#"HPDVDRAMGT50N"#, &Some(103_i16)),
-    (r#"HPDVDRAMGT80N"#, &Some(102_i16)),
-    (r#"HPDVDRAMGTA0N"#, &Some(102_i16)),
-    (r#"HPDVDRAMGTB0N"#, &Some(102_i16)),
-    (r#"HPDVDRAMGTC0N"#, &Some(102_i16)),
-    (r#"HPDVDRAMGU10N"#, &Some(667_i16)),
-    (r#"HPDVDRAMGU40N"#, &Some(103_i16)),
-    (r#"HPDVDRAMGU60N"#, &Some(6_i16)),
-    (r#"HPDVDRAMGU70N"#, &Some(48_i16)),
-    (r#"HPDVDRAMGU90N"#, &Some(102_i16)),
-    (r#"HPDVDRAMGUB0N"#, &Some(102_i16)),
-    (r#"HPDVDRAMSW810"#, &Some(6_i16)),
-    (r#"HPDVDRAMSW810A"#, &Some(6_i16)),
-    (r#"HPDVDRAMSW820"#, &Some(6_i16)),
-    (r#"HPDVDRAMSW830"#, &Some(6_i16)),
-    (r#"HPDVDRAMUJ892"#, &Some(102_i16)),
-    (r#"HPDVDRAMUJ897"#, &Some(102_i16)),
-    (r#"HPDVDRAMUJ8A2"#, &Some(102_i16)),
-    (r#"HPDVDRAMUJ8A7"#, &Some(102_i16)),
-    (r#"HPDVDRAMUJ8B1"#, &Some(6_i16)),
-    (r#"HPDVDRAMUJ8B2"#, &Some(102_i16)),
-    (r#"HPDVDRAMUJ8C2"#, &Some(103_i16)),
-    (r#"HPDVDRAMUJ8D1"#, &Some(6_i16)),
-    (r#"HPDVDRAMUJ8DB"#, &Some(6_i16)),
-    (r#"HPDVDRAMUJ8E0"#, &Some(103_i16)),
-    (r#"HPDVDRAMUJ8E1"#, &Some(6_i16)),
-    (r#"HPDVDRAMUJ8E2"#, &Some(103_i16)),
-    (r#"HPDVDROM435R"#, &Some(6_i16)),
-    (r#"HPDVDROM455D"#, &Some(6_i16)),
-    (r#"HPDVDROM465D"#, &Some(6_i16)),
-    (r#"HPDVDROM465R"#, &Some(6_i16)),
-    (r#"HPDVDROMDH20N"#, &Some(6_i16)),
-    (r#"HPDVDROMDH40N"#, &Some(6_i16)),
-    (r#"HPDVDROMDH41N"#, &Some(6_i16)),
-    (r#"HPDVDROMDH51N"#, &Some(6_i16)),
-    (r#"HPDVDROMDT30N"#, &Some(103_i16)),
-    (r#"HPDVDROMDT31N"#, &Some(103_i16)),
-    (r#"HPDVDROMDT50N"#, &Some(103_i16)),
-    (r#"HPDVDROMDT80N"#, &Some(102_i16)),
-    (r#"HPDVDROMDTA0N"#, &Some(102_i16)),
-    (r#"HPDVDROMDTB0N"#, &Some(102_i16)),
-    (r#"HPDVDROMDTC0N"#, &Some(102_i16)),
-    (r#"HPDVDROMDU20N"#, &Some(667_i16)),
-    (r#"HPDVDROMRM475E"#, &Some(6_i16)),
-    (r#"HPDVDROMSH116AB"#, &Some(6_i16)),
-    (r#"HPDVDROMSH116BB"#, &Some(6_i16)),
-    (r#"HPDVDROMSH116CB"#, &Some(6_i16)),
-    (r#"HPDVDROMSN108BB"#, &Some(6_i16)),
-    (r#"HPDVDROMSN108DB"#, &Some(6_i16)),
-    (r#"HPDVDROMSN108FB"#, &Some(6_i16)),
-    (r#"HPDVDROMSU108GB"#, &Some(6_i16)),
-    (r#"HPDVDROMTSH353B"#, &Some(6_i16)),
-    (r#"HPDVDROMTSH353C"#, &Some(6_i16)),
-    (r#"HPDVDROMTSL333B"#, &Some(6_i16)),
-    (r#"HPDVDROMTSL333F"#, &Some(6_i16)),
-    (r#"HPDVDROMUJ8D1"#, &Some(6_i16)),
-    (r#"HPDVDRWAD7250H5"#, &Some(48_i16)),
-    (r#"HPDVDRWAD7251H5"#, &Some(48_i16)),
-    (r#"HPDVDRWAD7290H5"#, &Some(48_i16)),
-    (r#"HPDVDRWAD7290HR"#, &Some(48_i16)),
-    (r#"HPDVDRWAD7561S"#, &Some(6_i16)),
-    (r#"HPDVDRWAD7581S"#, &Some(6_i16)),
-    (r#"HPDVDRWAD7586H"#, &Some(6_i16)),
-    (r#"HPDVDRWAD7691H5"#, &Some(48_i16)),
-    (r#"HPDVDRWAD7691H6"#, &Some(48_i16)),
-    (r#"HPDVDRWAD7701H"#, &Some(48_i16)),
-    (r#"HPDVDRWAD7711H"#, &Some(48_i16)),
-    (r#"HPDVDRWAD7721H"#, &Some(48_i16)),
-    (r#"HPDVDRWAD7740H"#, &Some(48_i16)),
-    (r#"HPDVDRWAD7760H"#, &Some(48_i16)),
-    (r#"HPDVDRWAD7930H"#, &Some(48_i16)),
-    (r#"HPDVDRWDA8A6SH"#, &Some(6_i16)),
-    (r#"HPDVDRWDA8AESH"#, &Some(6_i16)),
-    (r#"HPDVDRWDU8A5SHL"#, &Some(6_i16)),
-    (r#"HPDVDRWDU8A6SH"#, &Some(6_i16)),
-    (r#"HPDVDRWDU8AESH"#, &Some(6_i16)),
-    (r#"HPDVDRWG"#, &Some(6_i16)),
-    (r#"HPDVDRWGUB0N"#, &Some(102_i16)),
-    (r#"HPDVDRWGUC0N"#, &Some(6_i16)),
-    (r#"HPDVDRWGUD0N"#, &Some(102_i16)),
-    (r#"HPDVDRWGUD1N"#, &Some(6_i16)),
-    (r#"HPDVDRWGUE1N"#, &Some(6_i16)),
-    (r#"HPDVDRWSU208FB"#, &Some(6_i16)),
-    (r#"HPDVDRWSU208GB"#, &Some(6_i16)),
-    (r#"HPDVDRWSU208HB"#, &Some(6_i16)),
-    (r#"HPDVDRWSU228HB"#, &Some(6_i16)),
-    (r#"HPDVDRWUJ8FBA"#, &Some(6_i16)),
-    (r#"HPDVDRWUJ8G2A"#, &Some(103_i16)),
-    (r#"HPDVDWBDSN406AB"#, &Some(6_i16)),
-    (r#"HPDVDWBDTSHB43L"#, &Some(6_i16)),
-    (r#"HPDVDWBDTSHB43LB"#, &Some(6_i16)),
-    (r#"HPDVDWBDTSLB23L"#, &Some(6_i16)),
-    (r#"HPDVDWBDTSLB23P"#, &Some(6_i16)),
-    (r#"HPDVDWBDTSTB23L"#, &Some(6_i16)),
-    (r#"HPDVDWRITER100J"#, &Some(120_i16)),
-    (r#"HPDVDWRITER1035R"#, &Some(6_i16)),
-    (r#"HPDVDWRITER1040D"#, &Some(6_i16)),
-    (r#"HPDVDWRITER1040R"#, &Some(6_i16)),
-    (r#"HPDVDWRITER1060D"#, &Some(6_i16)),
-    (r#"HPDVDWRITER1060R"#, &Some(6_i16)),
-    (r#"HPDVDWRITER1070D"#, &Some(6_i16)),
-    (r#"HPDVDWRITER1070R"#, &Some(6_i16)),
-    (r#"HPDVDWRITER1135R"#, &Some(6_i16)),
-    (r#"HPDVDWRITER1140D"#, &Some(6_i16)),
-    (r#"HPDVDWRITER1140I"#, &Some(6_i16)),
-    (r#"HPDVDWRITER1140R"#, &Some(6_i16)),
-    (r#"HPDVDWRITER1160D"#, &Some(6_i16)),
-    (r#"HPDVDWRITER1170D"#, &Some(6_i16)),
-    (r#"HPDVDWRITER1170R"#, &Some(6_i16)),
-    (r#"HPDVDWRITER1260D"#, &Some(6_i16)),
-    (r#"HPDVDWRITER1260R"#, &Some(48_i16)),
-    (r#"HPDVDWRITER1260T"#, &Some(6_i16)),
-    (r#"HPDVDWRITER1260V"#, &Some(6_i16)),
-    (r#"HPDVDWRITER1260X"#, &Some(6_i16)),
-    (r#"HPDVDWRITER1265D"#, &Some(48_i16)),
-    (r#"HPDVDWRITER1265T"#, &Some(6_i16)),
-    (r#"HPDVDWRITER1265V"#, &Some(6_i16)),
-    (r#"HPDVDWRITER1270D"#, &Some(6_i16)),
-    (r#"HPDVDWRITER1270E"#, &Some(6_i16)),
-    (r#"HPDVDWRITER1270R"#, &Some(48_i16)),
-    (r#"HPDVDWRITER1270T"#, &Some(6_i16)),
-    (r#"HPDVDWRITER200J"#, &Some(120_i16)),
-    (r#"HPDVDWRITER300C"#, &Some(1292_i16)),
-    (r#"HPDVDWRITER300N"#, &Some(48_i16)),
-    (r#"HPDVDWRITER400C"#, &Some(1292_i16)),
-    (r#"HPDVDWRITER420N"#, &Some(48_i16)),
-    (r#"HPDVDWRITER520N"#, &Some(48_i16)),
-    (r#"HPDVDWRITER530R"#, &Some(12_i16)),
-    (r#"HPDVDWRITER550R"#, &Some(6_i16)),
-    (r#"HPDVDWRITER550T"#, &Some(6_i16)),
-    (r#"HPDVDWRITER555R"#, &Some(6_i16)),
-    (r#"HPDVDWRITER555S"#, &Some(6_i16)),
-    (r#"HPDVDWRITER556S"#, &Some(6_i16)),
-    (r#"HPDVDWRITER557R"#, &Some(6_i16)),
-    (r#"HPDVDWRITER557S"#, &Some(6_i16)),
-    (r#"HPDVDWRITER560R"#, &Some(6_i16)),
-    (r#"HPDVDWRITER560T"#, &Some(6_i16)),
-    (r#"HPDVDWRITER565S"#, &Some(6_i16)),
-    (r#"HPDVDWRITER600R"#, &Some(6_i16)),
-    (r#"HPDVDWRITER600Y"#, &Some(6_i16)),
-    (r#"HPDVDWRITER630C"#, &Some(618_i16)),
-    (r#"HPDVDWRITER635D"#, &Some(12_i16)),
-    (r#"HPDVDWRITER640B"#, &Some(102_i16)),
-    (r#"HPDVDWRITER640C"#, &Some(618_i16)),
-    (r#"HPDVDWRITER640V"#, &Some(618_i16)),
-    (r#"HPDVDWRITER735D"#, &Some(6_i16)),
-    (r#"HPDVDWRITER740B"#, &Some(102_i16)),
-    (r#"HPDVDWRITER740E"#, &Some(102_i16)),
-    (r#"HPDVDWRITER740R"#, &Some(6_i16)),
-    (r#"HPDVDWRITER840B"#, &Some(102_i16)),
-    (r#"HPDVDWRITER840D"#, &Some(6_i16)),
-    (r#"HPDVDWRITER840E"#, &Some(102_i16)),
-    (r#"HPDVDWRITER840X"#, &Some(102_i16)),
-    (r#"HPDVDWRITER840Y"#, &Some(102_i16)),
-    (r#"HPDVDWRITER940D"#, &Some(6_i16)),
-    (r#"HPDVW28SVS"#, &Some(96_i16)),
-    (r#"HPDVW28SW"#, &Some(48_i16)),
-    (r#"HPDW224SV"#, &Some(102_i16)),
-    (r#"HPF2B56AA"#, &Some(102_i16)),
-    (r#"HPGP70N"#, &Some(6_i16)),
-    (r#"HPHLDSBDREBU40"#, &Some(6_i16)),
-    (r#"HPHLDSBDREBU40N"#, &Some(6_i16)),
-    (r#"HPHLDSBDREBU50N"#, &Some(6_i16)),
-    (r#"HPHLDSDVDROMDUD0N"#, &Some(102_i16)),
-    (r#"HPHLDSDVDROMDUD1N"#, &Some(6_i16)),
-    (r#"HPHLDSDVDRWGUD"#, &Some(6_i16)),
-    (r#"HPHLDSDVDRWGUD0N"#, &Some(102_i16)),
-    (r#"HPHLDSDVDRWGUD1N"#, &Some(6_i16)),
-    (r#"HPPHOTOSMARTDVD"#, &Some(667_i16)),
-    (r#"HPPLDSDVDROMDS8RESH"#, &Some(6_i16)),
-    (r#"HPPLDSDVDRWDU8A"#, &Some(6_i16)),
-    (r#"HPPLDSDVDRWDU8AESH"#, &Some(6_i16)),
-    (r#"HPTSSTDVDRWSU208HB"#, &Some(6_i16))
-];
-
-pub static VND_DIGISTOR: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"DIGISTORDV28SA"#, &Some(48_i16))
-];
-
-pub static VND_CYBERDRV: [(&'static str, &'static Option<i16>); 9] = [
-    (r#"CYBERDRVCB511DCOMBO"#, &Some(6_i16)),
-    (r#"CYBERDRVCW018DCDRRW"#, &Some(86_i16)),
-    (r#"CYBERDRVCW038DCDRRW"#, &Some(733_i16)),
-    (r#"CYBERDRVCW058DCDRRW"#, &Some(733_i16)),
-    (r#"CYBERDRVCW068DCDRRW"#, &Some(733_i16)),
-    (r#"CYBERDRVCW078DCDRRW"#, &Some(733_i16)),
-    (r#"CYBERDRVCW088DCDRRW"#, &Some(733_i16)),
-    (r#"CYBERDRVCW089DCDRRW"#, &Some(6_i16)),
-    (r#"CYBERDRVCW099DCDRRW"#, &Some(6_i16))
-];
-
-pub static VND_JUMBO: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"JUMBOCDRWDVDDBW521A"#, &Some(6_i16))
-];
-
-pub static VND_BCD24XHM: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"BCD24XHMCDROM"#, &Some(-1164_i16))
-];
-
-pub static VND_QPS: [(&'static str, &'static Option<i16>); 8] = [
-    (r#"QPSCDRPXW1210A"#, &Some(99_i16)),
-    (r#"QPSCDRPXW124TS"#, &Some(943_i16)),
-    (r#"QPSCDRPXW2410A"#, &Some(98_i16)),
-    (r#"QPSCDRPXW8432T"#, &Some(355_i16)),
-    (r#"QPSCDW512EB"#, &Some(685_i16)),
-    (r#"QPSCDW516EB"#, &Some(685_i16)),
-    (r#"QPSCDW54E"#, &Some(685_i16)),
-    (r#"QPSCRDBP1500P"#, &Some(688_i16))
-];
-
-pub static VND_RW241040: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"RW241040"#, &Some(97_i16))
-];
-
-pub static VND_ALERATEC: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"ALERATECDVDRW20A1H"#, &Some(6_i16))
-];
-
-pub static VND_CRW5224A: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"CRW5224A"#, &Some(6_i16))
-];
-
-pub static VND_BERQZUR: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"BERQZURHIVC5UZ8HUV"#, &Some(0_i16))
-];
-
-pub static VND_DEXPRESO: [(&'static str, &'static Option<i16>); 2] = [
-    (r#"DEXPRESODVDRW"#, &Some(6_i16)),
-    (r#"DEXPRESODVDRWD20A1P"#, &Some(6_i16))
-];
-
-pub static VND_MTHSTEC: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"MTHSTECDVDRWXD536"#, &Some(48_i16))
-];
-
-pub static VND_BENQ: [(&'static str, &'static Option<i16>); 40] = [
-    (r#"BENQBDROMBR1000"#, &Some(6_i16)),
-    (r#"BENQCDROM652M"#, &Some(6_i16)),
-    (r#"BENQCDROM656M"#, &Some(6_i16)),
-    (r#"BENQCDRW5232X"#, &Some(738_i16)),
-    (r#"BENQCOMBOCB523B"#, &Some(-589_i16)),
-    (r#"BENQCOMBOCB523C"#, &Some(6_i16)),
-    (r#"BENQDVDDCDQ60"#, &Some(102_i16)),
-    (r#"BENQDVDDCDW1670"#, &Some(102_i16)),
-    (r#"BENQDVDDCDW1680"#, &Some(6_i16)),
-    (r#"BENQDVDDCDW1800"#, &Some(6_i16)),
-    (r#"BENQDVDDCDW1810"#, &Some(6_i16)),
-    (r#"BENQDVDDCDW2000"#, &Some(6_i16)),
-    (r#"BENQDVDDCDW200S"#, &Some(6_i16)),
-    (r#"BENQDVDDCDW2010"#, &Some(6_i16)),
-    (r#"BENQDVDDCDW205S"#, &Some(6_i16)),
-    (r#"BENQDVDDCDW2200"#, &Some(6_i16)),
-    (r#"BENQDVDDCDW220P"#, &Some(6_i16)),
-    (r#"BENQDVDDCDW220S"#, &Some(6_i16)),
-    (r#"BENQDVDDCDW22AP"#, &Some(6_i16)),
-    (r#"BENQDVDDCDW240S"#, &Some(6_i16)),
-    (r#"BENQDVDDCDW24AS"#, &Some(6_i16)),
-    (r#"BENQDVDDCEW200G"#, &Some(6_i16)),
-    (r#"BENQDVDDDDW1620"#, &Some(618_i16)),
-    (r#"BENQDVDDDDW1625"#, &Some(618_i16)),
-    (r#"BENQDVDDDDW1640"#, &Some(618_i16)),
-    (r#"BENQDVDDDEW162I"#, &Some(618_i16)),
-    (r#"BENQDVDDDEW164B"#, &Some(618_i16)),
-    (r#"BENQDVDDDEW167B"#, &Some(102_i16)),
-    (r#"BENQDVDDUALDW1610"#, &Some(618_i16)),
-    (r#"BENQDVDROM165N"#, &Some(6_i16)),
-    (r#"BENQDVDROM16X"#, &Some(738_i16)),
-    (r#"BENQDVDROMDD165G"#, &Some(6_i16)),
-    (r#"BENQDVDROMDD185G"#, &Some(6_i16)),
-    (r#"BENQDVDROMDD18SA"#, &Some(6_i16)),
-    (r#"BENQDVDROMDD18SA1"#, &Some(6_i16)),
-    (r#"BENQDVDROMDD18SA2"#, &Some(6_i16)),
-    (r#"BENQDVDROMJOYBEE610"#, &Some(691_i16)),
-    (r#"BENQSDVDLD2000"#, &Some(6_i16)),
-    (r#"BENQSDVDTW400S"#, &Some(6_i16)),
-    (r#"BENQSLIMDDSW200D"#, &Some(618_i16))
-];
-
-pub static VND_K390: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"K390ROSEWILLK390"#, &Some(6_i16))
+pub static VND_THINKPAD: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"THINKPADULTRASLIMDVD"#, &Some(6_i16))
 ];
 
 pub static VND_TORISAN: [(&'static str, &'static Option<i16>); 2] = [
@@ -5636,11 +5172,475 @@ pub static VND_TORISAN: [(&'static str, &'static Option<i16>); 2] = [
     (r#"TORISANDVDROMDRDU824"#, &Some(-472_i16))
 ];
 
-pub static VND_CB5216A: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"CB5216A"#, &Some(6_i16))
+pub static VND_TOSHIBA: [(&'static str, &'static Option<i16>); 87] = [
+    (r#"TOSHIBACDDVDWSDR5372"#, &Some(704_i16)),
+    (r#"TOSHIBACDDVDWSDR5372V"#, &Some(704_i16)),
+    (r#"TOSHIBACDDVDWSDR5472C"#, &Some(6_i16)),
+    (r#"TOSHIBACDDVDWSDR5472D"#, &Some(6_i16)),
+    (r#"TOSHIBACDDVDWSDR6472"#, &Some(116_i16)),
+    (r#"TOSHIBACDDVDWSDR6472U"#, &Some(704_i16)),
+    (r#"TOSHIBACDDVDWSDR6572M"#, &Some(116_i16)),
+    (r#"TOSHIBACDROMXM1702BC"#, &Some(686_i16)),
+    (r#"TOSHIBACDROMXM1802D"#, &Some(98_i16)),
+    (r#"TOSHIBACDROMXM1902B"#, &Some(94_i16)),
+    (r#"TOSHIBACDROMXM6202B"#, &Some(686_i16)),
+    (r#"TOSHIBACDROMXM6202BH"#, &Some(686_i16)),
+    (r#"TOSHIBACDROMXM6202S"#, &Some(686_i16)),
+    (r#"TOSHIBACDROMXM6302B"#, &Some(98_i16)),
+    (r#"TOSHIBACDROMXM6401TA"#, &Some(685_i16)),
+    (r#"TOSHIBACDROMXM6402B"#, &Some(94_i16)),
+    (r#"TOSHIBACDROMXM6502B"#, &Some(94_i16)),
+    (r#"TOSHIBACDROMXM6602B"#, &Some(94_i16)),
+    (r#"TOSHIBACDROMXM6702B"#, &Some(94_i16)),
+    (r#"TOSHIBACDROMXM7002B"#, &Some(94_i16)),
+    (r#"TOSHIBACDROMXM7002BC"#, &Some(94_i16)),
+    (r#"TOSHIBACDRRWSRC8102"#, &Some(-472_i16)),
+    (r#"TOSHIBACDRRWSRM8202C"#, &Some(145_i16)),
+    (r#"TOSHIBACDRWDVDSDR2102"#, &Some(708_i16)),
+    (r#"TOSHIBACDWDVDSDR1612"#, &Some(6_i16)),
+    (r#"TOSHIBACDWDVDSDR1712C"#, &Some(6_i16)),
+    (r#"TOSHIBACDWDVDSDR2612"#, &Some(6_i16)),
+    (r#"TOSHIBACDWDVDSDR2612C"#, &Some(6_i16)),
+    (r#"TOSHIBADFDROMSDC21"#, &Some(-472_i16)),
+    (r#"TOSHIBADVDHDSDH802A"#, &Some(697_i16)),
+    (r#"TOSHIBADVDHDWSDL902A"#, &Some(696_i16)),
+    (r#"TOSHIBADVDHDWSDL912A"#, &Some(696_i16)),
+    (r#"TOSHIBADVDHDX807616"#, &Some(697_i16)),
+    (r#"TOSHIBADVDROMSDC2102"#, &Some(116_i16)),
+    (r#"TOSHIBADVDROMSDC2202"#, &Some(116_i16)),
+    (r#"TOSHIBADVDROMSDC2302"#, &Some(-472_i16)),
+    (r#"TOSHIBADVDROMSDC2402"#, &Some(-472_i16)),
+    (r#"TOSHIBADVDROMSDC2502"#, &Some(-472_i16)),
+    (r#"TOSHIBADVDROMSDC2512"#, &Some(-472_i16)),
+    (r#"TOSHIBADVDROMSDC2612"#, &Some(-472_i16)),
+    (r#"TOSHIBADVDROMSDM1201"#, &Some(111_i16)),
+    (r#"TOSHIBADVDROMSDM1202"#, &Some(116_i16)),
+    (r#"TOSHIBADVDROMSDM1212"#, &Some(116_i16)),
+    (r#"TOSHIBADVDROMSDM1222"#, &Some(-472_i16)),
+    (r#"TOSHIBADVDROMSDM1302"#, &Some(-472_i16)),
+    (r#"TOSHIBADVDROMSDM1401"#, &Some(-472_i16)),
+    (r#"TOSHIBADVDROMSDM1402"#, &Some(-472_i16)),
+    (r#"TOSHIBADVDROMSDM1502"#, &Some(-472_i16)),
+    (r#"TOSHIBADVDROMSDM1612"#, &Some(-472_i16)),
+    (r#"TOSHIBADVDROMSDM1711"#, &Some(-472_i16)),
+    (r#"TOSHIBADVDROMSDM1712"#, &Some(-472_i16)),
+    (r#"TOSHIBADVDROMSDM1912"#, &Some(12_i16)),
+    (r#"TOSHIBADVDROMSDM2012C"#, &Some(6_i16)),
+    (r#"TOSHIBADVDROMSDR1002"#, &Some(708_i16)),
+    (r#"TOSHIBADVDROMSDR1102"#, &Some(708_i16)),
+    (r#"TOSHIBADVDROMSDR1202"#, &Some(-472_i16)),
+    (r#"TOSHIBADVDROMSDR1312"#, &Some(116_i16)),
+    (r#"TOSHIBADVDROMSDR2002"#, &Some(708_i16)),
+    (r#"TOSHIBADVDROMSDR2102"#, &Some(708_i16)),
+    (r#"TOSHIBADVDROMSDR2212"#, &Some(116_i16)),
+    (r#"TOSHIBADVDROMSDR2312"#, &Some(116_i16)),
+    (r#"TOSHIBADVDROMSDR2412"#, &Some(116_i16)),
+    (r#"TOSHIBADVDROMSDR2512"#, &Some(116_i16)),
+    (r#"TOSHIBADVDROMSDR2512N"#, &Some(116_i16)),
+    (r#"TOSHIBADVDROMSDR5002"#, &Some(116_i16)),
+    (r#"TOSHIBADVDROMSDR5112"#, &Some(116_i16)),
+    (r#"TOSHIBADVDROMSDR5112N"#, &Some(116_i16)),
+    (r#"TOSHIBADVDROMSDR6012"#, &Some(116_i16)),
+    (r#"TOSHIBADVDROMSDR6112"#, &Some(116_i16)),
+    (r#"TOSHIBADVDROMSDR6112F"#, &Some(116_i16)),
+    (r#"TOSHIBADVDROMSDR9012"#, &Some(116_i16)),
+    (r#"TOSHIBADVDWHDSDL802B"#, &Some(696_i16)),
+    (r#"TOSHIBADVDWHDTSL802A"#, &Some(696_i16)),
+    (r#"TOSHIBAODDDVDSDC2732"#, &Some(691_i16)),
+    (r#"TOSHIBAODDDVDSDM1802"#, &Some(691_i16)),
+    (r#"TOSHIBAODDDVDSDR1412"#, &Some(116_i16)),
+    (r#"TOSHIBAODDDVDSDR1412N"#, &Some(116_i16)),
+    (r#"TOSHIBAODDDVDSDR1412T"#, &Some(116_i16)),
+    (r#"TOSHIBAODDDVDSDR1512"#, &Some(116_i16)),
+    (r#"TOSHIBAODDDVDSDR5272"#, &Some(116_i16)),
+    (r#"TOSHIBAODDDVDSDR6252"#, &Some(116_i16)),
+    (r#"TOSHIBAODDDVDSDR6372"#, &Some(116_i16)),
+    (r#"TOSHIBAPA3761U506BB"#, &Some(103_i16)),
+    (r#"TOSHIBAPA3834L1BD2"#, &Some(103_i16)),
+    (r#"TOSHIBASUPERMULTIPA3761"#, &Some(6_i16)),
+    (r#"TOSHIBASUPERMULTIPA3834"#, &Some(96_i16)),
+    (r#"TOSHIBASUPERMULTIPA3845"#, &Some(103_i16))
 ];
 
-pub static VND_ARK: [(&'static str, &'static Option<i16>); 1] = [
-    (r#"ARKCDDVDVD8A"#, &Some(48_i16))
+pub static VND_TPOS: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"TPOSPDR1000DVDROM"#, &Some(6_i16))
+];
+
+pub static VND_TRAXDATA: [(&'static str, &'static Option<i16>); 2] = [
+    (r#"TRAXDATACDRW121032PLUS"#, &Some(688_i16)),
+    (r#"TRAXDATACDRW2224PLUS"#, &Some(740_i16))
+];
+
+pub static VND_TS8XDVDR: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"TS8XDVDRTRANSCEND"#, &Some(6_i16))
+];
+
+pub static VND_TS8XDVDS: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"TS8XDVDSTRANSCEND"#, &Some(6_i16))
+];
+
+pub static VND_TSSTCORP: [(&'static str, &'static Option<i16>); 293] = [
+    (r#"TSSTCORPAAES0PN21"#, &Some(6_i16)),
+    (r#"TSSTCORPBDDVDW"#, &Some(6_i16)),
+    (r#"TSSTCORPBDDVDWSE506AB"#, &Some(6_i16)),
+    (r#"TSSTCORPBDDVDWSE506BB"#, &Some(6_i16)),
+    (r#"TSSTCORPBDDVDWSE506CB"#, &Some(6_i16)),
+    (r#"TSSTCORPBDDVDWSN506AB"#, &Some(6_i16)),
+    (r#"TSSTCORPBDDVDWSN506BB"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDW"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWDB66"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSDR5372V"#, &Some(704_i16)),
+    (r#"TSSTCORPCDDVDWSE208AB"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSE208BW"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSE208DB"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSE208DR"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSE208FB"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSE208GB"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSE218BB"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSE218CB"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSE218CN"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSE218GF"#, &Some(667_i16)),
+    (r#"TSSTCORPCDDVDWSE218GN"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSE218GN"#, &Some(102_i16)),
+    (r#"TSSTCORPCDDVDWSE218GP"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSE218GX"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSEB18AB"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSES084B"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSES084C"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSES084D"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSES084F"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSES204N"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSES204S"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSES224Q"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSET084L"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSET084M"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSET084P"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSH216AB"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSH216BB"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSH216DB"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSH216FB"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSH222AB"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSH222AL"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSH222BB"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSH224BB"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSH224DB"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSH224FB"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSH224GB"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSHS162A"#, &Some(48_i16)),
+    (r#"TSSTCORPCDDVDWSHS162L"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSHS162S"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSHS182D"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSHS182F"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSHS182M"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSHS183A"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSHS183L"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSHS202G"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSHS202H"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSHS202J"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSHS202N"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSHS203B"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSHS203D"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSHS203N"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSHS203P"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSHS203S"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSHS222A"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSHS222L"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSHS223B"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSHS223C"#, &None),
+    (r#"TSSTCORPCDDVDWSHS223F"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSHS223L"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSHS223Q"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSHS243D"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSHS243N"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSHW162C"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSHW162D"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSHW162L"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSHW162Z"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSHW163A"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSN208AB"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSN208AF"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSN208BB"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSN208DN"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSN208FB"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSNS082D"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSNS082H"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSNS082M"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSNS082N"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSNS083A"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSNS083B"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSNS083C"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSNS083F"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSNS083N"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSNS083R"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSNT082A"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSNT082L"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSNT083A"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSNT083C"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSNW082B"#, &Some(704_i16)),
+    (r#"TSSTCORPCDDVDWSU208AB"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSU208BB"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSU208BU"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSU208CB"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSU208DB"#, &Some(48_i16)),
+    (r#"TSSTCORPCDDVDWSU208FB"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSU208GB"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSU208HB"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSU228CB"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSU228FB"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSU228GB"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSU228HB"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWSUB08AB"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWTSH542A"#, &Some(116_i16)),
+    (r#"TSSTCORPCDDVDWTSH552A"#, &Some(704_i16)),
+    (r#"TSSTCORPCDDVDWTSH552B"#, &Some(12_i16)),
+    (r#"TSSTCORPCDDVDWTSH552D"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWTSH552L"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWTSH552U"#, &Some(12_i16)),
+    (r#"TSSTCORPCDDVDWTSH652D"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWTSH652H"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWTSH652J"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWTSH652L"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWTSH652M"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWTSH652N"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWTSH653A"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWTSH653B"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWTSH653D"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWTSH653E"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWTSH653F"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWTSH653G"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWTSH653J"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWTSH653L"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWTSH653N"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWTSH653Q"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWTSH653R"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWTSH653Z"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWTSH662A"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWTSH663B"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWTSH663C"#, &Some(697_i16)),
+    (r#"TSSTCORPCDDVDWTSH663D"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWTSH663L"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWTSL532A"#, &Some(116_i16)),
+    (r#"TSSTCORPCDDVDWTSL532L"#, &Some(116_i16)),
+    (r#"TSSTCORPCDDVDWTSL532M"#, &Some(116_i16)),
+    (r#"TSSTCORPCDDVDWTSL532R"#, &Some(116_i16)),
+    (r#"TSSTCORPCDDVDWTSL532U"#, &Some(704_i16)),
+    (r#"TSSTCORPCDDVDWTSL632B"#, &Some(696_i16)),
+    (r#"TSSTCORPCDDVDWTSL632C"#, &Some(696_i16)),
+    (r#"TSSTCORPCDDVDWTSL632D"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWTSL632H"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWTSL632L"#, &Some(696_i16)),
+    (r#"TSSTCORPCDDVDWTSL632M"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWTSL632N"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWTSL632P"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWTSL633A"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWTSL633B"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWTSL633C"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWTSL633F"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWTSL633J"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWTSL633L"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWTSL633M"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWTSL633P"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWTSL633V"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWTSL633W"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWTSL633Y"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWTSP532D"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWTSS532A"#, &Some(704_i16)),
+    (r#"TSSTCORPCDDVDWTST632A"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWTST633A"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWTST633C"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWTST633L"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWTST633P"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWTSU633A"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWTSU633B"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWTSU633F"#, &Some(6_i16)),
+    (r#"TSSTCORPCDDVDWTSU633J"#, &Some(6_i16)),
+    (r#"TSSTCORPCDROMSHC522C"#, &Some(6_i16)),
+    (r#"TSSTCORPCDROMTSH192C"#, &Some(6_i16)),
+    (r#"TSSTCORPCDROMTSH193A"#, &Some(6_i16)),
+    (r#"TSSTCORPCDROMTSL162C"#, &Some(6_i16)),
+    (r#"TSSTCORPCDROMTSL162CN"#, &Some(6_i16)),
+    (r#"TSSTCORPCDRRWSHR522C"#, &Some(145_i16)),
+    (r#"TSSTCORPCDRRWTSH292A"#, &Some(145_i16)),
+    (r#"TSSTCORPCDRRWTSH292B"#, &Some(145_i16)),
+    (r#"TSSTCORPCDRRWTSH292C"#, &Some(145_i16)),
+    (r#"TSSTCORPCDRWDVDTSH492B"#, &Some(6_i16)),
+    (r#"TSSTCORPCDRWDVDTSH492C"#, &Some(6_i16)),
+    (r#"TSSTCORPCDRWDVDTSH493A"#, &Some(6_i16)),
+    (r#"TSSTCORPCDRWDVDTSH493B"#, &Some(6_i16)),
+    (r#"TSSTCORPCDRWDVDTSL462C"#, &Some(6_i16)),
+    (r#"TSSTCORPCDRWDVDTSL462D"#, &Some(6_i16)),
+    (r#"TSSTCORPCDRWDVDTSL463A"#, &Some(6_i16)),
+    (r#"TSSTCORPCDRWDVDTSU463A"#, &Some(102_i16)),
+    (r#"TSSTCORPCDRWTSH292B"#, &Some(145_i16)),
+    (r#"TSSTCORPCDRWTSH292C"#, &Some(145_i16)),
+    (r#"TSSTCORPCDWDVDSHM522C"#, &Some(6_i16)),
+    (r#"TSSTCORPCDWDVDSHM523A"#, &Some(6_i16)),
+    (r#"TSSTCORPCDWDVDSHM523B"#, &Some(6_i16)),
+    (r#"TSSTCORPCDWDVDSNM242C"#, &Some(6_i16)),
+    (r#"TSSTCORPCDWDVDSNM242D"#, &Some(6_i16)),
+    (r#"TSSTCORPCDWDVDTSH492A"#, &Some(6_i16)),
+    (r#"TSSTCORPCDWDVDTSH492AN"#, &Some(6_i16)),
+    (r#"TSSTCORPCDWDVDTSH492B"#, &Some(6_i16)),
+    (r#"TSSTCORPCDWDVDTSH492C"#, &Some(6_i16)),
+    (r#"TSSTCORPCDWDVDTSH492CN"#, &Some(6_i16)),
+    (r#"TSSTCORPCDWDVDTSH493A"#, &Some(6_i16)),
+    (r#"TSSTCORPCDWDVDTSH493B"#, &Some(6_i16)),
+    (r#"TSSTCORPCDWDVDTSL462A"#, &Some(6_i16)),
+    (r#"TSSTCORPCDWDVDTSL462C"#, &Some(6_i16)),
+    (r#"TSSTCORPCDWDVDTSL462D"#, &Some(6_i16)),
+    (r#"TSSTCORPCDWDVDTSU462A"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDR"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDROMSH116AB"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDROMSH116BB"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDROMSH116CB"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDROMSH118AB"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDROMSH118BB"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDROMSH118CB"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDROMSH118DB"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDROMSHD162C"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDROMSHD162D"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDROMSHD162E"#, &Some(102_i16)),
+    (r#"TSSTCORPDVDROMSHD163A"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDROMSHD163B"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDROMSHD163C"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDROMSN108AB"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDROMSN108BB"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDROMSN108DN"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDROMSN108FB"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDROMSU108BB"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDROMSU108CB"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDROMSU108FB"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDROMSU108GB"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDROMTS353C"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDROMTSH352A"#, &Some(12_i16)),
+    (r#"TSSTCORPDVDROMTSH352C"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDROMTSH352D"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDROMTSH353A"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDROMTSH353B"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDROMTSH353C"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDROMTSL332A"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDROMTSL333A"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDROMTSL333D"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDROMTSU333A"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDROMTSU333B"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDRRWTST632L"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDRWSH216AB"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDRWSH216BB"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDRWSH216CB"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDRWSH216DB"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDRWSH216FB"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDRWSN208"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDRWSN208BB"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDRWSN208DN"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDRWSN208FB"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDRWSU208"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDRWSU208BB"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDRWSU208CB"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDRWSU208FB"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDRWSU208GB"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDRWTSD633A"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDRWTSH553A"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDRWTSH653A"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDRWTSH653B"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDRWTSH653F"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDRWTSH653G"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDRWTSH653H"#, &Some(697_i16)),
+    (r#"TSSTCORPDVDRWTSH653J"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDRWTSH663"#, &Some(48_i16)),
+    (r#"TSSTCORPDVDRWTSL532B"#, &Some(704_i16)),
+    (r#"TSSTCORPDVDRWTSL63"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDRWTSL632D"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDRWTSL632H"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDRWTSL633A"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDRWTSL633B"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDRWTSL633C"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDRWTSL633J"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDRWTST63"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDRWTST633A"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDRWTST633C"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDRWTSU633A"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDRWTSU633C"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDRWTSU633F"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDRWTSU633J"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDWBD"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDWBDSE406AB"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDWBDSHB123A"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDWBDSHB123L"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDWBDSN406AB"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDWBDSNB063D"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDWBDTSLB23A"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDWBDTSLB23D"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDWBDTSLB23L"#, &Some(6_i16)),
+    (r#"TSSTCORPDVDWBDTSTB23L"#, &Some(6_i16)),
+    (r#"TSSTCORPSHD162C"#, &Some(0_i16))
+];
+
+pub static VND_UGREEN: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"UGREENUGREENSTORAGED"#, &Some(667_i16))
+];
+
+pub static VND_USB: [(&'static str, &'static Option<i16>); 5] = [
+    (r#"USB20DVDROM"#, &Some(6_i16)),
+    (r#"USB20DVDROMDR108"#, &Some(6_i16)),
+    (r#"USBCDROMSC924U"#, &Some(694_i16)),
+    (r#"USBCDRRW4X4X6"#, &Some(692_i16)),
+    (r#"USBCDRRW6X4X6"#, &Some(692_i16))
+];
+
+pub static VND_VAXDRV: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"VAXDRVCDDVDROM"#, &Some(0_i16))
+];
+
+pub static VND_VERBATIM: [(&'static str, &'static Option<i16>); 6] = [
+    (r#"VERBATIM321240AL"#, &Some(12_i16)),
+    (r#"VERBATIM522452AL"#, &Some(6_i16)),
+    (r#"VERBATIM66718"#, &Some(103_i16)),
+    (r#"VERBATIM66768"#, &Some(103_i16)),
+    (r#"VERBATIM66807"#, &Some(102_i16)),
+    (r#"VERBATIMDVDRW"#, &Some(6_i16))
+];
+
+pub static VND_VIRSCSI: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"VIRSCSIDVDCDROM"#, &Some(98_i16))
+];
+
+pub static VND_VOM12E48X: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"VOM12E48X"#, &Some(12_i16))
+];
+
+pub static VND_WAITEC: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"WAITECSHUTTLE"#, &Some(-436_i16))
+];
+
+pub static VND_WZEZY: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"WZEZYWHQ7CHA"#, &Some(6_i16))
+];
+
+pub static VND_XD: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"XDEXTERNALBLURAY"#, &Some(667_i16))
+];
+
+pub static VND_YAMAHA: [(&'static str, &'static Option<i16>); 13] = [
+    (r#"YAMAHACRW2100E"#, &Some(733_i16)),
+    (r#"YAMAHACRW2100S"#, &Some(733_i16)),
+    (r#"YAMAHACRW2200E"#, &Some(733_i16)),
+    (r#"YAMAHACRW2200S"#, &Some(733_i16)),
+    (r#"YAMAHACRW3200E"#, &Some(733_i16)),
+    (r#"YAMAHACRW3200S"#, &Some(733_i16)),
+    (r#"YAMAHACRW70"#, &Some(733_i16)),
+    (r#"YAMAHACRW8424E"#, &Some(117_i16)),
+    (r#"YAMAHACRW8424S"#, &Some(117_i16)),
+    (r#"YAMAHACRW8824E"#, &Some(117_i16)),
+    (r#"YAMAHACRW8824S"#, &Some(117_i16)),
+    (r#"YAMAHACRWF1E"#, &Some(733_i16)),
+    (r#"YAMAHACRWF1S"#, &Some(733_i16))
+];
+
+pub static VND_YAMAKAWA: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"YAMAKAWADVRY08"#, &Some(48_i16))
+];
+
+pub static VND_YHO: [(&'static str, &'static Option<i16>); 1] = [
+    (r#"YHO634LQ3WTE"#, &Some(0_i16))
 ];
 
