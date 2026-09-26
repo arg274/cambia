@@ -13,6 +13,8 @@ pub mod xld_parser;
 pub mod whipper_parser;
 #[cfg(feature = "cueripper")]
 pub mod cueripper_parser;
+#[cfg(feature = "morituri")]
+pub mod morituri_parser;
 
 use serde::{Serialize, Deserialize};
 use ts_rs::TS;
