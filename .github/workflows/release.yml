@@ -20,9 +20,9 @@ permissions:
 jobs:
   web:
     name: Frontend
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           ref: ${{ inputs.tag || github.ref }}
 
@@ -39,7 +39,7 @@ jobs:
             exit 1
           fi
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: '22'
           cache: npm
@@ -54,7 +54,7 @@ jobs:
         working-directory: web
 
       - name: Upload static site files
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: webui
           path: web/build
@@ -67,19 +67,19 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - os: ubuntu-latest
+          - os: ubuntu-24.04
             asset: cambia-linux-x86_64
           - os: windows-latest
             asset: cambia-windows-x86_64.exe
           - os: macos-latest
             asset: cambia-macos-arm64
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           ref: ${{ inputs.tag || github.ref }}
 
       - name: Download static site files
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: webui
           path: web/build
@@ -98,7 +98,7 @@ jobs:
           cp "target/release/cambia${{ matrix.os == 'windows-latest' && '.exe' || '' }}" "dist/${{ matrix.asset }}"
 
       - name: Upload binary
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ matrix.asset }}
           path: dist/${{ matrix.asset }}
@@ -106,15 +106,15 @@ jobs:
   publish:
     name: Publish
     needs: binaries
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           ref: ${{ inputs.tag || github.ref }}
           fetch-depth: 0
 
       - name: Collect the binaries
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           path: dist
           pattern: cambia-*

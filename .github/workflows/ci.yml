@@ -17,11 +17,11 @@ permissions:
 jobs:
   web:
     name: Frontend
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: '22'
           cache: npm
@@ -47,7 +47,7 @@ jobs:
         working-directory: web
 
       - name: Upload static site files
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: webui
           path: web/build
@@ -55,15 +55,15 @@ jobs:
   rust:
     name: Backend
     needs: web
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       # rust-embed pulls web/build into the binary at compile time, so the
       # directory has to be there before cargo reads the crate -- clippy
       # included. Reusing the artifact keeps it to one npm build per run.
       - name: Download static site files
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: webui
           path: web/build
@@ -89,17 +89,17 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - os: ubuntu-latest
+          - os: ubuntu-24.04
             asset: cambia-linux-x86_64
           - os: windows-latest
             asset: cambia-windows-x86_64.exe
           - os: macos-latest
             asset: cambia-macos-arm64
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Download static site files
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: webui
           path: web/build
@@ -118,7 +118,7 @@ jobs:
           cp "target/release/cambia${{ matrix.os == 'windows-latest' && '.exe' || '' }}" "dist/${{ matrix.asset }}"
 
       - name: Upload binary
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ matrix.asset }}
           path: dist/${{ matrix.asset }}
