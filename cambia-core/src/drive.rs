@@ -1,9 +1,9 @@
 use self::offset_table::VENDOR_MAP;
 use aho_corasick::AhoCorasick;
 use rayon::prelude::IntoParallelRefIterator;
-use textdistance::str::levenshtein;
-use regex::Regex;
 use rayon::prelude::*;
+use regex::Regex;
+use textdistance::str::levenshtein;
 
 #[allow(clippy::redundant_static_lifetimes)]
 mod offset_table;
@@ -18,26 +18,36 @@ pub static VENDOR_SUB_VALS: &[&str] = &["LITEON", "LG ELECTRONICS", "PANASONIC"]
 static DISTANCE_THRESHOLD: usize = 5;
 
 pub enum DriveMatchQuality {
-    STRONG(Option<i16>),
-    WEAK(Option<i16>),
+    STRONG(Vec<Option<i16>>),
+    WEAK(Vec<Option<i16>>),
 }
 
 pub struct DriveUtils;
 
 impl DriveUtils {
     fn santitise_drive(drive: String) -> String {
-        let drive_sanitised = DRIVE_SANITISATION.replace_all(drive.as_str(), "").to_string();
+        let drive_sanitised = DRIVE_SANITISATION
+            .replace_all(drive.as_str(), "")
+            .to_string();
 
         let ac = AhoCorasick::new(VENDOR_SUB_KEYS).unwrap();
-        ac.replace_all(&drive_sanitised, VENDOR_SUB_VALS).to_ascii_uppercase()
+        ac.replace_all(&drive_sanitised, VENDOR_SUB_VALS)
+            .to_ascii_uppercase()
     }
-    
+
     pub fn fuzzy_search_vendor(drive: String, sanitise: bool) -> String {
+        let drive_sanitised: String = if sanitise {
+            Self::santitise_drive(drive)
+        } else {
+            drive
+        };
 
-        let drive_sanitised: String = if sanitise { Self::santitise_drive(drive) } else { drive };
-
-        let log_vendor = drive_sanitised.split_whitespace().next().unwrap_or_default();
-        let (matched_vendor, _distance) = VENDOR_MAP.keys()
+        let log_vendor = drive_sanitised
+            .split_whitespace()
+            .next()
+            .unwrap_or_default();
+        let (matched_vendor, _distance) = VENDOR_MAP
+            .keys()
             .map(|vendor| (vendor, levenshtein(vendor, log_vendor)))
             .min_by_key(|&(_, dist)| dist)
             .unwrap();
@@ -49,18 +59,32 @@ impl DriveUtils {
         let vendor = Self::fuzzy_search_vendor(drive_sanitised.clone(), false);
         drive_sanitised = WS_FILTER.replace_all(&drive_sanitised, "").to_string();
 
-        let (_matched_drive, offset, distance) = VENDOR_MAP.get(&vendor).unwrap()
+        let vendor_drives = VENDOR_MAP.get(&vendor).unwrap();
+
+        let (_matched_drive, _offset, distance) = vendor_drives
             .par_iter()
             .map(|&(drv, offset)| (drv, offset, levenshtein(drv, &drive_sanitised)))
-            .min_by_key(|&(_, _, dist)| dist)
+            .min_by_key(|&(_, offset, dist)| (if offset.is_some() { 0usize } else { 1usize }, dist))
             .unwrap();
 
-        tracing::trace!("Matched drive: {} w/ offset: {:?}", _matched_drive, offset);
+        let mut matched_offsets: Vec<Option<i16>> = vendor_drives
+            .iter()
+            .filter(|(drv, _)| *drv == _matched_drive)
+            .map(|(_, offset)| **offset)
+            .collect();
+        matched_offsets.sort();
+        matched_offsets.dedup();
+
+        tracing::trace!(
+            "Matched drive: {} w/ offsets: {:?}",
+            _matched_drive,
+            matched_offsets
+        );
 
         if distance > DISTANCE_THRESHOLD {
-            DriveMatchQuality::WEAK(*offset)
+            DriveMatchQuality::WEAK(matched_offsets)
         } else {
-            DriveMatchQuality::STRONG(*offset)
+            DriveMatchQuality::STRONG(matched_offsets)
         }
     }
 }
