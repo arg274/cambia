@@ -23,7 +23,8 @@ pub fn detect_ripper(encoded_log: DecodedText) -> Result<Box<dyn ParserCombined>
         dbpa if dbpa.contains("dBpoweramp") => Ok(Box::new(crate::parser::dbpa_parser::DbpaParser::new(encoded_log))),
         #[cfg(feature = "morituri")]
         morituri if morituri.contains("Logfile created by: morituri") => Ok(Box::new(crate::parser::morituri_parser::MorituriParser::new(encoded_log))),
-        ezcd if ezcd.contains("EZ CD Audio Converter") => Err(CambiaError::new_anon("EZ CD Audio Converter not supported at the moment.")),
+        #[cfg(feature = "ezcd")]
+        ezcd if ezcd.contains("EZ CD Audio Converter") => Ok(Box::new(crate::parser::ezcd_parser::EzcdParser::new(encoded_log))),
         #[cfg(feature = "rip")]
         rip if rip.contains("Rip ") && rip.contains(" Audio Extraction Log") => Ok(Box::new(crate::parser::rip_parser::RipParser::new(encoded_log))),
         freac if freac.contains("Conversion #") => Err(CambiaError::new_anon("fre:ac not supported at the moment.")),

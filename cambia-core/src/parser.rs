@@ -21,6 +21,8 @@ pub mod morituri_parser;
 pub mod dbpa_parser;
 #[cfg(feature = "rip")]
 pub mod rip_parser;
+#[cfg(feature = "ezcd")]
+pub mod ezcd_parser;
 
 use serde::{Serialize, Deserialize};
 use ts_rs::TS;
