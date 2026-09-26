@@ -17,12 +17,18 @@ pub fn detect_ripper(encoded_log: DecodedText) -> Result<Box<dyn ParserCombined>
         whipper if whipper.contains("Log created by: whipper") => Ok(Box::new(crate::parser::whipper_parser::WhipperParser::new(encoded_log))),
         #[cfg(feature = "cueripper")]
         cueripper if cueripper.contains("CUERipper") => Ok(Box::new(crate::parser::cueripper_parser::CueRipperParser::new(encoded_log))),
-        cyanrip if cyanrip.contains("cyanrip") => Err(CambiaError::new_anon("cyanrip not supported at the moment.")),
-        dbpa if dbpa.contains("dBpoweramp Release") => Err(CambiaError::new_anon("dBpoweramp not supported at the moment.")),
-        morituri if morituri.contains("Logfile created by: morituri") => Err(CambiaError::new_anon("morituri not supported at the moment.")),
-        ezcd if ezcd.contains("EZ CD Audio Converter") => Err(CambiaError::new_anon("EZ CD Audio Converter not supported at the moment.")),
-        rip if rip.contains("Rip ") && rip.contains(" Audio Extraction Log") => Err(CambiaError::new_anon("Rip (OS X) not supported at the moment.")),
-        freac if freac.contains("Conversion #") => Err(CambiaError::new_anon("fre:ac not supported at the moment.")),
+        #[cfg(feature = "cyanrip")]
+        cyanrip if cyanrip.contains("cyanrip") => Ok(Box::new(crate::parser::cyanrip_parser::CyanRipParser::new(encoded_log))),
+        #[cfg(feature = "dbpa")]
+        dbpa if dbpa.contains("dBpoweramp") => Ok(Box::new(crate::parser::dbpa_parser::DbpaParser::new(encoded_log))),
+        #[cfg(feature = "morituri")]
+        morituri if morituri.contains("Logfile created by: morituri") => Ok(Box::new(crate::parser::morituri_parser::MorituriParser::new(encoded_log))),
+        #[cfg(feature = "ezcd")]
+        ezcd if ezcd.contains("EZ CD Audio Converter") => Ok(Box::new(crate::parser::ezcd_parser::EzcdParser::new(encoded_log))),
+        #[cfg(feature = "rip")]
+        rip if rip.contains("Rip ") && rip.contains(" Audio Extraction Log") => Ok(Box::new(crate::parser::rip_parser::RipParser::new(encoded_log))),
+        #[cfg(feature = "freac")]
+        freac if freac.contains("Conversion #") => Ok(Box::new(crate::parser::freac_parser::FreacParser::new(encoded_log))),
         _ => Err(CambiaError::new_anon("Unsupported file."))
     }
 }

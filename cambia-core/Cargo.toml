@@ -1,16 +1,22 @@
 [package]
 name = "cambia-core"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 
 [features]
 default = ["eac", "xld", "whipper", "ops_ev"]
-experimental_rippers = ["cueripper"]
+experimental_rippers = ["cueripper", "cyanrip", "morituri", "dbpa", "rip", "ezcd", "freac"]
 experimental_evaluators = ["cambia_ev"]
 eac = []
 xld = []
 whipper = []
 cueripper = ["eac"]
+cyanrip = []
+morituri = []
+dbpa = []
+rip = []
+ezcd = []
+freac = []
 gazelle_ev = []
 ops_ev = ["gazelle_ev"]
 red_ev = ["gazelle_ev"]
