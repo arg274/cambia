@@ -20,7 +20,8 @@ pub fn detect_ripper(encoded_log: DecodedText) -> Result<Box<dyn ParserCombined>
         #[cfg(feature = "cyanrip")]
         cyanrip if cyanrip.contains("cyanrip") => Ok(Box::new(crate::parser::cyanrip_parser::CyanRipParser::new(encoded_log))),
         dbpa if dbpa.contains("dBpoweramp Release") => Err(CambiaError::new_anon("dBpoweramp not supported at the moment.")),
-        morituri if morituri.contains("Logfile created by: morituri") => Err(CambiaError::new_anon("morituri not supported at the moment.")),
+        #[cfg(feature = "morituri")]
+        morituri if morituri.contains("Logfile created by: morituri") => Ok(Box::new(crate::parser::morituri_parser::MorituriParser::new(encoded_log))),
         ezcd if ezcd.contains("EZ CD Audio Converter") => Err(CambiaError::new_anon("EZ CD Audio Converter not supported at the moment.")),
         rip if rip.contains("Rip ") && rip.contains(" Audio Extraction Log") => Err(CambiaError::new_anon("Rip (OS X) not supported at the moment.")),
         freac if freac.contains("Conversion #") => Err(CambiaError::new_anon("fre:ac not supported at the moment.")),

@@ -15,6 +15,8 @@ pub mod whipper_parser;
 pub mod cueripper_parser;
 #[cfg(feature = "cyanrip")]
 pub mod cyanrip_parser;
+#[cfg(feature = "morituri")]
+pub mod morituri_parser;
 
 use serde::{Serialize, Deserialize};
 use ts_rs::TS;
