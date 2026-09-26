@@ -24,7 +24,8 @@ pub fn detect_ripper(encoded_log: DecodedText) -> Result<Box<dyn ParserCombined>
         #[cfg(feature = "morituri")]
         morituri if morituri.contains("Logfile created by: morituri") => Ok(Box::new(crate::parser::morituri_parser::MorituriParser::new(encoded_log))),
         ezcd if ezcd.contains("EZ CD Audio Converter") => Err(CambiaError::new_anon("EZ CD Audio Converter not supported at the moment.")),
-        rip if rip.contains("Rip ") && rip.contains(" Audio Extraction Log") => Err(CambiaError::new_anon("Rip (OS X) not supported at the moment.")),
+        #[cfg(feature = "rip")]
+        rip if rip.contains("Rip ") && rip.contains(" Audio Extraction Log") => Ok(Box::new(crate::parser::rip_parser::RipParser::new(encoded_log))),
         freac if freac.contains("Conversion #") => Err(CambiaError::new_anon("fre:ac not supported at the moment.")),
         _ => Err(CambiaError::new_anon("Unsupported file."))
     }

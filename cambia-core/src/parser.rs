@@ -19,6 +19,8 @@ pub mod cyanrip_parser;
 pub mod morituri_parser;
 #[cfg(feature = "dbpa")]
 pub mod dbpa_parser;
+#[cfg(feature = "rip")]
+pub mod rip_parser;
 
 use serde::{Serialize, Deserialize};
 use ts_rs::TS;
