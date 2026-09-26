@@ -66,7 +66,7 @@ impl DecodedText {
             Bom::Bocu1 | Bom::Scsu | Bom::UtfEbcdic | Bom::Utf1 | Bom::Utf7 => (),
             Bom::Null => {
                 let mut detector = EncodingDetector::new();
-                detector.feed(&raw, true);
+                detector.feed(raw, true);
                 let guess = detector.guess_assess(None, true);
                 if guess.1 {
                     encoding = Some(guess.0);
@@ -78,7 +78,7 @@ impl DecodedText {
             return Err(DecodingError);
         }
         
-        let decoded = encoding.unwrap().decode(&raw);
+        let decoded = encoding.unwrap().decode(raw);
 
         Ok(DecodedText {
             text: decoded.0.into_owned(),

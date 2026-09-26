@@ -380,7 +380,7 @@ impl XldParserTrack {
         }
     }
 
-    fn optional_match<T: FromStr>(&self, regex: &Regex) -> Option<T> 
+    fn optional_match<T>(&self, regex: &Regex) -> Option<T> 
     where
         T: FromStr,
         <T as FromStr>::Err: std::fmt::Debug, {

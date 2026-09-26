@@ -275,7 +275,7 @@ pub fn raw_to_freedb(toc_raw: TocRaw) -> TocHash {
     TocHash::new(id.clone(), format!("https://gnudb.org/search/discid/{}", id))
 }
 
-fn get_data_tracks(entries: &Vec<TocEntry>) -> Result<u32, TocError> {
+fn get_data_tracks(entries: &[TocEntry]) -> Result<u32, TocError> {
     if entries.is_empty() {
         return Err(TocError);
     }
