@@ -23,6 +23,8 @@ pub mod dbpa_parser;
 pub mod rip_parser;
 #[cfg(feature = "ezcd")]
 pub mod ezcd_parser;
+#[cfg(feature = "freac")]
+pub mod freac_parser;
 
 use serde::{Serialize, Deserialize};
 use ts_rs::TS;

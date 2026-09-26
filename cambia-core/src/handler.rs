@@ -27,7 +27,8 @@ pub fn detect_ripper(encoded_log: DecodedText) -> Result<Box<dyn ParserCombined>
         ezcd if ezcd.contains("EZ CD Audio Converter") => Ok(Box::new(crate::parser::ezcd_parser::EzcdParser::new(encoded_log))),
         #[cfg(feature = "rip")]
         rip if rip.contains("Rip ") && rip.contains(" Audio Extraction Log") => Ok(Box::new(crate::parser::rip_parser::RipParser::new(encoded_log))),
-        freac if freac.contains("Conversion #") => Err(CambiaError::new_anon("fre:ac not supported at the moment.")),
+        #[cfg(feature = "freac")]
+        freac if freac.contains("Conversion #") => Ok(Box::new(crate::parser::freac_parser::FreacParser::new(encoded_log))),
         _ => Err(CambiaError::new_anon("Unsupported file."))
     }
 }
