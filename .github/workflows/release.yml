@@ -13,6 +13,9 @@ on:
       tag:
         description: 'Existing tag to build and publish'
         required: true
+      node-version:
+        description: 'Node to build the frontend with; tags older than 0.2 need 20'
+        default: '22'
 
 permissions:
   contents: write
@@ -41,7 +44,7 @@ jobs:
 
       - uses: actions/setup-node@v7
         with:
-          node-version: '22'
+          node-version: ${{ inputs.node-version || '22' }}
           cache: npm
           cache-dependency-path: web/package-lock.json
 
