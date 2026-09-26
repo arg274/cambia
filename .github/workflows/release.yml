@@ -1,0 +1,133 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - '[0-9]+.[0-9]+.[0-9]+*'
+      - 'v[0-9]+.[0-9]+.[0-9]+*'
+  # Publishing a tag that predates this workflow: Actions only ever runs the
+  # file as it exists at the ref being built, so an old tag cannot trigger the
+  # push above. Dispatch this from a branch that has the file and name the tag.
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Existing tag to build and publish'
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  web:
+    name: Frontend
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.tag || github.ref }}
+
+      # A release is only ever cut from a version bump, so the tag and the
+      # crate version disagreeing means one of the two was forgotten.
+      - name: Check the tag matches Cargo.toml
+        env:
+          TAG: ${{ inputs.tag || github.ref_name }}
+        run: |
+          tagged="${TAG#v}"
+          crate=$(grep -m1 '^version' Cargo.toml | cut -d'"' -f2)
+          if [ "$tagged" != "$crate" ]; then
+            echo "tag $tagged does not match Cargo.toml version $crate" >&2
+            exit 1
+          fi
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+        working-directory: web
+
+      - name: Generate the static site
+        run: npm run build
+        working-directory: web
+
+      - name: Upload static site files
+        uses: actions/upload-artifact@v4
+        with:
+          name: webui
+          path: web/build
+
+  binaries:
+    name: Binaries
+    needs: web
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            asset: cambia-linux-x86_64
+          - os: windows-latest
+            asset: cambia-windows-x86_64.exe
+          - os: macos-latest
+            asset: cambia-macos-arm64
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.tag || github.ref }}
+
+      - name: Download static site files
+        uses: actions/download-artifact@v4
+        with:
+          name: webui
+          path: web/build
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: Swatinem/rust-cache@v2
+
+      - name: Build w/ experimental rippers
+        run: cargo build --release --features experimental_rippers
+
+      - name: Stage the binary under its release name
+        shell: bash
+        run: |
+          mkdir -p dist
+          cp "target/release/cambia${{ matrix.os == 'windows-latest' && '.exe' || '' }}" "dist/${{ matrix.asset }}"
+
+      - name: Upload binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.asset }}
+          path: dist/${{ matrix.asset }}
+
+  publish:
+    name: Publish
+    needs: binaries
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.tag || github.ref }}
+          fetch-depth: 0
+
+      - name: Collect the binaries
+        uses: actions/download-artifact@v4
+        with:
+          path: dist
+          pattern: cambia-*
+          merge-multiple: true
+
+      - name: Create or update the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ inputs.tag || github.ref_name }}
+        run: |
+          ls -l dist
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" dist/* --clobber
+          else
+            gh release create "$TAG" --verify-tag --title "$TAG" --generate-notes dist/*
+          fi

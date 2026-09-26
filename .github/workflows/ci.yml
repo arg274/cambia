@@ -1,0 +1,124 @@
+name: CI
+
+on:
+  # `branches` rather than a bare `push` so tags fall to release.yml alone
+  # and a version bump is not built twice.
+  push:
+    branches: ['**']
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  web:
+    name: Frontend
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+        working-directory: web
+
+      - name: Types and compiler diagnostics
+        run: npm run check
+        working-directory: web
+
+      # Deliberately not `npm run lint`: that also runs prettier, which has
+      # never been green here (105 files differ from its output). Reformatting
+      # them is a decision for a commit of its own, not a gate.
+      - name: Lint
+        run: npx eslint .
+        working-directory: web
+
+      - name: Generate the static site
+        run: npm run build
+        working-directory: web
+
+      - name: Upload static site files
+        uses: actions/upload-artifact@v4
+        with:
+          name: webui
+          path: web/build
+
+  rust:
+    name: Backend
+    needs: web
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # rust-embed pulls web/build into the binary at compile time, so the
+      # directory has to be there before cargo reads the crate -- clippy
+      # included. Reusing the artifact keeps it to one npm build per run.
+      - name: Download static site files
+        uses: actions/download-artifact@v4
+        with:
+          name: webui
+          path: web/build
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy
+
+      - uses: Swatinem/rust-cache@v2
+
+      - name: Clippy
+        run: cargo clippy --all-targets --features experimental_rippers -- -D warnings
+
+  binaries:
+    name: Binaries
+    # Pushes produce artifacts, including the push to the default branch that
+    # a merged pull request creates. Pull requests themselves stop at the
+    # gates, so the same commit is never built twice.
+    if: github.event_name == 'push'
+    needs: [web, rust]
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            asset: cambia-linux-x86_64
+          - os: windows-latest
+            asset: cambia-windows-x86_64.exe
+          - os: macos-latest
+            asset: cambia-macos-arm64
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download static site files
+        uses: actions/download-artifact@v4
+        with:
+          name: webui
+          path: web/build
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: Swatinem/rust-cache@v2
+
+      - name: Build w/ experimental rippers
+        run: cargo build --release --features experimental_rippers
+
+      - name: Stage the binary under its release name
+        shell: bash
+        run: |
+          mkdir -p dist
+          cp "target/release/cambia${{ matrix.os == 'windows-latest' && '.exe' || '' }}" "dist/${{ matrix.asset }}"
+
+      - name: Upload binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.asset }}
+          path: dist/${{ matrix.asset }}
