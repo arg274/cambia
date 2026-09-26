@@ -218,7 +218,7 @@ fn create_eac_translation_table() {
         for (idx, localised_key) in localised_keys.into_iter().enumerate() {
             buf.push_str(generate_static_language(
                 localised_key,
-                &lang,
+                lang,
                 native_mappings.get(lang).unwrap(),
                 latin_mappings.get(lang).unwrap(),
                 idx
