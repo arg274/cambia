@@ -70,7 +70,8 @@ impl OpsEvaluator {
                     DriveMatchQuality::STRONG(matched_offsets) => {
                         match parsed_log.read_offset {
                             Some(read_offset) => {
-                                matched_offsets.iter().copied().flatten().all(|offset| offset != read_offset)
+                                let mut known = matched_offsets.iter().flatten().peekable();
+                                known.peek().is_some() && known.all(|&offset| offset != read_offset)
                             }
                             None => false,
                         }
