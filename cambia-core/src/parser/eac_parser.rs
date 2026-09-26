@@ -442,6 +442,7 @@ impl IntegrityChecker for EacParserSingle {
         let checksum_stripped = CHECKSUM.replace_all(&self.log, "");
         let utf16data: Vec<u16> = checksum_stripped
                                         .replace(['\r', '\n'], "")
+                                        .replace(['\u{feff}', '\u{ffef}'], "")
                                         .encode_utf16()
                                         .collect();
         let mut utf16bytes = unsafe { utf16data.align_to::<u8>().1.to_vec() };
