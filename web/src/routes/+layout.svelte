@@ -122,9 +122,17 @@
 			</div>
 		</header>
 	</div>
-	<DropScreen bind:files={$fileListStore} onchange={() => {inputChanged(page.route.id)}} >
-		{@render children?.()}
-	</DropScreen>
+	<!--
+		The middle row needs an element that is always in flow. DropScreen hides
+		its content while a drag is over the page, and without this the footer
+		auto-placed itself into the 1fr row and jumped up behind the overlay.
+		AppShell used to provide it as <main>, which also restores the landmark.
+	-->
+	<main>
+		<DropScreen bind:files={$fileListStore} onchange={() => {inputChanged(page.route.id)}} >
+			{@render children?.()}
+		</DropScreen>
+	</main>
 	<footer class="mt-10 rounded-tr-xl bg-surface-100-800 px-4 py-1">
 		<div class="flex items-center justify-between">
 			<div>

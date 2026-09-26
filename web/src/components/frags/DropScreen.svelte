@@ -78,6 +78,11 @@
     </div>
     <input {...rest} bind:files bind:this={input} type="file" class="hidden" onchange={() => onchange?.()} />
 </label>
-<div class={focused ? classNames("hidden", "pointer-events-none") : "visible"}>
+<!--
+    Hiding this with `display: none` took the page content out of flow, so the
+    footer slid up into the freed space for as long as the drag lasted. The
+    overlay covers it either way; keeping the box means nothing reflows.
+-->
+<div class={classNames("h-full", focused ? "invisible pointer-events-none" : "visible")}>
     {@render children?.()}
 </div>
