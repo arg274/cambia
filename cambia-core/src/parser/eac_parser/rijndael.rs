@@ -78,11 +78,11 @@ pub struct Rijndael {
 pub struct RijndaelError;
 
 impl Rijndael {
-    pub fn new(block_size: usize, key: &Vec<u8>) -> Result<Rijndael, RijndaelError> {
+    pub fn new(block_size: usize, key: &[u8]) -> Result<Rijndael, RijndaelError> {
         Ok(Rijndael {
             block_size: (block_size / 8),
             key_size: key.len(),
-            key: key.clone(),
+            key: key.to_vec(),
             rounds: match block_size / 8 {
                 16 => match key.len() {
                     16 => 10,

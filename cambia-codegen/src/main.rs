@@ -1,19 +1,16 @@
 #![allow(dead_code)]
-use core::fmt;
 use std::collections::{HashMap, HashSet};
 use std::collections::hash_map::Entry;
 use std::ffi::OsStr;
 use std::fs::OpenOptions;
-use std::io::{Write, Read};
+use std::io::Read;
 use std::path::{Path, PathBuf};
-use std::hash::{Hash, Hasher};
 
 use codegen::{Block, Formatter, Scope};
 use regex::Regex;
 use walkdir::WalkDir;
 use sha2::{Sha256, Digest};
 use scraper::{Html, Selector};
-use itertools::Itertools;
 
 use simple_text_decode::DecodedText;
 use accuraterip_drive_db::DriveEntry;
@@ -27,32 +24,7 @@ type CodeMap = HashMap<String, HashMap<String, String>>;
 type EacLangMap = HashMap<String, HashSet<String>>;
 type EacLangLocalisationMap = HashMap<String, String>;
 
-#[derive(Eq)]
-struct DriveEntryMini(String, Option<i16>);
-
 static AR_DRIVE_DB: &str = "http://www.accuraterip.com/driveoffsets.htm";
-
-impl fmt::Display for DriveEntryMini {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        let offset_str = match self.1 {
-            Some(v) => format!("Some({}_i16)", v),
-            None => String::from("None"),
-        };
-        write!(f, "(r#\"{}\"#, &{})", self.0, offset_str)
-    }
-}
-
-impl PartialEq for DriveEntryMini {
-    fn eq(&self, other: &Self) -> bool {
-        self.0 == other.0
-    }
-}
-
-impl Hash for DriveEntryMini {
-    fn hash<H: Hasher>(&self, state: &mut H) {
-        self.0.hash(state);
-    }
-}
 
 fn get_sha_digest(text: &str) -> String {
     let mut hasher = Sha256::new();
@@ -199,17 +171,10 @@ fn create_eac_translation_table() {
         (code_mapping, eac_lang_mapping, native_name_map, latin_name_map)
     }
 
-    let build_file_dir = Path::new(env!("CARGO_MANIFEST_DIR"));
+    let core_dir = Path::new(env!("CARGO_MANIFEST_DIR")).join("../cambia-core");
     
-    let src_dir_path = build_file_dir.join(Path::new("src/parser/eac_parser/translation_files"));
-    let out_file_path = build_file_dir.join(Path::new("src/parser/eac_parser/translation_table.rs"));
-
-    let out_file = OpenOptions::new()
-                    .write(true)
-                    .create(true)
-                    .truncate(true)
-                    .open(out_file_path)
-                    .unwrap();
+    let src_dir_path = core_dir.join(Path::new("src/parser/eac_parser/translation_files"));
+    let out_file_path = core_dir.join(Path::new("src/parser/eac_parser/translation_table.rs"));
 
     let mut buf = String::new();
     let mut formatter = Formatter::new(&mut buf);
@@ -226,10 +191,16 @@ fn create_eac_translation_table() {
     dummy_block.after(";");
     dummy_block.fmt(&mut formatter).unwrap();
 
-    for (k, v) in mappings.iter() {
+    let mut mapping_keys: Vec<&String> = mappings.keys().collect();
+    mapping_keys.sort();
+    for k in mapping_keys {
+        if !eac_mappings.contains_key(k) {
+            continue;
+        }
+        let v = &mappings[k];
         let mut lang_block = Block::new(&generate_indexmap_preamble(k));
         let mut sorted_strlen: Vec<(&String, &String)> = v.iter().collect();
-        sorted_strlen.sort_by(|a, b| b.0.len().cmp(&a.0.len()));
+        sorted_strlen.sort_by(|a, b| b.0.len().cmp(&a.0.len()).then(a.0.cmp(b.0)));
         for (sub, str_id) in sorted_strlen {
             lang_block.line(format!("r#\"{}\"# => \"{}\",", sub, str_id));
         }
@@ -239,13 +210,17 @@ fn create_eac_translation_table() {
 
     let mut lang_vec: Vec<String> = Vec::new();
     
-    for (lang, localised_key_set) in eac_mappings {
-        for (idx, localised_key) in localised_key_set.iter().enumerate() {
+    let mut eac_langs: Vec<&String> = eac_mappings.keys().collect();
+    eac_langs.sort();
+    for lang in eac_langs {
+        let mut localised_keys: Vec<&String> = eac_mappings[lang].iter().collect();
+        localised_keys.sort();
+        for (idx, localised_key) in localised_keys.into_iter().enumerate() {
             buf.push_str(generate_static_language(
                 localised_key,
                 &lang,
-                native_mappings.get(&lang).unwrap(),
-                latin_mappings.get(&lang).unwrap(),
+                native_mappings.get(lang).unwrap(),
+                latin_mappings.get(lang).unwrap(),
                 idx
             ).as_str());
             buf.push('\n');
@@ -259,7 +234,7 @@ fn create_eac_translation_table() {
     buf.push('\n');
     buf.push_str("];");
 
-    write!(&out_file, "{}", buf).unwrap();
+    std::fs::write(&out_file_path, buf).unwrap();
 }
 
 fn fetch_drive_offsets() {
@@ -298,24 +273,24 @@ fn fetch_drive_offsets() {
 
     let pattern: Regex = Regex::new(r"[^\s\w]").unwrap();
     let ws_pattern: Regex = Regex::new(r"\s+").unwrap();
-    let mut drive_map: HashMap<String, HashSet<DriveEntryMini>> = HashMap::new();
+    let mut drive_map: HashMap<String, HashMap<String, HashSet<Option<i16>>>> = HashMap::new();
 
     for drive in drives {
         let sanitised_drive_name = pattern.replace_all(drive.name.as_str(), "").trim().to_ascii_uppercase();
         let drive_vendor = sanitised_drive_name.as_str().split_whitespace().next().unwrap_or_default().to_string();
-        drive_map.entry(drive_vendor).or_default().insert(DriveEntryMini(ws_pattern.replace_all(sanitised_drive_name.as_str(), "").to_string(), drive.offset));
+        let drive_key = ws_pattern.replace_all(sanitised_drive_name.as_str(), "").to_string();
+
+        drive_map
+            .entry(drive_vendor)
+            .or_default()
+            .entry(drive_key)
+            .or_default()
+            .insert(drive.offset);
     }
 
-    let build_file_dir = Path::new(env!("CARGO_MANIFEST_DIR"));
+    let core_dir = Path::new(env!("CARGO_MANIFEST_DIR")).join("../cambia-core");
 
-    let out_file_path = build_file_dir.join(Path::new("src/drive/offset_table.rs"));
-
-    let out_file = OpenOptions::new()
-                    .write(true)
-                    .create(true)
-                    .truncate(true)
-                    .open(out_file_path)
-                    .unwrap();
+    let out_file_path = core_dir.join(Path::new("src/drive/offset_table.rs"));
 
     let mut buf = String::new();
     let mut formatter = Formatter::new(&mut buf);
@@ -323,23 +298,65 @@ fn fetch_drive_offsets() {
     append_imports(&mut formatter);
 
     let mut vendor_block = Block::new(&generate_vendor_map_preamble());
-    for vendor in drive_map.keys() {
+    let mut vendor_keys: Vec<String> = drive_map.keys().cloned().collect();
+    vendor_keys.sort();
+    for vendor in vendor_keys.iter() {
         vendor_block.line(format!("r#\"{}\"# => &VND_{},", vendor, vendor));
     }
     vendor_block.after(";\n");
     vendor_block.fmt(&mut formatter).unwrap();
 
-    for (vendor, drive_list) in drive_map {
-        buf.push_str(format!("pub static VND_{}: [(&'static str, &'static Option<i16>); {}] = [", vendor, drive_list.len()).as_str());
+    for vendor in vendor_keys.iter() {
+        let drive_list = &drive_map[vendor];
+        let mut serialised_entries: Vec<String> = Vec::new();
+
+        let mut drives: Vec<_> = drive_list.iter().collect();
+        drives.sort_by_key(|(name, _)| *name);
+
+        for (drive_name, offsets) in drives {
+            let mut offsets_vec: Vec<_> = offsets.iter().collect();
+            offsets_vec.sort();
+
+            for offset in offsets_vec {
+                let offset_str = match offset {
+                    Some(v) => format!("Some({}_i16)", v),
+                    None => String::from("None"),
+                };
+                serialised_entries.push(format!("(r#\"{}\"#, &{})", drive_name, offset_str));
+            }
+        }
+
+        buf.push_str(format!("pub static VND_{}: [(&'static str, &'static Option<i16>); {}] = [", vendor, serialised_entries.len()).as_str());
         buf.push_str("\n    ");
-        buf.push_str(drive_list.iter().join(",\n    ").as_str());
+        buf.push_str(serialised_entries.join(",\n    ").as_str());
         buf.push_str("\n];\n\n");
     }
 
-    write!(&out_file, "{}", buf).unwrap();
+    std::fs::write(&out_file_path, buf).unwrap();
 }
 
+const USAGE: &str = "usage: cambia-codegen <eac-translations|drive-offsets|all>";
+
 fn main() {
-    // create_eac_translation_table();
-    // fetch_drive_offsets();
+    let targets: Vec<String> = std::env::args().skip(1).collect();
+    if targets.is_empty() {
+        eprintln!("{USAGE}");
+        std::process::exit(2);
+    }
+
+    for target in &targets {
+        match target.as_str() {
+            "eac-translations" => create_eac_translation_table(),
+            "drive-offsets" => fetch_drive_offsets(),
+            "all" => {
+                create_eac_translation_table();
+                fetch_drive_offsets();
+            }
+            other => {
+                eprintln!("unknown target `{other}`");
+                eprintln!("{USAGE}");
+                std::process::exit(2);
+            }
+        }
+    }
 }

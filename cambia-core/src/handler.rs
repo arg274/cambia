@@ -27,13 +27,13 @@ pub fn detect_ripper(encoded_log: DecodedText) -> Result<Box<dyn ParserCombined>
     }
 }
 
-pub fn parse_log_bytes(id: Vec<u8>, log_raw: &Vec<u8>) -> Result<CambiaResponse, CambiaError> {
+pub fn parse_log_bytes(id: Vec<u8>, log_raw: &[u8]) -> Result<CambiaResponse, CambiaError> {
     if log_raw.is_empty() {
         return Err(CambiaError::new(id, "Empty request body"));
     }
 
-    let res_id = if id.is_empty() { xxh3_64(&log_raw).to_be_bytes().to_vec() } else { id };
-    let encoded_log = DecodedText::new(&log_raw).unwrap_or_default();
+    let res_id = if id.is_empty() { xxh3_64(log_raw).to_be_bytes().to_vec() } else { id };
+    let encoded_log = DecodedText::new(log_raw).unwrap_or_default();
 
     tracing::debug!("Log {}: {} encoding detected ", hex::encode(&res_id), encoded_log.orig_encoding);
 

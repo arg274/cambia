@@ -1,6 +1,6 @@
 [package]
 name = "cambia"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 
 [features]
@@ -8,6 +8,9 @@ default = ["server"]
 server = []
 experimental_rippers = ["cambia-core/experimental_rippers"]
 experimental_evaluators = ["cambia-core/experimental_evaluators"]
+
+[workspace]
+members = ["cambia-codegen"]
 
 [dependencies]
 cambia-core = { path = "cambia-core" }

@@ -93,7 +93,7 @@ impl Sha256Custom {
 
     pub fn scramble(enc: &mut String) -> Vec<u8> {
         let unaligned_chunk: String;
-        if enc.len() % 8 != 0 {
+        if !enc.len().is_multiple_of(8) {
             let align_len = enc.len() - enc.len() % 8;
             unaligned_chunk = enc[align_len..].to_string();
             enc.truncate(align_len);
@@ -108,8 +108,8 @@ impl Sha256Custom {
         let mut y: u32 = 0x48853AFC;
 
         for offset in (0..enc.len()).step_by(8) {
-            x ^= u32::from_be_bytes(<[u8; 4]>::try_from(enc[offset..(offset + 4)].as_bytes()).unwrap());
-            y ^= u32::from_be_bytes(<[u8; 4]>::try_from(enc[(offset + 4)..(offset + 8)].as_bytes()).unwrap());
+            x ^= u32::from_be_bytes(<[u8; 4]>::try_from(&enc.as_bytes()[offset..(offset + 4)]).unwrap());
+            y ^= u32::from_be_bytes(<[u8; 4]>::try_from(&enc.as_bytes()[(offset + 4)..(offset + 8)]).unwrap());
 
             for _ in 0..4 {
                 for i in 0..2 {
@@ -150,7 +150,7 @@ impl Sha256Custom {
     }
 
     fn rotate_left(n: u32, k: u32) -> u32 {
-        (n << k) | (n >> (32 - k))
+        n.rotate_left(k)
     }
 
     fn rotate_right(n: u32, k: u32) -> u32 {

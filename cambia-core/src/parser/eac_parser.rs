@@ -445,7 +445,7 @@ impl IntegrityChecker for EacParserSingle {
                                         .encode_utf16()
                                         .collect();
         let mut utf16bytes = unsafe { utf16data.align_to::<u8>().1.to_vec() };
-        utf16bytes.resize((utf16bytes.len() + 32 - 1) / 32 * 32, 0);
+        utf16bytes.resize(utf16bytes.len().div_ceil(32) * 32, 0);
         
         let rijndael = Rijndael::new(
             256,
@@ -483,7 +483,7 @@ impl EacParserTrack {
         }
     }
 
-    fn optional_match<T: FromStr>(&self, regex: &Regex) -> Option<T> 
+    fn optional_match<T>(&self, regex: &Regex) -> Option<T> 
     where
         T: FromStr,
         <T as FromStr>::Err: std::fmt::Debug, {

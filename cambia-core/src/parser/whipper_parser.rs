@@ -110,7 +110,7 @@ impl Extractor for WhipperParserSingle {
         match &self.yaml.cd_metadata.release {
             ReleaseInfoUnion::String(rs) => {
                 if let Some(s) = rs.split_once(" - ") {
-                    return ReleaseInfo::new(s.0.trim().to_owned(), s.1.trim().to_owned());
+                    ReleaseInfo::new(s.0.trim().to_owned(), s.1.trim().to_owned())
                 } else {
                     ReleaseInfo::default()
                 }

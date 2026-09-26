@@ -67,8 +67,14 @@ impl OpsEvaluator {
             GazelleDeductionRelease::NullDrive => parsed_log.drive.to_lowercase().contains("(null) (null) (revision (null))"),
             GazelleDeductionRelease::IncorrectReadOffset => {
                 match DriveUtils::fuzzy_search_model(parsed_log.drive.clone()) {
-                    DriveMatchQuality::STRONG(matched_offset) => {
-                        parsed_log.read_offset.is_some() && matched_offset.is_some() && parsed_log.read_offset.unwrap() != matched_offset.unwrap()
+                    DriveMatchQuality::STRONG(matched_offsets) => {
+                        match parsed_log.read_offset {
+                            Some(read_offset) => {
+                                let mut known = matched_offsets.iter().flatten().peekable();
+                                known.peek().is_some() && known.all(|&offset| offset != read_offset)
+                            }
+                            None => false,
+                        }
                     }
                     DriveMatchQuality::WEAK(_) => {
                         false
@@ -77,8 +83,8 @@ impl OpsEvaluator {
             },
             GazelleDeductionRelease::DriveNotFoundDb => {
                 match DriveUtils::fuzzy_search_model(parsed_log.drive.clone()) {
-                    DriveMatchQuality::STRONG(matched_offset) => {
-                        matched_offset.is_none()
+                    DriveMatchQuality::STRONG(matched_offsets) => {
+                        matched_offsets.iter().all(|offset| offset.is_none())
                     }
                     DriveMatchQuality::WEAK(_) => {
                         parsed_log.read_offset.is_some() && parsed_log.read_offset.unwrap() == 0
