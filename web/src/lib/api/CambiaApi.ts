@@ -52,7 +52,7 @@ export async function getRipInfoMpMulti(from: string | null, files: FileList | u
                             return store;
                         });
                     }
-                } catch (error) {
+                } catch {
                     updateUnknown();
                 } finally {
                     processedCount.update(p => p + 1);

@@ -18,7 +18,7 @@
         return await _res.json();
     })();
 
-    function castToReleases(releases: any): IRelease[] {
+    function castToReleases(releases: object): IRelease[] {
         return castToTypeArray<IRelease>(releases);
     }
 </script>

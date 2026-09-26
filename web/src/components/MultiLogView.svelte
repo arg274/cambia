@@ -28,7 +28,6 @@
     ]);
 
     const {
-        headerRows,
         pageRows,
         tableAttrs,
         tableBodyAttrs,
@@ -36,13 +35,7 @@
     } = table.createViewModel(columns);
 
     // FIXME: pageIndex isn't memorised
-    const {
-        pageIndex,
-        pageCount,
-        pageSize,
-        hasNextPage,
-        hasPreviousPage
-    } = pluginStates.page;
+    const { pageIndex, pageCount } = pluginStates.page;
 
     // The table plugin owns the page index; mirror it for the paginator.
     let page = $derived($pageIndex);

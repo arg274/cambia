@@ -27,22 +27,11 @@
         }
     }
 
-    function getText(status?: AccurateRipStatus, track?: number) {
-        switch (status) {
-            case "Mismatch":
-            case "Offsetted":
-            case "NotFound":
-            case "Disabled":
-                return track;
-            default: return "";
-        }
-    }
-
     function gridGenerator(cols: number): string {
         return `grid-template-columns: repeat(${cols}, minmax(0, 1fr));`
     }
 
-    function cubeGenerator(cols: number): string {
+    function cubeGenerator(): string {
         return `width: ${boxSize / n}rem; height: ${boxSize / n}rem;`
     }
 
@@ -63,7 +52,7 @@
                 {@const ar = ars ? ars[ars.length - 1] : undefined}
                 <!-- svelte-ignore a11y_no_static_element_interactions -->
                 <div class="{getColor(ar?.status)} hover:bg-success-400 hover:cursor-pointer text-center text-xs content-center"
-                    style={cubeGenerator(n)}
+                    style={cubeGenerator()}
                     onkeydown={Function.prototype()}
                     onclick={() => {clickHandler(trackIdx)}}>
                 </div>

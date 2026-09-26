@@ -4,7 +4,6 @@
 	import { Accordion } from "bits-ui";
     import Paginator from "./frags/Paginator.svelte";
     import IconSplitScreen from '~icons/carbon/split-screen';
-    import IconIncompleteCancel from '~icons/carbon/incomplete-cancel';
     import IconSidePanelOpenFilled from '~icons/carbon/side-panel-open-filled';
     import IconMountain from '~icons/carbon/mountain';
     import IconMicrophone from '~icons/carbon/microphone';

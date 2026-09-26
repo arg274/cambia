@@ -29,7 +29,7 @@
     const animate = "animate-pulse";
     const imgError = placeholder;
 
-    function castToCoverInfo(coverInfo: any): ICoverInfo {
+    function castToCoverInfo(coverInfo: object): ICoverInfo {
         return castToType<ICoverInfo>(coverInfo);
     }
 

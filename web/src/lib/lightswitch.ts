@@ -46,7 +46,7 @@ export function setModeUserPrefers(value: boolean): void {
 export function setModeCurrent(value: boolean) {
 	const elemHtmlClasses = document.documentElement.classList;
 	const classDark = `dark`;
-	value === true ? elemHtmlClasses.remove(classDark) : elemHtmlClasses.add(classDark);
+	elemHtmlClasses.toggle(classDark, !value);
 	modeCurrent.set(value);
 }
 
@@ -75,7 +75,7 @@ export function autoModeWatcher(): void {
 	function setMode(value: boolean) {
 		const elemHtmlClasses = document.documentElement.classList;
 		const classDark = `dark`;
-		value === true ? elemHtmlClasses.remove(classDark) : elemHtmlClasses.add(classDark);
+		elemHtmlClasses.toggle(classDark, !value);
 	}
 	setMode(mql.matches);
 	mql.onchange = () => {

@@ -14,7 +14,6 @@
 	import type { CambiaResponse } from '$lib/types/CambiaResponse';
 	import { onMount } from 'svelte';
 	import AccurateRipSummary from './AccurateRipSummary.svelte';
-	import CtdbSummary from './CtdbSummary.svelte';
 
 	interface Props {
 		res: CambiaResponse;
@@ -135,9 +134,11 @@
 					<div class="flex flex-col w-1/2 gap-4">
 						<AccurateRipSummary tracks={parsedLog.tracks} />
 					</div>
-					<!-- <div class="flex flex-col w-1/2 gap-4">
-                        <CtdbSummary />
-                    </div> -->
+					<!-- CTDB panel is WIP; re-add `import CtdbSummary from './CtdbSummary.svelte'`
+					     along with this block.
+					<div class="flex flex-col w-1/2 gap-4">
+						<CtdbSummary />
+					</div> -->
 				</div>
 			</div>
 		{:else}

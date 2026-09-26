@@ -52,6 +52,13 @@
         lanes: LaneDetails[];
     }
 
+    // Group track indices by the minute they start or end on.
+    function bucket(lookup: Map<number, number[]>, minute: number, idx: number) {
+        const hits = lookup.get(minute);
+        if (hits) hits.push(idx);
+        else lookup.set(minute, [idx]);
+    }
+
     // The whole disc is derived in one pass: the helpers below read values
     // computed earlier in the same pass, so they have to share its scope.
     const geometry: DiscGeometry = $derived.by(() => {
@@ -61,8 +68,8 @@
         for (let idx = 0; idx < toc.entries.length; idx++) {
             let startMinute = Math.round(toc.entries[idx].start_sector / (75 * 60));
             let endMinute = Math.round(toc.entries[idx].end_sector / (75 * 60));
-            reverseLookupEnd.has(endMinute) ? reverseLookupEnd.get(endMinute)!.push(idx) : reverseLookupEnd.set(endMinute, [idx]);
-            reverseLookupStart.has(startMinute) ? reverseLookupStart.get(startMinute)!.push(idx) : reverseLookupStart.set(startMinute, [idx]);
+            bucket(reverseLookupEnd, endMinute, idx);
+            bucket(reverseLookupStart, startMinute, idx);
         }
 
         const endMinutes: number[] = Array.from(reverseLookupEnd.keys());
