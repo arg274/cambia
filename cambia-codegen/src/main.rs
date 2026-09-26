@@ -194,6 +194,9 @@ fn create_eac_translation_table() {
     let mut mapping_keys: Vec<&String> = mappings.keys().collect();
     mapping_keys.sort();
     for k in mapping_keys {
+        if !eac_mappings.contains_key(k) {
+            continue;
+        }
         let v = &mappings[k];
         let mut lang_block = Block::new(&generate_indexmap_preamble(k));
         let mut sorted_strlen: Vec<(&String, &String)> = v.iter().collect();
