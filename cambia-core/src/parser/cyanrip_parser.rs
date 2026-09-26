@@ -3,7 +3,7 @@ use simple_text_decode::DecodedText;
 
 use crate::extract::{Extractor, Gap, Quartet, ReadMode, ReleaseInfo, Ripper, TrackExtractor};
 use crate::toc::{Toc, TocEntry, TocRaw};
-use crate::track::{TestAndCopy, TrackEntry};
+use crate::track::{AccurateRipConfidence, AccurateRipOffset, AccurateRipStatus, AccurateRipUnit, TestAndCopy, TrackEntry};
 use crate::translate::TranslatorCombined;
 use crate::util::Time;
 
@@ -37,6 +37,14 @@ lazy_static! {
     static ref LABEL: Regex = Regex::new(r"^[A-Za-z][A-Za-z0-9 ()]*:").unwrap();
     static ref T_GAIN: Regex = Regex::new(r"REPLAYGAIN_TRACK_GAIN:\s+([+-]?[0-9.]+) dB").unwrap();
     static ref T_PEAK: Regex = Regex::new(r"REPLAYGAIN_TRACK_PEAK:\s+([0-9.]+)").unwrap();
+
+    // v0.5.x printed 0x-prefixed lowercase and had no status line at all;
+    // the 450 checksum is skipped here, its label has no colon after the digit
+    static ref T_AR_STATUS: Regex = Regex::new(r"(?m)^\s*Accurip:\s+(?P<state>.+?)\s*$").unwrap();
+    static ref T_AR_SIGN: Regex = Regex::new(r"(?m)^\s*Accurip v(?P<ver>[12]):\s+(?:0x)?(?P<sign>[0-9a-fA-F]{8})(?P<rest>.*)$").unwrap();
+    static ref T_AR_STATUS_CONF: Regex = Regex::new(r"\((?:max )?confidence: (\d+)\)").unwrap();
+    static ref T_AR_MATCH: Regex = Regex::new(r"accurately ripped(?:, confidence (\d+))?").unwrap();
+    static ref T_AR_DB_SIGN: Regex = Regex::new(r"Accurip DB of 0x([0-9a-fA-F]+)").unwrap();
 }
 
 pub struct CyanRipParser {
@@ -279,5 +287,53 @@ impl TrackExtractor for CyanRipParserTrack {
             Some(crc) => TestAndCopy::new(String::new(), crc, String::new(), String::new()),
             None => TestAndCopy::new(String::new(), String::new(), String::new(), String::new()),
         }
+    }
+
+    fn extract_ar_info(&self) -> Vec<AccurateRipUnit> {
+        let state = self.field(&T_AR_STATUS).unwrap_or_default();
+        let disabled = state.starts_with("disabled");
+        let found = state.starts_with("found") || state.starts_with("disc found");
+        let status_conf = T_AR_STATUS_CONF
+            .captures(&state)
+            .and_then(|c| c[1].parse::<u32>().ok());
+
+        T_AR_SIGN
+            .captures_iter(&self.block)
+            .map(|c| {
+                let sign = c["sign"].to_uppercase();
+                let rest = &c["rest"];
+
+                let (status, matching) = match T_AR_MATCH.captures(rest) {
+                    // v0.6.0 reported confidence once on the status line instead
+                    Some(m) => (
+                        AccurateRipStatus::Match,
+                        m.get(1).and_then(|v| v.as_str().parse::<u32>().ok()).or(status_conf),
+                    ),
+                    None if disabled => (AccurateRipStatus::Disabled, None),
+                    // an unannotated checksum means the other version matched
+                    None if found => (AccurateRipStatus::Mismatch, None),
+                    None => (AccurateRipStatus::NotFound, None),
+                };
+
+                let offset_sign = match status {
+                    AccurateRipStatus::Match => sign.clone(),
+                    // v0.6.0 printed the database checksum unpadded
+                    _ => T_AR_DB_SIGN
+                        .captures(rest)
+                        .map(|d| format!("{:0>8}", d[1].to_uppercase()))
+                        .unwrap_or_default(),
+                };
+
+                AccurateRipUnit::new(
+                    c["ver"].parse::<u8>().ok(),
+                    sign,
+                    offset_sign,
+                    matching.map(|n| {
+                        AccurateRipConfidence::new(Some(n), None, AccurateRipOffset::Same)
+                    }),
+                    status,
+                )
+            })
+            .collect()
     }
 }
