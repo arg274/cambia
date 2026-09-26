@@ -3,7 +3,7 @@ use std::collections::{HashMap, HashSet};
 use std::collections::hash_map::Entry;
 use std::ffi::OsStr;
 use std::fs::OpenOptions;
-use std::io::{Write, Read};
+use std::io::Read;
 use std::path::{Path, PathBuf};
 
 use codegen::{Block, Formatter, Scope};
@@ -171,17 +171,10 @@ fn create_eac_translation_table() {
         (code_mapping, eac_lang_mapping, native_name_map, latin_name_map)
     }
 
-    let build_file_dir = Path::new(env!("CARGO_MANIFEST_DIR"));
+    let core_dir = Path::new(env!("CARGO_MANIFEST_DIR")).join("../cambia-core");
     
-    let src_dir_path = build_file_dir.join(Path::new("src/parser/eac_parser/translation_files"));
-    let out_file_path = build_file_dir.join(Path::new("src/parser/eac_parser/translation_table.rs"));
-
-    let out_file = OpenOptions::new()
-                    .write(true)
-                    .create(true)
-                    .truncate(true)
-                    .open(out_file_path)
-                    .unwrap();
+    let src_dir_path = core_dir.join(Path::new("src/parser/eac_parser/translation_files"));
+    let out_file_path = core_dir.join(Path::new("src/parser/eac_parser/translation_table.rs"));
 
     let mut buf = String::new();
     let mut formatter = Formatter::new(&mut buf);
@@ -198,10 +191,13 @@ fn create_eac_translation_table() {
     dummy_block.after(";");
     dummy_block.fmt(&mut formatter).unwrap();
 
-    for (k, v) in mappings.iter() {
+    let mut mapping_keys: Vec<&String> = mappings.keys().collect();
+    mapping_keys.sort();
+    for k in mapping_keys {
+        let v = &mappings[k];
         let mut lang_block = Block::new(&generate_indexmap_preamble(k));
         let mut sorted_strlen: Vec<(&String, &String)> = v.iter().collect();
-        sorted_strlen.sort_by(|a, b| b.0.len().cmp(&a.0.len()));
+        sorted_strlen.sort_by(|a, b| b.0.len().cmp(&a.0.len()).then(a.0.cmp(b.0)));
         for (sub, str_id) in sorted_strlen {
             lang_block.line(format!("r#\"{}\"# => \"{}\",", sub, str_id));
         }
@@ -211,13 +207,17 @@ fn create_eac_translation_table() {
 
     let mut lang_vec: Vec<String> = Vec::new();
     
-    for (lang, localised_key_set) in eac_mappings {
-        for (idx, localised_key) in localised_key_set.iter().enumerate() {
+    let mut eac_langs: Vec<&String> = eac_mappings.keys().collect();
+    eac_langs.sort();
+    for lang in eac_langs {
+        let mut localised_keys: Vec<&String> = eac_mappings[lang].iter().collect();
+        localised_keys.sort();
+        for (idx, localised_key) in localised_keys.into_iter().enumerate() {
             buf.push_str(generate_static_language(
                 localised_key,
                 &lang,
-                native_mappings.get(&lang).unwrap(),
-                latin_mappings.get(&lang).unwrap(),
+                native_mappings.get(lang).unwrap(),
+                latin_mappings.get(lang).unwrap(),
                 idx
             ).as_str());
             buf.push('\n');
@@ -231,7 +231,7 @@ fn create_eac_translation_table() {
     buf.push('\n');
     buf.push_str("];");
 
-    write!(&out_file, "{}", buf).unwrap();
+    std::fs::write(&out_file_path, buf).unwrap();
 }
 
 fn fetch_drive_offsets() {
@@ -285,16 +285,9 @@ fn fetch_drive_offsets() {
             .insert(drive.offset);
     }
 
-    let build_file_dir = Path::new(env!("CARGO_MANIFEST_DIR"));
+    let core_dir = Path::new(env!("CARGO_MANIFEST_DIR")).join("../cambia-core");
 
-    let out_file_path = build_file_dir.join(Path::new("src/drive/offset_table.rs"));
-
-    let out_file = OpenOptions::new()
-                    .write(true)
-                    .create(true)
-                    .truncate(true)
-                    .open(out_file_path)
-                    .unwrap();
+    let out_file_path = core_dir.join(Path::new("src/drive/offset_table.rs"));
 
     let mut buf = String::new();
     let mut formatter = Formatter::new(&mut buf);
@@ -310,7 +303,8 @@ fn fetch_drive_offsets() {
     vendor_block.after(";\n");
     vendor_block.fmt(&mut formatter).unwrap();
 
-    for (vendor, drive_list) in drive_map {
+    for vendor in vendor_keys.iter() {
+        let drive_list = &drive_map[vendor];
         let mut serialised_entries: Vec<String> = Vec::new();
 
         let mut drives: Vec<_> = drive_list.iter().collect();
@@ -335,10 +329,31 @@ fn fetch_drive_offsets() {
         buf.push_str("\n];\n\n");
     }
 
-    write!(&out_file, "{}", buf).unwrap();
+    std::fs::write(&out_file_path, buf).unwrap();
 }
 
+const USAGE: &str = "usage: cambia-codegen <eac-translations|drive-offsets|all>";
+
 fn main() {
-    // create_eac_translation_table();
-    // fetch_drive_offsets();
+    let targets: Vec<String> = std::env::args().skip(1).collect();
+    if targets.is_empty() {
+        eprintln!("{USAGE}");
+        std::process::exit(2);
+    }
+
+    for target in &targets {
+        match target.as_str() {
+            "eac-translations" => create_eac_translation_table(),
+            "drive-offsets" => fetch_drive_offsets(),
+            "all" => {
+                create_eac_translation_table();
+                fetch_drive_offsets();
+            }
+            other => {
+                eprintln!("unknown target `{other}`");
+                eprintln!("{USAGE}");
+                std::process::exit(2);
+            }
+        }
+    }
 }

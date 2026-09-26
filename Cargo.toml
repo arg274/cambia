@@ -9,6 +9,9 @@ server = []
 experimental_rippers = ["cambia-core/experimental_rippers"]
 experimental_evaluators = ["cambia-core/experimental_evaluators"]
 
+[workspace]
+members = ["cambia-codegen"]
+
 [dependencies]
 cambia-core = { path = "cambia-core" }
 mime_guess = "2.0.5"
