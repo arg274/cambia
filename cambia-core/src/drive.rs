@@ -64,7 +64,7 @@ impl DriveUtils {
         let (_matched_drive, _offset, distance) = vendor_drives
             .par_iter()
             .map(|&(drv, offset)| (drv, offset, levenshtein(drv, &drive_sanitised)))
-            .min_by_key(|&(_, offset, dist)| (if offset.is_some() { 0usize } else { 1usize }, dist))
+            .min_by_key(|&(_, offset, dist)| (dist, offset.is_none()))
             .unwrap();
 
         let mut matched_offsets: Vec<Option<i16>> = vendor_drives
