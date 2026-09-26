@@ -17,7 +17,8 @@ pub fn detect_ripper(encoded_log: DecodedText) -> Result<Box<dyn ParserCombined>
         whipper if whipper.contains("Log created by: whipper") => Ok(Box::new(crate::parser::whipper_parser::WhipperParser::new(encoded_log))),
         #[cfg(feature = "cueripper")]
         cueripper if cueripper.contains("CUERipper") => Ok(Box::new(crate::parser::cueripper_parser::CueRipperParser::new(encoded_log))),
-        cyanrip if cyanrip.contains("cyanrip") => Err(CambiaError::new_anon("cyanrip not supported at the moment.")),
+        #[cfg(feature = "cyanrip")]
+        cyanrip if cyanrip.contains("cyanrip") => Ok(Box::new(crate::parser::cyanrip_parser::CyanRipParser::new(encoded_log))),
         dbpa if dbpa.contains("dBpoweramp Release") => Err(CambiaError::new_anon("dBpoweramp not supported at the moment.")),
         morituri if morituri.contains("Logfile created by: morituri") => Err(CambiaError::new_anon("morituri not supported at the moment.")),
         ezcd if ezcd.contains("EZ CD Audio Converter") => Err(CambiaError::new_anon("EZ CD Audio Converter not supported at the moment.")),
