@@ -13,19 +13,20 @@ A compact disc ripper log checking utility.
 ![chrome_ilf5x2PrXy](https://github.com/arg274/cambia/assets/4648027/9d2ddb93-ba6f-4bfd-af99-1b02245f2c19)
 
 ### Usage:
-| Short | Long           | Argument    | Description                                         |
-|-------|----------------|-------------|-----------------------------------------------------|
-| `-p`  | `--path`       | `<PATH>`    | Path to the log file, ignores server mode arguments if present |
-| `-s`  | `--server`     |             | Run the server and the web interface on port 3030 (production) or 3031 (dev)               |
-|       | `--tracing`    | `trace`, `debug`, `info`, `warn`, `error` | Set the log level                                   |
-|       | `--save-logs`       |             | Save the uploaded logs to a directory (rip_logs)                  |
-| `-h`  | `--help`       |             | Print help                                          |
-| `-V`  | `--version`    |             | Print version                                       |
+| Short | Long          | Argument                                  | Description                                                                  |
+| ----- | ------------- | ----------------------------------------- | ---------------------------------------------------------------------------- |
+| `-p`  | `--path`      | `<PATH>`                                  | Path to the log file, ignores server mode arguments if present               |
+| `-s`  | `--server`    |                                           | Run the server and the web interface on port 3030 (production) or 3031 (dev) |
+|       | `--tracing`   | `trace`, `debug`, `info`, `warn`, `error` | Set the log level                                                            |
+|       | `--save-logs` | `<PATH>`                                  | Save uploaded logs to the configured folder                                  |
+| `-h`  | `--help`      |                                           | Print help                                                                   |
+| `-V`  | `--version`   |                                           | Print version                                                                |
 
 
 ### Building:
 To build the program, run:
 ```sh
+npm --prefix web install
 npm run --prefix web build
 cargo build --release
 ```

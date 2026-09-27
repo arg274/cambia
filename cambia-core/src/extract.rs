@@ -3,7 +3,7 @@ use ts_rs::TS;
 
 use crate::{toc::Toc, track::{AccurateRipUnit, TestAndCopy, TrackEntry, TrackError}, util::Time};
 
-#[derive(Serialize, Deserialize, PartialEq, TS)]
+#[derive(Serialize, Deserialize, Clone, Copy, PartialEq, Eq, TS)]
 #[ts(export)]
 pub enum Ripper {
     #[serde(rename = "Exact Audio Copy")]
@@ -28,7 +28,7 @@ pub enum Ripper {
     Other,
 }
 
-#[derive(Serialize, Deserialize, PartialEq, TS)]
+#[derive(Serialize, Deserialize, Clone, Copy, PartialEq, Eq, TS)]
 #[ts(export)]
 pub enum MediaType {
     Pressed,
@@ -38,7 +38,7 @@ pub enum MediaType {
     Unknown,
 }
 
-#[derive(Serialize, Deserialize, Clone, Copy, PartialEq, TS)]
+#[derive(Serialize, Deserialize, Clone, Copy, PartialEq, Eq, TS)]
 #[ts(export)]
 pub enum Quartet {
     True,
@@ -47,7 +47,7 @@ pub enum Quartet {
     Unsupported,
 }
 
-#[derive(Serialize, Deserialize, PartialEq, TS)]
+#[derive(Serialize, Deserialize, Clone, Copy, PartialEq, Eq, TS)]
 #[ts(export)]
 pub enum ReadMode {
     Secure,
@@ -79,7 +79,7 @@ impl Default for ReleaseInfo {
     }
 }
 
-#[derive(Serialize, Deserialize, PartialEq, TS)]
+#[derive(Serialize, Deserialize, Clone, Copy, PartialEq, Eq, TS)]
 #[ts(export)]
 pub enum Gap {
     Append,

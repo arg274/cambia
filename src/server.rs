@@ -1,6 +1,6 @@
 use std::{net::SocketAddr, ops::ControlFlow};
 use std::ops::RangeInclusive;
-use axum::{async_trait, body::{Body, Bytes}, extract::{
+use axum::{body::{Body, Bytes}, extract::{
     connect_info::ConnectInfo, ws::{Message, WebSocket, WebSocketUpgrade}, FromRequestParts, Query
 }, http::{header, StatusCode, Uri}, response::{IntoResponse, Response}, routing::{get, post}, Extension, Json, Router};
 use axum_extra::{headers::UserAgent, TypedHeader};
@@ -41,7 +41,6 @@ impl Format {
     }
 }
 
-#[async_trait]
 impl<S> FromRequestParts<S> for Format
 where
     S: Send + Sync, {
@@ -170,7 +169,7 @@ impl CambiaServer {
                 if processed.is_break() {
                     break;
                 } else if let ControlFlow::Continue(val) = processed {
-                    if sender.send(Message::Binary(val)).await.is_err() {
+                    if sender.send(Message::Binary(Bytes::from(val))).await.is_err() {
                         return cnt;
                     }
                 }
@@ -193,7 +192,7 @@ impl CambiaServer {
     fn process_message(args: &Args, msg: Message, who: SocketAddr) -> ControlFlow<(), Vec<u8>> {
         match msg {
             Message::Binary(d) => {
-                let enc: Vec<u8> = match Self::parse_ws_request(args, d) {
+                let enc: Vec<u8> = match Self::parse_ws_request(args, d.to_vec()) {
                     Ok(res) => rmp_serde::encode::to_vec_named(&res).unwrap(),
                     Err(e) => rmp_serde::encode::to_vec_named(&e).unwrap(),
                 };

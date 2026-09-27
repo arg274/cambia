@@ -22,4 +22,5 @@ Cargo.lock
 
 # End of https://www.toptal.com/developers/gitignore/api/rust
 .vscode/
+.idea/
 cambia-core/src/parser/eac_parser/translation_files/**/*.txt
