@@ -46,7 +46,6 @@
             <Card header="Supported rippers">
                 <div class="ml-1 text-sm flex flex-col gap-y-1">
                     {#each data.rippers as ripper}
-                        {@const SvelteComponent = getPlatformLogo(ripper.platform)}
                         <div class="flex justify-between">
                             <div>
                                 <span class="py-0.5">{ripper.name}</span>
@@ -55,7 +54,12 @@
                                 {/if}
                             </div>
                             <div class="flex gap-4 items-center">
-                                <SvelteComponent class="icon-sm" />
+                                <div class="flex gap-1.5 items-center">
+                                    {#each ripper.platforms as platform (platform)}
+                                        {@const SvelteComponent = getPlatformLogo(platform)}
+                                        <SvelteComponent class="icon-sm" />
+                                    {/each}
+                                </div>
                                 <a href={ripper.link} class="hover:preset-tonal" target="_blank">
                                     <IconArrowUpRight class="icon-xs" />
                                 </a>
@@ -91,7 +95,8 @@
                 <li>Bulk and combined log checking</li>
                 <li>Log integrity checking</li>
                 <li>TOC ID generation as per the MusicBrainz, <Explainable explanation="CUETools Database">CTDB</Explainable>,
-                    Gracenote and <Explainable explanation="Used by Windows Media Player">MCDI</Explainable> specs</li>
+                    AccurateRip, Gracenote, <Explainable explanation="Used by Windows Media Player">MCDI</Explainable>
+                    and freedb specs</li>
                 <li>Data track, <Explainable explanation="Copy Controlled Compact Disc">CCCD</Explainable> <Explainable explanation="Digital Rights Management">DRM</Explainable> detection</li>
                 <li>TOC layout visualization</li>
             </ul>

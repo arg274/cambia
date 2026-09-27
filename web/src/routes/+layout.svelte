@@ -139,7 +139,7 @@
 				<CambiaLogo class="w-5 stroke-surface-300 dark:stroke-surface-400 stroke-1" />
 			</div>
 			<div>
-				<a href="https://github.com/arg274/cambia" class="btn-icon hover:preset-tonal" target="_blank"><IconGithub class="icon-lg" /></a>
+				<a href="https://github.com/rokkhonorg/cambia" class="btn-icon hover:preset-tonal" target="_blank"><IconGithub class="icon-lg" /></a>
 			</div>
 		</div>
 	</footer>
